@@ -6,5 +6,5 @@ class Scene():
 		self.sound_manager = snd_manager
 	def init(self):
 		pass
-	def loop(self):
+	def loop(self, screen):
 		pass

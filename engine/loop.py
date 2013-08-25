@@ -8,7 +8,7 @@ def loop(screen):
 	
 	finish = False
 	
-	level_manager.switch("logo_kwakwa")
+	level_manager.switch("gameplay")
 	
 	while not finish:
 		screen.fill(pygame.Color(0, 0, 0))
@@ -32,6 +32,7 @@ def loop(screen):
 
 def start():
 	pygame.init()
+	init.init_joystick()
 	screen = init.init_screen()
 	loop(screen)
 	

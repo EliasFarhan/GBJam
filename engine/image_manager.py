@@ -5,8 +5,18 @@ class ImageManager():
 		self.images = {}
 	
 	def load(self, name):
-		self.images[name] = pygame.image.load(name)
-		
+		try:
+			self.images[name]
+		except KeyError:
+			self.images[name] = pygame.image.load(name)
+	
+	def load_with_size(self, name, size):
+		try:
+			self.images[name]
+		except KeyError:
+			img = pygame.image.load(name)
+			self.images[name] = pygame.transform.scale(img, size)
+	
 	def show(self, name, screen, pos):
 		try:
 			image_rect_obj = self.images[name].get_rect()
