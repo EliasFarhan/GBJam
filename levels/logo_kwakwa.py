@@ -4,7 +4,7 @@ import pygame
 
 class Kwakwa(Scene):
 	def init(self):
-		self.font = pygame.font.Font("data/font/LittleSnorlax.ttf", 72)
+		self.font = pygame.font.Font("data/font/8-BIT WONDER.ttf", 72)
 		self.msg = u'KwaKwa'
 		
 		pygame.mixer.music.load("data/sound/pissed_off_duck.wav")

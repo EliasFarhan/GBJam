@@ -9,10 +9,16 @@ from os import listdir
 from os.path import isfile, join
 from engine.image_manager import img_manager
 from pygame.locals import *
+import engine.level_manager
+
 
 class GameObject():
     def __init__(self):
-        self.images = []
+        self.img_manager = img_manager
+        self.pos = (0, 0)
+        self.size = (0, 0)
+    def loop(self,screen):
+        pass
     
 
 class Player(GameObject):
@@ -24,57 +30,66 @@ class Player(GameObject):
         self.move_files = [ os.path.join(move_path, f) for f in listdir(move_path) if (isfile(join(move_path, f)) and f.find(".png") != -1) ]
         self.still_files = [ os.path.join(still_path, f) for f in listdir(still_path) if (isfile(join(still_path, f)) and f.find(".png") != -1) ]
         for img in self.jump_files:
-            img_manager.load_with_size(img, (64, 64))
+            self.img_manager.load_with_size(img, self.size)
         for img in self.move_files:
-            img_manager.load_with_size(img, (64, 64))
+            self.img_manager.load_with_size(img, self.size)
         for img in self.still_files:
-            img_manager.load_with_size(img, (64, 64))
+            self.img_manager.load_with_size(img, self.size)
         self.img = self.still_files[1]
     def __init__(self):
         GameObject.__init__(self)
+        self.size = (64,64)
         self.load_images()
         self.joystick = 0
-        self.pos = (0, 0)
         self.UP, self.RIGHT = 0, 0
         self.anim_counter = 0
         if pygame.joystick.get_count() != 0:
             self.joystick = pygame.joystick.Joystick(0)
             self.joystick.init()
-        self.state = 'STILL'
     def loop(self, screen):
         # check events (with joystick)
         for event in pygame.event.get(): 
-            if (self.joystick != 0 and event.type == JOYHATMOTION):
-                if (self.joystick.get_hat(0) == (0, 1)):
-                    self.UP = 1
-                elif(self.joystick.get_hat(0) == (0, -1)):
-                    # DOWN
-                    pass
-                elif(self.joystick.get_hat(0) == (1, 0)):
-                    self.RIGHT = 1
-                elif(self.joystick.get_hat(0) == (-1, 0)):
-                    # LEFT
-                    pass
-                elif(self.joystick.get_hat(0) == (0, 0)):
-                    self.UP, self.RIGHT = 0, 0
+            if (self.joystick != 0):
+                if (event.type == JOYHATMOTION):
+                    if (self.joystick.get_hat(0) == (0, 1)):
+                        self.UP = 1
+                    elif(self.joystick.get_hat(0) == (0, -1)):
+                        # DOWN
+                        pass
+                    elif(self.joystick.get_hat(0) == (1, 0)):
+                        self.RIGHT = 1
+                    elif(self.joystick.get_hat(0) == (-1, 0)):
+                        # LEFT
+                        pass
+                    elif(self.joystick.get_hat(0) == (0, 0)):
+                        self.UP, self.RIGHT = 0, 0
+                elif event.type == JOYAXISMOTION:
+                    if(self.joystick.get_axis(1)<-0.9):
+                        self.UP = 1
+                    else:
+                        self.UP = 0
+                    if(self.joystick.get_axis(0)>0.9):
+                        self.RIGHT = 1
+                    else:
+                        self.RIGHT = 0
             if event.type == KEYDOWN:
-                if event.key == K_UP:
+                if event.key == K_UP or event.key == K_w:
                     self.UP = 1
                 elif event.key == K_DOWN:
                     # DOWN
                     pass
-                elif event.key == K_RIGHT:
+                elif event.key == K_RIGHT or event.key == K_d:
                     self.RIGHT = 1
                 elif event.key == K_LEFT:
                     # LEFT
                     pass
             if event.type == KEYUP:
-                if event.key == K_UP:
+                if event.key == K_UP or event.key == K_w:
                     self.UP = 0
                 elif event.key == K_DOWN:
                     # DOWN
                     pass
-                elif event.key == K_RIGHT:
+                elif event.key == K_RIGHT or event.key == K_d:
                     self.RIGHT = 0
                 elif event.key == K_LEFT:
                     # LEFT
@@ -88,35 +103,57 @@ class Player(GameObject):
                 end()
                     
                         
-        # set animation
+        # set animation and velocity
         if self.UP:
-            self.img = self.jump_files[1]
-        
+            for name in self.jump_files:
+                if name.find('hero1.png') != -1:
+                    self.img = name
+                    break
         elif self.RIGHT:
-            img_move = [0, 2, 5]
-            a = self.img == self.move_files[img_move[0]]
-            b = self.img == self.move_files[img_move[1]]
-            c = self.img == self.move_files[img_move[2]]
+            #animation
+            img_move = ['', '', '']
+            for name in self.move_files:
+                if name.find('hero1.png') != -1:
+                    img_move[0] = name
+                elif name.find('hero2.png') != -1:
+                    img_move[1] = name
+                elif name.find('hero3.png') != -1:
+                    img_move[2] = name
+            a = self.img == img_move[0]
+            b = self.img == img_move[1]
+            c = self.img == img_move[2]
             d = a or b or c
             time = (self.anim_counter > 2)
             if not d:
-                self.img = self.move_files[img_move[0]]
+                self.img = img_move[0]
             else:
                 if time:
                     if a:
-                        self.img = self.move_files[img_move[1]]
+                        self.img = img_move[1]
                     elif b:
-                        self.img = self.move_files[img_move[2]]
+                        self.img = img_move[2]
                     elif c:
-                        self.img = self.move_files[img_move[0]]
+                        self.img = img_move[0]
                     self.anim_counter = 0
                 else:
                     self.anim_counter += 1
+            #move the player
+            engine.level_manager.level.physics.move(self,5)
                 
         else:
-            self.img = self.still_files[1]
+            for name in self.still_files:
+                if name.find('hero1.png') != -1:
+                    self.img = name
+                    break
+            #stop the player
+
+            engine.level_manager.level.physics.move(self,0)
+        #reset angle
+        engine.level_manager.level.physics.set_angle(self,0)
         # show the current img
-        img_manager.show(self.img, screen, screen.get_rect().center)
+        self.pos = (int(self.pos[0]), int(self.pos[1]))
+        self.img_manager.show(self.img, screen, (0,0))
+        engine.level_manager.level.screen_pos = self.pos
         
         
 if __name__ == '__main__':

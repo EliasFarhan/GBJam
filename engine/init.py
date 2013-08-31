@@ -1,6 +1,8 @@
 import pygame
 
+screen_size = (0,0)
 def init_screen():
+	global screen_size
 	screen_info = pygame.display.Info()
 	screen_size = (screen_info.current_w, screen_info.current_h)
 	print "Screen size: "+str(screen_size)
