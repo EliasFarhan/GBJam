@@ -1,5 +1,6 @@
 from Box2D import *
 import pygame
+import engine
 
 ratio = 64/1.5
 def pixel2meter(pixels):
@@ -10,27 +11,26 @@ def meter2pixel(meter):
     return meter*ratio
 
 class Physics():
-    
-    def __init__(self):
+    def init(self):
         self.world=b2World(gravity=(0,-10), doSleep=True)
-    def init(self, static_objects, dynamic_objects):
         self.static_objects = {}
         self.dynamic_objects = {}
-        for obj in static_objects:
-            static_body = self.world.CreateStaticBody(\
+        self.timeStep = 1.0 / 30
+        self.vel_iters, self.pos_iters = 10,10
+    def add_static_object(self,obj):
+        static_body = self.world.CreateStaticBody(\
                                 position=(pixel2meter(obj.pos[0]), pixel2meter(obj.pos[1])),\
                                 shapes=b2PolygonShape(box = (pixel2meter(obj.size[0]/2.0), pixel2meter(obj.size[1]/2.0))),\
                                                       )
-            self.static_objects[obj] = static_body                                     
-        for obj in dynamic_objects:
-            dynamic_object = self.world.CreateDynamicBody(\
+        self.static_objects[obj] = static_body
+        return static_body
+    def add_dynamic_object(self,obj):
+        dynamic_object = self.world.CreateDynamicBody(\
                                             position=(pixel2meter(obj.pos[0]), pixel2meter(obj.pos[1]))\
                                             )
             
-            box = dynamic_object.CreatePolygonFixture(box = (pixel2meter(obj.size[0]/2.0), pixel2meter(obj.size[1]/2.0)), density=1,friction=0.3)
-            self.dynamic_objects[obj] = dynamic_object
-        self.timeStep = 1.0 / 30
-        self.vel_iters, self.pos_iters = 10,10
+        self.dynamic_objects[obj] = dynamic_object
+        return dynamic_object
     def loop(self):
         self.world.Step(self.timeStep, self.vel_iters, self.pos_iters)
         self.world.ClearForces()
@@ -44,8 +44,29 @@ class Physics():
         vel_change = value - vel
         force = dyn_obj.mass * vel_change / (1/30.0)
         dyn_obj.ApplyForce(b2Vec2(force,0),dyn_obj.worldCenter,True)
-    def set_angle(self,obj,value):
-        self.dynamic_objects[obj].angle = value
-        self.dynamic_objects[obj].fixedRotation = True
+
     def jump(self,obj,value):
-        pass
+        dyn_obj = self.dynamic_objects[obj]
+        impulse = dyn_obj.mass * value
+        dyn_obj.ApplyLinearImpulse(b2Vec2(0,impulse),dyn_obj.worldCenter,True)
+    
+class FeetContactListener(b2ContactListener):
+    def BeginContact(self, contact):
+        fixture_user_data = contact.fixtureA.userData
+        if(fixture_user_data == 3):
+            # feet is touching something
+            engine.level_manager.level.player.foot_num += 1
+        fixture_user_data = contact.fixtureB.userData
+        if(fixture_user_data == 3):
+            # feet is touching something
+            engine.level_manager.level.player.foot_num += 1
+            
+    def EndContact(self, contact):
+        fixture_user_data = contact.fixtureA.userData
+        if(fixture_user_data == 3):
+            # feet is touching something
+            engine.level_manager.level.player.foot_num -= 1
+        fixture_user_data = contact.fixtureB.userData
+        if(fixture_user_data == 3):
+            # feet is touching something
+            engine.level_manager.level.player.foot_num -= 1
