@@ -3,12 +3,14 @@ import engine.init as init
 import engine.level_manager as level_manager
 from pygame.locals import *
 
+finish = False
 def loop(screen):
+	global finish
 	fps_clock = pygame.time.Clock()
 	
-	finish = False
 	
-	level_manager.switch("logo_kwakwa")
+	
+	level_manager.switch("gameplay")
 	
 	while not finish:
 		screen.fill(pygame.Color(0, 0, 0))
@@ -32,6 +34,11 @@ def loop(screen):
 
 def start():
 	pygame.init()
+	init.init_joystick()
 	screen = init.init_screen()
 	loop(screen)
+	
+def end():
+	global finish
+	finish = True
 	
