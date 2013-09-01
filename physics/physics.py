@@ -1,1 +1,1 @@
-import pypybox2d as Box2D
+import Box2D
