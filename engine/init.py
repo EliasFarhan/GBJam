@@ -1,4 +1,4 @@
-import pygame
+import pygame, sys
 
 screen_size = (0,0)
 def init_screen():
@@ -7,6 +7,11 @@ def init_screen():
 	screen_size = (screen_info.current_w, screen_info.current_h)
 	print "Screen size: "+str(screen_size)
 	pygame.mouse.set_visible(False)
-	return pygame.display.set_mode(screen_size, pygame.FULLSCREEN|pygame.DOUBLEBUF|pygame.HWSURFACE)
+
+	if sys.platform != 'darwin':
+                return pygame.display.set_mode(screen_size, pygame.FULLSCREEN|pygame.DOUBLEBUF|pygame.HWSURFACE)
+        else:
+                return pygame.display.set_mode(screen_size)
 def init_joystick():
 	pygame.joystick.init()
+

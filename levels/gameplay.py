@@ -11,20 +11,20 @@ from physics.physics import Physics
 import pygame
 
 class Ground(GameObject):
-    def __init__(self, topleft_pos, nmb_block):
+    def __init__(self, topleft_pos, nmb_block,physics):
         # set size
-        GameObject.__init__(self)
+        GameObject.__init__(self,physics)
         self.block_size = (32,32)
         self.nmb_block = nmb_block
         self.size = (self.block_size[0]*self.nmb_block,self.block_size[1])
         self.rect = pygame.Rect(topleft_pos,self.size)
         self.pos = self.rect.center
-        self.img = 'data/sprites/block/block1.png'
+        self.img = 0
         self.load_images()
         self.init_physics()
     def load_images(self):
         #load block
-        self.img_manager.load_with_size(self.img, self.block_size)
+        self.img = self.img_manager.load_with_size('data/sprites/block/block1.png', self.block_size)
     def loop(self,screen):
         screen_pos = screen.get_rect()
         for i in range(self.nmb_block):
@@ -43,10 +43,10 @@ class GamePlay(Scene):
         self.screen_pos = (0,0)
         self.physics = Physics()
         self.physics.init()
-        self.player = Player()
-        self.ground = Ground((-100,-100),120)
-        self.floor_one = Ground((300, 0), 60)
-        self.floor_two = Ground((600, 100), 60)
+        self.player = Player(self.physics)
+        self.ground = Ground((-100,-100),120,self.physics)
+        self.floor_one = Ground((300, 0), 60,self.physics)
+        self.floor_two = Ground((600, 100), 60,self.physics)
 
     def loop(self, screen):
         screen.fill(pygame.Color(255, 255, 255))
