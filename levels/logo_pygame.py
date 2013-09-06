@@ -8,7 +8,7 @@ class Pygame(Scene):
 	def loop(self, screen):
 		self.ttw -= 1
 		if self.ttw > 0:
-			self.img_manager.show('data/pygame_logo.png', screen, (screen.get_size()[0]/2, screen.get_size()[1]/2))
+			self.img_manager.show('data/pygame_logo.png', screen, (0,0))
 		else:
 			import engine.level_manager as level_manager
 			level_manager.switch("main_menu")

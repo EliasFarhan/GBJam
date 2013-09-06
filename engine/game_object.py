@@ -80,7 +80,7 @@ class Player(GameObject):
                     if(self.joystick.get_button(1)):
                         self.UP = 1
                 elif event.type == JOYBUTTONUP:
-                    if(self.joystick.get_button(1)):
+                    if(not self.joystick.get_button(1)):
                         self.UP = 0
             if event.type == KEYDOWN:
                 if event.key == K_UP or event.key == K_w:

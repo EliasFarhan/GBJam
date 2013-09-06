@@ -28,7 +28,15 @@ class Ground(GameObject):
     def loop(self,screen):
         screen_pos = screen.get_rect()
         for i in range(self.nmb_block):
-            self.img_manager.show(self.img, screen, (self.rect.midleft[0]+self.block_size[0]/2+i*self.block_size[0]-engine.level_manager.level.screen_pos[0],self.pos[1]-engine.level_manager.level.screen_pos[1]))
+            self.img_manager.show(self.img, screen, \
+                    (\
+                     self.rect.midleft[0]+self.block_size[0]/2+i*self.block_size[0]-engine.level_manager.level.screen_pos[0],\
+                     self.pos[1]-engine.level_manager.level.screen_pos[1])\
+                                  )
+
+class Electricity(GameObject):
+    def __init__(self, angle=0):
+        self.angle = angle
         
 class GamePlay(Scene):
     def init(self):
