@@ -9,6 +9,9 @@ def pixel2meter(pixels):
 def meter2pixel(meter):
     global ratio
     return meter*ratio
+def set_ratio_pixel(new_ratio):
+    global ratio
+    ratio = new_ratio
 
 class Physics():
     def init(self):
@@ -17,6 +20,7 @@ class Physics():
         self.dynamic_objects = {}
         self.timeStep = 1.0 / 30
         self.vel_iters, self.pos_iters = 10,10
+        self.index = 1
     def add_static_object(self,obj):
         static_body = self.world.CreateStaticBody(\
                                 position=(pixel2meter(obj.pos[0]), pixel2meter(obj.pos[1])),\
@@ -49,7 +53,14 @@ class Physics():
         dyn_obj = self.dynamic_objects[obj]
         impulse = dyn_obj.mass * value
         dyn_obj.ApplyLinearImpulse(b2Vec2(0,impulse),dyn_obj.worldCenter,True)
-    
+    def add_static_box(self,pos,size):
+        static_body = self.world.CreateStaticBody(\
+                                position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
+                                shapes=b2PolygonShape(box = (pixel2meter(size[0]/2.0), pixel2meter(size[1]/2.0))),\
+                                                      )
+        self.static_objects[self.index] = static_body
+        self.index+=1
+        return self.index - 1
 class FeetContactListener(b2ContactListener):
     def BeginContact(self, contact):
         fixture_user_data = contact.fixtureA.userData

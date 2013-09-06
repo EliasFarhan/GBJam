@@ -14,4 +14,7 @@ def init_screen():
                 return pygame.display.set_mode(screen_size)
 def init_joystick():
 	pygame.joystick.init()
+def get_screen_size():
+	global screen_size
+	return screen_size
 
