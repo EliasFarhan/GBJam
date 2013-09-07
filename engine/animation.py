@@ -38,9 +38,23 @@ class DemoAnimation():
     def loop(self,state):
         if(state == 'jump'):
             self.img = self.jump_img[0]
-        elif(state == 'move'):
+        elif(state == 'move_right'):
             if(self.anim_counter == 3):
                 anim_index = [self.move_img[0],self.move_img[2],self.move_img[4]]
+                try:
+                    find_index = anim_index.index(self.img)
+                    if find_index == len(anim_index)-1:
+                        self.img = anim_index[0]
+                    else:
+                        self.img = anim_index[find_index+1]
+                except ValueError:
+                    self.img = anim_index[0]
+                self.anim_counter = 0
+            else:
+                self.anim_counter += 1
+        elif(state == 'move_left'):
+            if(self.anim_counter == 3):
+                anim_index = [self.move_img[1],self.move_img[3],self.move_img[5]]
                 try:
                     find_index = anim_index.index(self.img)
                     if find_index == len(anim_index)-1:

@@ -18,17 +18,19 @@ class GamePlay(Scene):
         self.physics = Physics()
         self.physics.init()
         self.player = Player(screen_size,self.physics)
-        self.ground = Ground(screen_size,(-100,-100),120,self.physics)
-        self.floor_one = Ground(screen_size,(300, 0), 60,self.physics)
-        self.floor_two = Ground(screen_size,(600, 100), 60,self.physics)
-        self.electricity = Electricity(screen_size,(700, 200),self.physics)
+        self.objects = [\
+                        Ground(screen_size,(-100,-100),120,self.physics),\
+                        Ground(screen_size,(300, 0), 60,self.physics),\
+                        Ground(screen_size,(600, 100), 60,self.physics),\
+                        Electricity(screen_size,(700, 200),self.physics),\
+                        Electricity(screen_size,(892, 200),self.physics),\
+                        Electricity(screen_size,(1084, 200),self.physics),\
+                        ]
 
     def loop(self, screen):
         #screen.fill(pygame.Color(255, 255, 255))
         self.physics.loop()
-        self.electricity.loop(screen,self.screen_pos)
-        self.ground.loop(screen,self.screen_pos)
-        self.floor_one.loop(screen,self.screen_pos)
-        self.floor_two.loop(screen,self.screen_pos)
+        for elem in self.objects:
+            elem.loop(screen,self.screen_pos)
         self.screen_pos = self.player.loop(screen)
         
