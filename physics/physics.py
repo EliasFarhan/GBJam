@@ -1,6 +1,8 @@
 from Box2D import *
+
 import pygame
 import engine
+from engine.const import move, jump
 
 ratio = 64/1.5
 def pixel2meter(pixels):
@@ -45,13 +47,13 @@ class Physics():
     def move(self,obj,value):
         dyn_obj = self.dynamic_objects[obj]
         vel = dyn_obj.linearVelocity.x
-        vel_change = value - vel
+        vel_change = value * move - vel
         force = dyn_obj.mass * vel_change / (1/30.0)
         dyn_obj.ApplyForce(b2Vec2(force,0),dyn_obj.worldCenter,True)
 
-    def jump(self,obj,value):
+    def jump(self,obj):
         dyn_obj = self.dynamic_objects[obj]
-        impulse = dyn_obj.mass * value
+        impulse = dyn_obj.mass * jump
         dyn_obj.ApplyLinearImpulse(b2Vec2(0,impulse),dyn_obj.worldCenter,True)
     def add_static_box(self,pos,size):
         static_body = self.world.CreateStaticBody(\

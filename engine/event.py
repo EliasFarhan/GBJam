@@ -76,6 +76,6 @@ def loop():
 def end():
     global END
     return END
-def keys():
+def get_keys():
     global RIGHT,LEFT,UP,DOWN,ACTION
     return (RIGHT,LEFT,UP,DOWN,ACTION)

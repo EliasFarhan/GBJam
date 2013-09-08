@@ -6,7 +6,10 @@ Created on 25 aout 2013
 import engine
 from engine.init import get_screen_size
 from engine.scene import Scene
-from engine.game_object import GameObject,Player, Ground,Electricity
+from game_object.game_object import GameObject
+from game_object.ground import Ground
+from game_object.electricity import Electricity
+from game_object.player import Player
 from physics.physics import Physics, set_ratio_pixel
 import pygame
 
@@ -26,7 +29,9 @@ class GamePlay(Scene):
                         Electricity(screen_size,(892, 200),self.physics),\
                         Electricity(screen_size,(1084, 200),self.physics),\
                         Electricity(screen_size,(1200, 150),self.physics,True),\
-                        Electricity(screen_size,(800, 150),self.physics,True)
+                        Electricity(screen_size,(800, 150),self.physics,True),\
+                        Electricity(screen_size,(300,-20),self.physics,True),\
+                        Electricity(screen_size,(50,30),self.physics),\
                         ]
 
     def loop(self, screen):

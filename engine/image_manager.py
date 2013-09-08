@@ -40,13 +40,4 @@ class ImageManager():
 			screen.blit(img, image_rect_obj)
 		except KeyError:
 			pass
-	def append_image(self,img):
-		if (img not in self.images.values()):
-			self.images[self.index] = img
-			self.index += 1
-			return self.index - 1
-		else:
-			for k in self.images.keys():
-				if self.images[k] == img:
-					return k
 img_manager = ImageManager()
