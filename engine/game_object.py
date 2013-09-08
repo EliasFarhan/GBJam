@@ -171,7 +171,7 @@ class Electricity(GameObject):
         line2 = path+'line2.png'
         self.img.append(self.img_manager.load_with_size(box, (self.size[1],self.size[1])))
         self.img.append(self.img_manager.load_with_size(line1, self.size))
-        self.img.append(self.img_manager.load_with_size(line2, self.size))             
+        self.img.append(self.img_manager.load_with_size(line2, self.size))            
     def loop(self,screen,screen_pos):
         self.img_manager.show(self.img[0], screen, (self.pos[0]-screen_pos[0],self.pos[1]-screen_pos[1]))
         if(self.anim_counter == 3):
@@ -179,17 +179,24 @@ class Electricity(GameObject):
                 self.line_index = 2
             else:
                 self.line_index = 1
-            self.anim_counter = 0
+                self.anim_counter = 0
         else:
             self.anim_counter += 1
-        self.img_manager.show(self.img[self.line_index],screen,(self.pos[0]+self.size[0]/2+self.size[1]/2-screen_pos[0],self.pos[1]-screen_pos[1]))
-        self.img_manager.show(self.img[0],screen,(self.pos[0]+self.size[0]+self.size[1]-screen_pos[0],self.pos[1]-screen_pos[1]))
+        if(not self.vertical):
+            self.img_manager.show(self.img[self.line_index],screen,(self.pos[0]+self.size[0]/2+self.size[1]/2-screen_pos[0],self.pos[1]-screen_pos[1]))
+            self.img_manager.show(self.img[0],screen,(self.pos[0]+self.size[0]+self.size[1]-screen_pos[0],self.pos[1]-screen_pos[1]))
+        else:
+            self.img_manager.show(self.img[self.line_index],screen,(self.pos[0]+self.size[0]/2.0-self.size[1]/2.0-screen_pos[0],self.pos[1]+self.size[0]-screen_pos[1]),90)
+            self.img_manager.show(self.img[0],screen,(self.pos[0]-screen_pos[0],self.pos[1]+self.size[0]+self.size[1]-screen_pos[1]))
     def init_physics(self):
         pos_box1 = self.pos
         index = self.physics.add_static_box(pos_box1, (self.size[1],self.size[1]))
         self.box = self.physics.static_objects[index]
         #add other box
-        pos_box2 = (self.size[0]+self.size[1],0)
+        pos_box2 = ()
+        if not self.vertical:
+            pos_box2 = (self.size[0]+self.size[1],0)
+        else:pos_box2 = (0,self.size[0]+self.size[1])
         polygon_shape = b2PolygonShape()
         polygon_shape.SetAsBox(physics.pixel2meter(self.size[1]/2.0),physics.pixel2meter(self.size[1]/2.0),b2Vec2(physics.pixel2meter(pos_box2[0]),physics.pixel2meter(pos_box2[1])),0)
         fixture_def = b2FixtureDef()
@@ -197,8 +204,15 @@ class Electricity(GameObject):
         fixture_def.density = 1
         self.box.CreateFixture(fixture_def)
         #add electricity sensor
+        size = ()
+        if not self.vertical:
+            pos_box2 = (self.size[1]/2.0+self.size[0]/2.0,0)
+            size = self.size
+        else:
+            pos_box2 = (0,self.size[1]/2.0+self.size[0]/2.0)
+            size = (self.size[1],self.size[0])
         polygon_shape = b2PolygonShape()
-        polygon_shape.SetAsBox(physics.pixel2meter(self.size[0]/2.0),physics.pixel2meter(self.size[1]/2.0-2),b2Vec2(physics.pixel2meter(self.size[1]/2.0+self.size[0]/2.0),physics.pixel2meter(0)),0)
+        polygon_shape.SetAsBox(physics.pixel2meter(size[0]/2.0),physics.pixel2meter(size[1]/2.0-2),b2Vec2(physics.pixel2meter(pos_box2[0]),physics.pixel2meter(pos_box2[1])),0)
         fixture_def = b2FixtureDef()
         fixture_def.shape = polygon_shape
         fixture_def.density = 1
@@ -259,6 +273,3 @@ class FireTube(GameObject):
         fixture_def.isSensor = True
         self.elec_sensor_fixture = self.box.CreateFixture(fixture_def)
         self.elec_sensor_fixture.userData = 5
-if __name__ == '__main__':
-    p = Player()
-    p.load_images()

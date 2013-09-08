@@ -25,6 +25,8 @@ class GamePlay(Scene):
                         Electricity(screen_size,(700, 200),self.physics),\
                         Electricity(screen_size,(892, 200),self.physics),\
                         Electricity(screen_size,(1084, 200),self.physics),\
+                        Electricity(screen_size,(1200, 150),self.physics,True),\
+                        Electricity(screen_size,(800, 150),self.physics,True)
                         ]
 
     def loop(self, screen):
