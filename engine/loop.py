@@ -2,7 +2,9 @@
 import engine.init as init
 import engine.level_manager as level_manager
 from pygame.locals import *
-
+from engine.event import loop as event_loop
+from engine.event import init as event_init
+from engine.event import end
 finish = False
 def loop(screen):
 	global finish
@@ -15,18 +17,15 @@ def loop(screen):
 	while not finish:
 		screen.fill(pygame.Color(0, 0, 0))
 		
+		event_loop()
+		finish = end()
 		f = level_manager.function_level()
 		if f == 0:
 			break
 		else:
 			f(screen)
 			
-		for event in pygame.event.get():
-			if event.type == QUIT:
-				finish = True
-			elif event.type == KEYDOWN:
-				if event.key == K_ESCAPE:
-					finish = True
+		
 		pygame.display.update()
 		fps_clock.tick(30)
 	pygame.quit()
@@ -35,10 +34,8 @@ def loop(screen):
 def start():
 	pygame.init()
 	init.init_joystick()
+	event_init()
 	screen = init.init_screen()
 	loop(screen)
 	
-def end():
-	global finish
-	finish = True
 	

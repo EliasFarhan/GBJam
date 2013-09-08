@@ -11,6 +11,7 @@ import engine.level_manager
 import physics.physics as physics
 from Box2D import *
 import animation
+from engine.event import keys
 
 
 class GameObject():
@@ -31,12 +32,8 @@ class Player(GameObject):
         self.size = (64,64)
         self.anim = animation.DemoAnimation(self.img_manager,self.size)
         self.anim.load_images()
-        self.joystick = 0
-        self.UP, self.RIGHT,self.LEFT = 0, 0, 0
-
-        if pygame.joystick.get_count() != 0:
-            self.joystick = pygame.joystick.Joystick(0)
-            self.joystick.init()
+        
+        self.UP, self.RIGHT,self.LEFT,self.DOWN,self.ACTION = 0, 0, 0, 0, 0
         self.init_physics()
         self.foot_num = 0
         self.already_jumped = False
@@ -60,66 +57,8 @@ class Player(GameObject):
             self.invulnerablitiy = 30
         if(self.life <= 0):
             engine.level_manager.switch('gameplay')
-        # check events (with joystick)
-        for event in pygame.event.get(): 
-            if (self.joystick != 0):
-                if (event.type == JOYHATMOTION):
-                    if (self.joystick.get_hat(0) == (0, 1)):
-                        self.UP = 1
-                    elif(self.joystick.get_hat(0) == (0, -1)):
-                        # DOWN
-                        pass
-                    elif(self.joystick.get_hat(0) == (1, 0)):
-                        self.RIGHT = 1
-                    elif(self.joystick.get_hat(0) == (-1, 0)):
-                        # LEFT
-                        self.LEFT = 1
-                    elif(self.joystick.get_hat(0) == (0, 0)):
-                        self.UP, self.RIGHT,self.LEFT = 0, 0,0
-                elif event.type == JOYAXISMOTION:
-                    if(self.joystick.get_axis(0)>0.9):
-                        self.RIGHT = 1
-                    else:
-                        self.RIGHT = 0
-                    if(self.joystick.get_axis(0)<-0.9):
-                        self.LEFT = 1
-                    else:
-                        self.LEFT = 0
-                elif event.type == JOYBUTTONDOWN:
-                    if(self.joystick.get_button(1)):
-                        self.UP = 1
-                elif event.type == JOYBUTTONUP:
-                    if(not self.joystick.get_button(1)):
-                        self.UP = 0
-            if event.type == KEYDOWN:
-                if event.key == K_UP or event.key == K_w:
-                    self.UP = 1
-                elif event.key == K_DOWN:
-                    # DOWN
-                    pass
-                elif event.key == K_RIGHT or event.key == K_d:
-                    self.RIGHT = 1
-                elif event.key == K_LEFT or event.key == K_a:
-                    # LEFT
-                    self.LEFT = 1
-            if event.type == KEYUP:
-                if event.key == K_UP or event.key == K_w:
-                    self.UP = 0
-                elif event.key == K_DOWN:
-                    # DOWN
-                    pass
-                elif event.key == K_RIGHT or event.key == K_d:
-                    self.RIGHT = 0
-                elif event.key == K_LEFT or event.key == K_a:
-                    # LEFT
-                    self.LEFT = 0
-                elif event.key == K_ESCAPE:
-                    from engine.loop import end as end
-                    end()
-                        
-            if event.type == QUIT:
-                from engine.loop import end as end
-                end()
+        #check event
+        (self.RIGHT, self.LEFT,self.UP,self.DOWN,self.ACTION) = keys()
                                 
         # set animation and velocity
         if self.foot_num < 1:
