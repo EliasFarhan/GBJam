@@ -9,6 +9,7 @@ from Box2D import *
 from physics.physics import pixel2meter
 from engine.const import animation_step
 from engine.image_manager import rot_center,rot_electricity
+from math import radians
 
 class Electricity(GameObject):
     def __init__(self, screen_size,pos_a, physics,vertical=False,turning=0):
@@ -49,7 +50,7 @@ class Electricity(GameObject):
             self.anim_counter += 1
         if self.turning != 0:
             #turn everything
-            
+            self.box.angle = radians(self.angle)
             self.angle += self.turning
             self.img_manager.show(self.img[self.line_index],screen,(self.pos[0]+self.size[0]/2-screen_pos[0],self.pos[1]-screen_pos[1]),self.angle,rot_electricity)
         else:
