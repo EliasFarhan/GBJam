@@ -4,7 +4,7 @@ import engine.level_manager as level_manager
 from engine.event import loop as event_loop
 from engine.event import init as event_init
 from engine.event import end
-from engine.const import framerate
+from engine.const import framerate,startup
 finish = False
 def loop(screen):
 	global finish
@@ -12,7 +12,7 @@ def loop(screen):
 	
 	
 	
-	level_manager.switch("gameplay")
+	level_manager.switch(startup)
 	
 	while not finish:
 		screen.fill(pygame.Color(0, 0, 0))

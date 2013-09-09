@@ -12,3 +12,5 @@ jump_step = 5
 framerate = 60
 animation_step = 6
 invulnerability = 60
+
+startup = "level1"

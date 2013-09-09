@@ -7,7 +7,7 @@ Created on 8 sept. 2013
 import pygame
 from pygame.locals import *
 
-UP,DOWN,LEFT,RIGHT,ACTION,END = 0,0,0,0,0,0
+UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY = 0,0,0,0,0,0,0
 joystick = 0
 def init():
     global joystick
@@ -15,7 +15,7 @@ def init():
         joystick = pygame.joystick.Joystick(0)
         joystick.init()
 def loop():
-    global joystick,UP,DOWN,LEFT,RIGHT,ACTION,END
+    global joystick,UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY
     # check events (with joystick)
     for event in pygame.event.get(): 
         if (joystick != 0):
@@ -58,6 +58,10 @@ def loop():
             elif event.key == K_LEFT or event.key == K_a:
                     # LEFT
                 LEFT = 1
+            elif event.key == K_ESCAPE:
+                END = 1
+            elif event.key == K_r:
+                RETRY = 1
         if event.type == KEYUP:
             if event.key == K_UP or event.key == K_w:
                 UP = 0
@@ -70,7 +74,9 @@ def loop():
                     # LEFT
                 LEFT = 0
             elif event.key == K_ESCAPE:
-                END = 1          
+                END = 0  
+            elif event.key == K_r:
+                RETRY = 0        
         if event.type == QUIT:
                 END = 1
 def end():
@@ -79,3 +85,6 @@ def end():
 def get_keys():
     global RIGHT,LEFT,UP,DOWN,ACTION
     return (RIGHT,LEFT,UP,DOWN,ACTION)
+def get_retry():
+    global RETRY
+    return RETRY

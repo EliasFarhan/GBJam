@@ -94,6 +94,8 @@ class Electricity(GameObject):
         else:
             pos_box2 = (0,self.size[1]/2.0+self.size[0]/2.0)
             size = (self.size[1]-10,self.size[0])
+        if self.turning != 0:
+            size = (size[0]-32, size[1])
         polygon_shape = b2PolygonShape()
         polygon_shape.SetAsBox(pixel2meter(size[0]/2.0),pixel2meter(size[1]/2.0),b2Vec2(pixel2meter(pos_box2[0]),pixel2meter(pos_box2[1])),0)
         fixture_def = b2FixtureDef()

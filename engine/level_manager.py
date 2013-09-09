@@ -2,7 +2,9 @@ from levels.logo_kwakwa import Kwakwa as logo_kwakwa
 from levels.logo_pygame import Pygame as logo_pygame
 from levels.main_menu import MainMenu as main_menu
 from levels.gameplay import GamePlay as gameplay
-dict_level = { "logo_kwakwa" : logo_kwakwa, "logo_pygame" : logo_pygame, "main_menu" : main_menu, "gameplay": gameplay }
+from levels.level1 import Level1 as level1
+dict_level = { "logo_kwakwa" : logo_kwakwa, "logo_pygame" : logo_pygame,\
+			 "main_menu" : main_menu, "gameplay": gameplay, "level1":level1 }
 
 level = 0
 def switch(level_name):
