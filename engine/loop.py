@@ -1,10 +1,10 @@
 ﻿import pygame, sys
 import engine.init as init
 import engine.level_manager as level_manager
-from pygame.locals import *
 from engine.event import loop as event_loop
 from engine.event import init as event_init
 from engine.event import end
+from engine.const import framerate
 finish = False
 def loop(screen):
 	global finish
@@ -27,7 +27,7 @@ def loop(screen):
 			
 		
 		pygame.display.update()
-		fps_clock.tick(30)
+		fps_clock.tick(framerate)
 	pygame.quit()
 	sys.exit()
 

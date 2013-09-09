@@ -3,9 +3,11 @@ Created on Sep 5, 2013
 
 @author: efarhan
 '''
+
 import os
 from os import listdir
 from os.path import isfile, join
+from engine.const import animation_step
 class DemoAnimation():
     '''Manage the images and the animation of the demo-player'''
     def __init__(self, img_manager,size):
@@ -36,10 +38,12 @@ class DemoAnimation():
             self.still_img.append(self.img_manager.load_with_size(img, self.size))
         self.img = self.still_img[0]
     def loop(self,state):
-        if(state == 'jump'):
+        if(state == 'jump_right'):
             self.img = self.jump_img[0]
+        elif(state == 'jump_left'):
+            self.img = self.jump_img[1]
         elif(state == 'move_right'):
-            if(self.anim_counter == 3):
+            if(self.anim_counter == animation_step):
                 anim_index = [self.move_img[0],self.move_img[2],self.move_img[4]]
                 try:
                     find_index = anim_index.index(self.img)
@@ -53,7 +57,7 @@ class DemoAnimation():
             else:
                 self.anim_counter += 1
         elif(state == 'move_left'):
-            if(self.anim_counter == 3):
+            if(self.anim_counter == animation_step):
                 anim_index = [self.move_img[1],self.move_img[3],self.move_img[5]]
                 try:
                     find_index = anim_index.index(self.img)
@@ -66,5 +70,7 @@ class DemoAnimation():
                 self.anim_counter = 0
             else:
                 self.anim_counter += 1
-        elif(state == 'still'):
+        elif(state == 'still_right'):
             self.img = self.still_img[0]
+        elif(state == 'still_left'):
+            self.img = self.still_img[1]

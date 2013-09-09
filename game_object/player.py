@@ -9,7 +9,9 @@ from Box2D import *
 from game_object import GameObject
 from animation import DemoAnimation
 from engine.event import get_keys
-from physics.physics import pixel2meter, ContactListener
+from engine.const import jump_step
+from physics.physics import pixel2meter
+from physics.contact_listener import ContactListener
 
 
 class Player(GameObject):
@@ -20,10 +22,12 @@ class Player(GameObject):
         self.anim.load_images()
         
         self.UP, self.RIGHT,self.LEFT,self.DOWN,self.ACTION = 0, 0, 0, 0, 0
+        self.right_side = True
         self.init_physics()
         self.foot_num = 0
         self.already_jumped = False
         self.jumped = False
+        self.jump_step = 0
         self.invulnerablitiy = 0
         self.life = 100
         self.font = pygame.font.Font('data/font/8-BITWONDER.ttf',25)
@@ -49,32 +53,47 @@ class Player(GameObject):
         # set animation and velocity
         if self.foot_num < 1:
             self.jumped = False
-            self.anim.loop('jump')
+            if self.right_side:
+                self.anim.loop('jump_right')
+            else:
+                self.anim.loop('jump_left')
         if not self.UP and self.foot_num >= 1 and not self.jumped:
             self.already_jumped = False
         if self.UP:
             if(not self.already_jumped or self.foot_num < 1):
-                self.anim.loop('jump') 
+                if self.right_side:
+                    self.anim.loop('jump_right')
+                else:
+                    self.anim.loop('jump_left') 
             if not self.already_jumped and not self.foot_num < 1:
                 self.physics.jump(self)
                 self.already_jumped = True
                 self.jumped = True
-         
+                self.jump_step = 6
+            if self.jump_step > 0:
+                self.physics.jump(self)
+                self.jump_step -= 1
+        else:
+            self.jump_step = 0
         if self.RIGHT:
             #animation
             if ((not self.UP or self.already_jumped) and not self.jumped) and self.foot_num>=1:
                 self.anim.loop('move_right')
                 #move the player
             self.physics.move(self,1)
+            self.right_side = True
         if self.LEFT:
                 #move the player
             if ((not self.UP or self.already_jumped) and not self.jumped) and self.foot_num>=1:
                 self.anim.loop('move_left')
             self.physics.move(self,-1)
-                    
+            self.right_side = False
         if not self.RIGHT and not self.UP and not self.LEFT:
             if self.foot_num >= 1:
-                self.anim.loop('still')
+                if self.right_side:
+                    self.anim.loop('still_right')
+                else:
+                    self.anim.loop('still_left')
                 #stop the player
             self.physics.move(self,0)
         # show the current img

@@ -6,6 +6,8 @@ Created on 8 sept. 2013
 from game_object import GameObject
 from Box2D import *
 from physics.physics import pixel2meter
+from engine.const import animation_step
+
 class Electricity(GameObject):
     def __init__(self, screen_size,pos_a, physics,vertical=False,angle=0):
         GameObject.__init__(self, physics)
@@ -28,7 +30,7 @@ class Electricity(GameObject):
         self.img.append(self.img_manager.load_with_size(line2, self.size))            
     def loop(self,screen,screen_pos):
         self.img_manager.show(self.img[0], screen, (self.pos[0]-screen_pos[0],self.pos[1]-screen_pos[1]))
-        if(self.anim_counter == 3):
+        if(self.anim_counter == animation_step):
             if self.line_index == 1:
                 self.line_index = 2
             else:

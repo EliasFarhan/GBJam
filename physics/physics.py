@@ -2,7 +2,7 @@ from Box2D import *
 
 import pygame
 import engine
-from engine.const import move, jump
+from engine.const import move, jump, framerate,jump_step
 
 ratio = 64/1.5
 def pixel2meter(pixels):
@@ -20,7 +20,7 @@ class Physics():
         self.world=b2World(gravity=(0,-10), doSleep=True)
         self.static_objects = {}
         self.dynamic_objects = {}
-        self.timeStep = 1.0 / 30
+        self.timeStep = 1.0 / framerate
         self.vel_iters, self.pos_iters = 10,10
         self.index = 1
     def add_static_object(self,obj):
@@ -48,13 +48,14 @@ class Physics():
         dyn_obj = self.dynamic_objects[obj]
         vel = dyn_obj.linearVelocity.x
         vel_change = value * move - vel
-        force = dyn_obj.mass * vel_change / (1/30.0)
+        force = dyn_obj.mass * vel_change / self.timeStep
         dyn_obj.ApplyForce(b2Vec2(force,0),dyn_obj.worldCenter,True)
 
     def jump(self,obj):
         dyn_obj = self.dynamic_objects[obj]
-        impulse = dyn_obj.mass * jump
-        dyn_obj.ApplyLinearImpulse(b2Vec2(0,impulse),dyn_obj.worldCenter,True)
+        force = dyn_obj.mass * jump / self.timeStep
+        force /= float(jump_step)
+        dyn_obj.ApplyForce(b2Vec2(0,force),dyn_obj.worldCenter,True)
     def add_static_box(self,pos,size):
         static_body = self.world.CreateStaticBody(\
                                 position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
@@ -63,29 +64,3 @@ class Physics():
         self.static_objects[self.index] = static_body
         self.index+=1
         return self.index - 1
-class ContactListener(b2ContactListener):
-    def BeginContact(self, contact):
-        fixture_user_data = contact.fixtureA.userData
-        fixture_user_data2 = contact.fixtureB.userData
-        # feet is touching something
-        if((fixture_user_data == 3 and fixture_user_data2 != 5)\
-           or (fixture_user_data2 == 3 and fixture_user_data != 5)):
-            
-            engine.level_manager.level.player.foot_num += 1
-          
-        #electricity touch the player  
-        if((fixture_user_data == 4 and fixture_user_data2 == 5)\
-           or (fixture_user_data == 5 and fixture_user_data2 == 4)):
-            engine.level_manager.level.player.touch_electricity(True)
-            
-    def EndContact(self, contact):
-        fixture_user_data = contact.fixtureA.userData
-        fixture_user_data2 = contact.fixtureB.userData
-        if((fixture_user_data == 3 and fixture_user_data2 != 5)\
-           or fixture_user_data2 == 3 and fixture_user_data != 5):
-            # feet is touching something
-            engine.level_manager.level.player.foot_num -= 1
-        #electricity does no more touch the player  
-        if((fixture_user_data == 4 and fixture_user_data2 == 5)\
-           or (fixture_user_data == 5 and fixture_user_data2 == 4)):
-            engine.level_manager.level.player.touch_electricity(False)
