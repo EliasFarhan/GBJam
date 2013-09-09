@@ -73,6 +73,12 @@ class Player(GameObject):
             if self.jump_step > 0:
                 self.physics.jump(self)
                 self.jump_step -= 1
+            if self.already_jumped and not self.foot_num < 1 and not self.RIGHT and not self.LEFT:
+                if self.right_side:
+                    self.anim.loop('still_right')
+                else:
+                    self.anim.loop('still_left')
+                self.physics.move(self,0)
         else:
             self.jump_step = 0
         if self.RIGHT:

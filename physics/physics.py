@@ -2,7 +2,7 @@ from Box2D import *
 
 import pygame
 import engine
-from engine.const import move, jump, framerate,jump_step
+from engine.const import move, jump, framerate,jump_step,gravity
 
 ratio = 64/1.5
 def pixel2meter(pixels):
@@ -17,7 +17,7 @@ def set_ratio_pixel(new_ratio):
 
 class Physics():
     def init(self):
-        self.world=b2World(gravity=(0,-10), doSleep=True)
+        self.world=b2World(gravity=(0,gravity), doSleep=True)
         self.static_objects = {}
         self.dynamic_objects = {}
         self.timeStep = 1.0 / framerate
@@ -59,8 +59,17 @@ class Physics():
     def add_static_box(self,pos,size):
         static_body = self.world.CreateStaticBody(\
                                 position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
-                                shapes=b2PolygonShape(box = (pixel2meter(size[0]/2.0), pixel2meter(size[1]/2.0))),\
+                                shapes=b2PolygonShape(\
+                                                      box = (pixel2meter(size[0]/2.0), pixel2meter(size[1]/2.0))),\
                                                       )
+        self.static_objects[self.index] = static_body
+        self.index+=1
+        return self.index - 1
+    def add_static_circle(self,pos,radius):
+        static_body = self.world.CreateStaticBody(\
+                                position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
+                                shapes=b2CircleShape(radius=pixel2meter(radius),)\
+                                                     )
         self.static_objects[self.index] = static_body
         self.index+=1
         return self.index - 1

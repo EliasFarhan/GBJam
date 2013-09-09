@@ -1,5 +1,10 @@
 import pygame
 
+def rot_center(image, rect, angle):
+	"""rotate an image while keeping its center and size"""
+	rot_image = pygame.transform.rotate(image, angle)
+	rot_rect = rot_image.get_rect(center=rect.center)
+	return rot_image, rot_rect
 class ImageManager():
 	def __init__(self):
 		self.images = {}
@@ -27,7 +32,7 @@ class ImageManager():
 			return self.index - 1
 		return self.img_name[name]
 	
-	def show(self, index, screen, pos,angle=0):
+	def show(self, index, screen, pos,angle=0,rot_func=0):
 		if index == 0:
 			return
 		try:
@@ -36,8 +41,9 @@ class ImageManager():
 			#rotation
 			img = self.images[index]
 			if angle != 0:
-				img = pygame.transform.rotate(img,angle)
+				img,image_rect_obj = rot_func(img, image_rect_obj, angle)
 			screen.blit(img, image_rect_obj)
 		except KeyError:
 			pass
+
 img_manager = ImageManager()
