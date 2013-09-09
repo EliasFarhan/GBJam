@@ -1,10 +1,28 @@
 import pygame
+from math import radians,cos,sin
 
 def rot_center(image, rect, angle):
 	"""rotate an image while keeping its center and size"""
 	rot_image = pygame.transform.rotate(image, angle)
 	rot_rect = rot_image.get_rect(center=rect.center)
 	return rot_image, rot_rect
+def rot_electricity(img, rect,angle):
+	new_img = pygame.transform.rotate(img,angle)
+	if(angle %360 < 90 and angle%360 >= 0):
+		new_bottomleft = (rect.bottomleft[0]-16*sin(radians(angle%360)),rect.bottomleft[1]-16*sin(radians(angle%360)))
+		new_rect = new_img.get_rect(bottomleft=new_bottomleft)
+	elif(angle%360 <180 and angle%360>= 90):
+		rect.bottomright = rect.bottomleft
+		new_bottomright = (rect.bottomright[0]+16*sin(radians(angle%360)),rect.bottomright[1]-16*sin(radians(angle%360)))
+		new_rect = new_img.get_rect(bottomright=new_bottomright)
+	elif(angle%360 <270 and angle%360 >=180):
+		rect.topright = rect.topleft
+		new_topright = (rect.topright[0]-16*sin(radians(angle%360)),rect.topright[1]-16*sin(radians(angle%360)))
+		new_rect = new_img.get_rect(topright=new_topright)
+	elif(angle%360 <360 and angle%360 >=270):
+		new_topleft = (rect.topleft[0]+16*sin(radians(angle%360)),rect.topleft[1]-16*sin(radians(angle%360)))
+		new_rect = new_img.get_rect(topleft=new_topleft)
+	return new_img,new_rect
 class ImageManager():
 	def __init__(self):
 		self.images = {}
@@ -32,7 +50,7 @@ class ImageManager():
 			return self.index - 1
 		return self.img_name[name]
 	
-	def show(self, index, screen, pos,angle=0,rot_func=0):
+	def show(self, index, screen, pos,angle=0,rot_func=None):
 		if index == 0:
 			return
 		try:
@@ -40,7 +58,7 @@ class ImageManager():
 			image_rect_obj.center = (screen.get_rect().center[0]+pos[0], screen.get_rect().center[1]-pos[1])
 			#rotation
 			img = self.images[index]
-			if angle != 0:
+			if angle != 0 and rot_func != None:
 				img,image_rect_obj = rot_func(img, image_rect_obj, angle)
 			screen.blit(img, image_rect_obj)
 		except KeyError:

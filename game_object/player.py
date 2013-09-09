@@ -9,7 +9,7 @@ from Box2D import *
 from game_object import GameObject
 from animation import DemoAnimation
 from engine.event import get_keys
-from engine.const import jump_step
+from engine.const import jump_step,invulnerability
 from physics.physics import pixel2meter
 from physics.contact_listener import ContactListener
 
@@ -41,10 +41,11 @@ class Player(GameObject):
         screen.blit(msg_surface_obj, msg_rect_obj)
         
         if(self.invulnerablitiy > 0):
+
             self.invulnerablitiy-=1
         if(self.electricity and self.invulnerablitiy == 0):
             self.life-=20
-            self.invulnerablitiy = 30
+            self.invulnerablitiy = invulnerability
         if(self.life <= 0):
             engine.level_manager.switch('gameplay')
         #check event
@@ -69,7 +70,7 @@ class Player(GameObject):
                 self.physics.jump(self)
                 self.already_jumped = True
                 self.jumped = True
-                self.jump_step = 6
+                self.jump_step = jump_step
             if self.jump_step > 0:
                 self.physics.jump(self)
                 self.jump_step -= 1
@@ -104,12 +105,13 @@ class Player(GameObject):
             self.physics.move(self,0)
         # show the current img
         self.pos = (int(self.pos[0]), int(self.pos[1]))
-        self.img_manager.show(self.anim.img, screen, (0,0))
+        if(self.invulnerablitiy%2!= 1):
+            self.img_manager.show(self.anim.img, screen, (0,0))
         return self.pos
         
     def init_physics(self):
         dynamic_object = self.physics.add_dynamic_object(self)
-        box = dynamic_object.CreatePolygonFixture(box = (pixel2meter(20), pixel2meter(20)), density=1,friction=0)
+        box = dynamic_object.CreatePolygonFixture(box = (pixel2meter(20), pixel2meter(21)), density=1,friction=0)
         dynamic_object.fixedRotation = True
         dynamic_object.angle = 0
         #add foot sensor
@@ -138,7 +140,7 @@ class Player(GameObject):
             self.electricity = True
             if(self.invulnerablitiy <= 0):
                 #remove life
-                self.invulnerablitiy = 30
+                self.invulnerablitiy = invulnerability
                 self.life -= 20
         else:
             self.electricity = False

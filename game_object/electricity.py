@@ -4,10 +4,11 @@ Created on 8 sept. 2013
 @author: efarhan
 '''
 from game_object import GameObject
+import pygame
 from Box2D import *
 from physics.physics import pixel2meter
 from engine.const import animation_step
-from engine.image_manager import rot_center
+from engine.image_manager import rot_center,rot_electricity
 
 class Electricity(GameObject):
     def __init__(self, screen_size,pos_a, physics,vertical=False,turning=0):
@@ -18,6 +19,9 @@ class Electricity(GameObject):
         self.pos = pos_a
         self.anim_counter = 0
         self.vertical = vertical
+        self.angle = 0
+        if self.vertical:
+            self.angle = 90
         self.line_index = 1
         self.load_images()
         self.init_physics()
@@ -45,13 +49,15 @@ class Electricity(GameObject):
             self.anim_counter += 1
         if self.turning != 0:
             #turn everything
-            self.img_manager.show(self.img[self.line_index],screen,(self.pos[0]+self.size[0]/2-screen_pos[0],self.pos[1]-screen_pos[1]))
+            
+            self.angle += self.turning
+            self.img_manager.show(self.img[self.line_index],screen,(self.pos[0]+self.size[0]/2-screen_pos[0],self.pos[1]-screen_pos[1]),self.angle,rot_electricity)
         else:
             if(not self.vertical):
                 self.img_manager.show(self.img[self.line_index],screen,(self.pos[0]+self.size[0]/2+self.size[1]/2-screen_pos[0],self.pos[1]-screen_pos[1]))
                 self.img_manager.show(self.img[0],screen,(self.pos[0]+self.size[0]+self.size[1]-screen_pos[0],self.pos[1]-screen_pos[1]))
             else:
-                self.img_manager.show(self.img[self.line_index],screen,(self.pos[0]-screen_pos[0],self.pos[1]+self.size[0]/2+self.size[1]/2-screen_pos[1]),90,rot_center)
+                self.img_manager.show(self.img[self.line_index],screen,(self.pos[0]-screen_pos[0],self.pos[1]+self.size[0]/2+self.size[1]/2-screen_pos[1]),self.angle,rot_center)
                 self.img_manager.show(self.img[0],screen,(self.pos[0]-screen_pos[0],self.pos[1]+self.size[0]+self.size[1]-screen_pos[1]))
         self.img_manager.show(self.img[0], screen, (self.pos[0]-screen_pos[0],self.pos[1]-screen_pos[1]))
     def init_physics(self):
@@ -64,6 +70,8 @@ class Electricity(GameObject):
         self.box = self.physics.static_objects[index]
         
         pos_box2 = (self.size[0]+self.size[1],0)
+        
+        
         if(self.turning == 0):
             #add other box
             
@@ -76,6 +84,7 @@ class Electricity(GameObject):
             fixture_def.shape = polygon_shape
             fixture_def.density = 1
             self.box.CreateFixture(fixture_def)
+        
         #add electricity sensor
         size = ()
         if not self.vertical:
