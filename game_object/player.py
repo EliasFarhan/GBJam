@@ -31,7 +31,7 @@ class Player(GameObject):
         self.invulnerablitiy = 0
         self.life = 100
         self.font = pygame.font.Font('data/font/8-BITWONDER.ttf',25)
-        self.electricity = False
+        self.electricity,self.fire = False,False
     def loop(self, screen):
 
         #render life information
@@ -43,9 +43,24 @@ class Player(GameObject):
         if(self.invulnerablitiy > 0):
 
             self.invulnerablitiy-=1
-        if(self.electricity and self.invulnerablitiy == 0):
-            self.life-=20
-            self.invulnerablitiy = invulnerability
+        if(self.electricity):
+            if(self.invulnerablitiy == 0):
+                self.life-=20
+                self.invulnerablitiy = invulnerability
+            #render life information
+            msg_surface_obj = self.font.render('Electricity', False, pygame.Color(255, 255, 255))
+            msg_rect_obj = msg_surface_obj.get_rect()
+            msg_rect_obj.bottomleft = (0,screen.get_size()[1])
+            screen.blit(msg_surface_obj, msg_rect_obj)
+        if(self.fire): 
+            if (self.invulnerablitiy == 0):
+                self.life -= 20
+                self.invulnerablitiy = invulnerability
+            #render life information
+            msg_surface_obj = self.font.render('Fire', False, pygame.Color(255, 255, 255))
+            msg_rect_obj = msg_surface_obj.get_rect()
+            msg_rect_obj.bottomleft = (0,screen.get_size()[1])
+            screen.blit(msg_surface_obj, msg_rect_obj)
         if(self.life <= 0):
             engine.level_manager.level.death()
         #check event
@@ -149,9 +164,18 @@ class Player(GameObject):
             if(self.invulnerablitiy <= 0):
                 #remove life
                 self.invulnerablitiy = invulnerability
-                self.life -= 100
+                self.life -= 20
         else:
             self.electricity = False
+    def touch_fire(self,state):
+        if(state):
+            self.fire = True
+            if(self.invulnerablitiy <= 0):
+                #remove life
+                self.invulnerablitiy = invulnerability
+                self.life -=20
+        else:
+            self.fire = False
     def set_position(self,new_pos):
         self.pos = new_pos
         self.body.position = (pixel2meter(new_pos[0]),pixel2meter(new_pos[1]))

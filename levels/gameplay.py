@@ -8,8 +8,10 @@ from engine.init import get_screen_size
 from engine.scene import Scene
 from game_object.ground import Ground
 from game_object.electricity import Electricity
+from game_object.fire import FireTube
 from game_object.player import Player
 from physics.physics import Physics
+
 
 
 class GamePlay(Scene):
@@ -35,6 +37,7 @@ class GamePlay(Scene):
                         Electricity(self.screen_size,(500,200),self.physics,False,1),\
                         Electricity(self.screen_size,(700,150),self.physics,False,-1),\
                         Electricity(self.screen_size,(900,200),self.physics,False,1),\
+                        FireTube(self.screen_size,(-132,-100),self.physics,length=3)
                         ]
 
     def loop(self, screen):
@@ -43,4 +46,6 @@ class GamePlay(Scene):
         for elem in self.objects:
             elem.loop(screen,self.screen_pos)
         self.screen_pos = self.player.loop(screen)
-        
+    def death(self):
+        from engine.level_manager import switch
+        switch('gameplay')
