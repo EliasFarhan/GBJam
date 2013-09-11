@@ -125,7 +125,7 @@ class Player(GameObject):
         self.body.angle = 0
         #add foot sensor
         polygon_shape = b2PolygonShape()
-        polygon_shape.SetAsBox(pixel2meter(18), 0.1, b2Vec2(0,pixel2meter(-20)),0)
+        polygon_shape.SetAsBox(pixel2meter(15), 0.1, b2Vec2(0,pixel2meter(-20)),0)
         fixture_def = b2FixtureDef()
         fixture_def.shape = polygon_shape
         fixture_def.density = 1

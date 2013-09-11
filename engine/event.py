@@ -79,7 +79,7 @@ def loop():
                 RETRY = 0        
         if event.type == QUIT:
                 END = 1
-def end():
+def is_end():
     global END
     return END
 def get_keys():
