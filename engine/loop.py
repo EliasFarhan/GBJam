@@ -3,7 +3,7 @@ import engine.init as init
 import engine.level_manager as level_manager
 from engine.event import loop as event_loop
 from engine.event import init as event_init
-from engine.event import end
+from engine.event import is_end
 from engine.const import framerate,startup
 finish = False
 fps = None
@@ -19,7 +19,7 @@ def loop(screen):
 		screen.fill(pygame.Color(0, 0, 0))
 		
 		event_loop()
-		finish = end()
+		finish = is_end()
 		f = level_manager.function_level()
 		if f == 0:
 			break
