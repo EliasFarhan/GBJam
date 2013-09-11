@@ -9,15 +9,17 @@ from physics.physics import pixel2meter,meter2pixel
 from engine.const import animation_step
 
 class FireTube(GameObject):
-    def __init__(self, screen_size,pos_a, physics,length=1,vertical=True,angle=0):
+    def __init__(self, screen_size,pos_a, physics,length=1,vertical=True,angle=0,begin=1):
         GameObject.__init__(self, physics)
         self.angle = angle
         self.img = []
         self.size = (32,32)
         self.length = length
         self.pos = pos_a
+        self.begin = begin
+        self.up = not begin
         self.height_fire = self.size[1]*(self.length+1)
-        self.pos_fire = (self.pos[0],self.pos[1]+self.height_fire)
+        self.pos_fire = (self.pos[0],self.pos[1]+self.height_fire*self.begin)
         self.anim_counter = 0
         self.vertical = vertical
         self.line_index = 1
@@ -27,7 +29,7 @@ class FireTube(GameObject):
         self.speed_move = 2
         self.ttw_cont = 60
         self.time = 0
-        self.up = False
+        
     def load_images(self):
         path = 'data/sprites/fire/'
         box = path+'box.png'
@@ -40,15 +42,15 @@ class FireTube(GameObject):
         self.img.append(self.img_manager.load_with_size(path+'fire3.png', self.size))             
     def loop(self,screen,screen_pos):
         #manage the position of the fire
-        if(self.pos_fire[1] > self.pos[1]+self.height_fire and self.up):
+        if(self.pos_fire[1] >= self.pos[1]+self.height_fire and self.up):
             self.time = self.ttw_cont
             self.up = False
-        elif(self.pos_fire[1]>self.pos[1]+self.height_fire and not self.up and self.time > 0):
+        elif(self.pos_fire[1] >= self.pos[1]+self.height_fire and not self.up and self.time > 0):
             self.time-=1
-        elif(self.pos_fire[1]<self.pos[1] and not self.up):
+        elif(self.pos_fire[1] <= self.pos[1] and not self.up):
             self.time = self.ttw_cont
             self.up = True
-        elif(self.pos_fire[1]<self.pos[1] and self.up and self.time >0):
+        elif(self.pos_fire[1] <= self.pos[1] and self.up and self.time >0):
             self.time-=1
         elif(not self.up and self.time == 0):
             self.pos_fire= (self.pos_fire[0],self.pos_fire[1]-self.speed_move)
@@ -79,11 +81,11 @@ class FireTube(GameObject):
         
         #add fire sensor
         self.fire = self.physics.world.CreateStaticBody(position=\
-                                        (pixel2meter(self.pos_fire[0]-self.size[0]/2),\
+                                        (pixel2meter(self.pos_fire[0]),\
                                          pixel2meter(self.pos_fire[1]-self.length*self.size[1])))
         self.fire.fixedRotation = True
         polygon_shape = b2PolygonShape()
-        polygon_shape.SetAsBox(pixel2meter(self.size[0]/2.0),pixel2meter(self.size[1]*(self.length+1)/2.0),b2Vec2((0.0,pixel2meter(self.size[1]*(self.length+1)/2))),0)
+        polygon_shape.SetAsBox(pixel2meter((self.size[0]-2)/2.0),pixel2meter(self.size[1]*(self.length+1)/2.0),b2Vec2((0.0,pixel2meter(self.size[1]*(self.length+1)/2))),0)
         fixture_def = b2FixtureDef()
         fixture_def.shape = polygon_shape
         fixture_def.density = 0
@@ -93,7 +95,7 @@ class FireTube(GameObject):
     def loop_physics(self):
 
         polygon_shape = b2PolygonShape()
-        polygon_shape.SetAsBox(pixel2meter(self.size[0]/2.0),pixel2meter((self.pos_fire[1]-self.pos[1]+self.size[1])/2.0),b2Vec2((0.0,pixel2meter((self.pos_fire[1]-self.pos[1])/2))),0)
+        polygon_shape.SetAsBox(pixel2meter((self.size[0]-2)/2.0),pixel2meter((self.pos_fire[1]-self.pos[1])/2.0),b2Vec2((0.0,pixel2meter((self.pos_fire[1]-self.pos[1])/2))),0)
         fixture_def = b2FixtureDef()
         fixture_def.shape = polygon_shape
         fixture_def.density = 0

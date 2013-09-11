@@ -37,7 +37,10 @@ class GamePlay(Scene):
                         Electricity(self.screen_size,(500,200),self.physics,False,1),\
                         Electricity(self.screen_size,(700,150),self.physics,False,-1),\
                         Electricity(self.screen_size,(900,200),self.physics,False,1),\
-                        FireTube(self.screen_size,(-132,-100),self.physics,length=3)
+                        FireTube(self.screen_size,(100,-230+16),self.physics,length=2),\
+                        FireTube(self.screen_size,(200,-230+16),self.physics,length=2,begin=0),\
+                        Ground(self.screen_size,(-300,-230-5*32),(120,5),self.physics),\
+                        Ground(self.screen_size,(-300,-200),(3,1),self.physics),\
                         ]
 
     def loop(self, screen):
