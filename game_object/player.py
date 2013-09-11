@@ -43,24 +43,10 @@ class Player(GameObject):
         if(self.invulnerablitiy > 0):
 
             self.invulnerablitiy-=1
-        if(self.electricity):
+        if(self.electricity or self.fire):
             if(self.invulnerablitiy == 0):
-                self.life-=20
+                self.life-=100
                 self.invulnerablitiy = invulnerability
-            #render life information
-            msg_surface_obj = self.font.render('Electricity', False, pygame.Color(255, 255, 255))
-            msg_rect_obj = msg_surface_obj.get_rect()
-            msg_rect_obj.bottomleft = (0,screen.get_size()[1])
-            screen.blit(msg_surface_obj, msg_rect_obj)
-        if(self.fire): 
-            if (self.invulnerablitiy == 0):
-                self.life -= 20
-                self.invulnerablitiy = invulnerability
-            #render life information
-            msg_surface_obj = self.font.render('Fire', False, pygame.Color(255, 255, 255))
-            msg_rect_obj = msg_surface_obj.get_rect()
-            msg_rect_obj.bottomleft = (0,screen.get_size()[1])
-            screen.blit(msg_surface_obj, msg_rect_obj)
         if(self.life <= 0):
             engine.level_manager.level.death()
         #check event
@@ -164,7 +150,7 @@ class Player(GameObject):
             if(self.invulnerablitiy <= 0):
                 #remove life
                 self.invulnerablitiy = invulnerability
-                self.life -= 20
+                self.life -= 100
         else:
             self.electricity = False
     def touch_fire(self,state):
@@ -173,7 +159,7 @@ class Player(GameObject):
             if(self.invulnerablitiy <= 0):
                 #remove life
                 self.invulnerablitiy = invulnerability
-                self.life -=20
+                self.life -=100
         else:
             self.fire = False
     def set_position(self,new_pos):
