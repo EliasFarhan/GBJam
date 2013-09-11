@@ -1,0 +1,19 @@
+Need:
+-FireBall
+-Different armor capacity (not all shooters)-
+-Be warn of the many Ground fps drop
+
+Step story:
+-An intro done by hand
+-The end without the credits
+
+Step level:
+-All the levels with random music for the basic armor
+-All bosses for the basic armor
+
+
+Step armor:
+-Implement all armor specificities
+
+Step level+armor:
+-Design the levels for all armor
