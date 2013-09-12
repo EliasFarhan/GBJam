@@ -8,7 +8,7 @@ from engine.init import get_screen_size
 from engine.scene import Scene
 from game_object.ground import Ground
 from game_object.electricity import Electricity
-from game_object.fire import FireTube
+from game_object.fire import FireTube, FireBall
 from game_object.player import Player
 from physics.physics import Physics
 
@@ -39,8 +39,10 @@ class GamePlay(Scene):
                         Electricity((900,200),self.physics,False,1),\
                         FireTube((100,-230+16),self.physics,length=2),\
                         FireTube((200,-230+16),self.physics,length=2,begin=0),\
-                        Ground((-300,-230-5*32),(120,5),self.physics),\
+                        FireBall((400,-100), self.physics,speed=-4),\
+                        Ground((-300,-230-3*32),(120,3),self.physics),\
                         Ground((-300,-200),(3,1),self.physics),\
+                        Ground((-300,-200+32),(1,4),self.physics),\
                         ]
 
     def loop(self, screen):

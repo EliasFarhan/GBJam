@@ -7,6 +7,7 @@ from game_object import GameObject
 from Box2D import *
 from physics.physics import pixel2meter,meter2pixel
 from engine.const import animation_step
+from Box2D.Box2D import b2CircleShape
 
 class FireTube(GameObject):
     def __init__(self, pos_a, physics,length=1,vertical=True,angle=0,begin=1):
@@ -103,3 +104,59 @@ class FireTube(GameObject):
         self.fire.DestroyFixture(self.fire_sensor_fixture)
         self.fire_sensor_fixture = self.fire.CreateFixture(fixture_def)
         self.fire_sensor_fixture.userData = 6
+        
+class FireBall(GameObject):
+    def __init__(self,pos,physics,max_dist=0,speed=0):
+        GameObject.__init__(self, physics)
+        self.size = (32,32)
+        self.pos = pos
+        self.min_dist = self.pos[0]
+        self.max_dist = max_dist
+        if max_dist != 0 and (self.min_dist > self.max_dist):
+            a = self.min_dist
+            self.min_dist = self.max_dist
+            self.max_dist = a
+        self.images = []
+        self.img_index = 0
+        self.anim_counter = 0
+        self.change = False
+        self.speed = speed
+        self.init_physics()
+        self.load_images()
+    def load_images(self):
+        path = 'data/sprites/fire/'
+        files = [path+'fire_enemy1.png',path+'fire_enemy2.png']
+        for f in files:
+            self.images.append(self.img_manager.load_with_size(f, self.size))
+    def loop(self, screen,screen_pos):
+        #move the object
+        if self.max_dist != 0:
+            if not self.change and (self.pos[0]<=self.min_dist or self.pos[0]>=self.max_dist):
+                self.body.linearVelocity = b2Vec2(-self.body.linearVelocity[0],self.body.linearVelocity[1])
+                self.change = True
+            elif(self.pos[0]<self.max_dist or self.pos[1]>self.min_dist):
+                self.change = False
+            
+        #update movement
+        self.pos = (meter2pixel(self.body.position[0]),meter2pixel(self.body.position[1]))
+        if(self.anim_counter == animation_step):
+            if self.img_index == 0:
+                self.img_index += 1
+            else:
+                self.img_index = 0
+            self.anim_counter = 0
+        else:
+            self.anim_counter += 1
+        
+        self.img_manager.show(self.images[self.img_index], screen, (self.pos[0]-screen_pos[0],self.pos[1]-screen_pos[1]))
+    def init_physics(self):
+        self.body = self.physics.world.CreateDynamicBody(position=b2Vec2(
+                                                                         pixel2meter(self.pos[0]),
+                                                                         pixel2meter(self.pos[1])))
+        self.physics.dynamic_objects[self] = self.body
+        circle_shape = b2CircleShape(radius=pixel2meter(self.size[1]/2))
+        self.circle_fixture = self.body.CreateFixturesFromShapes(shapes=circle_shape)
+        self.circle_fixture.friction=0
+        self.circle_fixture.restitution=1
+        self.circle_fixture.userData=6
+        self.body.linearVelocity = b2Vec2(self.speed,0)

@@ -140,7 +140,7 @@ class Player(GameObject):
         self.foot_sensor_fixture.userData = 3
         #add hitbox
         polygon_shape = b2PolygonShape()
-        polygon_shape.SetAsBox(pixel2meter(self.box_size[0]),pixel2meter(self.box_size[1]-1))
+        polygon_shape.SetAsBox(pixel2meter(self.box_size[0]),pixel2meter(self.box_size[1]))
         fixture_def = b2FixtureDef()
         fixture_def.shape = polygon_shape
         fixture_def.density = 1
