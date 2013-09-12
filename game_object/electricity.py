@@ -12,7 +12,7 @@ from engine.image_manager import rot_center,rot_electricity
 from math import radians
 
 class Electricity(GameObject):
-    def __init__(self, screen_size,pos_a, physics,vertical=False,turning=0):
+    def __init__(self, pos_a, physics,vertical=False,turning=0):
         GameObject.__init__(self, physics)
         self.turning = turning
         self.img = []

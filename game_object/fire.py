@@ -9,7 +9,7 @@ from physics.physics import pixel2meter,meter2pixel
 from engine.const import animation_step
 
 class FireTube(GameObject):
-    def __init__(self, screen_size,pos_a, physics,length=1,vertical=True,angle=0,begin=1):
+    def __init__(self, pos_a, physics,length=1,vertical=True,angle=0,begin=1):
         GameObject.__init__(self, physics)
         self.angle = angle
         self.img = []

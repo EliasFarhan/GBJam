@@ -15,9 +15,15 @@ from physics.contact_listener import ContactListener
 
 
 class Player(GameObject):
-    def __init__(self,screen_size,physics,move=0):
+    def __init__(self,screen_size,physics,move=0,jump=1,factor=1):
         GameObject.__init__(self,physics)
         self.size = (64,64)
+        self.box_size = (18,21)
+        self.foot_sensor_size = (15,0.1)
+        if(factor != 1):
+            self.size = (factor*self.size[0],factor*self.size[1])
+            self.box_size = (factor*self.box_size[0],factor*self.box_size[1])
+            self.foot_sensor_size = (factor*self.foot_sensor_size[0],factor*self.foot_sensor_size[1])
         self.anim = DemoAnimation(self.img_manager,self.size)
         self.anim.load_images()
         self.move = move
@@ -25,6 +31,7 @@ class Player(GameObject):
         self.right_side = True
         self.init_physics()
         self.foot_num = 0
+        self.jump = jump
         self.already_jumped = False
         self.jumped = False
         self.jump_step = 0
@@ -32,8 +39,7 @@ class Player(GameObject):
         self.life = 100
         self.font = pygame.font.Font('data/font/8-BITWONDER.ttf',25)
         self.electricity,self.fire = False,False
-    def loop(self, screen):
-
+    def loop(self, screen,screen_pos,new_size=1):
         #render life information
         msg_surface_obj = self.font.render('Life '+str(self.life), False, pygame.Color(255, 255, 255))
         msg_rect_obj = msg_surface_obj.get_rect()
@@ -61,7 +67,7 @@ class Player(GameObject):
                 self.anim.loop('jump_left')
         if not self.UP and self.foot_num >= 1 and not self.jumped:
             self.already_jumped = False
-        if self.UP:
+        if self.UP and self.jump:
             if(not self.already_jumped or self.foot_num < 1):
                 if self.right_side:
                     self.anim.loop('jump_right')
@@ -95,7 +101,7 @@ class Player(GameObject):
             self.right_side = True
         if self.LEFT and not self.RIGHT:
                 #move the player
-            if ((not self.UP or self.already_jumped) and not self.jumped) and self.foot_num>=1:
+            if (((not self.UP or not self.jump) or self.already_jumped) and not self.jumped) and self.foot_num>=1:
                 self.anim.loop('move_left')
             if self.move != 1:
                 self.physics.move(self,-1)
@@ -115,17 +121,17 @@ class Player(GameObject):
         # show the current img
         self.pos = (int(self.pos[0]), int(self.pos[1]))
         if(self.invulnerablitiy%2!= 1):
-            self.img_manager.show(self.anim.img, screen, (0,0))
+            self.img_manager.show(self.anim.img, screen, (self.pos[0]-screen_pos[0],self.pos[1]-screen_pos[1]),factor=new_size)
         return self.pos
         
     def init_physics(self):
         self.body = self.physics.add_dynamic_object(self)
-        box = self.body.CreatePolygonFixture(box = (pixel2meter(18), pixel2meter(21)), density=1,friction=0)
+        box = self.body.CreatePolygonFixture(box = (pixel2meter(self.box_size[0]), pixel2meter(self.box_size[1])), density=1,friction=0)
         self.body.fixedRotation = True
         self.body.angle = 0
         #add foot sensor
         polygon_shape = b2PolygonShape()
-        polygon_shape.SetAsBox(pixel2meter(15), 0.1, b2Vec2(0,pixel2meter(-20)),0)
+        polygon_shape.SetAsBox(pixel2meter(self.foot_sensor_size[0]), self.foot_sensor_size[1], b2Vec2(0,pixel2meter(-self.box_size[1])),0)
         fixture_def = b2FixtureDef()
         fixture_def.shape = polygon_shape
         fixture_def.density = 1
@@ -134,7 +140,7 @@ class Player(GameObject):
         self.foot_sensor_fixture.userData = 3
         #add hitbox
         polygon_shape = b2PolygonShape()
-        polygon_shape.SetAsBox(pixel2meter(18),pixel2meter(20))
+        polygon_shape.SetAsBox(pixel2meter(self.box_size[0]),pixel2meter(self.box_size[1]))
         fixture_def = b2FixtureDef()
         fixture_def.shape = polygon_shape
         fixture_def.density = 1

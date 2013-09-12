@@ -6,13 +6,16 @@ Created on 8 sept. 2013
 from game_object import GameObject
 import pygame
 class Ground(GameObject):
-    def __init__(self, screen_size,topleft_pos, nmb_block,physics):
+    def __init__(self, bottomleft_pos, nmb_block,physics,factor=1):
         # set size
         GameObject.__init__(self,physics)
+        
         self.block_size = (32,32)
+        if factor != 1:
+            self.block_size = (32*factor, 32*factor)
         self.nmb_block = nmb_block
         self.size = (self.block_size[0]*self.nmb_block[0],self.block_size[1]*self.nmb_block[1])
-        self.rect = pygame.Rect(topleft_pos,self.size)
+        self.rect = pygame.Rect(bottomleft_pos,self.size)
         self.pos = self.rect.center
         self.img = 0
         self.load_images()

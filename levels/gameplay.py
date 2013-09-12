@@ -48,7 +48,7 @@ class GamePlay(Scene):
         self.physics.loop()
         for elem in self.objects:
             elem.loop(screen,self.screen_pos)
-        self.screen_pos = self.player.loop(screen)
+        self.screen_pos = self.player.loop(screen,self.screen_pos)
     def death(self):
         from engine.level_manager import switch
         switch('gameplay')

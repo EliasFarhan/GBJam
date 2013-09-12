@@ -55,7 +55,7 @@ class Level1(GamePlay):
         self.physics.loop()
         for elem in self.objects:
             elem.loop(screen,self.screen_pos)
-        self.screen_pos = self.player.loop(screen)
+        self.screen_pos = self.player.loop(screen,self.screen_pos)
         if self.player.pos[1] < -400:
             self.death()
         if get_retry():

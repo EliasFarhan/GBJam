@@ -50,17 +50,19 @@ class ImageManager():
 			return self.index - 1
 		return self.img_name[name]
 	
-	def show(self, index, screen, pos,angle=0,rot_func=None):
+	def show(self, index, screen, pos,angle=0,rot_func=None,factor=1):
 		if index == 0:
 			return
 		try:
-			image_rect_obj = self.images[index].get_rect()
+			image = self.images[index]
+			image_rect_obj = image.get_rect()
+			if(factor != 1):
+				image = pygame.transform.scale(image,(image_rect_obj.w*factor,image_rect_obj.h*factor))
+			image_rect_obj = image.get_rect()
 			image_rect_obj.center = (screen.get_rect().center[0]+pos[0], screen.get_rect().center[1]-pos[1])
-			#rotation
-			img = self.images[index]
 			if angle != 0 and rot_func != None:
-				img,image_rect_obj = rot_func(img, image_rect_obj, angle)
-			screen.blit(img, image_rect_obj)
+				image,image_rect_obj = rot_func(image, image_rect_obj, angle)
+			screen.blit(image, image_rect_obj)
 		except KeyError:
 			pass
 
