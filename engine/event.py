@@ -9,13 +9,14 @@ from pygame.locals import *
 
 UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY = 0,0,0,0,0,0,0
 joystick = 0
+index = 0
 def init():
     global joystick
     if pygame.joystick.get_count() != 0:
         joystick = pygame.joystick.Joystick(0)
         joystick.init()
 def loop():
-    global joystick,UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY
+    global joystick,index,UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY
     # check events (with joystick)
     for event in pygame.event.get(): 
         if (joystick != 0):
@@ -44,6 +45,10 @@ def loop():
             elif event.type == JOYBUTTONDOWN:
                 if(joystick.get_button(1)):
                     UP = 1
+                if(joystick.get_button(4)):
+                    index -= 1
+                if(joystick.get_button(5)):
+                    index += 1
             elif event.type == JOYBUTTONUP:
                 if(not joystick.get_button(1)):
                     UP = 0
@@ -79,6 +84,9 @@ def loop():
                 RETRY = 0        
         if event.type == QUIT:
                 END = 1
+def get_index():
+    global index
+    return index
 def is_end():
     global END
     return END

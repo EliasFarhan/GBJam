@@ -20,7 +20,7 @@ class TheEnd(Scene):
         self.physics.init(gravity_arg=0)
         self.screen_pos = (0,0)
         self.factor = self.screen_size[1]/200
-        self.player = Player(self.screen_size, self.physics, move=-1,jump=0,factor=self.factor)
+        self.player = Player( self.physics, move=-1,jump=0,factor=self.factor)
 
     
         nmb = 10
