@@ -20,27 +20,27 @@ class GamePlay(Scene):
         self.screen_pos = (0,0)
         self.physics = Physics()
         self.physics.init()
-        self.player = Player(self.screen_size,self.physics)
+        self.player = Player(self.physics)
         self.objects = [\
-                        Ground(self.screen_size,(-100,-100),(120,1),self.physics),\
-                        Ground(self.screen_size,(300, 0), (60,1),self.physics),\
-                        Ground(self.screen_size,(600, 100), (60,1),self.physics),\
-                        Electricity(self.screen_size,(700, 200),self.physics),\
-                        Electricity(self.screen_size,(892, 200),self.physics),\
-                        Electricity(self.screen_size,(1084, 200),self.physics),\
-                        Electricity(self.screen_size,(1200, 150),self.physics,True),\
-                        Electricity(self.screen_size,(800, 150),self.physics,True),\
-                        Electricity(self.screen_size,(300,-20),self.physics,True),\
-                        Electricity(self.screen_size,(50,30),self.physics),\
-                        Electricity(self.screen_size,(100,100),self.physics,False,2),\
-                        Electricity(self.screen_size,(300,200),self.physics,False,-1),\
-                        Electricity(self.screen_size,(500,200),self.physics,False,1),\
-                        Electricity(self.screen_size,(700,150),self.physics,False,-1),\
-                        Electricity(self.screen_size,(900,200),self.physics,False,1),\
-                        FireTube(self.screen_size,(100,-230+16),self.physics,length=2),\
-                        FireTube(self.screen_size,(200,-230+16),self.physics,length=2,begin=0),\
-                        Ground(self.screen_size,(-300,-230-5*32),(120,5),self.physics),\
-                        Ground(self.screen_size,(-300,-200),(3,1),self.physics),\
+                        Ground((-100,-100),(120,1),self.physics),\
+                        Ground((300, 0), (60,1),self.physics),\
+                        Ground((600, 100), (60,1),self.physics),\
+                        Electricity((700, 200),self.physics),\
+                        Electricity((892, 200),self.physics),\
+                        Electricity((1084, 200),self.physics),\
+                        Electricity((1200, 150),self.physics,True),\
+                        Electricity((800, 150),self.physics,True),\
+                        Electricity((300,-20),self.physics,True),\
+                        Electricity((50,30),self.physics),\
+                        Electricity((100,100),self.physics,False,2),\
+                        Electricity((300,200),self.physics,False,-1),\
+                        Electricity((500,200),self.physics,False,1),\
+                        Electricity((700,150),self.physics,False,-1),\
+                        Electricity((900,200),self.physics,False,1),\
+                        FireTube((100,-230+16),self.physics,length=2),\
+                        FireTube((200,-230+16),self.physics,length=2,begin=0),\
+                        Ground((-300,-230-5*32),(120,5),self.physics),\
+                        Ground((-300,-200),(3,1),self.physics),\
                         ]
 
     def loop(self, screen):

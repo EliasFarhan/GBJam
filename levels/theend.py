@@ -13,6 +13,8 @@ from engine.init import get_screen_size
 class TheEnd(Scene):
     def init(self):
         Scene.init(self)
+        pygame.mixer.music.load('data/music/Tenchi - Shriving Sorrow.mp3')
+        pygame.mixer.music.play(loops=-1)
         self.screen_size = get_screen_size()
         self.physics = Physics()
         self.physics.init(gravity_arg=0)
@@ -36,7 +38,7 @@ class TheEnd(Scene):
         self.boy.loop(screen, (self.boy.size[0]/2*zoom,-self.boy.size[1]/2*zoom), new_size=zoom)
         self.girl.loop(screen, (self.boy.size[0]*zoom+self.girl.size[0]/2*zoom,-self.boy.size[1]*zoom+self.girl.size[1]/2*zoom), new_size=zoom)
         player_pos = self.player.loop(screen,self.screen_pos,new_size=zoom)
-        self.screen_pos = (player_pos[0]+self.screen_size[0]/2-self.player.box_size[0]*zoom,self.screen_size[1]/2-self.player.box_size[1]*zoom)
+        self.screen_pos = (player_pos[0]+self.screen_size[0]/2-(self.player.box_size[0]+5*self.factor)*zoom,self.screen_size[1]/2-self.player.box_size[1]*zoom)
         if self.player.pos[1] < -400:
             self.death()
     def death(self):
