@@ -5,6 +5,8 @@ Created on 8 sept. 2013
 '''
 from game_object import GameObject
 import pygame
+from Box2D import *
+from physics.physics import pixel2meter
 class Ground(GameObject):
     def __init__(self, bottomleft_pos, nmb_block,physics,factor=1):
         # set size
@@ -23,13 +25,11 @@ class Ground(GameObject):
     def load_images(self):
         #load block
         self.img = self.img_manager.load_with_size('data/sprites/block/block1.png', self.block_size)
-    def loop(self,screen,screen_pos):
+    def loop(self,screen,screen_pos,new_size=1):
         for i in range(self.nmb_block[0]):
             for j in range(self.nmb_block[1]):
                 self.img_manager.show(self.img, screen, \
                     (\
-                    self.rect.left+self.block_size[0]/2+i*self.block_size[0]-screen_pos[0],\
+                    self.rect.right-(self.block_size[0]/2+i*self.block_size[0])-screen_pos[0],\
                     self.rect.top+self.block_size[1]/2+j*self.block_size[1]-screen_pos[1]\
-                    )\
-                                      )
-
+                    ))

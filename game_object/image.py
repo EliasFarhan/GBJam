@@ -8,13 +8,15 @@ from os import listdir
 from os.path import isfile,join
 from engine.image_manager import img_manager
 from engine.const import animation_step
+
 class Image():
     '''Used for The End'''
     def __init__(self,path,pos,size,factor=1):
         self.pos = pos
         self.path = path
         self.size = size
-        self.factor = factor
+        if factor != 1:
+            self.size = (self.size[0]*factor, self.size[1]*factor)
 
         self.anim_counter = 0
         self.img_index = 0
@@ -27,7 +29,7 @@ class Image():
         files.sort()
         i = 0
         for img in files:
-            self.images.append(img_manager.load_with_size(img, (self.size[0]*self.factor,self.size[1]*self.factor)))
+            self.images.append(img_manager.load_with_size(img, (self.size[0],self.size[1])))
             i+=1
         self.img_number = i
     def loop(self,screen,screen_pos,new_size=1):
@@ -40,4 +42,6 @@ class Image():
                 self.img_index += 1
         else:
             self.anim_counter +=1
-        img_manager.show(self.images[self.img_index], screen, self.pos, angle=0, rot_func=None, factor=new_size)
+        
+        pos = self.pos
+        img_manager.show(self.images[self.img_index], screen, (pos[0]-screen_pos[0],pos[1]-screen_pos[1]), angle=0, rot_func=None, factor=new_size)

@@ -59,7 +59,7 @@ class Player(GameObject):
         (self.RIGHT, self.LEFT,self.UP,self.DOWN,self.ACTION) = get_keys()
                                 
         # set animation and velocity
-        if self.foot_num < 1:
+        if self.foot_num < 1 and self.jump:
             self.jumped = False
             if self.right_side:
                 self.anim.loop('jump_right')
@@ -91,7 +91,7 @@ class Player(GameObject):
             self.jump_step = 0
         if self.RIGHT and not self.LEFT:
             #animation
-            if ((not self.UP or self.already_jumped) and not self.jumped) and self.foot_num>=1:
+            if (((not self.UP or not self.jump) or self.already_jumped) and not self.jumped) and (self.foot_num>=1 or not self.jump):
                 self.anim.loop('move_right')
                 #move the player
             if self.move != -1:
@@ -101,7 +101,7 @@ class Player(GameObject):
             self.right_side = True
         if self.LEFT and not self.RIGHT:
                 #move the player
-            if (((not self.UP or not self.jump) or self.already_jumped) and not self.jumped) and self.foot_num>=1:
+            if (((not self.UP or not self.jump) or self.already_jumped) and not self.jumped) and (self.foot_num>=1 or not self.jump):
                 self.anim.loop('move_left')
             if self.move != 1:
                 self.physics.move(self,-1)
@@ -109,7 +109,7 @@ class Player(GameObject):
                 self.physics.move(self,0)
             self.right_side = False
         if not self.RIGHT and not self.UP and not self.LEFT:
-            if self.foot_num >= 1:
+            if self.foot_num >= 1 or not self.jump:
                 if self.right_side:
                     self.anim.loop('still_right')
                 else:
@@ -121,12 +121,15 @@ class Player(GameObject):
         # show the current img
         self.pos = (int(self.pos[0]), int(self.pos[1]))
         if(self.invulnerablitiy%2!= 1):
+            #TODO set position with factor
+            if new_size != 1:
+                self.update_physics(new_size)
             self.img_manager.show(self.anim.img, screen, (self.pos[0]-screen_pos[0],self.pos[1]-screen_pos[1]),factor=new_size)
         return self.pos
         
     def init_physics(self):
         self.body = self.physics.add_dynamic_object(self)
-        box = self.body.CreatePolygonFixture(box = (pixel2meter(self.box_size[0]), pixel2meter(self.box_size[1])), density=1,friction=0)
+        self.box = self.body.CreatePolygonFixture(box = (pixel2meter(self.box_size[0]), pixel2meter(self.box_size[1])), density=1,friction=0)
         self.body.fixedRotation = True
         self.body.angle = 0
         #add foot sensor
@@ -150,6 +153,31 @@ class Player(GameObject):
         
         self.contact_listener = ContactListener()
         self.physics.world.contactListener = self.contact_listener
+    def update_physics(self,factor):
+        self.body.DestroyFixture(self.box)
+        self.box = self.body.CreatePolygonFixture(box = (pixel2meter(self.box_size[0]*factor), pixel2meter(self.box_size[1]*factor)), density=1,friction=0)
+        self.body.fixedRotation = True
+        self.body.angle = 0
+        #add foot sensor
+        self.body.DestroyFixture(self.foot_sensor_fixture)
+        polygon_shape = b2PolygonShape()
+        polygon_shape.SetAsBox(pixel2meter(self.foot_sensor_size[0]), self.foot_sensor_size[1], b2Vec2(0,pixel2meter(-self.box_size[1])),0)
+        fixture_def = b2FixtureDef()
+        fixture_def.shape = polygon_shape
+        fixture_def.density = 1
+        fixture_def.isSensor = True
+        self.foot_sensor_fixture = self.body.CreateFixture(fixture_def)
+        self.foot_sensor_fixture.userData = 3
+        #add hitbox
+        self.body.DestroyFixture(self.hitbox_sensor_fixture)
+        polygon_shape = b2PolygonShape()
+        polygon_shape.SetAsBox(pixel2meter(self.box_size[0]),pixel2meter(self.box_size[1]))
+        fixture_def = b2FixtureDef()
+        fixture_def.shape = polygon_shape
+        fixture_def.density = 1
+        fixture_def.isSensor = True
+        self.hitbox_sensor_fixture = self.body.CreateFixture(fixture_def)
+        self.hitbox_sensor_fixture.userData = 4
     def touch_electricity(self,state):
         if(state):
             self.electricity = True

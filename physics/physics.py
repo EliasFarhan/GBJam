@@ -16,8 +16,11 @@ def set_ratio_pixel(new_ratio):
     ratio = new_ratio
 
 class Physics():
-    def init(self):
-        self.world=b2World(gravity=(0,gravity), doSleep=True)
+    def init(self,gravity_arg=None):
+        if(gravity_arg == None):
+            self.world=b2World(gravity=(0,gravity), doSleep=True)
+        else:
+            self.world=b2World(gravity=(0,gravity_arg), doSleep=True)
         self.static_objects = {}
         self.dynamic_objects = {}
         self.timeStep = 1.0 / framerate

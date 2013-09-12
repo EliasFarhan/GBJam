@@ -57,7 +57,7 @@ class ImageManager():
 			image = self.images[index]
 			image_rect_obj = image.get_rect()
 			if(factor != 1):
-				image = pygame.transform.scale(image,(image_rect_obj.w*factor,image_rect_obj.h*factor))
+				image = pygame.transform.scale(image,(int(image_rect_obj.w*factor),int(image_rect_obj.h*factor)))
 			image_rect_obj = image.get_rect()
 			image_rect_obj.center = (screen.get_rect().center[0]+pos[0], screen.get_rect().center[1]-pos[1])
 			if angle != 0 and rot_func != None:

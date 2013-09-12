@@ -15,22 +15,28 @@ class TheEnd(Scene):
         Scene.init(self)
         self.screen_size = get_screen_size()
         self.physics = Physics()
-        self.physics.init()
+        self.physics.init(gravity_arg=0)
         self.screen_pos = (0,0)
-        self.player = Player(self.screen_size, self.physics, move=-1,jump=0,factor=self.screen_size[1]/120)
-        self.objects = [
-                       Ground((-self.screen_size[0]*5,-self.screen_size[1]/2), (int(self.screen_size[0]*6/32),1), self.physics,factor=self.screen_size[1]/240),\
-                       Image('boy/', (self.screen_size[1]/2,0), (42,48), self.screen_size[1]/120)
-                       ]
+        self.factor = self.screen_size[1]/200
+        self.player = Player(self.screen_size, self.physics, move=-1,jump=0,factor=self.factor)
+
+    
+        nmb = 10
+        
+        self.boy = Image('boy/', (self.screen_size[0]/2,-self.screen_size[1]/2), (42,48), self.factor)
+        self.girl = Image('girl/',(self.screen_size[0]/2,-self.screen_size[1]/2),(42,48),self.factor)
+                       
     def loop(self, screen):
         Scene.loop(self, screen)
         screen.fill(pygame.Color(255, 255, 255))
         self.physics.loop()
-        for elem in self.objects:
-            elem.loop(screen,self.screen_pos)
         #modify such that the player is not in the center of the scene, but in the end
-        player_pos = self.player.loop(screen,self.screen_pos,new_size=1)
-        self.screen_pos = (player_pos[0]+self.screen_size[0]/2-self.player.size[0]/2,0)
+        zoom = self.screen_size[0]/(self.boy.pos[0]-self.player.pos[0])
+        boy_pos = (self.factor*self.boy.size[0]*zoom,-self.factor*self.boy.size[1]*zoom)
+        self.boy.loop(screen, (self.boy.size[0]/2*zoom,-self.boy.size[1]/2*zoom), new_size=zoom)
+        self.girl.loop(screen, (self.boy.size[0]*zoom+self.girl.size[0]/2*zoom,-self.boy.size[1]*zoom+self.girl.size[1]/2*zoom), new_size=zoom)
+        player_pos = self.player.loop(screen,self.screen_pos,new_size=zoom)
+        self.screen_pos = (player_pos[0]+self.screen_size[0]/2-self.player.box_size[0]*zoom,self.screen_size[1]/2-self.player.box_size[1]*zoom)
         if self.player.pos[1] < -400:
             self.death()
     def death(self):
