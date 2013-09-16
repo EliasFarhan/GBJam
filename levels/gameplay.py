@@ -22,7 +22,7 @@ class GamePlay(Scene):
         self.physics.init()
         self.player = Player(self.physics)
         self.objects = [\
-                        Ground((-100,-100),(120,1),self.physics),\
+                        Ground((-100,-100),(100,1),self.physics),\
                         Ground((300, 0), (60,1),self.physics),\
                         Ground((600, 100), (60,1),self.physics),\
                         Electricity((700, 200),self.physics),\
@@ -39,10 +39,12 @@ class GamePlay(Scene):
                         Electricity((900,200),self.physics,False,1),\
                         FireTube((100,-230+16),self.physics,length=2),\
                         FireTube((200,-230+16),self.physics,length=2,begin=0),\
-                        FireBall((400,-100), self.physics,speed=-4),\
+                        FireBall((400,-100), self.physics,speed=-10),\
                         Ground((-300,-230-3*32),(120,3),self.physics),\
                         Ground((-300,-200),(3,1),self.physics),\
                         Ground((-300,-200+32),(1,4),self.physics),\
+                        Ground((-300+32*120,-200+32),(1,4),self.physics),\
+                        Ground((-300+32*115,-200),(5,1),self.physics),\
                         ]
 
     def loop(self, screen):
