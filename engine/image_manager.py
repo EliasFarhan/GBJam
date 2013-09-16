@@ -34,6 +34,8 @@ class ImageManager():
 			self.img_name[name]
 		except KeyError:
 			self.images[self.index] = pygame.image.load(name)
+			self.images[self.index] = self.images[self.index].convert_alpha()
+			self.images[self.index] = self.images[self.index]
 			self.img_name[name] = self.index
 			self.index += 1
 			return self.index - 1
@@ -44,6 +46,7 @@ class ImageManager():
 			self.img_name[name]
 		except KeyError:
 			img = pygame.image.load(name)
+			img = img.convert_alpha()
 			self.images[self.index] = pygame.transform.scale(img, size)
 			self.img_name[name] = self.index
 			self.index += 1
