@@ -29,7 +29,7 @@ def loop(screen):
 		msg_rect_obj = msg_surface_obj.get_rect()
 		msg_rect_obj.topleft = (0, 0)
 		screen.blit(msg_surface_obj, msg_rect_obj)
-		pygame.display.update()
+	#	pygame.display.update()
 		pygame.display.flip()
 		fps_clock.tick(framerate)
 	pygame.quit()

@@ -1,5 +1,5 @@
 import pygame
-import PIL
+from PIL import Image
 from math import radians,cos,sin
 
 def rot_center(image, rect, angle):
@@ -34,7 +34,11 @@ class ImageManager():
 		try:
 			self.img_name[name]
 		except KeyError:
-			self.images[self.index] = pygame.image.load(name)
+			if pygame.image.get_extended():
+				self.images[self.index] = pygame.image.load(name)
+			else:
+				self.images[self.index] = Image.open(name)
+				self.images[self.index] = pygame.image.fromstring(self.images[self.index].tostring(), self.images[self.index].size, self.images[self.index].mode)
 			self.images[self.index] = self.images[self.index].convert_alpha() 
 			self.images[self.index] = self.images[self.index]
 			self.img_name[name] = self.index
@@ -46,12 +50,10 @@ class ImageManager():
 		try:
 			self.img_name[name]
 		except KeyError:
-			img = pygame.image.load(name)
-			img = img.convert_alpha()
-			self.images[self.index] = pygame.transform.scale(img, size)
-			self.img_name[name] = self.index
-			self.index += 1
-			return self.index - 1
+			index = self.load(name)
+			self.images[index] = pygame.transform.scale(self.images[index], size)
+			self.img_name[name] = index
+			return index
 		return self.img_name[name]
 	def load_big_image(self,name,size,nmb_block):
 		pass
