@@ -21,16 +21,18 @@ class Level1(GamePlay):
         self.physics = Physics()
         self.physics.init()
         self.player = Player(self.physics,move=1)
-        d1 = 2000
+        d1 = 4000
         d2 = 1000
-        self.checkpoints = [(d2,0),(d1,0)]
+        d3 = 2000
+        d4 = 3000
+        self.checkpoints = [(d2,0),(d1,0),(d3,0),(d4,0)]
         self.objects = [\
                         #first part
                         Ground((-100,-100),(10,1),self.physics),\
                         Electricity((290,-84),self.physics),\
                         Electricity((482,-84),self.physics),\
                         Electricity((674,-84),self.physics),\
-                        #first part
+                        #second part
                         Ground((d2-100,-100),(10,1),self.physics),\
                         Electricity((d2+290,-84),self.physics),\
                         Electricity((d2+400,-132),self.physics,vertical=True),\
@@ -38,6 +40,23 @@ class Level1(GamePlay):
                         Electricity((d2+600,-132),self.physics,vertical=True),\
                         Electricity((d2+482,-84),self.physics),\
                         Electricity((d2+674,-84),self.physics),\
+                        #third part
+                        Ground((d3-100,-100),(10,1),self.physics),\
+                        Electricity((d3+290,-84),self.physics),\
+                        Electricity((d3+482,-84),self.physics),\
+                        Electricity((d3+674,-84),self.physics),\
+                        Electricity((d3+500,0),self.physics,turning=1),\
+                        Electricity((d3+700,0),self.physics,turning=-1),\
+                        #fourth part
+                        Ground((d4-100,-100),(10,1),self.physics),\
+                        Electricity((d4+290,-84),self.physics),\
+                        Electricity((d4+482,-84),self.physics),\
+                        Electricity((d4+674,-84),self.physics),\
+                        Electricity((d4+500,0),self.physics,turning=1),\
+                        Electricity((d4+700,0),self.physics,turning=-2),\
+                        Electricity((d4+400,-132),self.physics,vertical=True),\
+                        Electricity((d4+700,-132),self.physics,vertical=True),\
+                        Electricity((d4+600,-132),self.physics,vertical=True),\
                         #difficult part
                         Ground((-100+d1,-100),(120,1),self.physics),\
                         Ground((300+d1,0),(10,1),self.physics),\

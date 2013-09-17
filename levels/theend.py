@@ -10,11 +10,13 @@ from game_object.ground import Ground
 from game_object.image import Image
 from physics.physics import Physics
 from engine.init import get_screen_size
+
 class TheEnd(Scene):
     def init(self):
         Scene.init(self)
-        pygame.mixer.music.load('data/music/Tenchi - Shriving Sorrow.mp3')
-        pygame.mixer.music.play(loops=-1)
+        pygame.mixer.init()
+        pygame.mixer.music.load('data/music/Tenchi - Shriving Sorrow.ogg')
+        pygame.mixer.music.play()
         self.screen_size = get_screen_size()
         self.physics = Physics()
         self.physics.init(gravity_arg=0)
@@ -29,6 +31,9 @@ class TheEnd(Scene):
         self.girl = Image('girl/',(self.screen_size[0]/2,-self.screen_size[1]/2),(42,48),self.factor)
                        
     def loop(self, screen):
+        #if(not pygame.mixer.music.get_busy()):
+        #    from engine.level_manager import switch
+        #    switch(0)
         Scene.loop(self, screen)
         screen.fill(pygame.Color(255, 255, 255))
         self.physics.loop()
