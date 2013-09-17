@@ -47,12 +47,13 @@ class GamePlay(Scene):
                         Ground((-300+32*115,-200),(5,1),self.physics),\
                         ]
         pygame.mixer.init()
-        pygame.mixer.music.load('data/music/Tenchi - Mushroom City.ogg')
-        pygame.mixer.music.play()
+        if(not pygame.mixer.music.get_busy()):
+            pygame.mixer.music.load('data/music/Tenchi - Mushroom City.ogg')
+            pygame.mixer.music.play()
     def loop(self, screen):
         #screen.fill(pygame.Color(255, 255, 255))
-        #if(not pygame.mixer.music.get_busy()):
-         #   pygame.mixer.music.play()
+        if(not pygame.mixer.music.get_busy()):
+            pygame.mixer.music.play()
         self.physics.loop()
         for elem in self.objects:
             elem.loop(screen,self.screen_pos)
