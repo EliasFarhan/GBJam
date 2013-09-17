@@ -13,4 +13,4 @@ framerate = 60
 animation_step = 6
 invulnerability = 60
 
-startup = "gameplay"
+startup = "level1"

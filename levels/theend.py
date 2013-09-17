@@ -31,9 +31,9 @@ class TheEnd(Scene):
         self.girl = Image('girl/',(self.screen_size[0]/2,-self.screen_size[1]/2),(42,48),self.factor)
                        
     def loop(self, screen):
-        #if(not pygame.mixer.music.get_busy()):
-        #    from engine.level_manager import switch
-        #    switch(0)
+        if(not pygame.mixer.music.get_busy()):
+            from engine.level_manager import switch
+            switch(0)
         Scene.loop(self, screen)
         screen.fill(pygame.Color(255, 255, 255))
         self.physics.loop()

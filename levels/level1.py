@@ -21,10 +21,11 @@ class Level1(GamePlay):
         self.physics = Physics()
         self.physics.init()
         self.player = Player(self.physics,move=1)
-        d1 = 4000
+        d1 = 5000
         d2 = 1000
         d3 = 2000
         d4 = 3000
+        d5 = 4000
         self.checkpoints = [(d2,0),(d1,0),(d3,0),(d4,0)]
         self.objects = [\
                         #first part
@@ -57,7 +58,13 @@ class Level1(GamePlay):
                         Electricity((d4+400,-132),self.physics,vertical=True),\
                         Electricity((d4+700,-132),self.physics,vertical=True),\
                         Electricity((d4+600,-132),self.physics,vertical=True),\
-                        #difficult part
+                        #fifth part
+                        Ground((d5-100,-100),(25,1),self.physics),\
+                        Ground((d5+300,0),(10,1),self.physics),\
+                        Ground((d5+300,32),(1,10),self.physics),\
+                        Electricity( (d5+400,-116), self.physics, vertical=False, turning=1),\
+                        Electricity( (d5+550,-116), self.physics, vertical=False, turning=-1),\
+                        #sixth part
                         Ground((-100+d1,-100),(120,1),self.physics),\
                         Ground((300+d1,0),(10,1),self.physics),\
                         Electricity((d1+316-32-128-32,16+32),self.physics),\
