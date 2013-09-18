@@ -26,7 +26,9 @@ class Level1(GamePlay):
         d3 = 2000
         d4 = 3000
         d5 = 4000
-        self.checkpoints = [(d2,0),(d1,0),(d3,0),(d4,0)]
+        d6 = 6500
+        d7 = 8000
+        self.checkpoints = [(d2,0),(d1,0),(d3,0),(d4,0),(d5,0),(d6,0),(d7,0)]
         self.objects = [\
                         #first part
                         Ground((-100,-100),(10,1),self.physics),\
@@ -65,15 +67,31 @@ class Level1(GamePlay):
                         Electricity( (d5+400,-116), self.physics, vertical=False, turning=1),\
                         Electricity( (d5+550,-116), self.physics, vertical=False, turning=-1),\
                         #sixth part
-                        Ground((-100+d1,-100),(120,1),self.physics),\
+                        Ground((-100+d1,-100),(40,1),self.physics),\
                         Ground((300+d1,0),(10,1),self.physics),\
                         Electricity((d1+316-32-128-32,16+32),self.physics),\
                         Electricity((d1+316,16),self.physics,vertical=True),\
+                        Electricity((d1+500,150+32+128),self.physics,vertical=True),\
                         Electricity( (d1+400,-116), self.physics, vertical=False, turning=1),\
                         Electricity( (d1+550,-116), self.physics, vertical=False, turning=-1),\
                         Electricity( (d1+700,-116), self.physics, vertical=False, turning=2),\
                         Electricity( (d1+850,-116), self.physics, vertical=False, turning=-2),\
                         Electricity( (d1+500,150), self.physics, vertical=False, turning=3),\
+                        #seventh part
+                        Ground((-100+d6,-100),(40,1),self.physics),\
+                        Ground((300+d6,0),(12,1),self.physics),\
+                        Electricity((d6+316-32-128-32,16+32),self.physics),\
+                        Electricity((d6+316,16),self.physics,vertical=True),\
+                        Electricity((d6+500,150+32+128),self.physics,vertical=True),\
+                        Ground((d6+300+12*32,0),(1,5),self.physics),\
+                        Electricity((d6+300+13*32+16,16+4*32),self.physics),\
+                        Electricity((d6+300+13*32+16-32-128/2,16+4*32+150),self.physics),\
+                        Electricity((d6+300+13*32+16+32+128/2,16+4*32+150),self.physics),\
+                        Electricity( (d6+400,-116), self.physics, vertical=False, turning=2),\
+                        Electricity( (d6+550,-116), self.physics, vertical=False, turning=-2),\
+                        Electricity( (d6+700,-116), self.physics, vertical=False, turning=2),\
+                        Electricity( (d6+850,-116), self.physics, vertical=False, turning=-2),\
+                        Electricity( (d6+500,150), self.physics, vertical=False, turning=4),\
                         ]
 
     def loop(self, screen):
