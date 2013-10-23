@@ -28,7 +28,7 @@ class Level1(GamePlay):
         d5 = 4000
         d6 = 6500
         d7 = 8000
-        self.checkpoints = [(d2,0),(d1,0),(d3,0),(d4,0),(d5,0),(d6,0),(d7,0)]
+        self.checkpoints = [(d2,0),(d1,0),(d3,0),(d4,0),(d5,0),(d6,-50),(d7,-50)]
         self.objects = [\
                         #first part
                         Ground((-100,-100),(10,1),self.physics),\
@@ -111,5 +111,5 @@ class Level1(GamePlay):
             if(point[0]<self.player.pos[0] and point[0]>new_point[0]):
                 new_point = point
         self.player.set_position(new_point)
-        self.player.life = 100
+        self.player.anim.life = 100
         

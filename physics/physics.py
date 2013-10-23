@@ -47,12 +47,17 @@ class Physics():
             pos = self.dynamic_objects[obj].position
             obj.pos = (meter2pixel(pos[0]), meter2pixel(pos[1]))
             #print obj, obj.pos
-    def move(self,obj,value):
+    def move(self,obj,vx=None,vy=None):
         dyn_obj = self.dynamic_objects[obj]
-        vel = dyn_obj.linearVelocity.x
-        vel_change = value * move - vel
-        force = dyn_obj.mass * vel_change / self.timeStep
-        dyn_obj.ApplyForce(b2Vec2(force,0),dyn_obj.worldCenter,True)
+        velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
+        fx,fy=0,0
+        if(vx != None):
+            velx = vx * move - velx
+            fx = dyn_obj.mass * velx / self.timeStep
+        if(vy != None):
+            vely = vy * move - vely
+            fy = dyn_obj.mass * vely / self.timeStep
+        dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,True)
 
     def jump(self,obj):
         dyn_obj = self.dynamic_objects[obj]
