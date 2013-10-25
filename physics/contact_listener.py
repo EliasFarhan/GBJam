@@ -42,3 +42,5 @@ class PlatformerContactListener(b2ContactListener):
         if((fixture_user_data == 4 and fixture_user_data2 == 6)\
            or (fixture_user_data == 6 and fixture_user_data2 == 4)):
             engine.level_manager.level.player.anim.touch_fire(False)
+class RPGContactListener(b2ContactListener):
+    pass

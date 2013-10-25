@@ -29,28 +29,24 @@ class Player(GameObject):
         self.anim.physics = physics
         self.anim.init_physics(self)
         self.anim.move = move
-        self.UP, self.RIGHT,self.LEFT,self.DOWN,self.ACTION = 0, 0, 0, 0, 0
-        
-        
-        
-        
-        
+
 
         self.font = pygame.font.Font('data/font/8-BITWONDER.ttf',25)
+    def set_animation(self,anim):
+        physics = self.anim.physics
+        self.anim = anim
+        self.anim.physics = physics
+        self.anim.load_images()
 
     def loop(self, screen,screen_pos,new_size=1):
-        #render life information
-        msg_surface_obj = self.font.render('Life '+str(self.anim.life), False, pygame.Color(255, 255, 255))
-        msg_rect_obj = msg_surface_obj.get_rect()
-        msg_rect_obj.topright = (screen.get_size()[0], 0)
-        screen.blit(msg_surface_obj, msg_rect_obj)
 
         self.anim.loop(self)
         
         # show the current img
         self.pos = (int(self.pos[0]), int(self.pos[1]))
-        if(self.anim.invulnerablitiy%2!= 1):
-            self.img_manager.show(self.anim.img, screen, (self.pos[0]-screen_pos[0],self.pos[1]-screen_pos[1]),factor=new_size)
+        new_screen_pos = self.pos
+        if(self.anim.invulnerability%2!= 1):
+            self.img_manager.show(self.anim.img, screen, (self.pos[0]-new_screen_pos[0],self.pos[1]-new_screen_pos[1]),factor=new_size)
         return self.pos
     
     def set_position(self,new_pos):

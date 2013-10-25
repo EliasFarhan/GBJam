@@ -18,4 +18,4 @@ if sys.platform == 'darwin':
 	animation_step = 3
 	invulnerability = 30
 
-startup = "level1"
+startup = "rpg"

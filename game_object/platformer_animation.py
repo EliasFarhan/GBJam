@@ -35,6 +35,7 @@ class PlatformerAnimation():
         self.already_jumped = False
         self.jumped = False
         self.jump_step = 0
+        self.UP, self.RIGHT,self.LEFT,self.DOWN,self.ACTION = 0, 0, 0, 0, 0
     def load_images(self):
         jump_path = 'data/sprites/hero/jump'
         move_path = 'data/sprites/hero/move'
