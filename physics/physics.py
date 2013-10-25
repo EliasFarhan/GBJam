@@ -27,12 +27,14 @@ class Physics():
         self.vel_iters, self.pos_iters = 10,10
         self.index = 1
     def add_static_object(self,obj):
-        static_body = self.world.CreateStaticBody(\
-                                position=(pixel2meter(obj.pos[0]), pixel2meter(obj.pos[1])),\
-                                shapes=b2PolygonShape(box = (pixel2meter(obj.size[0]/2.0), pixel2meter(obj.size[1]/2.0))),\
-                                                      )
-        self.static_objects[obj] = static_body
-        return static_body
+        if(obj.size[0] != 0 and obj.size[1]!= 0):
+            static_body = self.world.CreateStaticBody(\
+                                    position=(pixel2meter(obj.pos[0]), pixel2meter(obj.pos[1])),\
+                                    shapes=b2PolygonShape(box = (pixel2meter(obj.size[0]/2.0), pixel2meter(obj.size[1]/2.0))),\
+                                                          )
+            self.static_objects[obj] = static_body
+            return static_body
+        return None
     def add_dynamic_object(self,obj):
         dynamic_object = self.world.CreateDynamicBody(\
                                             position=(pixel2meter(obj.pos[0]), pixel2meter(obj.pos[1]))\

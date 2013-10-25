@@ -7,7 +7,7 @@ import pygame
 from engine.init import get_screen_size
 from engine.scene import Scene
 from engine.image_manager import img_manager
-
+from game_object.game_object import GameObject
 from game_object.player import Player
 from physics.physics import Physics
 from game_object.rpg_animation import RPGAnimation
@@ -23,6 +23,7 @@ class RPGamePlay(Scene):
         self.physics.init(0)
         self.player = Player(self.physics)
         self.player.set_animation(RPGAnimation(img_manager, self.player.size))
+        self.background = GameObject(self.physics,img_path='data/sprites/rpg_background/background.png',size=(3*480,3*320))
         self.anim_counter = 0
         pygame.mixer.init()
         if(not pygame.mixer.music.get_busy()):
@@ -33,6 +34,7 @@ class RPGamePlay(Scene):
         if(not pygame.mixer.music.get_busy()):
             pygame.mixer.music.play()
         self.physics.loop()
+        self.background.loop(screen,self.screen_pos)
         self.screen_pos = self.player.loop(screen,self.screen_pos)
         
   

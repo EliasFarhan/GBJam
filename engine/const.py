@@ -6,11 +6,11 @@ Created on 8 sept. 2013
 import sys
 #constant for physics and gameplay
 gravity = -20
-move = 10
+move = 2
 jump = 10 #8.5
 jump_step = 5
 framerate = 60
-animation_step = 6
+animation_step = 12
 invulnerability = 60
 if sys.platform == 'darwin':
 	jump_step = 4

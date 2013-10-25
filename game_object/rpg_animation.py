@@ -49,22 +49,22 @@ class RPGAnimation():
             if(horizontal == 1):
                 #move right
                 self.set_animation('right')
-                self.physics.move(player,vx=move)
+                self.physics.move(player,vx=move,vy=0)
             elif(horizontal == -1):
                 self.set_animation('left')
-                self.physics.move(player,vx=-move)
+                self.physics.move(player,vx=-move,vy=0)
             else:
-                self.physics.move(player,vx=0)
+                self.physics.move(player,vx=0,vy=0)
         else:
             #move vertically
             if(vertical == 1):
                 self.set_animation('down')
-                self.physics.move(player,vy=-move)
+                self.physics.move(player,vy=-move,vx=0)
             elif(vertical == -1):
                 self.set_animation('up')
-                self.physics.move(player,vy=move)
+                self.physics.move(player,vy=move,vx=0)
             else:
-                self.physics.move(player,vy=0)
+                self.physics.move(player,vx=0,vy=0)
         
     def set_animation(self,state):
         if(state == 'right'):
