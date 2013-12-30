@@ -29,7 +29,7 @@ class Player(GameObject):
         self.anim.physics = physics
         self.anim.init_physics(self)
         self.anim.move = move
-
+        self.invulnerability = 0
 
         self.font = pygame.font.Font('data/font/8-BITWONDER.ttf',25)
     def set_animation(self,anim):

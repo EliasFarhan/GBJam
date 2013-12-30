@@ -29,7 +29,7 @@ class PlatformerAnimation():
         self.physics = None
         self.move = 0
         self.foot_sensor_size = (15,0.1)
-        self.invulnerablitiy = 0
+        self.invulnerability = 0
         self.electricity,self.fire = False,False
         self.life = 100
         self.already_jumped = False
@@ -59,13 +59,13 @@ class PlatformerAnimation():
             self.still_img.append(self.img_manager.load_with_size(img, self.size))
         self.img = self.still_img[0]
     def loop(self,player):
-        if(self.invulnerablitiy > 0):
+        if(self.invulnerability > 0):
 
-            self.invulnerablitiy-=1
+            self.invulnerability-=1
         if(self.electricity or self.fire):
-            if(self.invulnerablitiy == 0):
+            if(self.invulnerability == 0):
                 self.life-=100
-                self.invulnerablitiy = invulnerability
+                self.invulnerability = invulnerability
         if(self.life <= 0):
             engine.level_manager.level.death()
         #check event
@@ -198,18 +198,18 @@ class PlatformerAnimation():
     def touch_electricity(self,state):
         if(state):
             self.electricity = True
-            if(self.invulnerablitiy <= 0):
+            if(self.invulnerability <= 0):
                 #remove life
-                self.invulnerablitiy = invulnerability
+                self.invulnerability = invulnerability
                 self.life -= 100
         else:
             self.electricity = False
     def touch_fire(self,state):
         if(state):
             self.fire = True
-            if(self.invulnerablitiy <= 0):
+            if(self.invulnerability <= 0):
                 #remove life
-                self.invulnerablitiy = invulnerability
+                self.invulnerability = invulnerability
                 self.life -=100
         else:
             self.fire = False
