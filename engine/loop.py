@@ -5,6 +5,7 @@ from engine.event import loop as event_loop
 from engine.event import init as event_init
 from engine.event import is_end
 from engine.const import framerate,startup
+from levels.logo_kwakwa import Kwakwa
 finish = False
 fps = None
 def loop(screen):
@@ -13,7 +14,7 @@ def loop(screen):
 	
 	
 	
-	level_manager.switch(startup)
+	level_manager.switch_level(Kwakwa())
 	
 	while not finish:
 		screen.fill(pygame.Color(0, 0, 0))

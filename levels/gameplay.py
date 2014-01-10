@@ -10,7 +10,7 @@ from game_object.ground import Ground
 from game_object.electricity import Electricity
 from game_object.fire import FireTube, FireBall
 from game_object.player import Player
-from physics.physics import Physics
+from physics.physics import init_physics
 
 
 
@@ -18,8 +18,8 @@ class GamePlay(Scene):
     def init(self):
         self.screen_size = get_screen_size()
         self.screen_pos = (0,0)
-        self.physics = Physics()
-        self.physics.init()
+
+        init_physics()
         self.player = Player(self.physics)
         self.objects = [\
                         Ground((-100,-100),(100,1),self.physics),\

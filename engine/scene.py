@@ -1,10 +1,10 @@
-from image_manager import img_manager
-from sound_manager import snd_manager
+from engine.image_manager import sanitize_img_manager
 class Scene():
 	def __init__(self):
-		self.img_manager = img_manager
-		self.sound_manager = snd_manager
+		pass
 	def init(self):
 		pass
 	def loop(self, screen):
 		pass
+	def exit(self,screen):
+		sanitize_img_manager()

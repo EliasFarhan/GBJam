@@ -3,10 +3,10 @@ Created on 8 sept. 2013
 
 @author: efarhan
 '''
-from game_object import GameObject
+from game_object.game_object import GameObject
 import pygame
-from Box2D import *
 from physics.physics import pixel2meter
+from engine.image_manager import load_image_with_size
 class Ground(GameObject):
     def __init__(self, bottomleft_pos, nmb_block,physics):
         # set size
@@ -22,7 +22,7 @@ class Ground(GameObject):
         self.init_physics()
     def load_images(self):
         #load block
-        self.img = self.img_manager.load_with_size('data/sprites/block/block1.png', self.block_size)
+        self.img = load_image_with_size('data/sprites/block/block1.png', self.block_size)
     def loop(self,screen,screen_pos,new_size=1):
         for i in range(self.nmb_block[0]):
             for j in range(self.nmb_block[1]):

@@ -6,8 +6,8 @@ Created on 11 sept. 2013
 import os
 from os import listdir
 from os.path import isfile,join
-from engine.image_manager import img_manager
 from engine.const import animation_step
+from engine.image_manager import load_image_with_size, show_image
 
 class Image():
     '''Used for The End'''
@@ -29,7 +29,7 @@ class Image():
         files.sort()
         i = 0
         for img in files:
-            self.images.append(img_manager.load_with_size(img, (self.size[0],self.size[1])))
+            self.images.append(load_image_with_size(img, (self.size[0],self.size[1])))
             i+=1
         self.img_number = i
     def loop(self,screen,screen_pos,new_size=1):
@@ -44,4 +44,4 @@ class Image():
             self.anim_counter +=1
         
         pos = self.pos
-        img_manager.show(self.images[self.img_index], screen, (pos[0]-screen_pos[0],pos[1]-screen_pos[1]), angle=0, rot_func=None, factor=new_size)
+        show_image(self.images[self.img_index], screen, (pos[0]-screen_pos[0],pos[1]-screen_pos[1]), angle=0, rot_func=None, factor=new_size)

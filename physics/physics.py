@@ -1,8 +1,9 @@
-from Box2D import *
+import pypybox2d as b2 
 
 import pygame
 import engine
 from engine.const import move, jump, framerate,jump_step,gravity
+from pypybox2d import world
 
 ratio = 64/1.5
 def pixel2meter(pixels):
@@ -14,72 +15,76 @@ def meter2pixel(meter):
 def set_ratio_pixel(new_ratio):
     global ratio
     ratio = new_ratio
-
-class Physics():
-    def init(self,gravity_arg=None):
-        if(gravity_arg == None):
-            self.world=b2World(gravity=(0,gravity), doSleep=True)
-        else:
-            self.world=b2World(gravity=(0,gravity_arg), doSleep=True)
-        self.static_objects = {}
-        self.dynamic_objects = {}
-        self.timeStep = 1.0 / framerate
-        self.vel_iters, self.pos_iters = 10,10
-        self.index = 1
-    def add_static_object(self,obj):
-        if(obj.size[0] != 0 and obj.size[1]!= 0):
-            static_body = self.world.CreateStaticBody(\
+static_objects = {}
+dynamic_objects = {}
+timeStep = 1.0 / framerate
+vel_iters, pos_iters = 10,10
+index = 1
+def init_physics(gravity_arg=None):
+    global world,static_objects,dynamic_objects
+    if(gravity_arg == None):
+        world= b2.World(gravity=(0,gravity))
+    else:
+        world=b2.World(gravity=(0,gravity_arg))
+    
+    
+    
+def add_static_object(obj):
+    global world,static_objects
+    if(obj.size[0] != 0 and obj.size[1]!= 0):
+        static_body = world.CreateStaticBody(\
                                     position=(pixel2meter(obj.pos[0]), pixel2meter(obj.pos[1])),\
-                                    shapes=b2PolygonShape(box = (pixel2meter(obj.size[0]/2.0), pixel2meter(obj.size[1]/2.0))),\
+                                    shapes=b2.Polygon(box = (pixel2meter(obj.size[0]/2.0), pixel2meter(obj.size[1]/2.0))),\
                                                           )
-            self.static_objects[obj] = static_body
-            return static_body
-        return None
-    def add_dynamic_object(self,obj):
-        dynamic_object = self.world.CreateDynamicBody(\
+        static_objects[obj] = static_body
+        return static_body
+    return None
+def add_dynamic_object(obj):
+    global world,dynamic_objects
+    dynamic_object = world.CreateDynamicBody(\
                                             position=(pixel2meter(obj.pos[0]), pixel2meter(obj.pos[1]))\
                                             )
             
-        self.dynamic_objects[obj] = dynamic_object
-        return dynamic_object
-    def loop(self):
-        self.world.Step(self.timeStep, self.vel_iters, self.pos_iters)
-        self.world.ClearForces()
-        for obj in self.dynamic_objects.iterkeys():
-            pos = self.dynamic_objects[obj].position
-            obj.pos = (meter2pixel(pos[0]), meter2pixel(pos[1]))
+    dynamic_objects[obj] = dynamic_object
+    return dynamic_object
+def update_physics():
+    world.Step(timeStep, vel_iters, pos_iters)
+    world.ClearForces()
+    for obj in dynamic_objects.iterkeys():
+        pos = dynamic_objects[obj].position
+        obj.pos = (meter2pixel(pos[0]), meter2pixel(pos[1]))
             #print obj, obj.pos
-    def move(self,obj,vx=None,vy=None):
-        dyn_obj = self.dynamic_objects[obj]
-        velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
-        fx,fy=0,0
-        if(vx != None):
-            velx = vx * move - velx
-            fx = dyn_obj.mass * velx / self.timeStep
-        if(vy != None):
-            vely = vy * move - vely
-            fy = dyn_obj.mass * vely / self.timeStep
-        dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,True)
+def move(obj,vx=None,vy=None):
+    dyn_obj = dynamic_objects[obj]
+    velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
+    fx,fy=0,0
+    if(vx != None):
+        velx = vx * move - velx
+        fx = dyn_obj.mass * velx / timeStep
+    if(vy != None):
+        vely = vy * move - vely
+        fy = dyn_obj.mass * vely / timeStep
+    dyn_obj.ApplyForce(b2.Vec2(fx,fy),dyn_obj.worldCenter,True)
 
-    def jump(self,obj):
-        dyn_obj = self.dynamic_objects[obj]
-        force = dyn_obj.mass * jump / self.timeStep
-        force /= float(jump_step)
-        dyn_obj.ApplyForce(b2Vec2(0,force),dyn_obj.worldCenter,True)
-    def add_static_box(self,pos,size):
-        static_body = self.world.CreateStaticBody(\
+def jump(obj):
+    dyn_obj = dynamic_objects[obj]
+    force = dyn_obj.mass * jump / timeStep
+    force /= float(jump_step)
+    dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
+def add_static_box(pos,size):
+    static_body = world.CreateStaticBody(\
                                 position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
-                                shapes=b2PolygonShape(\
+                                shapes=b2.Polygon(\
                                                       box = (pixel2meter(size[0]/2.0), pixel2meter(size[1]/2.0))),\
                                                       )
-        self.static_objects[self.index] = static_body
-        self.index+=1
-        return self.index - 1
-    def add_static_circle(self,pos,radius):
-        static_body = self.world.CreateStaticBody(\
+    static_objects[index] = static_body
+    index+=1
+    return index - 1
+def add_static_circle(pos,radius):
+    static_body = world.CreateStaticBody(\
                                 position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
-                                shapes=b2CircleShape(radius=pixel2meter(radius),)\
+                                shapes=b2.Circle(radius=pixel2meter(radius),)\
                                                      )
-        self.static_objects[self.index] = static_body
-        self.index+=1
-        return self.index - 1
+    static_objects[index] = static_body
+    index+=1
+    return index - 1

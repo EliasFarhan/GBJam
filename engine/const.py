@@ -4,6 +4,7 @@ Created on 8 sept. 2013
 @author: efarhan
 '''
 import sys
+
 #constant for physics and gameplay
 gravity = -20
 move = 2
@@ -19,3 +20,5 @@ if sys.platform == 'darwin':
 	invulnerability = 30
 
 startup = "gameplay"
+def log(text):
+	sys.stdout.write(text+"\n")

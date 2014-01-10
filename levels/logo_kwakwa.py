@@ -1,20 +1,25 @@
 from engine.scene import Scene
+from engine.init import get_screen_size
+from game_object.text import Text
 import pygame
+from engine.const import framerate
+from engine.sound_manager import snd_manager
+import math
+from engine.image_manager import load_image
 #font_obj, msg, sound_obj
 
 class Kwakwa(Scene):
 	def init(self):
-		self.font = pygame.font.Font("data/font/LittleSnorlax.ttf", 72)
-		self.msg = u'KwaKwa'
+		self.text = load_image('data/sprites/text/kwakwa.png')
+		self.count = 4*framerate
+		snd_manager.play_music("data/sound/pissed_off_duck.wav")
 		
-		pygame.mixer.music.load("data/sound/pissed_off_duck.wav")
-		pygame.mixer.music.play()
 	def loop(self, screen):
-		if pygame.mixer.music.get_busy():
-			msg_surface_obj = self.font.render(self.msg, False, pygame.Color(255, 255, 255))
-			msg_rect_obj = msg_surface_obj.get_rect()
-			msg_rect_obj.center = (screen.get_size()[0]/2, screen.get_size()[1]/2)
-			screen.blit(msg_surface_obj, msg_rect_obj)
-		else:
+		self.img_manager.clear_screen(255, 255, 255, screen)
+		self.img_manager.show(self.text, screen, (get_screen_size()[0]/2, get_screen_size()[1]/2))
+
+		
+			
+		if(not snd_manager.check_music_status()):
 			import engine.level_manager as level_manager
-			level_manager.switch("logo_pygame")
+			level_manager.switch_level(0)

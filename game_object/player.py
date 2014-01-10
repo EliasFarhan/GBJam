@@ -6,8 +6,8 @@ Created on 8 sept. 2013
 import pygame
 
 
-from game_object import GameObject
-from platformer_animation import PlatformerAnimation
+from game_object.game_object import GameObject
+from animation.platformer_animation import PlatformerAnimation
 
 from physics.physics import pixel2meter
 

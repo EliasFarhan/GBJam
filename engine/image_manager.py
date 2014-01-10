@@ -1,7 +1,61 @@
 import pygame
-from PIL import Image
 from math import radians,cos,sin
 
+
+images = {}
+index = 1
+img_name = {}
+permanent_indexes = []
+
+def sanitize_img_manager():
+	global images,permanent_indexes
+	for index in images.keys():
+		if index not in permanent_indexes:
+			images
+	
+def load_image(name,permanent=False):
+	global images,permanent_indexes
+	try:
+		img_name[name]
+	except KeyError:
+		images[index] = pygame.image.load(name)
+		images[index] = images[index].convert_alpha() 
+		images[index] = images[index]
+		img_name[name] = index
+		index += 1
+		if permanent:
+			permanent_indexes.append(index-1)
+		return index - 1
+	return img_name[name]
+	
+def load_image_with_size(name, size):
+	global img_name
+	try:
+		img_name[name]
+	except KeyError:
+		index = load_image(name)
+		images[index] = pygame.transform.scale(images[index], size)
+		img_name[name] = index
+		return index
+	return img_name[name]
+
+def show_image(index, screen, pos,angle=0,rot_func=None,factor=1):
+	if index == 0:
+		return
+	try:
+		image = images[index]
+		image_rect_obj = image.get_rect()
+		if(factor != 1):
+			image = pygame.transform.scale(image,(int(image_rect_obj.w*factor),int(image_rect_obj.h*factor)))
+		image_rect_obj = image.get_rect()
+		image_rect_obj.center = (screen.get_rect().center[0]+pos[0], screen.get_rect().center[1]-pos[1])
+		if angle != 0 and rot_func != None:
+			image,image_rect_obj = rot_func(image, image_rect_obj, angle)
+		if(image_rect_obj.colliderect(screen.get_rect())):
+			screen.blit(image, image_rect_obj)
+	except KeyError:
+		pass
+	
 def rot_center(image, rect, angle):
 	"""rotate an image while keeping its center and size"""
 	rot_image = pygame.transform.rotate(image, angle)
@@ -24,54 +78,3 @@ def rot_electricity(img, rect,angle):
 		new_topleft = (rect.topleft[0]+16*sin(radians(angle%360)),rect.topleft[1]-16*sin(radians(angle%360)))
 		new_rect = new_img.get_rect(topleft=new_topleft)
 	return new_img,new_rect
-class ImageManager():
-	def __init__(self):
-		self.images = {}
-		self.index = 1
-		self.img_name = {}
-	
-	def load(self, name):
-		try:
-			self.img_name[name]
-		except KeyError:
-			if pygame.image.get_extended():
-				self.images[self.index] = pygame.image.load(name)
-			else:
-				self.images[self.index] = Image.open(name)
-				self.images[self.index] = pygame.image.fromstring(self.images[self.index].tostring(), self.images[self.index].size, self.images[self.index].mode)
-			self.images[self.index] = self.images[self.index].convert_alpha() 
-			self.images[self.index] = self.images[self.index]
-			self.img_name[name] = self.index
-			self.index += 1
-			return self.index - 1
-		return self.img_name[name]
-	
-	def load_with_size(self, name, size):
-		try:
-			self.img_name[name]
-		except KeyError:
-			index = self.load(name)
-			self.images[index] = pygame.transform.scale(self.images[index], size)
-			self.img_name[name] = index
-			return index
-		return self.img_name[name]
-	def load_big_image(self,name,size,nmb_block):
-		pass
-	def show(self, index, screen, pos,angle=0,rot_func=None,factor=1):
-		if index == 0:
-			return
-		try:
-			image = self.images[index]
-			image_rect_obj = image.get_rect()
-			if(factor != 1):
-				image = pygame.transform.scale(image,(int(image_rect_obj.w*factor),int(image_rect_obj.h*factor)))
-			image_rect_obj = image.get_rect()
-			image_rect_obj.center = (screen.get_rect().center[0]+pos[0], screen.get_rect().center[1]-pos[1])
-			if angle != 0 and rot_func != None:
-				image,image_rect_obj = rot_func(image, image_rect_obj, angle)
-			if(image_rect_obj.colliderect(screen.get_rect())):
-				screen.blit(image, image_rect_obj)
-		except KeyError:
-			pass
-
-img_manager = ImageManager()

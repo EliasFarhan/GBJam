@@ -3,7 +3,7 @@ Created on 8 sept. 2013
 
 @author: efarhan
 '''
-from game_object import GameObject
+from game_object.game_object import GameObject
 from Box2D import *
 from physics.physics import pixel2meter,meter2pixel
 from engine.const import animation_step

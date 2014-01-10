@@ -3,13 +3,14 @@ Created on 8 sept. 2013
 
 @author: efarhan
 '''
-from game_object import GameObject
+from game_object.game_object import GameObject
 import pygame
 from Box2D import *
 from physics.physics import pixel2meter
 from engine.const import animation_step
 from engine.image_manager import rot_center,rot_electricity
 from math import radians
+
 
 class Electricity(GameObject):
     def __init__(self, pos_a, physics,vertical=False,turning=0):
