@@ -3,10 +3,10 @@ Created on 19 dec. 2013
 
 @author: efarhan
 '''
-import pygame
-from engine.image_manager import img_manager
+
 from engine.const import cuted_size
 from engine.init import get_screen_size
+from engine.image_manager import load_image
 class DividedImage():
     def __init__(self, path, pos):
         self.pos = pos
@@ -15,8 +15,8 @@ class DividedImage():
         self.load_images()
     def load_images(self):
         if self.path != None:
-            self.img_index = img_manager.load(self.path)
-            self.size = img_manager.images[self.img_index].get_size()
+            self.img_index = load_image(self.path)
+            self.size = images[self.img_index].get_size()
             self.divide_images(img_manager.images[self.img_index], self.imgs)
     def divide_images(self, img, container):
         self.cuted_size = cuted_size

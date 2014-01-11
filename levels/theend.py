@@ -32,8 +32,8 @@ class TheEnd(Scene):
                        
     def loop(self, screen):
         if(not pygame.mixer.music.get_busy()):
-            from engine.level_manager import switch
-            switch(0)
+            from engine.level_manager import switch_level
+            switch_level(0)
         Scene.loop(self, screen)
         screen.fill(pygame.Color(255, 255, 255))
         self.physics.loop()
