@@ -21,4 +21,4 @@ if sys.platform == 'darwin':
 
 startup = "gameplay"
 def log(text):
-	sys.stdout.write(text+"\n")
+	sys.stdout.write(str(text)+"\n")

@@ -6,7 +6,8 @@ images = {}
 index = 1
 img_name = {}
 permanent_indexes = []
-
+def clear_screen(r,g,b,screen):
+	screen.fill((r,g,b))
 def sanitize_img_manager():
 	global images,permanent_indexes
 	for index in images.keys():
@@ -14,7 +15,7 @@ def sanitize_img_manager():
 			images
 	
 def load_image(name,permanent=False):
-	global images,permanent_indexes
+	global images,permanent_indexes,index
 	try:
 		img_name[name]
 	except KeyError:
@@ -39,7 +40,7 @@ def load_image_with_size(name, size):
 		return index
 	return img_name[name]
 
-def show_image(index, screen, pos,angle=0,rot_func=None,factor=1):
+def show_image(index, screen, pos,angle=0,center=False,rot_func=None,factor=1):
 	if index == 0:
 		return
 	try:
@@ -48,7 +49,10 @@ def show_image(index, screen, pos,angle=0,rot_func=None,factor=1):
 		if(factor != 1):
 			image = pygame.transform.scale(image,(int(image_rect_obj.w*factor),int(image_rect_obj.h*factor)))
 		image_rect_obj = image.get_rect()
-		image_rect_obj.center = (screen.get_rect().center[0]+pos[0], screen.get_rect().center[1]-pos[1])
+		if center:
+			image_rect_obj.center = (screen.get_rect().center[0]+pos[0], screen.get_rect().center[1]-pos[1])
+		else:
+			image_rect_obj.center = (pos[0], pos[1])
 		if angle != 0 and rot_func != None:
 			image,image_rect_obj = rot_func(image, image_rect_obj, angle)
 		if(image_rect_obj.colliderect(screen.get_rect())):

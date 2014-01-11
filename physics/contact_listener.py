@@ -4,25 +4,16 @@ Created on Sep 9, 2013
 @author: efarhan
 '''
 import engine
-from Box2D import *
+import pypybox2d as b2
+from engine.event import add_physics_event, PhysicsEvent
 
-class PlatformerContactListener(b2ContactListener):
-    def BeginContact(self, contact):
-        fixture_user_data = contact.fixtureA.userData
-        fixture_user_data2 = contact.fixtureB.userData
-        # feet is touching something
-        if((fixture_user_data == 3 and fixture_user_data2 != 5)\
-           or (fixture_user_data2 == 3 and fixture_user_data != 5)):
+class KuduContactListener(b2.contact_manager.ContactManager):
+    def begin_contact(self, contact):
+        a = contact._fixture_a.user_data
+        b = contact._fixture_b.user_data
+        add_physics_event(PhysicsEvent(a,b,True))
             
-            engine.level_manager.level.player.anim.foot_num += 1
-          
-            
-    def EndContact(self, contact):
-        fixture_user_data = contact.fixtureA.userData
-        fixture_user_data2 = contact.fixtureB.userData
-        if((fixture_user_data == 3 and fixture_user_data2 != 5)\
-           or fixture_user_data2 == 3 and fixture_user_data != 5):
-            # feet is touching something
-            engine.level_manager.level.player.anim.foot_num -= 1
-class RPGContactListener(b2ContactListener):
-    pass
+    def end_contact(self, contact):
+        a = contact._fixture_a.user_data
+        b = contact._fixture_b.user_data
+        add_physics_event(PhysicsEvent(a,b,False))

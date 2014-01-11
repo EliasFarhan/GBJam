@@ -6,16 +6,30 @@ Created on 8 sept. 2013
 
 import pygame
 from pygame.locals import *
+from engine.const import log
+from engine.init import toogle_fullscreen
 
 UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY = 0,0,0,0,0,0,0
 joystick = 0
 index = 0
+physics_events = []
+
+def add_physics_event(event):
+    global physics_events
+    physics_events.append(event)
+
+class PhysicsEvent:
+    def __init__(self,a,b,begin):
+        self.a=a
+        self.b=b
+        self.begin=begin
+
 def init():
     global joystick
     if pygame.joystick.get_count() != 0:
         joystick = pygame.joystick.Joystick(0)
         joystick.init()
-def loop():
+def update_event():
     global joystick,index,UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY
     # check events (with joystick)
     for event in pygame.event.get(): 
@@ -67,6 +81,8 @@ def loop():
                 END = 1
             elif event.key == K_r:
                 RETRY = 1
+            elif event.key == K_f:
+                toogle_fullscreen()
         if event.type == KEYUP:
             if event.key == K_UP or event.key == K_w:
                 UP = 0
