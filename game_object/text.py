@@ -4,7 +4,7 @@ Created on 24 sept. 2013
 @author: efarhan
 '''
 import pygame
-from game_object.game_object import GameObject
+from .game_object import GameObject
 
 class Text(GameObject):
     def __init__(self,pos,text,size=72,alpha=255, alpha_increase=False, alpha_decrease=False):

@@ -4,7 +4,6 @@ Created on 8 sept. 2013
 @author: efarhan
 '''
 import sys
-
 #constant for physics and gameplay
 gravity = -20
 move = 2
