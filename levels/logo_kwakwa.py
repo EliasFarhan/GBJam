@@ -19,3 +19,6 @@ class Kwakwa(Scene):
 		if(not check_music_status()):
 			from engine.level_manager import switch_level
 			switch_level(Scene())
+
+
+			
