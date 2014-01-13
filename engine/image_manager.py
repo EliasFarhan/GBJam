@@ -6,8 +6,11 @@ images = {}
 index = 1
 img_name = {}
 permanent_indexes = []
-def clear_screen(r,g,b,screen):
-	screen.fill((r,g,b))
+def fill_surface(surface,r,g,b,a=255):
+	if(a==255):
+		surface.fill((r,g,b))
+	else:
+		surface.fill((r,g,b,a))
 def sanitize_img_manager():
 	global images,permanent_indexes
 	for index in images.keys():

@@ -6,6 +6,7 @@ from engine.const import move, jump, framerate,jump_step,gravity
 from pypybox2d import world
 
 ratio = 64/1.5
+
 def pixel2meter(pixels):
     global ratio
     return pixels/ratio
@@ -15,11 +16,13 @@ def meter2pixel(meter):
 def set_ratio_pixel(new_ratio):
     global ratio
     ratio = new_ratio
+    
 static_objects = {}
 dynamic_objects = {}
 timeStep = 1.0 / framerate
 vel_iters, pos_iters = 10,10
 index = 1
+
 def init_physics(gravity_arg=None):
     global world,static_objects,dynamic_objects
     if(gravity_arg == None):
@@ -39,6 +42,7 @@ def add_static_object(obj):
         static_objects[obj] = static_body
         return static_body
     return None
+
 def add_dynamic_object(obj):
     global world,dynamic_objects
     dynamic_object = world.CreateDynamicBody(\
@@ -47,6 +51,7 @@ def add_dynamic_object(obj):
             
     dynamic_objects[obj] = dynamic_object
     return dynamic_object
+
 def update_physics():
     world.Step(timeStep, vel_iters, pos_iters)
     world.ClearForces()
@@ -54,6 +59,7 @@ def update_physics():
         pos = dynamic_objects[obj].position
         obj.pos = (meter2pixel(pos[0]), meter2pixel(pos[1]))
             #print obj, obj.pos
+            
 def move(obj,vx=None,vy=None):
     dyn_obj = dynamic_objects[obj]
     velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
@@ -71,6 +77,7 @@ def jump(obj):
     force = dyn_obj.mass * jump / timeStep
     force /= float(jump_step)
     dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
+    
 def add_static_box(pos,size):
     static_body = world.CreateStaticBody(\
                                 position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
@@ -80,6 +87,7 @@ def add_static_box(pos,size):
     static_objects[index] = static_body
     index+=1
     return index - 1
+
 def add_static_circle(pos,radius):
     static_body = world.CreateStaticBody(\
                                 position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\

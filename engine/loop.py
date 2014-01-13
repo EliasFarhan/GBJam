@@ -32,7 +32,7 @@ def loop():
 	
 	level_manager.switch_level(Kwakwa())
 	console = Console(screen, (0,0,screen.get_size()[0],screen.get_size()[1]/3))
-	console.set_active(False)
+	console.set_active(True)
 	while not finish:
 		screen.fill(pygame.Color(0, 0, 0))
 		

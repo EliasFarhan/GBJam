@@ -14,4 +14,3 @@ def draw_line(screen,color,p1,p2,width):
 def draw_rect():
     pass
 
-

@@ -1,7 +1,7 @@
 from engine.scene import Scene
 from engine.init import get_screen_size
 from engine.const import framerate
-from engine.image_manager import clear_screen
+from engine.image_manager import fill_surface
 from game_object.image import Image
 from engine.sound_manager import play_music, check_music_status
 #font_obj, msg, sound_obj
@@ -14,7 +14,7 @@ class Kwakwa(Scene):
 		play_music("data/sound/pissed_off_duck.wav")
 		
 	def loop(self, screen):
-		clear_screen(255, 255, 255, screen)
+		fill_surface(screen,255, 255, 255)
 		self.text.loop(screen, (0,0))
 		if(not check_music_status()):
 			from engine.level_manager import switch_level
