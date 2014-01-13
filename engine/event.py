@@ -83,6 +83,12 @@ def update_event():
                 RETRY = 1
             elif event.key == K_f:
                 toogle_fullscreen()
+            elif event.key == K_TAB:
+                if pygame.key.get_mods() & KMOD_CTRL:
+                    from engine.loop import get_console
+                    console = get_console()
+                    console.set_active()
+                    console.preserve_events = False
         if event.type == KEYUP:
             if event.key == K_UP or event.key == K_w:
                 UP = 0

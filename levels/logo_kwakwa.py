@@ -4,7 +4,6 @@ from engine.const import framerate
 from engine.image_manager import clear_screen
 from game_object.image import Image
 from engine.sound_manager import play_music, check_music_status
-from levels import theend
 #font_obj, msg, sound_obj
 
 class Kwakwa(Scene):
@@ -18,5 +17,5 @@ class Kwakwa(Scene):
 		clear_screen(255, 255, 255, screen)
 		self.text.loop(screen, (0,0))
 		if(not check_music_status()):
-			import engine.level_manager as level_manager
-			level_manager.switch_level(theend.TheEnd())
+			from engine.level_manager import switch_level
+			switch_level(Scene())

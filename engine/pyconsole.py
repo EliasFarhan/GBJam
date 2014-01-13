@@ -41,8 +41,8 @@ PYCONSOLE = 1
 PYTHON = 3
 
 path = os.path.abspath(os.path.dirname(__file__))
-font_path = os.path.join(path, "fonts")
-img_path = os.path.join(path, "images")
+font_path = os.path.join(path, "data/fonts")
+img_path = os.path.join(path, "data/images")
 cfg_path = os.path.join(path, "pyconsole.cfg")
 
 
@@ -130,10 +130,7 @@ class Console:
 		self.txt_layer = pygame.Surface(self.size)
 		self.txt_layer.set_colorkey(self.bg_color)
 		
-		try:
-			self.font = pygame.font.Font(os.path.join(font_path,"default.ttf"), 14)
-		except IOError:
-			self.font = pygame.font.SysFont("monospace", 14)
+		self.font = pygame.font.SysFont("monospace", 14)
 		
 		self.font_height = self.font.get_linesize()
 		self.max_lines = (self.size[HEIGHT] / self.font_height) - 1
@@ -155,12 +152,6 @@ class Console:
 		self.func_calls = {}
 		self.key_calls = {}
 		
-		self.add_func_calls({"echo":self.output, "clear": self.clear, "help":self.help})
-		self.add_func_calls(functions)
-		
-		self.add_key_calls({"l":self.clear, "c":self.clear_input, "w":self.set_active})
-		self.add_key_calls(key_calls)
-		
 
 	##################
 	#-Initialization-#
@@ -171,19 +162,9 @@ class Console:
 		then new values will be loaded from the config file if it exists.
 		'''
 		self.init_default_cfg()
-		if os.path.exists(cfg_path):
-			file = open(cfg_path)
-			for line in file:
-				tokens = self.tokenize(line)
-				if re_is_comment.match(line):
-					continue
-				elif len(tokens) != 2:
-					continue
-				self.safe_set_attr(tokens[0],tokens[1])
-			file.close()
 	
 	def init_default_cfg(self):
-		self.bg_alpha = 255
+		self.bg_alpha = 200
 		self.bg_color = [0x0,0x0,0x0]
 		self.txt_color_i = [0xFF,0xFF,0xFF]
 		self.txt_color_o = [0xCC,0xCC,0xCC]
@@ -192,9 +173,9 @@ class Console:
 		self.ps3 = "... "
 		self.active = False
 		self.repeat_rate = [500,30]
-		self.python_mode = False
+		self.python_mode = True
 		self.preserve_events = False
-		self.motd = ["[PyConsole 0.5]"]
+		self.motd = ["[PyConsole 0.7]"]
 	
 	def safe_set_attr(self, name, value):
 		'''\
@@ -301,16 +282,10 @@ class Console:
 	# Functions to communicate with the console and the python interpreter#
 	def set_interpreter(self):
 		if self.python_mode:
-			self.output("Entering Python mode")
-			self.python_mode = True
 			self.python_interpreter = InteractiveConsole()
 			self.tmp_fds = []
 			self.py_fds = [Writable() for i in range(3)]
 			self.c_ps = self.ps2
-		else:
-			self.output("Entering Pyconsole mode")
-			self.python_mode = False
-			self.c_ps = self.ps1
 	
 	def catch_output(self):
 		if not self.tmp_fds:
@@ -334,10 +309,7 @@ class Console:
 		self.clear_input()
 		self.output(self.c_ps + text)
 		self.c_scroll = 0
-		if self.python_mode:
-			self.send_python(text)
-		else:
-			self.send_pyconsole(text)
+		self.send_python(text)
 		
 	def send_python(self, text):
 		'''\
@@ -357,75 +329,26 @@ class Console:
 		for i in self.py_fds[OUT]+self.py_fds[ERR]:
 			self.output(i)
 		self.release_output()
-	
-	def send_pyconsole(self, text):
-		'''\
-		Sends input to pyconsole to be interpreted
-		'''
-		if not text:	# Output a blank row if nothing is entered
-			self.output("")
-			return;
-		
-		self.add_to_history(text)
-		
-		#Determine if the statement is an assignment
-		assign = re_is_assign.match(text)
-		try:
-			#If it is tokenize only the "value" part of $name = value
-			if assign:
-				tokens = self.tokenize(assign.group('value'))
-			else:
-				tokens = self.tokenize(text)
-		except ParseError as e:
-			self.output(r'At Token: "%s"' % e.at_token())
-			return;
-		
-		if tokens == None:
-			return
-		
-		#Evaluate
-		try:
-			out = None
-			# A variable alone on a line
-			if (len(tokens) is 1) and re_is_var.match(text) and not assign:
-				out = tokens[0]
-			# Statement in the form $name = value	
-			elif (len(tokens) is 1) and assign:
-				self.setvar(assign.group('name'), tokens[0])
-			else:
-				# Function
-				out = self.func_calls[tokens[0]](*tokens[1:])
-				# Assignment from function's return value
-				if assign:
-					self.setvar(assign.group('name'), out)
-					
-			if not out == None:
-				self.output(out)
-		except (KeyError,TypeError):
-			self.output("Unknown Command: " + str(tokens[0]))
-			self.output(r'Type "help" for a list of commands.')
-			
-	
-	
 	####################################################
 	#-Functions for sharing variables with the console-#
 	def setvar(self, name, value):
 		'''\
 		Sets the value of a variable
 		'''
-		if self.user_vars.has_key(name) or not self.__dict__.has_key(name):
+		if self.user_vars.__contains__(name) or not self.__dict__.__contains__(name):
 			self.user_vars.update({name:value})
 			self.user_namespace.update(self.user_vars)
-		elif self.__dict__.has_key(name):
+		elif self.__dict__.__contains__(name):
 			self.__dict__.update({name:value})
 		
 	def getvar(self, name):
 		'''\
 		Gets the value of a variable, this is useful for people that want to access console variables from within their game
 		'''
-		if self.user_vars.has_key(name) or not self.__dict__.has_key(name):
+		
+		if self.user_vars.__contains__(name) or not self.__dict__.__contains__(name):
 			return self.user_vars[name]
-		elif self.__dict__.has_key(name):
+		elif self.__dict__.__contains__(name):
 			return self.__dict__[name]
 	
 	def setvars(self, vars):
@@ -495,7 +418,10 @@ class Console:
 				self.changed = True
 				## Special Character Manipulation
 				if event.key == K_TAB:
-					self.c_in = self.str_insert(self.c_in, "    ")
+					if pygame.key.get_mods() & KMOD_CTRL:
+						self.set_active()
+					else:
+						self.c_in = self.str_insert(self.c_in, "   ")
 				elif event.key == K_BACKSPACE:
 					if self.c_pos > 0:
 						self.c_in = self.c_in[:self.c_pos-1] + self.c_in[self.c_pos:]
@@ -562,85 +488,9 @@ class Console:
 			raise ParseError
 		except NameError as strerror:
 			self.output("NameError: " + str(strerror))
-		except:
-			self.output("Error:")
-			raise ParseError
+		except Exception as strerror:
+			self.output("Error:" + str(strerror))
 		else:
 			return tmp
 	
-	def tokenize(self, s):
-		'''\
-		Tokenize input line, convert tokens to proper types
-		'''
-		if re_is_comment.match(s):
-			return [s]
-		
-		for re in self.user_syntax:
-			group = re.match(s)
-			if group:
-				self.user_syntax[re](self, group)
-				return
-		
-		tokens = re_token.findall(s)
-		tokens = [i.strip("\"") for i in tokens]
-		cmd = []
-		i = 0
-		while i < len(tokens):
-			t_count = 0
-			val = tokens[i]
-			
-			if re_is_number.match(val):
-				cmd.append(self.convert_token(val))
-			elif re_is_var.match(val):
-		 		cmd.append(self.convert_token(val))
-			elif val == "True":
-				cmd.append(True)
-			elif val == "False":
-				cmd.append(False)
-			elif re_is_list.match(val):
-				while not balanced(val) and (i + t_count) < len(tokens)-1:
-					t_count += 1
-					val += tokens[i+t_count]
-				else:
-					if (i + t_count) < len(tokens):
-						cmd.append(self.convert_token(val))
-					else:
-						raise ParseError
-			else:
-				cmd.append(val)
-			i += t_count + 1
-		return cmd
 	
-
-	##########################
-	#-Some Builtin functions-#
-	def clear(self):
-		'''\
-		Clear the Screen
-		'''
-		self.c_out = ["[Screen Cleared]"]
-		self.c_scroll = 0
-	
-	def help(self, *args):
-		'''\
-		Output information about functions
-		Arguments:
-		   args -- arbitrary argument list of function names
-			 |- No Args - A list of available functions will be displayed
-			 |- One or more Args - Docstring of each function will be displayed
-		'''
-		if args:
-			items = [(i,self.func_calls[i]) for i in args if i  in self.func_calls]
-			for i,v in items:
-				out = i + ": Takes %d arguments. " % (v.func_code.co_argcount - (v.func_code.co_varnames[0] is "self"))
-				doc = v.func_doc
-				if doc:
-					out += textwrap.dedent(doc)
-				tmp_indent = self.txt_wrapper.subsequent_indent
-				self.txt_wrapper.subsequent_indent = " "*(len(i)+2)
-				self.output(out)
-				self.txt_wrapper.subsequent_indent = tmp_indent	
-		else:
-			out = "Available commands: " + str(self.func_calls.keys()).strip("[]")
-			self.output(out)
-			self.output(r'Type "help command-name" for more information on that command')
