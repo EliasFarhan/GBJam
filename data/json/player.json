@@ -2,7 +2,7 @@
 
 		
 	"pos": [400,400],
-	"size": [300,300],
+	"size": [64,64],
 	
 	"path": "data/sprites/hero/",
 	"path_list": ["jump/","move/","still/"],
@@ -10,7 +10,5 @@
 		"jump_left": [0,1],"jump_right": [1,2],
 		"move_left": [5,8],"move_right": [2,5],
 		"still_left": [9,10],"still_right": [8,9]
-			}
-
-	
+	}
 }

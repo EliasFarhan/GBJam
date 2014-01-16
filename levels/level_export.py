@@ -5,6 +5,7 @@ Created on 11 janv. 2014
 '''
 import json
 from game_object.player import Player
+from game_object.physic_object import AngleSquare
 
 def load_level(level):
     file = None
@@ -27,7 +28,19 @@ def load_level(level):
     '''
     
     level.player = Player(level_data['player'])
-    
+    for physic_object in level_data['physic_objects']:
+        if physic_object["type"] == "box":
+            pos = physic_object["pos"]
+            size = physic_object["size"]
+            sensor = physic_object["sensor"]
+            data = 0
+            try:
+                data = physic_object["user_data"]
+            except KeyError:
+                pass
+            
+            angle = physic_object["angle"]
+            level.physic_object.append(AngleSquare(pos, size, angle, data, sensor))
     
     file.close()
     return True

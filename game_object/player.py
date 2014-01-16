@@ -27,6 +27,7 @@ class Player(Image):
     def loop(self, screen, screen_pos):
         self.update_event()
         Image.loop(self, screen, screen_pos)
+        return self.pos
     def init_physics(self):
         pass
     def update_event(self):
