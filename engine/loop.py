@@ -4,7 +4,7 @@ import engine.level_manager as level_manager
 from engine.event import update_event
 from engine.event import init as event_init
 from engine.event import is_end
-from engine.const import framerate,startup
+from engine.const import framerate,startup, log
 from levels.logo_kwakwa import Kwakwa
 from engine.pyconsole import Console
 
@@ -27,12 +27,10 @@ def get_screen():
 def loop():
 	global finish,fps,screen,console
 	fps_clock = pygame.time.Clock()
-	
-	
+	console = Console(screen, (0,0,screen.get_size()[0],screen.get_size()[1]/3))
 	
 	level_manager.switch_level(Kwakwa())
-	console = Console(screen, (0,0,screen.get_size()[0],screen.get_size()[1]/3))
-	console.set_active(True)
+	
 	while not finish:
 		screen.fill(pygame.Color(0, 0, 0))
 		

@@ -5,6 +5,9 @@ Created on 8 sept. 2013
 '''
 import sys
 #constant for physics and gameplay
+
+cuted_size = (500,500)
+debug = True
 gravity = -20
 move = 2
 jump = 10 #8.5

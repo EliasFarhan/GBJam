@@ -17,6 +17,9 @@ def sanitize_img_manager():
 		if index not in permanent_indexes:
 			images
 	
+def get_image(index):
+	global images
+	return images[index]
 def load_image(name,permanent=False):
 	global images,permanent_indexes,index
 	try:

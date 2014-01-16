@@ -106,6 +106,9 @@ def update_event():
                 RETRY = 0        
         if event.type == QUIT:
                 END = 1
+                
+def get_editor_event():
+    pass
 def get_index():
     global index
     return index

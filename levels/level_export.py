@@ -5,10 +5,10 @@ Created on 11 janv. 2014
 '''
 import json
 
-def load_level(filename):
+def load_level(level):
     file = None
     try:
-        file = open(filename, mode='r')
+        file = open(level.filename, mode='r')
     except FileNotFoundError:
         return False
     level_data = None
@@ -24,10 +24,11 @@ def load_level(filename):
     -IA (if any)
     -Player position, size, etc... but not recreate the player!!!
     '''
-   
-   
+    
+    
+    
     file.close()
-
+    return True
 def save_level(level):
     file = open(level.filename,mode='w')
     

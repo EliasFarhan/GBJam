@@ -152,7 +152,7 @@ class Console:
 		self.func_calls = {}
 		self.key_calls = {}
 		
-
+		self.active = False
 	##################
 	#-Initialization-#
 	def load_cfg(self):
@@ -175,7 +175,7 @@ class Console:
 		self.repeat_rate = [500,30]
 		self.python_mode = True
 		self.preserve_events = False
-		self.motd = ["[PyConsole 0.7]"]
+		self.motd = ["[PyConsole 0.7 for Kudu]"]
 	
 	def safe_set_attr(self, name, value):
 		'''\

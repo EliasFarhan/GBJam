@@ -6,10 +6,10 @@ Created on 11 janv. 2014
 
 import json
 
-def load_player(filename):
+def load_player(player):
     file = None
     try:
-        file = open(filename, mode='r')
+        file = open(player.filename, mode='r')
     except FileNotFoundError:
         return False
     player_data = None
@@ -21,6 +21,10 @@ def load_player(filename):
     TODO: Create player instance
     
     '''
+    
+    player.anim.path = ""
+    player.anim.state_range = {}
+    player.anim.path_list = []
     
     file.close()
 def save_player(player):
