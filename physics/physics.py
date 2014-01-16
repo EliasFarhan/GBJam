@@ -4,6 +4,7 @@ import pygame
 import engine
 from engine.const import move, jump, framerate,jump_step,gravity
 from pypybox2d import world
+from physics.contact_listener import KuduContactListener
 
 ratio = 64/1.5
 
@@ -30,7 +31,7 @@ def init_physics(gravity_arg=None):
     else:
         world=b2.World(gravity=(0,gravity_arg))
     
-    
+    world.contact_manager = KuduContactListener()
     
 def add_static_object(obj):
     global world,static_objects
@@ -53,8 +54,8 @@ def add_dynamic_object(obj):
     return dynamic_object
 
 def update_physics():
-    world.Step(timeStep, vel_iters, pos_iters)
-    world.ClearForces()
+    world.ttep(timeStep, vel_iters, pos_iters)
+    world.clear_forces()
     for obj in dynamic_objects.iterkeys():
         pos = dynamic_objects[obj].position
         obj.pos = (meter2pixel(pos[0]), meter2pixel(pos[1]))
@@ -78,12 +79,16 @@ def jump(obj):
     force /= float(jump_step)
     dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
     
-def add_static_box(pos,size):
-    static_body = world.CreateStaticBody(\
-                                position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
-                                shapes=b2.Polygon(\
-                                                      box = (pixel2meter(size[0]/2.0), pixel2meter(size[1]/2.0))),\
-                                                      )
+def add_static_box(pos,size,angle=0,data=0,sensor=False):
+    global world,static_objects,index
+    static_body = b2.Body(world,(pixel2meter(pos[0]), pixel2meter(pos[1]))) 
+                                
+        
+    static_body.angle = angle
+    polygon_shape = b2.Polygon()
+        
+    polygon_shape.set_as_box(pixel2meter(size[0]/2.0), pixel2meter(size[1]/2.0))
+    fixture_def = b2.Fixture(polygon_shape, friction=0, density=1, sensor=sensor, user_data=data, body=static_body)
     static_objects[index] = static_body
     index+=1
     return index - 1
