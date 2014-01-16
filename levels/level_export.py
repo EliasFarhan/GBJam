@@ -4,6 +4,7 @@ Created on 11 janv. 2014
 @author: efarhan
 '''
 import json
+from game_object.player import Player
 
 def load_level(level):
     file = None
@@ -25,6 +26,7 @@ def load_level(level):
     -Player position, size, etc... but not recreate the player!!!
     '''
     
+    level.player = Player(level_data['player'])
     
     
     file.close()

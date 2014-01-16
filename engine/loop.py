@@ -7,6 +7,7 @@ from engine.event import is_end
 from engine.const import framerate,startup, log
 from levels.logo_kwakwa import Kwakwa
 from engine.pyconsole import Console
+from levels.gameplay import GamePlay
 
 finish = False
 fps = None
@@ -29,7 +30,7 @@ def loop():
 	fps_clock = pygame.time.Clock()
 	console = Console(screen, (0,0,screen.get_size()[0],screen.get_size()[1]/3))
 	
-	level_manager.switch_level(Kwakwa())
+	level_manager.switch_level(GamePlay('data/json/level.json'))
 	
 	while not finish:
 		screen.fill(pygame.Color(0, 0, 0))

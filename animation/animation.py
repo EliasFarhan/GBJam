@@ -6,7 +6,7 @@ Created on 11 dec. 2013
 import os
 from os import listdir
 from os.path import isfile, join
-from engine.image_manager import load_image
+from engine.image_manager import load_image, load_image_with_size
 from engine.const import animation_step
 class Animation():
     def __init__(self):
@@ -17,7 +17,7 @@ class Animation():
         self.state = ""
         self.anim_counter = 0
         self.anim_speed = animation_step
-    def load_images(self):
+    def load_images(self,size=None,permanent = False):
         self.img_indexes = []
         
         for p in self.path_list:
@@ -30,17 +30,21 @@ class Animation():
                 files = [ os.path.join(path, f) for f in listdir(path) if (isfile(join(path, f)) and f.find(".png") != -1) ]
             files.sort()
             for f in files:
-                self.img_indexes.append(load_image(f))
+                if size == None:
+                    self.img_indexes.append(load_image(f,permanent))
+                else:
+                    self.img_indexes.append(load_image_with_size(f, size, permanent))
             self.img = self.img_indexes[0]
         
     def update_animation(self,state="",invert=False):
-        self.state = state
+        if state != "":
+            self.state = state
         if(self.anim_counter == self.anim_speed):
             anim_index = []
             if self.state_range == {}:
                 anim_index = self.img_indexes
             else:
-                anim_index = self.img_indexes[self.state_range[state][0]:self.state_range[state][1]]
+                anim_index = self.img_indexes[self.state_range[self.state][0]:self.state_range[self.state][1]]
             try:
                 find_index = anim_index.index(self.img)
                 if not invert:

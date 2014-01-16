@@ -5,28 +5,31 @@ Created on 11 janv. 2014
 '''
 
 import json
+from engine.const import log
 
 def load_player(player):
     file = None
     try:
         file = open(player.filename, mode='r')
     except FileNotFoundError:
-        return False
+        return 2
     player_data = None
     try:
         player_data = json.loads(file.read())
     except ValueError: #No json object decoded
-        return False
+        return 3
     '''
     TODO: Create player instance
     
     '''
-    
-    player.anim.path = ""
-    player.anim.state_range = {}
-    player.anim.path_list = []
+    player.pos = (player_data['pos'][0],player_data['pos'][1])
+    player.size = (player_data['size'][0],player_data['size'][1])
+    player.anim.path = player_data['path']
+    player.anim.state_range = player_data['state_range']
+    player.anim.path_list = player_data['path_list']
     
     file.close()
+    return 1
 def save_player(player):
     pass
 
