@@ -46,7 +46,7 @@ class Animation():
                 anim_index = self.img_indexes
             else:
                 try:
-                    anim_index = self.img_indexes[self.state_range[state][0]:self.state_range[state][1]]
+                    anim_index = self.img_indexes[self.state_range[self.state][0]:self.state_range[self.state][1]]
                 except KeyError:
                     return
             try:
