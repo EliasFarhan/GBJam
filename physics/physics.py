@@ -2,7 +2,7 @@ import pypybox2d as b2
 
 import pygame
 import engine
-from engine.const import move, jump, framerate,jump_step,gravity
+from engine.const import move_speed, jump, framerate,jump_step,gravity, log
 from pypybox2d import world
 from physics.contact_listener import KuduContactListener
 
@@ -23,6 +23,7 @@ dynamic_objects = {}
 timeStep = 1.0 / framerate
 vel_iters, pos_iters = 10,10
 index = 1
+world = None
 
 def init_physics(gravity_arg=None):
     global world,static_objects,dynamic_objects
@@ -44,34 +45,32 @@ def add_static_object(obj,sensor=False,user_data=0):
         return static_body
     return None
 
-def add_dynamic_object(obj,sensor=False,user_data=0):
+def add_dynamic_object(obj):
     global world,dynamic_objects
-    dynamic_object = world.CreateDynamicBody(\
-                                            position=(pixel2meter(obj.pos[0]), pixel2meter(obj.pos[1]))\
-                                            )
+    position = (pixel2meter(obj.pos[0]),pixel2meter(obj.pos[1]))
+    dynamic_object = b2.Body(world, position, angle=0, fixed_rotation=True, type=b2.Body.DYNAMIC)
             
     dynamic_objects[obj] = dynamic_object
     return dynamic_object
 
 def update_physics():
-    world.ttep(timeStep, vel_iters, pos_iters)
+    global timeStep, vel_iters, pos_iters
+    world.step(timeStep, vel_iters, pos_iters)
     world.clear_forces()
-    for obj in dynamic_objects.iterkeys():
+    for obj in dynamic_objects.keys():
         pos = dynamic_objects[obj].position
         obj.pos = (meter2pixel(pos[0]), meter2pixel(pos[1]))
-            #print obj, obj.pos
-            
 def move(obj,vx=None,vy=None):
     dyn_obj = dynamic_objects[obj]
-    velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
+    velx,vely = dyn_obj.linear_velocity.x,dyn_obj.linear_velocity.y
     fx,fy=0,0
     if(vx != None):
-        velx = vx * move - velx
+        velx = vx * move_speed - velx
         fx = dyn_obj.mass * velx / timeStep
     if(vy != None):
-        vely = vy * move - vely
+        vely = vy * move_speed - vely
         fy = dyn_obj.mass * vely / timeStep
-    dyn_obj.ApplyForce(b2.Vec2(fx,fy),dyn_obj.worldCenter,True)
+    dyn_obj.apply_force(b2.Vec2(fx,fy),dyn_obj.world_center)
 
 def jump(obj):
     dyn_obj = dynamic_objects[obj]
@@ -79,19 +78,28 @@ def jump(obj):
     force /= float(jump_step)
     dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
     
-def add_static_box(pos,size,angle=0,data=0,sensor=False):
+def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
     global world,static_objects,index
-    static_body = b2.Body(world,(pixel2meter(pos[0]), pixel2meter(pos[1]))) 
-                                
+    static_body = body
+    if(static_body == None):
+        static_body = b2.Body(world,(pixel2meter(pos[0]), pixel2meter(pos[1]))) 
+        static_body._type = b2.Body.STATIC
         
     static_body.angle = angle
     polygon_shape = b2.Polygon()
-        
-    polygon_shape.set_as_box(pixel2meter(size[0]/2.0), pixel2meter(size[1]/2.0))
-    fixture_def = b2.Fixture(polygon_shape, friction=0, density=1, sensor=sensor, user_data=data, body=static_body)
-    static_objects[index] = static_body
-    index+=1
-    return index - 1
+    
+    center_pos = (0,0)
+    if body == None:
+        center_pos = (pixel2meter(pos[0]),pixel2meter(pos[1]))
+    polygon_shape.set_as_box(pixel2meter(size[0]/2.0), pixel2meter(size[1]/2.0),
+                             center=center_pos)
+    static_body.create_fixture(polygon_shape, friction=0, restitution=0, density=0, sensor=sensor, user_data=data)
+    
+    if body == None:
+        static_objects[index] = static_body
+        index+=1
+        return index - 1
+    
 
 def add_static_circle(pos,radius,sensor=False,user_data=0):
     static_body = world.CreateStaticBody(\

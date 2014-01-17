@@ -6,12 +6,13 @@ Created on 11 janv. 2014
 
 import json
 from engine.const import log
+from physics.physics import add_dynamic_object, add_static_box
 
 def load_player(player):
     file = None
     try:
         file = open(player.filename, mode='r')
-    except FileNotFoundError:
+    except IOError:
         return 2
     player_data = None
     try:
@@ -22,12 +23,22 @@ def load_player(player):
     TODO: Create player instance
     
     '''
-    player.pos = (player_data['pos'][0],player_data['pos'][1])
+    player.pos = (player_data['pos'][0][0],player_data['pos'][1][0])
+    player.screen_relative_pos = (player_data['pos'][0][1],player_data['pos'][1][1])
     player.size = (player_data['size'][0],player_data['size'][1])
     player.anim.path = player_data['path']
     player.anim.state_range = player_data['state_range']
     player.anim.path_list = player_data['path_list']
     
+    player.body = add_dynamic_object(player)
+    for physic_object in player_data['physic_objects']:
+        pos = physic_object['pos']
+        size = physic_object['size']
+        angle = physic_object['angle']
+        data = physic_object['user_data']
+        sensor = physic_object['sensor']
+        add_static_box(pos, size, angle, data, sensor, body=player.body)
+    log(player.body.fixtures)
     file.close()
     return 1
 def save_player(player):

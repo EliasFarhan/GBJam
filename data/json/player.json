@@ -1,5 +1,5 @@
 {
-	"pos": [400,400],
+	"pos": [[0,0.333],[0,0.5]],
 	"size": [64,64],
 	
 	"path": "data/sprites/hero/",
@@ -9,7 +9,22 @@
 		"move_left": [5,8],"move_right": [2,5],
 		"still_left": [9,10],"still_right": [8,9]
 	},
-	"physic_object": {
-		"type": "box"
+	"physic_objects": [ 	
+	{
+		"type": "box",
+		"pos": [0,0],
+		"size": [32,32],
+		"sensor": false,
+		"user_data": 1,
+		"angle": 0
+	},
+	{
+		"type": "box",
+		"pos": [0,-32],
+		"size": [32,1],
+		"sensor": true,
+		"user_data": 2,
+		"angle": 0
 	}
+	]
 }

@@ -8,8 +8,8 @@ import sys
 
 cuted_size = (500,500)
 debug = True
-gravity = -20
-move = 2
+gravity = 20
+move_speed = 2
 jump = 10 #8.5
 jump_step = 5
 framerate = 60

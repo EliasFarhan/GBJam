@@ -18,9 +18,11 @@ def get_screen_size():
 def toogle_fullscreen():
 	from engine.loop import get_screen,set_screen
 	screen = get_screen()
+	size = screen.get_size()
 	flags = 0
 	if screen.get_flags() == 0:
 		flags = pygame.FULLSCREEN
-	
-	set_screen(pygame.display.set_mode(get_screen().get_size(),flags))
+		screen_info = pygame.display.Info()
+		size = (screen_info.current_w, screen_info.current_h)
+	set_screen(pygame.display.set_mode(size,flags))
 	

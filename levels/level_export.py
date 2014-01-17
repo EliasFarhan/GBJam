@@ -12,7 +12,7 @@ def load_level(level):
     file = None
     try:
         file = open(level.filename, mode='r')
-    except FileNotFoundError:
+    except IOError:
         return False
     level_data = None
     try:

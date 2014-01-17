@@ -56,9 +56,9 @@ def show_image(index, screen, pos,angle=0,center=False,rot_func=None,factor=1):
 			image = pygame.transform.scale(image,(int(image_rect_obj.w*factor),int(image_rect_obj.h*factor)))
 		image_rect_obj = image.get_rect()
 		if center:
-			image_rect_obj.center = (screen.get_rect().center[0]+pos[0], screen.get_rect().center[1]-pos[1])
+			image_rect_obj.center = (screen.get_rect().center[0]+int(pos[0]), screen.get_rect().center[1]-int(pos[1]))
 		else:
-			image_rect_obj.center = (pos[0], pos[1])
+			image_rect_obj.center = (int(pos[0]), int(pos[1]))
 		if angle != 0 and rot_func != None:
 			image,image_rect_obj = rot_func(image, image_rect_obj, angle)
 		if(image_rect_obj.colliderect(screen.get_rect())):
