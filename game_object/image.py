@@ -13,8 +13,10 @@ from animation.animation import Animation
 class Image():
     '''Can be animated if a directory is given'''
     def __init__(self,path,pos):
-        self.pos = pos
         self.anim = Animation()
+        self.init_image(path,pos)
+    def init_image(self,path,pos):
+        self.pos = pos
         self.anim.path_list = [path]
         self.anim.load_images()
 

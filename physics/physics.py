@@ -3,7 +3,6 @@ import pypybox2d as b2
 import pygame
 import engine
 from engine.const import move, jump, framerate,jump_step,gravity
-from pypybox2d import world
 
 ratio = 64/1.5
 
@@ -32,7 +31,7 @@ def init_physics(gravity_arg=None):
     
     
     
-def add_static_object(obj):
+def add_static_object(obj,sensor=False,user_data=0):
     global world,static_objects
     if(obj.size[0] != 0 and obj.size[1]!= 0):
         static_body = world.CreateStaticBody(\
@@ -43,7 +42,7 @@ def add_static_object(obj):
         return static_body
     return None
 
-def add_dynamic_object(obj):
+def add_dynamic_object(obj,sensor=False,user_data=0):
     global world,dynamic_objects
     dynamic_object = world.CreateDynamicBody(\
                                             position=(pixel2meter(obj.pos[0]), pixel2meter(obj.pos[1]))\
@@ -78,7 +77,7 @@ def jump(obj):
     force /= float(jump_step)
     dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
     
-def add_static_box(pos,size):
+def add_static_box(pos,size,sensor=False,user_data=0):
     static_body = world.CreateStaticBody(\
                                 position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
                                 shapes=b2.Polygon(\
@@ -88,7 +87,7 @@ def add_static_box(pos,size):
     index+=1
     return index - 1
 
-def add_static_circle(pos,radius):
+def add_static_circle(pos,radius,sensor=False,user_data=0):
     static_body = world.CreateStaticBody(\
                                 position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
                                 shapes=b2.Circle(radius=pixel2meter(radius),)\
@@ -96,3 +95,4 @@ def add_static_circle(pos,radius):
     static_objects[index] = static_body
     index+=1
     return index - 1
+

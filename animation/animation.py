@@ -8,6 +8,7 @@ from os import listdir
 from os.path import isfile, join
 from engine.image_manager import load_image
 from engine.const import animation_step
+
 class Animation():
     def __init__(self):
         self.img = 0
@@ -40,7 +41,10 @@ class Animation():
             if self.state_range == {}:
                 anim_index = self.img_indexes
             else:
-                anim_index = self.img_indexes[self.state_range[state][0]:self.state_range[state][1]]
+                try:
+                    anim_index = self.img_indexes[self.state_range[state][0]:self.state_range[state][1]]
+                except KeyError:
+                    return
             try:
                 find_index = anim_index.index(self.img)
                 if not invert:
