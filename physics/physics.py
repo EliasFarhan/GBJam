@@ -19,7 +19,6 @@ def set_ratio_pixel(new_ratio):
     ratio = new_ratio
     
 static_objects = {}
-dynamic_objects = {}
 timeStep = 1.0 / framerate
 vel_iters, pos_iters = 10,10
 index = 1
@@ -28,7 +27,7 @@ world = None
 def init_physics(gravity_arg=None):
     global world,static_objects,dynamic_objects
     if(gravity_arg == None):
-        world= b2.World(gravity=(0,gravity))
+        world=b2.World(gravity=(0,gravity))
     else:
         world=b2.World(gravity=(0,gravity_arg))
     
@@ -45,23 +44,21 @@ def add_static_object(obj,sensor=False,user_data=0):
         return static_body
     return None
 
-def add_dynamic_object(obj):
-    global world,dynamic_objects
-    position = (pixel2meter(obj.pos[0]),pixel2meter(obj.pos[1]))
-    dynamic_object = b2.Body(world, position, angle=0, fixed_rotation=True, type=b2.Body.DYNAMIC)
-            
-    dynamic_objects[obj] = dynamic_object
+def add_dynamic_object(obj,pos):
+    global world
+    position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
+    dynamic_object = world.create_dynamic_body(position=position)
+    dynamic_object.angle = 0
+    dynamic_object.fixed_rotation = True
     return dynamic_object
 
 def update_physics():
     global timeStep, vel_iters, pos_iters
     world.step(timeStep, vel_iters, pos_iters)
     world.clear_forces()
-    for obj in dynamic_objects.keys():
-        pos = dynamic_objects[obj].position
-        obj.pos = (meter2pixel(pos[0]), meter2pixel(pos[1]))
-def move(obj,vx=None,vy=None):
-    dyn_obj = dynamic_objects[obj]
+    
+def move(body,vx=None,vy=None):
+    dyn_obj = body
     velx,vely = dyn_obj.linear_velocity.x,dyn_obj.linear_velocity.y
     fx,fy=0,0
     if(vx != None):
@@ -82,8 +79,8 @@ def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
     global world,static_objects,index
     static_body = body
     if(static_body == None):
-        static_body = b2.Body(world,(pixel2meter(pos[0]), pixel2meter(pos[1]))) 
-        static_body._type = b2.Body.STATIC
+        static_body = world.create_static_body(position=(pixel2meter(pos[0]), pixel2meter(pos[1])))
+        
         
     static_body.angle = angle
     polygon_shape = b2.Polygon()
@@ -93,9 +90,9 @@ def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
         center_pos = (pixel2meter(pos[0]),pixel2meter(pos[1]))
     polygon_shape.set_as_box(pixel2meter(size[0]/2.0), pixel2meter(size[1]/2.0),
                              center=center_pos)
-    static_body.create_fixture(polygon_shape, friction=0, restitution=0, density=0, sensor=sensor, user_data=data)
-    
+    fixture_def = static_body.create_fixture(polygon_shape, sensor=sensor, user_data=data)
     if body == None:
+        log(static_body)
         static_objects[index] = static_body
         index+=1
         return index - 1

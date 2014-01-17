@@ -9,6 +9,8 @@ from engine.event import get_keys
 from animation.animation import Animation
 from engine.const import log
 from physics.physics import meter2pixel, move
+from game_object import physic_object
+from engine.init import get_screen_size
 
 class Player(Image):
     def __init__(self, path, pos=(0,0),layer = 1):
@@ -26,12 +28,9 @@ class Player(Image):
             return
         self.anim.load_images(self.size)
 
-
-        
     def loop(self, screen, screen_pos):
         self.update_event()
         Image.loop(self, screen, screen_pos)
-        
         return self.pos
 
     def update_event(self):
@@ -43,9 +42,17 @@ class Player(Image):
         
         if horizontal == -1:
             self.anim.state = 'move_left'
-            move(self, 1)
+            move(self.body, 1)
         elif horizontal == 1:
             self.anim.state = 'move_right'
-            move(self, -1)
+            move(self.body, -1)
         else:
             self.anim.state = 'still_right'
+            move(self.body, 0)
+        
+        physic_pos = (meter2pixel(self.body.position[0]),meter2pixel(self.body.position[1]))
+        log(physic_pos)
+        pos = (physic_pos[0]-self.screen_relative_pos[0]*get_screen_size()[0],
+               physic_pos[1]-self.screen_relative_pos[1]*get_screen_size()[1])
+        self.pos = pos
+        

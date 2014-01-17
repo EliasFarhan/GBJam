@@ -4,11 +4,11 @@
 	"physic_objects" : [	
 		{
 			"type": "box",
-			"pos": [0,500],
-			"size": [1000,20],
+			"pos": [250,700],
+			"size": [1000,100],
 			"sensor": false,
 			"user_data": 0,
-			"angle": 0.5
+			"angle": 0
 		}
 	]
 }

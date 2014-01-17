@@ -8,6 +8,9 @@ import pypybox2d as b2
 from engine.event import add_physics_event, PhysicsEvent
 
 class KuduContactListener(b2.contact_manager.ContactManager):
+    
+    
+    
     def begin_contact(self, contact):
         a = contact._fixture_a.user_data
         b = contact._fixture_b.user_data

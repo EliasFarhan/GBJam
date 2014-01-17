@@ -7,7 +7,7 @@ import pygame
 import math
 from engine.image_manager import rot_center
 from physics.physics import pixel2meter, add_static_box
-from engine.const import debug
+from engine.const import debug,log
 
 class AngleSquare():
     def __init__(self,pos,size,angle=0,data=0,sensor=False):
@@ -27,7 +27,12 @@ class AngleSquare():
     def init_physics(self):
         self.rad_angle = math.radians(self.angle)
         center_pos = self.rect.center
-        self.index = add_static_box(center_pos,self.size,angle=-self.rad_angle,data=self.data,sensor=self.sensor)
+        log(str(self.pos)+" "+str(center_pos)+" "+str(self.size))
+        self.index = add_static_box(center_pos,
+                        (self.size[0]/2,self.size[1]/2),
+                        angle=-self.rad_angle,
+                        data=self.data,
+                        sensor=self.sensor)
     def loop(self,screen,screen_pos):
         if debug:
             rot_image, rot_rect = rot_center(self.surface, self.rect, self.angle)

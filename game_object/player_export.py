@@ -7,6 +7,7 @@ Created on 11 janv. 2014
 import json
 from engine.const import log
 from physics.physics import add_dynamic_object, add_static_box
+from engine.init import get_screen_size
 
 def load_player(player):
     file = None
@@ -30,7 +31,10 @@ def load_player(player):
     player.anim.state_range = player_data['state_range']
     player.anim.path_list = player_data['path_list']
     
-    player.body = add_dynamic_object(player)
+    
+    physics_pos = (player.pos[0]+player.screen_relative_pos[0]*get_screen_size()[0],
+                   player.pos[1]+player.screen_relative_pos[1]*get_screen_size()[1])
+    player.body = add_dynamic_object(player,physics_pos)
     for physic_object in player_data['physic_objects']:
         pos = physic_object['pos']
         size = physic_object['size']
@@ -38,7 +42,7 @@ def load_player(player):
         data = physic_object['user_data']
         sensor = physic_object['sensor']
         add_static_box(pos, size, angle, data, sensor, body=player.body)
-    log(player.body.fixtures)
+    log(player.body.position)
     file.close()
     return 1
 def save_player(player):

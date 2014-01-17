@@ -21,7 +21,7 @@ def load_level(level):
         log(e)
         return False
     ''' 
-    TODO: Import a level with:
+    Import a level with:
     
     -Physics static object
     -Images with or without animation
