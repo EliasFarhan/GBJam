@@ -4,34 +4,43 @@ Created on 8 sept. 2013
 @author: efarhan
 '''
 from game_object.image import Image
-from engine.json_export import json_player_import, json_player_export
+from game_object.player_export import load_player
+from engine.event import get_keys
+from animation.animation import Animation
+from engine.const import log
 
 class Player(Image):
-    def __init__(self, json_path):
-        '''Parse json file'''
-        self.json_path = json_path
-        json_player_import(self)
+    def __init__(self, path, pos=(0,0),layer = 1):
+        self.layer = layer
+        self.filename = path
+        self.anim = Animation()
+        self.size = None
+        self.pos = pos
+        log('Loading player file '+self.filename)
+        status = load_player(self)
+        if status != 1:
+            log("Error while loading player "+str(status))
+            return
+        self.anim.load_images(self.size)
+
+
         
     def loop(self, screen, screen_pos):
         self.update_event()
         Image.loop(self, screen, screen_pos)
-    
-    def init_physics(self):
-        '''Used during json parsing
-        '''
-        pass
+        return self.pos
+
     def update_event(self):
-        '''Taking events from event.py:
-        -Physics events
-        -Input events
-        -Others events
+
+        RIGHT,LEFT,UP,DOWN,ACTION = get_keys()
         
-        And transform player attributes:
-        -Animation state 
-        -Position
-        -Size'''
-        pass
-    def save(self):
-        '''Save the player into the JSON file'''
-        json_player_export(self)
+        horizontal = RIGHT-LEFT
+        vertical = UP-DOWN
+        
+        if horizontal == -1:
+            self.anim.state = 'move_left'
+        elif horizontal == 1:
+            self.anim.state = 'move_right'
+        else:
+            self.anim.state = 'still_right'
     

@@ -1,0 +1,14 @@
+{
+	"player": "data/json/player.json",
+	"background_color" : [0,0,0],
+	"physic_objects" : [	
+		{
+			"type": "box",
+			"pos": [0,500],
+			"size": [1000,20],
+			"sensor": false,
+			"user_data": 0,
+			"angle": 0.5
+		}
+	]
+}

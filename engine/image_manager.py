@@ -17,6 +17,9 @@ def sanitize_img_manager():
 		if index not in permanent_indexes:
 			images
 	
+def get_image(index):
+	global images
+	return images[index]
 def load_image(name,permanent=False):
 	global images,permanent_indexes,index
 	try:
@@ -32,12 +35,12 @@ def load_image(name,permanent=False):
 		return index - 1
 	return img_name[name]
 	
-def load_image_with_size(name, size):
+def load_image_with_size(name, size,permanent=False):
 	global img_name
 	try:
 		img_name[name]
 	except KeyError:
-		index = load_image(name)
+		index = load_image(name,permanent)
 		images[index] = pygame.transform.scale(images[index], size)
 		img_name[name] = index
 		return index

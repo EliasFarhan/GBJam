@@ -6,7 +6,8 @@ Created on 19 dec. 2013
 
 from engine.const import cuted_size
 from engine.init import get_screen_size
-from engine.image_manager import load_image
+from engine.image_manager import load_image, get_image
+import pygame
 class DividedImage():
     def __init__(self, path, pos):
         self.pos = pos
@@ -16,8 +17,8 @@ class DividedImage():
     def load_images(self):
         if self.path != None:
             self.img_index = load_image(self.path)
-            self.size = images[self.img_index].get_size()
-            self.divide_images(img_manager.images[self.img_index], self.imgs)
+            self.size = get_image(self.img_index).get_size()
+            self.divide_images(get_image(self.img_index), self.imgs)
     def divide_images(self, img, container):
         self.cuted_size = cuted_size
         nmb_img = (img.get_size()[0]/self.cuted_size[0],img.get_size()[1]/self.cuted_size[1])

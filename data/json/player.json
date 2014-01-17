@@ -1,23 +1,15 @@
 {
-	"_comment": [ 
-		"Player contains for images:",
-		"pos",
-		"size",
-		"path_list",
-		"state_range for each animation",
-		"physics boxes",
-		
-	"pos":[0,0]
-	"size":[300,300]
+	"pos": [400,400],
+	"size": [64,64],
 	
-	"path":"data/sprites/hero/"
-	"path_list":["jump/","move/","still/"]
-	"state_range":{
-		"jump_left":[0,1],"jump_right":[1,2],
-		"move_left":[2,5],"move_right":[5,8],
-		"still_left":[8,9],"still_right":[9,10]
-			}
-	 
-	
-
+	"path": "data/sprites/hero/",
+	"path_list": ["jump/","move/","still/"],
+	"state_range": {
+		"jump_left": [0,1],"jump_right": [1,2],
+		"move_left": [5,8],"move_right": [2,5],
+		"still_left": [9,10],"still_right": [8,9]
+	},
+	"physic_object": {
+		"type": "box"
+	}
 }
