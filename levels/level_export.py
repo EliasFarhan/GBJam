@@ -35,14 +35,22 @@ def load_level(level):
         if physic_object["type"] == "box":
             pos = physic_object["pos"]
             size = physic_object["size"]
-            sensor = physic_object["sensor"]
+            
+            sensor = False
+            try:
+                sensor = physic_object["sensor"]
+            except KeyError:
+                pass
             data = 0
             try:
                 data = physic_object["user_data"]
             except KeyError:
                 pass
-            
-            angle = physic_object["angle"]
+            angle = 0
+            try:
+                angle = physic_object["angle"]
+            except KeyError:
+                pass
             level.physic_objects.append(AngleSquare(pos, size, angle, data, sensor))
     
     file.close()
