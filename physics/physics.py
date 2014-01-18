@@ -98,7 +98,7 @@ def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
             static_body = world.CreateStaticBody(position=pos_body)
         
         
-    static_body.angle = angle
+        static_body.angle = 0
     center_pos = (0,0)
     if body != None:
         center_pos = (pixel2meter(pos[0]),pixel2meter(pos[1]))

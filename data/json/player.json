@@ -13,7 +13,7 @@
 	{
 		"type": "box",
 		"pos": [0,0],
-		"size": [32,32],
+		"size": [16,16],
 		"sensor": false,
 		"user_data": 1,
 		"angle": 0
