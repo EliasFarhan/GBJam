@@ -44,7 +44,7 @@ def loop():
 			break
 		else:
 			f(screen)
-		msg_surface_obj = fps.render(str(int(fps_clock.get_fps())), False, pygame.Color(0,0,0))
+		msg_surface_obj = fps.render(str(int(fps_clock.get_fps())), False, pygame.Color(255,255,255))
 		msg_rect_obj = msg_surface_obj.get_rect()
 		msg_rect_obj.topleft = (0, 0)
 		screen.blit(msg_surface_obj, msg_rect_obj)

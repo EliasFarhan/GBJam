@@ -4,7 +4,7 @@
 	"physic_objects" : [	
 		{
 			"type": "box",
-			"pos": [250,700],
+			"pos": [100,900],
 			"size": [1000,100],
 			"sensor": false,
 			"user_data": 0,

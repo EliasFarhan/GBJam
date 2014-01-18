@@ -1,9 +1,11 @@
-import pypybox2d as b2 
 
-import pygame
-import engine
-from engine.const import move_speed, jump, framerate,jump_step,gravity, log
-from pypybox2d import world
+from engine.const import move_speed, jump, framerate,jump_step,gravity, log,\
+    pybox2d
+if pybox2d:
+    import pypybox2d as b2
+    from pypybox2d import world
+else:
+    from Box2D import *
 from physics.contact_listener import KuduContactListener
 
 ratio = 64/1.5
@@ -26,40 +28,48 @@ world = None
 
 def init_physics(gravity_arg=None):
     global world,static_objects,dynamic_objects
+    world = None
+    gravity_value = 0
     if(gravity_arg == None):
-        world=b2.World(gravity=(0,gravity))
+        gravity_value = gravity 
     else:
-        world=b2.World(gravity=(0,gravity_arg))
+        gravity_value = gravity_arg
+    
+    if pybox2d:
+        world = b2.World(gravity=(0,gravity_value))
+    else:
+        world = b2World(gravity=(0,gravity_value))
     
     world.contact_manager = KuduContactListener()
-    
-def add_static_object(obj,sensor=False,user_data=0):
-    global world,static_objects
-    if(obj.size[0] != 0 and obj.size[1]!= 0):
-        static_body = world.CreateStaticBody(\
-                                    position=(pixel2meter(obj.pos[0]), pixel2meter(obj.pos[1])),\
-                                    shapes=b2.Polygon(box = (pixel2meter(obj.size[0]/2.0), pixel2meter(obj.size[1]/2.0))),\
-                                                          )
-        static_objects[obj] = static_body
-        return static_body
-    return None
 
 def add_dynamic_object(obj,pos):
     global world
     position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
-    dynamic_object = world.create_dynamic_body(position=position)
+    dynamic_object = None
+    if pybox2d:
+        dynamic_object = world.create_dynamic_body(position=position)
+    else:
+        dynamic_object = world.CreateDynamicBody(position=position)
     dynamic_object.angle = 0
     dynamic_object.fixed_rotation = True
     return dynamic_object
 
 def update_physics():
     global timeStep, vel_iters, pos_iters
-    world.step(timeStep, vel_iters, pos_iters)
-    world.clear_forces()
+    if pybox2d:
+        world.step(timeStep, vel_iters, pos_iters)
+        world.clear_forces()
+    else:
+        world.Step(timeStep,vel_iters,pos_iters)
+        world.ClearForces()
     
 def move(body,vx=None,vy=None):
     dyn_obj = body
-    velx,vely = dyn_obj.linear_velocity.x,dyn_obj.linear_velocity.y
+    velx,vely= None,None
+    if pybox2d:
+        velx,vely = dyn_obj.linear_velocity.x,dyn_obj.linear_velocity.y
+    else:
+        velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
     fx,fy=0,0
     if(vx != None):
         velx = vx * move_speed - velx
@@ -67,8 +77,10 @@ def move(body,vx=None,vy=None):
     if(vy != None):
         vely = vy * move_speed - vely
         fy = dyn_obj.mass * vely / timeStep
-    dyn_obj.apply_force(b2.Vec2(fx,fy),dyn_obj.world_center)
-
+    if pybox2d:
+        dyn_obj.apply_force(b2.Vec2(fx,fy),dyn_obj.world_center)
+    else:
+        dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,0)
 def jump(obj):
     dyn_obj = dynamic_objects[obj]
     force = dyn_obj.mass * jump / timeStep
@@ -79,20 +91,35 @@ def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
     global world,static_objects,index
     static_body = body
     if(static_body == None):
-        static_body = world.create_static_body(position=(pixel2meter(pos[0]), pixel2meter(pos[1])))
+        pos_body = (pixel2meter(pos[0]), pixel2meter(pos[1]))
+        if pybox2d:
+            static_body = world.create_static_body(position=pos_body)
+        else:
+            static_body = world.CreateStaticBody(position=pos_body)
         
         
     static_body.angle = angle
-    polygon_shape = b2.Polygon()
-    
     center_pos = (0,0)
-    if body == None:
+    if body != None:
         center_pos = (pixel2meter(pos[0]),pixel2meter(pos[1]))
-    polygon_shape.set_as_box(pixel2meter(size[0]/2.0), pixel2meter(size[1]/2.0),
+    polygon_shape = None
+
+    if pybox2d:
+        polygon_shape = b2.Polygon()
+        polygon_shape.set_as_box(pixel2meter(size[0]), pixel2meter(size[1]),
                              center=center_pos)
-    fixture_def = static_body.create_fixture(polygon_shape, sensor=sensor, user_data=data)
+        static_body.create_fixture(polygon_shape, sensor=sensor, user_data=data)
+    else:
+        polygon_shape = b2PolygonShape()
+        polygon_shape.SetAsBox(pixel2meter(size[0]), pixel2meter(size[1]),
+                               b2Vec2(center_pos),angle)
+        fixture_def = b2FixtureDef()
+        fixture_def.shape = polygon_shape
+        fixture_def.userData = data
+        fixture_def.isSensor = sensor
+        static_body.CreateFixture(fixture_def)
+    
     if body == None:
-        log(static_body)
         static_objects[index] = static_body
         index+=1
         return index - 1

@@ -15,6 +15,7 @@ jump_step = 5
 framerate = 60
 animation_step = 12
 invulnerability = 60
+pybox2d = False
 if sys.platform == 'darwin':
 	jump_step = 4
 	framerate = 30

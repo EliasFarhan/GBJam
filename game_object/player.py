@@ -42,16 +42,15 @@ class Player(Image):
         
         if horizontal == -1:
             self.anim.state = 'move_left'
-            move(self.body, 1)
+            move(self.body, -1)
         elif horizontal == 1:
             self.anim.state = 'move_right'
-            move(self.body, -1)
+            move(self.body, 1)
         else:
             self.anim.state = 'still_right'
             move(self.body, 0)
         
         physic_pos = (meter2pixel(self.body.position[0]),meter2pixel(self.body.position[1]))
-        log(physic_pos)
         pos = (physic_pos[0]-self.screen_relative_pos[0]*get_screen_size()[0],
                physic_pos[1]-self.screen_relative_pos[1]*get_screen_size()[1])
         self.pos = pos
