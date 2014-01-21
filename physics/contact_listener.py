@@ -4,7 +4,7 @@ Created on Sep 9, 2013
 @author: efarhan
 '''
 
-from engine.const import pybox2d
+from engine.const import pybox2d,log
 if pybox2d:
     import pypybox2d as b2
 else:
