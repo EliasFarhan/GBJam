@@ -6,7 +6,7 @@ Created on 9 dec. 2013
 import pygame
 from engine.init import get_screen_size
 from engine.scene import Scene
-from engine.const import framerate, log
+from engine.const import framerate, log, debug
 
 from game_object.player import Player
 from levels.level_export import load_level
@@ -16,18 +16,18 @@ from physics.physics import init_physics, update_physics
 class GamePlay(Scene):
     def __init__(self,filename):
         self.filename = filename
+        
     def init(self):
         init_physics()
-        self.editor = False
+        if debug:
+            self.editor = False
         
         self.images = [
-                       [],#Layer 5
-                       [],#Layer 4
-                       [],#Layer 3
-                       [],#Layer 2
-                       [],#Layer 1
-                       
-                       ]
+                       [],
+                       [],
+                       [],
+                       [],
+                       [],]
         self.physic_objects = [
                                 ]
         self.screen_pos = (0,0)
@@ -55,7 +55,3 @@ class GamePlay(Scene):
             physic_object.loop(screen,self.screen_pos)
     def exit(self, screen):
         Scene.exit(self, screen)
-
-'''Editor functions'''
-def save_level(self):
-    pass

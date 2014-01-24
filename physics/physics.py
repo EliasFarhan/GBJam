@@ -140,4 +140,6 @@ def add_static_circle(pos,radius,sensor=False,user_data=0):
     static_objects[index] = static_body
     index+=1
     return index - 1
+def remove_body(index):
+    pass
 

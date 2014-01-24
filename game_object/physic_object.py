@@ -9,13 +9,16 @@ from engine.image_manager import rot_center
 from physics.physics import pixel2meter, add_static_box
 from engine.const import debug,log
 
+class Circle():
+    pass
+
 class AngleSquare():
     def __init__(self,pos,size,angle=0,data=0,sensor=False):
         self.data = data
         self.pos = pos
         self.size = size
         self.angle = angle
-        
+        self.index = 0
         self.init_debug_physics()
         
         self.sensor = sensor

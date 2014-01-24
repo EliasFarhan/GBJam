@@ -10,6 +10,7 @@ from engine.const import log
 from engine.init import toogle_fullscreen
 
 UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY = 0,0,0,0,0,0,0
+UP2,DOWN2,LEFT2,RIGHT2 = 0,0,0,0
 joystick = 0
 index = 0
 physics_events = []
@@ -17,7 +18,12 @@ physics_events = []
 def add_physics_event(event):
     global physics_events
     physics_events.append(event)
-    log(event)
+def get_physics_event():
+    global physics_events
+    result = []
+    for i in range(len(physics_events)):
+        result.append(physics_events.pop())
+    return result
 
 class PhysicsEvent:
     def __init__(self,a,b,begin):
@@ -31,7 +37,7 @@ def init():
         joystick = pygame.joystick.Joystick(0)
         joystick.init()
 def update_event():
-    global joystick,index,UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY
+    global joystick,index,UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY,UP2,DOWN2,RIGHT2,LEFT2
     # check events (with joystick)
     for event in pygame.event.get(): 
         if (joystick != 0):
@@ -68,14 +74,24 @@ def update_event():
                 if(not joystick.get_button(1)):
                     UP = 0
         if event.type == KEYDOWN:
-            if event.key == K_UP or event.key == K_w:
+            if event.key == K_UP:
+                UP2 = 1
+            elif event.key == K_w:
                 UP = 1
-            elif event.key == K_DOWN or event.key == K_s:
+            elif event.key == K_DOWN:
+                DOWN2 = 1
+            
+            elif event.key == K_s:
                     # DOWN
                 DOWN = 1
-            elif event.key == K_RIGHT or event.key == K_d:
+            elif event.key == K_RIGHT:
+                RIGHT2 = 1
+                
+            elif event.key == K_d:
                 RIGHT = 1
-            elif event.key == K_LEFT or event.key == K_a:
+            elif event.key == K_LEFT:
+                LEFT2 = 1
+            elif event.key == K_a:
                     # LEFT
                 LEFT = 1
             elif event.key == K_ESCAPE:
@@ -91,14 +107,22 @@ def update_event():
                     console.set_active()
                     console.preserve_events = False
         if event.type == KEYUP:
-            if event.key == K_UP or event.key == K_w:
+            if event.key == K_UP:
+                UP2 = 0
+            elif event.key == K_w:
                 UP = 0
-            elif event.key == K_DOWN or event.key == K_s:
+            elif event.key == K_DOWN :
+                DOWN2 = 0
+            elif event.key == K_s:
                     # DOWN
                 DOWN = 0
-            elif event.key == K_RIGHT or event.key == K_d:
+            elif event.key == K_RIGHT :
+                RIGHT2 = 0
+            elif event.key == K_d:
                 RIGHT = 0
-            elif event.key == K_LEFT or event.key == K_a:
+            elif event.key == K_LEFT :
+                LEFT2 = 0
+            elif event.key == K_a:
                     # LEFT
                 LEFT = 0
             elif event.key == K_ESCAPE:
@@ -122,3 +146,5 @@ def get_keys():
 def get_retry():
     global RETRY
     return RETRY
+def get_editor_keys():
+    return None

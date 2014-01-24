@@ -5,7 +5,7 @@ Created on 8 sept. 2013
 '''
 from game_object.image import Image
 from game_object.player_export import load_player
-from engine.event import get_keys
+from engine.event import get_keys, get_physics_event
 from animation.animation import Animation
 from engine.const import log
 from physics.physics import meter2pixel, move
@@ -20,6 +20,8 @@ class Player(Image):
         self.size = None
         self.body = None
         self.pos = pos
+        self.foot = False
+        self.direction = True #True for right
         self.screen_relative_pos = None
         log('Loading player file '+self.filename)
         status = load_player(self)
@@ -34,21 +36,39 @@ class Player(Image):
         return self.pos
 
     def update_event(self):
-
         RIGHT,LEFT,UP,DOWN,ACTION = get_keys()
         
         horizontal = RIGHT-LEFT
         vertical = UP-DOWN
         
+        physics_events = get_physics_event()
+        
+        for event in physics_events:
+            if event.a == 2 or event.b == 2:
+                self.foot = event.begin
+        
         if horizontal == -1:
-            self.anim.state = 'move_left'
+            self.direction = False
+            if self.foot:
+                self.anim.state = 'move_left'
             move(self.body, -1)
         elif horizontal == 1:
-            self.anim.state = 'move_right'
+            self.direction = True
+            if self.foot:
+                self.anim.state = 'move_right'
             move(self.body, 1)
         else:
-            self.anim.state = 'still_right'
+            if self.foot:
+                if self.direction:
+                    self.anim.state = 'still_right'
+                else:
+                    self.anim.state = 'still_left'
             move(self.body, 0)
+        if not self.foot:
+            if self.direction:
+                self.anim.state = 'jump_right'
+            else:
+                self.anim.state = 'jump_left'
         
         physic_pos = (meter2pixel(self.body.position[0]),meter2pixel(self.body.position[1]))
         pos = (physic_pos[0]-self.screen_relative_pos[0]*get_screen_size()[0],

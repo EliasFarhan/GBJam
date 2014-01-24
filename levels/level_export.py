@@ -30,9 +30,10 @@ def load_level(level):
     '''
     
     level.player = Player(level_data['player'])
-    
+    level.bg_color = level_data['background_color']
     for physic_object in level_data['physic_objects']:
         if physic_object["type"] == "box":
+            
             pos = physic_object["pos"]
             size = physic_object["size"]
             
@@ -58,6 +59,18 @@ def load_level(level):
 def save_level(level):
     file = open(level.filename,mode='w')
     
-    
+    level_data = {}
+    level_data['player'] = level.player.filename
+    level_data['background_color'] = level.bg_color
+    for physic_object in level.physic_objects:
+        if physic_object.__class__ == AngleSquare:
+            obj = {}
+            obj['type'] = 'box'
+            obj['pos'] = [physic_object.pos[0],physic_object.pos[1]]
+            obj['size'] = [physic_object.size[0],physic_object.size[1]]
+            obj['sensor'] = physic_object.sensor
+            obj['user_data'] = physic_object.data
+            obj['angle'] = physic_object.angle
+            
     
     file.close()
