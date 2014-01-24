@@ -1,11 +1,15 @@
 
 from engine.const import move_speed, jump, framerate,jump_step,gravity, log,\
-    pybox2d
-if pybox2d:
-    import pypybox2d as b2
-    from pypybox2d import world
+    pybox2d, pookoo
+import pypybox2d
+if pookoo:
+    import physics
 else:
-    from Box2D import *
+    if pybox2d:
+        import pypybox2d as b2
+        from pypybox2d import world
+    else:
+        from Box2D import *
 from physics.contact_listener import KuduContactListener
 
 ratio = 64/1.5
@@ -41,8 +45,6 @@ def init_physics(gravity_arg=None):
     else:
         world = b2World(gravity=(0,gravity_value))
         world.contactListener = KuduContactListener()
-    
-    
 
 def add_dynamic_object(obj,pos):
     global world
@@ -82,7 +84,7 @@ def move(body,vx=None,vy=None):
     if pybox2d:
         dyn_obj.apply_force(b2.Vec2(fx,fy),dyn_obj.world_center)
     else:
-        dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,0)
+        dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
 def jump(obj):
     dyn_obj = dynamic_objects[obj]
     force = dyn_obj.mass * jump / timeStep
@@ -116,6 +118,7 @@ def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
         polygon_shape.SetAsBox(pixel2meter(size[0]), pixel2meter(size[1]),
                                b2Vec2(center_pos),angle)
         fixture_def = b2FixtureDef()
+        fixture_def.density = 1
         fixture_def.shape = polygon_shape
         fixture_def.userData = data
         fixture_def.density = 1
