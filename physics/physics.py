@@ -37,10 +37,12 @@ def init_physics(gravity_arg=None):
     
     if pybox2d:
         world = b2.World(gravity=(0,gravity_value))
+        world.contact_manager = KuduContactListener()
     else:
         world = b2World(gravity=(0,gravity_value))
+        world.contactListener = KuduContactListener()
     
-    world.contact_manager = KuduContactListener()
+    
 
 def add_dynamic_object(obj,pos):
     global world
@@ -116,6 +118,7 @@ def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
         fixture_def = b2FixtureDef()
         fixture_def.shape = polygon_shape
         fixture_def.userData = data
+        fixture_def.density = 1
         fixture_def.isSensor = sensor
         static_body.CreateFixture(fixture_def)
     

@@ -4,7 +4,7 @@ Created on Sep 9, 2013
 @author: efarhan
 '''
 
-from engine.const import pybox2d
+from engine.const import pybox2d,log
 if pybox2d:
     import pypybox2d as b2
 else:
@@ -26,6 +26,7 @@ else:
     class KuduContactListener(b2ContactListener):
         
         def BeginContact(self, contact):
+            log("Begin contact")
             a = contact.fixtureA.userData
             b = contact.fixtureB.userData
             add_physics_event(PhysicsEvent(a,b,True))

@@ -16,8 +16,9 @@ physics_events = []
 
 def add_physics_event(event):
     global physics_events
-    physics_events.append(event)
     log(event)
+    physics_events.append(event)
+    
 
 class PhysicsEvent:
     def __init__(self,a,b,begin):
