@@ -1,15 +1,10 @@
 
 from engine.const import move_speed, jump, framerate,jump_step,gravity, log,\
     pybox2d, pookoo
-import pypybox2d
 if pookoo:
     import physics
 else:
-    if pybox2d:
-        import pypybox2d as b2
-        from pypybox2d import world
-    else:
-        from Box2D import *
+    from Box2D import *
 from physics.contact_listener import KuduContactListener
 
 ratio = 64/1.5

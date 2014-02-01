@@ -3,17 +3,15 @@ Created on 11 sept. 2013
 
 @author: efarhan
 '''
-import os
-from os import listdir
-from os.path import isfile,join
-from engine.const import animation_step
-from engine.image_manager import load_image_with_size, show_image
+
+from engine.image_manager import  show_image
 from animation.animation import Animation
 from engine.init import get_screen_size
 
 class Image():
     '''Can be animated if a directory is given'''
     def __init__(self,path,pos):
+        self.angle = 0
         self.anim = Animation()
         self.init_image(path,pos)
     def init_image(self,path,pos):

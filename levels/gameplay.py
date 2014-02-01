@@ -13,7 +13,7 @@ from levels.level_export import load_level
 from physics.physics import init_physics, update_physics
 
 
-class GamePlay(Scene):
+class GameState(Scene):
     def __init__(self,filename):
         self.filename = filename
         
