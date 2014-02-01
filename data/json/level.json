@@ -1,23 +1,37 @@
 {
-	"player": "data/json/player.json",
+	"player" : "data/json/player.json",
+	
 	"background_color" : [0,0,0],
-	"physic_objects" : [	
-		{
-			"type": "box",
-			"pos": [100,900],
-			"size": [1000,100],
-			"sensor": false,
-			"user_data": 11,
-			"angle": 10
-		}
-	],
+	
 	"images" : [
 		{
-			"type": "Image",
-			"pos" : [0,0],
+			"type" : "Image",
+			"pos" : [1000,900],
+			"size": [1000,1000],
 			"path" : "data/sprites/rpg_background/background.png",
-			"angle": 0,
-			"layer": 3,
+			"angle" : 0,
+			"layer" : 1
+		}
+	],
+	
+	"physic_objects" : [	
+		{
+			"type" : "box",
+			"pos" : [100,900],
+			"size" : [1000,100],
+			"sensor" : false,
+			"user_data" : 11,
+			"angle" : 10
+			
 		},
+		
+		{
+			"type" : "box",
+			"pos" : [1100,900],
+			"size" : [1000,100],
+			"sensor" : false,
+			"user_data" : 11,
+			"angle" : -10
+		}
 	]
 }

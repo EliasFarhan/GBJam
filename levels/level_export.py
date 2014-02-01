@@ -7,6 +7,7 @@ import json
 from game_object.player import Player
 from game_object.physic_object import AngleSquare
 from engine.const import log
+from game_object.image import Image
 
 def load_level(level):
     file = None
@@ -53,8 +54,24 @@ def load_level(level):
             except KeyError:
                 pass
             level.physic_objects.append(AngleSquare(pos, size, angle, data, sensor))
-    for image in level_data['images']:
-        pass
+    for image_data in level_data['images']:
+        if image_data["type"] == "Image":
+            pos = image_data["pos"]
+            size = None
+            try:
+                size = image_data["size"]
+            except KeyError:
+                pass
+            path = image_data["path"]
+            try:
+                angle = image_data["angle"]
+            except KeyError:
+                pass
+            layer = image_data["layer"]
+            if 0 < layer < len(level.images)-1:
+                level.images[layer-1].append(Image(path, pos, size,angle))
+            
+            
     file.close()
     return True
 def save_level(level):

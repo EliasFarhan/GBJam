@@ -28,7 +28,7 @@ class Player(Image):
         if status != 1:
             log("Error while loading player "+str(status))
             return
-        self.anim.load_images(self.size)
+        self.anim.load_images(size=self.size,permanent=True)
 
     def loop(self, screen, screen_pos):
         self.update_event()
