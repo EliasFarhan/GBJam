@@ -149,3 +149,6 @@ def get_retry():
     return RETRY
 def get_editor_keys():
     return None
+def get_mouse():
+    return pygame.mouse.get_pos(), pygame.mouse.get_pressed()
+    

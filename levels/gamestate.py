@@ -14,7 +14,8 @@ from levels.Editor import Editor
 class GameState(Scene,Editor):
     def __init__(self,filename):
         self.filename = filename
-        
+        if debug:
+            Editor.__init__()
     def init(self):
         init_physics()
         self.images = [
@@ -38,6 +39,7 @@ class GameState(Scene,Editor):
         self.filename = newfilename
         self.init()
     def loop(self, screen):
+        
         update_physics()
         for i in range(self.player.layer):
             for j in range(len(self.images[i])):
