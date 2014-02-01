@@ -3,25 +3,20 @@ Created on 9 dec. 2013
 
 @author: efarhan
 '''
-import pygame
-from engine.init import get_screen_size
-from engine.scene import Scene
-from engine.const import framerate, log, debug
 
-from game_object.player import Player
+from engine.scene import Scene
+from engine.const import log, debug
 from levels.level_export import load_level
 from physics.physics import init_physics, update_physics
+from levels.Editor import Editor
 
 
-class GameState(Scene):
+class GameState(Scene,Editor):
     def __init__(self,filename):
         self.filename = filename
         
     def init(self):
         init_physics()
-        if debug:
-            self.editor = False
-        
         self.images = [
                        [],
                        [],

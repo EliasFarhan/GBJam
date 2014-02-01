@@ -4,7 +4,7 @@ from engine.const import framerate
 from engine.image_manager import fill_surface
 from game_object.image import Image
 from engine.sound_manager import play_music, check_music_status
-from levels.gameplay import GamePlay
+from levels.gamestate import GameState
 #font_obj, msg, sound_obj
 
 class Kwakwa(Scene):
@@ -19,7 +19,7 @@ class Kwakwa(Scene):
 		self.text.loop(screen, (0,0))
 		if(not check_music_status()):
 			from engine.level_manager import switch_level
-			switch_level(GamePlay('data/json/level.json'))
+			switch_level(GameState('data/json/level.json'))
 
 
 			

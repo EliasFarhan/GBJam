@@ -53,7 +53,8 @@ def load_level(level):
             except KeyError:
                 pass
             level.physic_objects.append(AngleSquare(pos, size, angle, data, sensor))
-    
+    for image in level_data['images']:
+        pass
     file.close()
     return True
 def save_level(level):

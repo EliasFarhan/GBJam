@@ -21,7 +21,7 @@ def load_player(player):
     except ValueError: #No json object decoded
         return 3
     '''
-    TODO: Create player instance
+    Create player instance
     
     '''
     player.pos = (player_data['pos'][0][0],player_data['pos'][1][0])
