@@ -21,7 +21,7 @@ def load_player(player):
     except ValueError: #No json object decoded
         return 3
     '''
-    TODO: Create player instance
+    Create player instance
     
     '''
     player.pos = (player_data['pos'][0][0],player_data['pos'][1][0])
@@ -47,12 +47,5 @@ def load_player(player):
     return 1
 def save_player(player):
     pass
-
-def test():
-    load_player("prout") #testing file not found error
-    load_player("game_object.py") #testing JSON error
-
-if __name__ == '__main__':
-    test()
     
     

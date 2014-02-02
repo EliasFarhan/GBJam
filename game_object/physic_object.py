@@ -23,6 +23,8 @@ class AngleSquare():
         
         self.sensor = sensor
         self.init_physics()
+        if debug:
+            self.click = False
     def init_debug_physics(self):
     	self.rect = pygame.Rect(self.pos, self.size)
     	self.surface = pygame.Surface(self.size,flags=pygame.SRCALPHA)
@@ -40,3 +42,6 @@ class AngleSquare():
         if debug:
             rot_image, rot_rect = rot_center(self.surface, self.rect, self.angle)
             screen.blit(rot_image, (rot_rect[0]-screen_pos[0],rot_rect[1]-screen_pos[1]))
+    def click(self,mouse_pos):
+        self.click = self.rect.collidepoint(mouse_pos[0], mouse_pos[1])
+        

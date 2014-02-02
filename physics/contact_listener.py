@@ -26,7 +26,6 @@ else:
     class KuduContactListener(b2ContactListener):
         
         def BeginContact(self, contact):
-            log("Begin contact")
             a = contact.fixtureA.userData
             b = contact.fixtureB.userData
             add_physics_event(PhysicsEvent(a,b,True))
