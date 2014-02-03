@@ -8,12 +8,14 @@ from engine.image_manager import  show_image
 from animation.animation import Animation
 from engine.init import get_screen_size
 from engine.rect import Rect
+from game_object.game_object import GameObject
 
-class Image():
+class Image(GameObject):
     '''Can be animated if a directory is given,
     if a png file is given, it will load it
     to load several file, like player do not call this constructor'''
     def __init__(self,path,pos,size=None,angle=0):
+        GameObject.__init__(self)
         self.angle = 0
         self.anim = Animation()
         self.size = size
@@ -40,7 +42,3 @@ class Image():
         except AttributeError:
             pass
         show_image(self.anim.img, screen, (pos[0]-screen_pos[0],pos[1]-screen_pos[1]))
-        
-    def check_click(self,mouse_pos,screen_pos):
-        point_pos = (screen_pos[0]+mouse_pos[0], screen_pos[1]+mouse_pos[1])
-        self.rect.collide_point(point_pos)
