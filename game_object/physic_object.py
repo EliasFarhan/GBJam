@@ -35,3 +35,6 @@ class AngleSquare():
     def loop(self,screen,screen_pos):
         if debug:
             draw_rect(screen, screen_pos, self.rect, (255,0,0,255), self.angle)
+    def check_click(self,mouse_pos,screen_pos):
+        point_pos = (screen_pos[0]+mouse_pos[0], screen_pos[1]+mouse_pos[1])
+        self.rect.collide_point(point_pos)

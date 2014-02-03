@@ -35,6 +35,11 @@ def sanitize_img_manager():
 def get_image(index):
 	global images
 	return images[index]
+
+def get_size(index):
+	global images
+	if not pookoo:
+		return images[index].get_size()
 def load_image(name,permanent=False):
 	global images,permanent_indexes,index
 	try:
