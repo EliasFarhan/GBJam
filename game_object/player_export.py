@@ -47,12 +47,5 @@ def load_player(player):
     return 1
 def save_player(player):
     pass
-
-def test():
-    load_player("prout") #testing file not found error
-    load_player("game_object.py") #testing JSON error
-
-if __name__ == '__main__':
-    test()
     
     
