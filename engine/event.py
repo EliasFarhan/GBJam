@@ -8,6 +8,7 @@ import pygame
 from pygame.locals import *
 from engine.const import pookoo, log
 
+
 physics_events = []
 
 def add_physics_event(event):
@@ -76,6 +77,12 @@ def update_event():
             except KeyError:
                 '''Key not mapped'''
                 pass
+            if event.key == K_TAB:
+                if pygame.key.get_mods() & KMOD_CTRL:
+                    from engine.loop import get_console
+                    console = get_console()
+                    console.set_active()
+                    console.preserve_events = False
         elif event.type == KEYUP:
             try:
                 button_value[button_key[event.key]] = False
