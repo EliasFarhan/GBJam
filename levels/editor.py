@@ -68,6 +68,6 @@ class Editor():
                 self.scale_clicked = (self.scale_clicked[1],0)
             
             if get_button('rotate_left'):
-                self.current_selected.rotate(False)
+                self.current_selected.rotate(-1)
             if get_button('rotate_right'):
-                self.current_selected.rotate(True)
+                self.current_selected.rotate(1)

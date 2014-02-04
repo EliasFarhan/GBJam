@@ -48,8 +48,8 @@ class GameState(Scene,Editor):
         if debug and self.editor:
             show_mouse()
             Editor.loop(self)
-            
-        update_physics()
+        if not self.editor:
+            update_physics()
         
         for i in range(self.player.layer):
             for j in range(len(self.images[i])):
