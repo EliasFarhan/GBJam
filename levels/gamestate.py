@@ -9,7 +9,7 @@ from engine.const import log, debug
 from levels.level_export import load_level
 from physics.physics import init_physics, update_physics
 from levels.editor import Editor
-from engine.event import show_mouse
+from engine.event import show_mouse, add_button, get_button
 
 
 class GameState(Scene,Editor):
@@ -34,20 +34,27 @@ class GameState(Scene,Editor):
                 from engine.level_manager import switch_level
                 switch_level(Scene())
         
+        add_button('editor', 'e')
         
         
     def reload(self,newfilename):
         self.filename = newfilename
         self.init()
     def loop(self, screen):
+        
+        if get_button('editor'):
+            self.editor = not self.editor
+        
         if debug and self.editor:
             show_mouse()
             Editor.loop(self)
+            
         update_physics()
+        
         for i in range(self.player.layer):
             for j in range(len(self.images[i])):
                 self.images[i][j].loop(screen,self.screen_pos)
-        self.screen_pos = self.player.loop(screen,self.screen_pos)
+        self.screen_pos = self.player.loop(screen,self.screen_pos,self.editor)
         for i in range(self.player.layer,len(self.images)):
             for j in range(len(self.images[i])):
                 self.images[i][j].loop(screen,self.screen_pos)

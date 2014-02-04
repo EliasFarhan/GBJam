@@ -40,5 +40,8 @@ class AngleSquare(GameObject):
     def loop(self,screen,screen_pos):
         if debug:
             draw_rect(screen, screen_pos, self.rect, (255,0,0,255), self.angle)
-
+    
+    def scale(self,enlargement, speed=1.1):
+        GameObject.scale(self, enlargement, speed)
+        '''TODO: Change physic object'''
 

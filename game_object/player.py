@@ -30,8 +30,9 @@ class Player(Image):
             return
         self.anim.load_images(size=self.size,permanent=True)
 
-    def loop(self, screen, screen_pos):
-        self.update_event()
+    def loop(self, screen, screen_pos,editor=False):
+        if not editor:
+            self.update_event()
         Image.loop(self, screen, screen_pos)
         return self.pos
 
