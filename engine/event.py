@@ -6,13 +6,8 @@ Created on 8 sept. 2013
 
 import pygame
 from pygame.locals import *
-from engine.const import log
-from engine.init import toogle_fullscreen
+from engine.const import pookoo, log
 
-UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY = 0,0,0,0,0,0,0
-UP2,DOWN2,LEFT2,RIGHT2 = 0,0,0,0
-joystick = 0
-index = 0
 physics_events = []
 
 def add_physics_event(event):
@@ -32,123 +27,66 @@ class PhysicsEvent:
         self.b=b
         self.begin=begin
 
-def init():
-    global joystick
-    if pygame.joystick.get_count() != 0:
-        joystick = pygame.joystick.Joystick(0)
-        joystick.init()
-def update_event():
-    global joystick,index,UP,DOWN,LEFT,RIGHT,ACTION,END,RETRY,UP2,DOWN2,RIGHT2,LEFT2
-    # check events (with joystick)
-    for event in pygame.event.get(): 
-        if (joystick != 0):
-            if (event.type == JOYHATMOTION):
-                if (joystick.get_hat(0) == (0, 1)):
-                    UP = 1
-                elif(joystick.get_hat(0) == (0, -1)):
-                    # DOWN
-                    pass
-                elif(joystick.get_hat(0) == (1, 0)):
-                    RIGHT = 1
-                elif(joystick.get_hat(0) == (-1, 0)):
-                    # LEFT
-                    LEFT = 1
-                elif(joystick.get_hat(0) == (0, 0)):
-                    UP, RIGHT,LEFT = 0, 0,0
-            elif event.type == JOYAXISMOTION:
-                if(joystick.get_axis(0)>0.9):
-                    RIGHT = 1
-                else:
-                    RIGHT = 0
-                if(joystick.get_axis(0)<-0.9):
-                    LEFT = 1
-                else:
-                    LEFT = 0
-            elif event.type == JOYBUTTONDOWN:
-                if(joystick.get_button(1)):
-                    UP = 1
-                if(joystick.get_button(4)):
-                    index -= 1
-                if(joystick.get_button(5)):
-                    index += 1
-            elif event.type == JOYBUTTONUP:
-                if(not joystick.get_button(1)):
-                    UP = 0
-        if event.type == KEYDOWN:
-            if event.key == K_UP:
-                UP2 = 1
-            elif event.key == K_w:
-                UP = 1
-            elif event.key == K_DOWN:
-                DOWN2 = 1
+'''button_map = {'action' : 'key'}'''
+button_map = {}
+
+'''button_value = {'key' : value}'''
+button_value = {}
+
+'''button_key = {'pygame_key': 'key'}'''
+button_key = {}
+
+def add_button(action,key_value):
+    global button_map,button_value,button_key
+    
+    button_map[action] = key_value
+    button_value[action] = 0
+    
+    try:
+        if (ord('a') <= ord(key_value) <= ord('z')) or \
+        (ord('0') <= ord(key_value) <= ord('9')):
+            button_key[ord(key_value)] = key_value
+    except TypeError:
+        '''the key value is not a letter or a number'''
+        if key_value == 'UP':
+            button_key[K_UP] = key_value
+        if key_value == 'DOWN':
+            button_key[K_DOWN] = key_value
+        if key_value == 'LEFT':
+            button_key[K_LEFT] = key_value
+        if key_value == 'RIGHT':
+            button_key[K_RIGHT] = key_value
+        if key_value == 'ESC':
+            button_key[K_ESCAPE] = key_value
             
-            elif event.key == K_s:
-                    # DOWN
-                DOWN = 1
-            elif event.key == K_RIGHT:
-                RIGHT2 = 1
-                
-            elif event.key == K_d:
-                RIGHT = 1
-            elif event.key == K_LEFT:
-                LEFT2 = 1
-            elif event.key == K_a:
-                    # LEFT
-                LEFT = 1
-            elif event.key == K_ESCAPE:
-                END = 1
-            elif event.key == K_r:
-                RETRY = 1
-            elif event.key == K_f:
-                toogle_fullscreen()
-            elif event.key == K_TAB:
-                if pygame.key.get_mods() & KMOD_CTRL:
-                    from engine.loop import get_console
-                    console = get_console()
-                    console.set_active()
-                    console.preserve_events = False
-        if event.type == KEYUP:
-            if event.key == K_UP:
-                UP2 = 0
-            elif event.key == K_w:
-                UP = 0
-            elif event.key == K_DOWN :
-                DOWN2 = 0
-            elif event.key == K_s:
-                    # DOWN
-                DOWN = 0
-            elif event.key == K_RIGHT :
-                RIGHT2 = 0
-            elif event.key == K_d:
-                RIGHT = 0
-            elif event.key == K_LEFT :
-                LEFT2 = 0
-            elif event.key == K_a:
-                    # LEFT
-                LEFT = 0
-            elif event.key == K_ESCAPE:
-                END = 0  
-            elif event.key == K_r:
-                RETRY = 0        
-        if event.type == QUIT:
-                END = 1
-                
-def get_editor_event():
-    pass
-def get_index():
-    global index
-    return index
-def is_end():
-    global END
-    return END
-def get_keys():
-    global RIGHT,LEFT,UP,DOWN,ACTION
-    return (RIGHT,LEFT,UP,DOWN,ACTION)
-def get_retry():
-    global RETRY
-    return RETRY
-def get_editor_keys():
-    return None
+            
+def get_button(action):
+    global button_value,button_map
+    try:
+        return button_value[button_map[action]]
+    except KeyError:
+        return False
+    
+def update_event():
+    global button_key,button_value
+    for event in pygame.event.get():
+        if event.type == KEYDOWN:
+            try:
+                button_value[button_key[event.key]] = True
+            except KeyError:
+                '''Key not mapped'''
+                pass
+        elif event.type == KEYUP:
+            try:
+                button_value[button_key[event.key]] = False
+            except KeyError:
+                '''Key not mapped'''
+                pass
+
 def get_mouse():
     return pygame.mouse.get_pos(), pygame.mouse.get_pressed()
+
+def show_mouse(show=True):
+    if not pookoo:
+        pygame.mouse.set_visible(show)
     

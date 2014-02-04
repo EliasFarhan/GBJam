@@ -19,4 +19,7 @@ class GameObject:
     
     def check_click(self,mouse_pos,screen_pos):
         point_pos = (screen_pos[0]+mouse_pos[0], screen_pos[1]+mouse_pos[1])
-        self.rect.collide_point(point_pos)
+        return self.rect.collide_point(point_pos)
+    
+    def move(self,right,down):
+        self.pos = (self.pos+right,self.pos+down)

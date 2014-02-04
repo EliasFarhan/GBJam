@@ -5,7 +5,7 @@ Created on 8 sept. 2013
 '''
 from game_object.image import Image
 from game_object.player_export import load_player
-from engine.event import get_keys, get_physics_event
+from engine.event import get_physics_event, get_button, add_button
 from animation.animation import Animation
 from engine.const import log
 from physics.physics import meter2pixel, move
@@ -36,7 +36,11 @@ class Player(Image):
         return self.pos
 
     def update_event(self):
-        RIGHT,LEFT,UP,DOWN,ACTION = get_keys()
+        
+        RIGHT = get_button('player_right')
+        LEFT = get_button('player_left')
+        UP = get_button('player_up')
+        DOWN = get_button('player_down')
         
         horizontal = RIGHT-LEFT
         vertical = UP-DOWN

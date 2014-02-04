@@ -24,7 +24,7 @@ class Image(GameObject):
     def init_image(self,path,pos):
         '''init only one directory or one image,
         for several directories, please set manually
-        animation class before'''
+        animation class before and call directly anim.load_images'''
         self.pos = pos
         self.anim.path_list = [path]
         self.anim.load_images(self.size)
