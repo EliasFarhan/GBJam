@@ -48,6 +48,7 @@ def load_player(player):
     log(player.body.position)
     file.close()
     return 1
+
 def save_player(player):
     pass
     

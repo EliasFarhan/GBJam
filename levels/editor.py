@@ -22,6 +22,7 @@ class Editor():
         add_button('scale_enlarg', 'UP')
         add_button('rotate_left', 'LEFT')
         add_button('rotate_right', 'RIGHT')
+        
     def loop(self):
         
         mouse_pos, pressed = get_mouse()
@@ -31,10 +32,12 @@ class Editor():
             for layer in self.images:
                 for image in layer:
                     if image.check_click(mouse_pos,self.screen_pos):
+                        log("Current_object is: "+str(image))
                         self.current_selected = image
                         
             for physic_object in self.physic_objects:
                 if physic_object.check_click(mouse_pos,self.screen_pos):
+                    log("Current_object is: "+str(physic_object))
                     self.current_selected = physic_object
             self.mouse_clicked = (1, self.mouse_clicked[1],self.mouse_clicked[2])
             

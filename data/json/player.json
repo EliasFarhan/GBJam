@@ -24,7 +24,7 @@
 		{
 			"type": "box",
 			"pos": [0,21],
-			"size": [16,1],
+			"size": [18,1],
 			"sensor": true,
 			"user_data": 2,
 			"angle": 0

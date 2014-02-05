@@ -11,6 +11,7 @@ class GameObject:
         self.pos = None
         self.size = None
         self.rect = None
+        
     def scale(self,enlargement,speed=1.1):
         scale_speed = speed
         if not enlargement:
@@ -20,12 +21,19 @@ class GameObject:
     
     def update_rect(self):
         self.rect = Rect(self.pos, self.size)
+        
     def move(self,horizontal=0,vertical=0):
         self.pos = (self.pos[0]+horizontal,self.pos[1]+vertical)
         self.update_rect()
+        
     def rotate(self,right):
         self.angle += right
         self.update_rect()
+        
+    def set_angle(self,angle):
+        self.angle = angle
+        self.update_rect()
+        
     def check_click(self,mouse_pos,screen_pos):
         point_pos = (screen_pos[0]+mouse_pos[0], screen_pos[1]+mouse_pos[1])
         return self.rect.collide_point(point_pos)
