@@ -8,14 +8,14 @@ from engine.scene import Scene
 from engine.const import log, debug
 from levels.level_export import load_level
 from physics.physics import init_physics, update_physics
-from levels.Editor import Editor
+from levels.editor import Editor
 
 
 class GameState(Scene,Editor):
     def __init__(self,filename):
         self.filename = filename
         if debug:
-            Editor.__init__()
+            Editor.__init__(self)
     def init(self):
         init_physics()
         self.images = [
