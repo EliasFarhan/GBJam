@@ -4,7 +4,7 @@ Created on Feb 1, 2014
 @author: efarhan
 '''
 
-from engine.const import pookoo
+from engine.const import pookoo, log
 
 if not pookoo:
     import pygame

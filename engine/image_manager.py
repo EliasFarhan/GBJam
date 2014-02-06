@@ -1,4 +1,4 @@
-from engine.const import pookoo
+from engine.const import pookoo, log
 if not pookoo:
 	import pygame
 else:
@@ -35,6 +35,11 @@ def sanitize_img_manager():
 def get_image(index):
 	global images
 	return images[index]
+
+def get_size(index):
+	global images
+	if not pookoo:
+		return images[index].get_size()
 def load_image(name,permanent=False):
 	global images,permanent_indexes,index
 	try:
@@ -56,7 +61,9 @@ def load_image_with_size(name, size,permanent=False):
 		img_name[name]
 	except KeyError:
 		index = load_image(name,permanent)
-		images[index] = pygame.transform.scale(images[index], size)
+		if size != None:
+			images[index] = pygame.transform.scale(images[index], size)
+		
 		img_name[name] = index
 		return index
 	return img_name[name]

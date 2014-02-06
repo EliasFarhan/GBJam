@@ -13,21 +13,28 @@
 	},
 	
 	"physic_objects": [ 	
-	{
-		"type": "box",
-		"pos": [0,0],
-		"size": [16,20],
-		"sensor": false,
-		"user_data": 1,
-		"angle": 0
-	},
-	{
-		"type": "box",
-		"pos": [0,21],
-		"size": [16,1],
-		"sensor": true,
-		"user_data": 2,
-		"angle": 0
+		{
+			"type": "box",
+			"pos": [0,0],
+			"size": [16,20],
+			"sensor": false,
+			"user_data": 1,
+			"angle": 0
+		},
+		{
+			"type": "box",
+			"pos": [0,21],
+			"size": [18,1],
+			"sensor": true,
+			"user_data": 2,
+			"angle": 0
+		}
+	],
+	
+	"player_actions": {
+		"player_right": "d",
+		"player_left": "a",
+		"player_up": "w",
+		"player_down": "s"
 	}
-	]
 }

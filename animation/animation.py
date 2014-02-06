@@ -6,7 +6,7 @@ Created on 11 dec. 2013
 import os
 from os import listdir
 from os.path import isfile, join
-from engine.image_manager import load_image, load_image_with_size
+from engine.image_manager import load_image, load_image_with_size, get_size
 from engine.const import animation_step
 
 class Animation():
@@ -36,7 +36,7 @@ class Animation():
                 else:
                     self.img_indexes.append(load_image_with_size(f, size, permanent))
             self.img = self.img_indexes[0]
-        
+        self.size = get_size(self.img)
     def update_animation(self,state="",invert=False):
         if state != "":
             self.state = state

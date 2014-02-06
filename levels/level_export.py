@@ -69,17 +69,18 @@ def load_level(level):
                 pass
             layer = image_data["layer"]
             if 0 < layer < len(level.images)-1:
-                level.images[layer-1].append(Image(path, pos, size,angle))
+                level.images[layer-1].append(Image(path, pos, None, size, angle))
             
             
     file.close()
     return True
 def save_level(level):
-    file = open(level.filename,mode='w')
+    
     
     level_data = {}
     level_data['player'] = level.player.filename
     level_data['background_color'] = level.bg_color
+    level_data['physic_objects'] = []
     for physic_object in level.physic_objects:
         if physic_object.__class__ == AngleSquare:
             obj = {}
@@ -89,6 +90,20 @@ def save_level(level):
             obj['sensor'] = physic_object.sensor
             obj['user_data'] = physic_object.data
             obj['angle'] = physic_object.angle
-            
-    
+            level_data['physic_objects'].append(obj)
+    i = 1 #layer
+    level_data['images'] = []
+    for layer in level.images:
+        for image in layer:
+            obj = {}
+            obj['type'] = 'Image'
+            obj['layer'] = i
+            obj['path'] = image.path
+            obj['size'] = [image.size[0],image.size[1]]
+            obj['pos'] = [image.pos[0],image.pos[1]]
+            obj['angle'] = image.angle
+            level_data['images'].append(obj)
+        i+=1
+    file = open(level.filename,mode='w')
+    file.write(json.dumps(obj=level_data,indent=4))
     file.close()

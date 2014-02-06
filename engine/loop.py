@@ -1,9 +1,7 @@
 ﻿import pygame, sys
 import engine.init as init
 import engine.level_manager as level_manager
-from engine.event import update_event
-from engine.event import init as event_init
-from engine.event import is_end
+from engine.event import update_event, add_button, get_button
 from engine.const import framerate,startup, log
 from levels.logo_kwakwa import Kwakwa
 from engine.pyconsole import Console
@@ -30,6 +28,8 @@ def loop():
 	fps_clock = pygame.time.Clock()
 	console = Console(screen, (0,0,screen.get_size()[0],screen.get_size()[1]/3))
 	
+	add_button('quit','ESC')
+	
 	level_manager.switch_level(GameState('data/json/level.json'))
 	
 	while not finish:
@@ -38,7 +38,7 @@ def loop():
 		console.process_input()
 		
 		update_event()
-		finish = is_end()
+		finish = get_button('quit')
 		f = level_manager.function_level()
 		if f == 0:
 			break
@@ -60,8 +60,6 @@ def start():
 	global fps,screen
 	pygame.init()
 	fps = pygame.font.Font('data/font/8-BITWONDER.ttf',25)
-	init.init_joystick()
-	event_init()
 	screen = init.init_screen()
 	loop()
 	

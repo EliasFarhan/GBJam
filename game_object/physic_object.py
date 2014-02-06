@@ -6,15 +6,17 @@ Created on 15 dec. 2013
 
 import math
 from engine.image_manager import draw_rect
-from physics.physics import add_static_box
+from physics.physics import add_static_box, remove_body
 from engine.const import debug
 from engine.rect import Rect
+from game_object.game_object import GameObject
 
 class Circle():
     pass
 
-class AngleSquare():
+class AngleSquare(GameObject):
     def __init__(self,pos,size,angle=0,data=0,sensor=False):
+        GameObject.__init__(self)
         self.data = data
         self.pos = pos
         self.size = size
@@ -35,9 +37,13 @@ class AngleSquare():
                         angle=-self.rad_angle,
                         data=self.data,
                         sensor=self.sensor)
+    def update_rect(self):
+        GameObject.update_rect(self)
+        remove_body(self.index)
+        self.init_physics()
     def loop(self,screen,screen_pos):
         if debug:
             draw_rect(screen, screen_pos, self.rect, (255,0,0,255), self.angle)
-    def click(self,mouse_pos):
-        self.click = self.rect.collidepoint(mouse_pos[0], mouse_pos[1])
+    
+
 
