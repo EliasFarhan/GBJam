@@ -5,7 +5,7 @@ if pookoo:
     import physics
 else:
     from Box2D import *
-from physics.contact_listener import KuduContactListener
+    from engine.contact_listener import KuduContactListener
 
 ratio = 64/1.5
 

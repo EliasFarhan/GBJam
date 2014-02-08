@@ -7,7 +7,7 @@ Created on 9 dec. 2013
 from engine.scene import Scene
 from engine.const import log, debug
 from levels.level_export import load_level, save_level
-from physics.physics import init_physics, update_physics
+from engine.physics import init_physics, update_physics
 from levels.editor import Editor
 from engine.event import show_mouse, add_button, get_button
 

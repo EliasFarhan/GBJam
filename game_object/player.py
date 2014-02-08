@@ -8,7 +8,7 @@ from game_object.player_export import load_player
 from engine.event import get_physics_event, get_button, add_button
 from animation.animation import Animation
 from engine.const import log
-from physics.physics import meter2pixel, move
+from engine.physics import meter2pixel, move
 from game_object import physic_object
 from engine.init import get_screen_size
 

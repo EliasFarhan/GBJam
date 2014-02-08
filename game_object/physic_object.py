@@ -6,7 +6,7 @@ Created on 15 dec. 2013
 
 import math
 from engine.image_manager import draw_rect
-from physics.physics import add_static_box, remove_body
+from engine.physics import add_static_box, remove_body
 from engine.const import debug
 from engine.rect import Rect
 from game_object.game_object import GameObject

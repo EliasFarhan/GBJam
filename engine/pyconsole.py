@@ -18,9 +18,11 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-
-import pygame, os, sys 
-from pygame.locals import *
+import os, sys
+from engine.const import pookoo
+if not pookoo:
+	import pygame  
+	from pygame.locals import *
 
 import re 		# Python's Regexp library. Used in pyconsole for parsing
 import textwrap # Used for proper word wrapping

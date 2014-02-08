@@ -4,9 +4,11 @@ Created on 8 sept. 2013
 @author: efarhan
 '''
 
-import pygame
-from pygame.locals import *
 from engine.const import pookoo, log
+if not pookoo:
+    import pygame
+    from pygame.locals import *
+
 
 
 physics_events = []
