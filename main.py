@@ -1,7 +1,11 @@
 #kudu start program
 import sys
 import os
-sys.path.append(os.path.abspath("../script"))
+from engine.const import pookoo
+if pookoo:
+	sys.path.append(os.path.abspath("../script"))
+else:
+	sys.path.append(os.path.abspath("."))
 import engine.loop as game
 
 
