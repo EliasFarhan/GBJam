@@ -6,7 +6,7 @@ Created on 11 janv. 2014
 
 import json
 from engine.const import log
-from physics.physics import add_dynamic_object, add_static_box
+from engine.physics import add_dynamic_object, add_static_box
 from engine.init import get_screen_size
 from engine.event import add_button
 

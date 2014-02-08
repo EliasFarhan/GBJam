@@ -1,4 +1,6 @@
-import pygame
+from engine.const import pookoo
+if not pookoo:
+	import pygame
 
 sounds = {}
 sounds_indexes = {}

@@ -1,8 +1,10 @@
-﻿import pygame, sys
+﻿from engine.const import framerate, log, pookoo
+import sys
+if not pookoo:
+	import pygame
 import engine.init as init
 import engine.level_manager as level_manager
 from engine.event import update_event, add_button, get_button
-from engine.const import framerate,startup, log
 from levels.logo_kwakwa import Kwakwa
 from engine.pyconsole import Console
 from levels.gamestate import GameState

@@ -1,6 +1,7 @@
-import pygame, sys
-from engine.const import log
-
+import sys
+from engine.const import log,pookoo
+if not pookoo:
+	import pygame
 screen_size = (0,0)
 def init_screen():
 	global screen_size
