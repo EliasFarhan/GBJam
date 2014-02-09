@@ -10,7 +10,6 @@ from engine.pyconsole import Console
 from levels.gamestate import GameState
 
 finish = False
-fps = None
 screen = None
 console = None
 
@@ -26,18 +25,20 @@ def get_screen():
 	return screen
 
 def loop():
-	global finish,fps,screen,console
-	fps_clock = pygame.time.Clock()
-	console = Console(screen, (0,0,screen.get_size()[0],screen.get_size()[1]/3))
+	global finish,screen,console
+	if not pookoo:
+		fps_clock = pygame.time.Clock()
+		console = Console(screen, (0,0,init.get_screen_size()[0],init.get_screen_size()[1]/3))
 	
 	add_button('quit','ESC')
 	
 	level_manager.switch_level(GameState('data/json/level.json'))
 	
 	while not finish:
-		screen.fill(pygame.Color(0, 0, 0))
+		if not pookoo:
+			screen.fill(pygame.Color(0, 0, 0))
 		
-		console.process_input()
+			console.process_input()
 		
 		update_event()
 		finish = get_button('quit')
@@ -46,22 +47,20 @@ def loop():
 			break
 		else:
 			f(screen)
-		msg_surface_obj = fps.render(str(int(fps_clock.get_fps())), False, pygame.Color(255,255,255))
-		msg_rect_obj = msg_surface_obj.get_rect()
-		msg_rect_obj.topleft = (0, 0)
-		screen.blit(msg_surface_obj, msg_rect_obj)
 		
-		console.draw()
-	#	pygame.display.update()
-		pygame.display.flip()
-		fps_clock.tick(framerate)
-	pygame.quit()
+		
+		if not pookoo:
+			console.draw()
+			pygame.display.flip()
+			fps_clock.tick(framerate)
+	if not pookoo:
+		pygame.quit()
 	sys.exit()
 
 def start():
 	global fps,screen
-	pygame.init()
-	fps = pygame.font.Font('data/font/8-BITWONDER.ttf',25)
+	if not pookoo:
+		pygame.init()
 	screen = init.init_screen()
 	loop()
 	

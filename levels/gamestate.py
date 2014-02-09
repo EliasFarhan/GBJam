@@ -12,7 +12,6 @@ from levels.editor import Editor
 from engine.event import show_mouse, add_button, get_button
 
 
-
 class GameState(Scene,Editor):
     def __init__(self,filename):
         self.filename = filename
