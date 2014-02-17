@@ -7,7 +7,7 @@ Created on 15 dec. 2013
 import math
 from engine.image_manager import draw_rect
 from engine.physics import add_static_box, remove_body
-from engine.const import debug
+from engine.const import debug,log
 from engine.rect import Rect
 from game_object.game_object import GameObject
 
@@ -43,6 +43,7 @@ class AngleSquare(GameObject):
         self.init_physics()
     def loop(self,screen,screen_pos):
         if debug:
+            log("YOLO"+str(self.rect.pos))
             draw_rect(screen, screen_pos, self.rect, (255,0,0,255), self.angle)
     
 

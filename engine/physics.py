@@ -19,7 +19,7 @@ def set_ratio_pixel(new_ratio):
     global ratio
     ratio = new_ratio
     
-static_objects = {}
+
 timeStep = 1.0 / framerate
 vel_iters, pos_iters = 10,10
 index = 1
@@ -113,14 +113,11 @@ def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
         fixture_def.density = 1
         fixture_def.shape = polygon_shape
         fixture_def.userData = data
-        fixture_def.density = 1
         fixture_def.isSensor = sensor
         static_body.CreateFixture(fixture_def)
         
         if body == None:
-            static_objects[index] = static_body
-            index+=1
-            return index - 1
+            return static_body
     else:
         physics.geometry_add_box(static_body, 
                                  center_pos[0], center_pos[1],

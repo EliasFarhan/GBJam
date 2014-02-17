@@ -22,9 +22,10 @@ def draw_rect(screen,screen_pos,rect, color,angle=0):
 	else:
 		draw.state_save(screen)
 		draw.rgb(color[0]/255,color[1]/255,color[2]/255)
+		
+		draw.translate(rect.pos[0]-screen_pos[0],rect.pos[1]-screen_pos[1])
 		if angle != 0:
-			draw.rotate(angle)
-		draw.translate(rect.pos[0],rect.pos[1])
+			draw.rotate(-angle)
 		draw.rectangle(rect.size[0],rect.size[1])
 		draw.state_restore(screen)
 def fill_surface(surface,r,g,b,a=255):
@@ -97,14 +98,15 @@ def show_image(image, screen, pos,angle=0,center=False,rot_func=None,factor=1):
 				screen.blit(image, image_rect_obj)
 		else:
 			draw.state_save(screen)
+			if factor != 1:
+				draw.scale(factor)
 			if center:
 				draw.translate(window.width()/2+int(pos[0]),window.height/2-int(pos[1]))
 			else:
 				draw.translate(pos[0],pos[1])
 			if angle != 0:
 				draw.rotate(angle)
-			if factor != 1:
-				draw.scale(factor)
+			
 			draw.texture(image)
 			draw.state_restore(screen)
 	except KeyError:
