@@ -7,6 +7,8 @@ Created on 8 sept. 2013
 from engine.const import pookoo, log
 if not pookoo:
     import pygame
+else:
+    import input
     
 class KEY():
     if not pookoo:
@@ -104,6 +106,9 @@ def update_event():
                 except KeyError:
                     '''Key not mapped'''
                     pass
+    else:
+        for k_value in button_key.keys():
+            button_value[button_key[k_value]] = input.keyboard_pressed(k_value)
 
 def get_mouse():
     return pygame.mouse.get_pos(), pygame.mouse.get_pressed()

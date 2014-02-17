@@ -36,13 +36,13 @@ def loop():
 	add_button('quit','ESC')
 	
 	level_manager.switch_level(GameState('data/json/level.json'))
-	state = None
 	state = draw.state_new()
 	while not finish:
 		if not pookoo:
 			screen.fill(pygame.Color(0, 0, 0))
 			console.process_input()
 		else:
+			window.step()
 			draw.clear()
 			draw.rgb(0.0, 0.0, 0.0)
 			draw.rectangle(window.width(), window.height())
@@ -61,6 +61,9 @@ def loop():
 			fps_clock.tick(framerate)
 	if not pookoo:
 		pygame.quit()
+	else:
+		draw.state_free(state)
+		window.finish()
 	sys.exit()
 
 def start():
