@@ -6,7 +6,7 @@ Created on 11 janv. 2014
 import json
 from game_object.player import Player
 from game_object.physic_object import AngleSquare
-from engine.const import log
+from engine.const import log,path_prefix
 from game_object.image import Image
 
 def load_level(level):
@@ -32,7 +32,7 @@ def load_level(level):
     -Player position, size, etc... but not recreate the player!!!
     '''
     
-    level.player = Player(level_data['player'])
+    level.player = Player(path_prefix+level_data['player'])
     level.bg_color = level_data['background_color']
     for physic_object in level_data['physic_objects']:
         if physic_object["type"] == "box":
@@ -64,7 +64,7 @@ def load_level(level):
                 size = image_data["size"]
             except KeyError:
                 pass
-            path = image_data["path"]
+            path = path_prefix+image_data["path"]
             try:
                 angle = image_data["angle"]
             except KeyError:

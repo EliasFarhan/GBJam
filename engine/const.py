@@ -9,6 +9,8 @@ import sys
 pybox2d = False
 pookoo = False
 
+path_prefix = ""
+
 try:
 	import window
 	import log
@@ -18,6 +20,7 @@ try:
 	import draw
 	import physics
 	
+	path_prefix = "../"
 	pookoo = True
 except ImportError:
 	pass
@@ -48,7 +51,7 @@ if sys.platform == 'darwin':
 	animation_step = 3
 	invulnerability = 30
 
-startup = "gameplay"
+startup = path_prefix+'data/json/level.json'
 
 def log(text,error=0):
 	if not pookoo:

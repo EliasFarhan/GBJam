@@ -45,7 +45,7 @@ def load_player(player):
         add_static_box(pos, size, angle, data, sensor, body=player.body)
     for player_action in player_data['player_actions'].items():
         add_button(player_action[0],player_action[1])
-    log(player.body.position)
+    
     file.close()
     return 1
 

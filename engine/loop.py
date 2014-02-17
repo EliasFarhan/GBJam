@@ -1,4 +1,4 @@
-﻿from engine.const import framerate, log, pookoo
+﻿from engine.const import framerate, log, pookoo, startup
 import sys
 if not pookoo:
 	import pygame
@@ -35,7 +35,8 @@ def loop():
 	
 	add_button('quit','ESC')
 	
-	level_manager.switch_level(GameState('data/json/level.json'))
+	
+	level_manager.switch_level(GameState(startup))
 	state = draw.state_new()
 	while not finish:
 		if not pookoo:
@@ -52,7 +53,10 @@ def loop():
 		if f == 0:
 			break
 		else:
-			f(screen)
+			if not pookoo:
+				f(screen)
+			else:
+				f(state)
 		
 		
 		if not pookoo:

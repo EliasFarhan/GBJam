@@ -34,7 +34,7 @@ def init_physics(gravity_arg=None):
     else:
         gravity_value = gravity_arg
     if pookoo:
-        physics.open(gravity_value)
+        world = physics.open(gravity_value)
     else:
         world = b2World(gravity=(0,gravity_value))
         world.contactListener = KuduContactListener()
@@ -42,9 +42,13 @@ def init_physics(gravity_arg=None):
 def add_dynamic_object(obj,pos):
     global world
     position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
-    dynamic_object = world.CreateDynamicBody(position=position)
-    dynamic_object.angle = 0
-    dynamic_object.fixed_rotation = True
+    dynamic_object = None
+    if not pookoo:
+        dynamic_object = world.CreateDynamicBody(position=position)
+        dynamic_object.angle = 0
+        dynamic_object.fixed_rotation = True
+    else:
+        dynamic_object = physics.body_add_dynamic(world,position[0],position[1])
     return dynamic_object
 
 def remove_body(index):
@@ -54,21 +58,25 @@ def remove_body(index):
     except KeyError:
         pass
 def update_physics():
-    global timeStep, vel_iters, pos_iters
-    world.Step(timeStep,vel_iters,pos_iters)
-    world.ClearForces()
+    global timeStep, vel_iters, pos_iters,world
+    if not pookoo:
+        world.Step(timeStep,vel_iters,pos_iters)
+        world.ClearForces()
+    else:
+        physics.step(world,timeStep)
     
 def move(body,vx=None,vy=None):
     dyn_obj = body
-    velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
-    fx,fy=0,0
-    if(vx != None):
-        velx = vx * move_speed - velx
-        fx = dyn_obj.mass * velx / timeStep
-    if(vy != None):
-        vely = vy * move_speed - vely
-        fy = dyn_obj.mass * vely / timeStep
-    dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
+    if not pookoo:
+        velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
+        fx,fy=0,0
+        if(vx != None):
+            velx = vx * move_speed - velx
+            fx = dyn_obj.mass * velx / timeStep
+        if(vy != None):
+            vely = vy * move_speed - vely
+            fy = dyn_obj.mass * vely / timeStep
+        dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
 def jump(obj):
     dyn_obj = dynamic_objects[obj]
     force = dyn_obj.mass * jump / timeStep
@@ -80,26 +88,41 @@ def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
     static_body = body
     if(static_body == None):
         pos_body = (pixel2meter(pos[0]), pixel2meter(pos[1]))
-        static_body = world.CreateStaticBody(position=pos_body)
-        static_body.angle = 0
+        if pookoo:
+            static_body = physics.body_add_static(world,pos[0],pos[1])
+            return static_body
+        else:
+            static_body = world.CreateStaticBody(position=pos_body)
+            static_body.angle = 0
+    
     center_pos = (0,0)
     if body != None:
         center_pos = (pixel2meter(pos[0]),pixel2meter(pos[1]))
-    polygon_shape = b2PolygonShape()
-    polygon_shape.SetAsBox(pixel2meter(size[0]), pixel2meter(size[1]),
-                               b2Vec2(center_pos),angle)
-    fixture_def = b2FixtureDef()
-    fixture_def.density = 1
-    fixture_def.shape = polygon_shape
-    fixture_def.userData = data
-    fixture_def.density = 1
-    fixture_def.isSensor = sensor
-    static_body.CreateFixture(fixture_def)
-    
-    if body == None:
-        static_objects[index] = static_body
-        index+=1
-        return index - 1
+    if not pookoo:
+        polygon_shape = b2PolygonShape()
+        polygon_shape.SetAsBox(pixel2meter(size[0]), pixel2meter(size[1]),
+                                   b2Vec2(center_pos),angle)
+        fixture_def = b2FixtureDef()
+        fixture_def.density = 1
+        fixture_def.shape = polygon_shape
+        fixture_def.userData = data
+        fixture_def.density = 1
+        fixture_def.isSensor = sensor
+        static_body.CreateFixture(fixture_def)
+        
+        if body == None:
+            static_objects[index] = static_body
+            index+=1
+            return index - 1
+    else:
+        physics.geometry_add_box(static_body, 
+                                 center_pos[0], center_pos[1],
+                                 pixel2meter(size[0]),pixel2meter(size[1]),
+                                 angle, sensor,
+                                 data)
+        if body == None:
+            return static_body
+            
     
 
 def add_static_circle(pos,radius,sensor=False,user_data=0):

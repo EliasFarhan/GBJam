@@ -21,6 +21,7 @@ def init_screen():
 		if not window.begin():
 			log.error("Couldn't initialize GUI :(")
 			exit()
+		screen_size = (window.width(),window.height())
 		draw.begin()
 def init_joystick():
 	pygame.joystick.init()

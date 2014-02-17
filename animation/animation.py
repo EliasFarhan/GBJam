@@ -7,7 +7,7 @@ import os
 from os import listdir
 from os.path import isfile, join
 from engine.image_manager import load_image, load_image_with_size, get_size
-from engine.const import animation_step
+from engine.const import animation_step,path_prefix
 
 class Animation():
     def __init__(self):
@@ -23,7 +23,7 @@ class Animation():
         
         for p in self.path_list:
             
-            path = self.path+p
+            path = path_prefix+self.path+p
             files = []
             if ".png" in path:
                 files = [path]
