@@ -98,14 +98,15 @@ def show_image(image, screen, pos,angle=0,center=False,rot_func=None,factor=1):
 				screen.blit(image, image_rect_obj)
 		else:
 			draw.state_save(screen)
-			if factor != 1:
-				draw.scale(factor)
+			
 			if center:
 				draw.translate(window.width()/2+int(pos[0]),window.height/2-int(pos[1]))
 			else:
 				draw.translate(pos[0],pos[1])
 			if angle != 0:
 				draw.rotate(angle)
+			if factor != 1:
+				draw.scale(factor)
 			
 			draw.texture(image)
 			draw.state_restore(screen)

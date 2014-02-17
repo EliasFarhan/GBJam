@@ -40,7 +40,7 @@ class Image(GameObject):
         factor = 1
         if pookoo:
             
-            factor = texture.size(self.img)[0]/self.size[0]
+            factor = self.size[0]/texture.size(self.img)[0]
             log(str(texture.size(self.img))+" "+str(self.size))
         show_image(self.img, screen, (pos[0]-screen_pos[0],pos[1]-screen_pos[1]),factor=factor)
         
