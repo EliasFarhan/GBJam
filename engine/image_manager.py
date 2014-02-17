@@ -47,7 +47,7 @@ def get_image(index):
 def get_size(index):
 	global images
 	if not pookoo:
-		return images[index].get_size()
+		return index.get_size()
 def load_image(name,permanent=False):
 	global images,permanent_images
 	try:

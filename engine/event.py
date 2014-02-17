@@ -88,19 +88,19 @@ def update_event():
     global button_key,button_value
     if not pookoo:
         for event in pygame.event.get():
-            if event.type == KEYDOWN:
+            if event.type == pygame.KEYDOWN:
                 try:
                     button_value[button_key[event.key]] = True
                 except KeyError:
                     '''Key not mapped'''
                     pass
-                if event.key == K_TAB:
+                if event.key == pygame.K_TAB:
                     if pygame.key.get_mods() & KMOD_CTRL:
                         from engine.loop import get_console
                         console = get_console()
                         console.set_active()
                         console.preserve_events = False
-            elif event.type == KEYUP:
+            elif event.type == pygame.KEYUP:
                 try:
                     button_value[button_key[event.key]] = False
                 except KeyError:
