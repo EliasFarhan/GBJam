@@ -37,7 +37,9 @@ def loop():
 	
 	
 	level_manager.switch_level(GameState(startup))
-	state = draw.state_new()
+	state = None
+	if pookoo:
+		state = draw.state_new()
 	while not finish:
 		if not pookoo:
 			screen.fill(pygame.Color(0, 0, 0))
