@@ -25,9 +25,16 @@ vel_iters, pos_iters = 10,10
 index = 1
 world = None
 
+def deinit_physics():
+    global world
+    if pookoo:
+        physics.close(world)
+    world = None
 def init_physics(gravity_arg=None):
     global world,static_objects,dynamic_objects
-    world = None
+    if world != None:
+        deinit_physics()
+    
     gravity_value = 0
     if(gravity_arg == None):
         gravity_value = gravity 

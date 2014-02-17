@@ -11,6 +11,8 @@ from engine.const import log,pookoo
 from engine.physics import meter2pixel, move
 from game_object import physic_object
 from engine.init import get_screen_size
+if pookoo:
+    import physics
 
 class Player(AnimImage):
     def __init__(self, path, pos=(0,0),layer = 1):
@@ -73,13 +75,13 @@ class Player(AnimImage):
                 self.anim.state = 'jump_right'
             else:
                 self.anim.state = 'jump_left'
-        physic_pos = (self.pos[0],self.pos[1])
+        physics_pos = (0,0)
         if not pookoo:
-            physic_pos = (meter2pixel(self.body.position[0]),meter2pixel(self.body.position[1]))
+            physics_pos = self.body.position
         else:
-            #TODO Get Position in physics coordinates
-            pass
-        pos = (physic_pos[0]-self.screen_relative_pos[0]*get_screen_size()[0],
-               physic_pos[1]-self.screen_relative_pos[1]*get_screen_size()[1])
+            physics_pos = physics.body_get_position(self.body)
+        physics_pos = (meter2pixel(physics_pos[0]),meter2pixel(physics_pos[1]))
+        pos = (physics_pos[0]-self.screen_relative_pos[0]*get_screen_size()[0],
+               physics_pos[1]-self.screen_relative_pos[1]*get_screen_size()[1])
         self.pos = pos
         

@@ -7,7 +7,7 @@ Created on 9 dec. 2013
 from engine.scene import Scene
 from engine.const import log, debug
 from levels.level_export import load_level, save_level
-from engine.physics import init_physics, update_physics
+from engine.physics import init_physics, update_physics,deinit_physics
 from levels.editor import Editor
 from engine.event import show_mouse, add_button, get_button
 
@@ -42,7 +42,6 @@ class GameState(Scene,Editor):
         self.filename = newfilename
         self.init()
     def loop(self, screen):
-        
         if not self.editor_click and get_button('editor'):
             self.editor = not self.editor
             if not self.editor:
@@ -66,4 +65,5 @@ class GameState(Scene,Editor):
         for physic_object in self.physic_objects:
             physic_object.loop(screen,self.screen_pos)
     def exit(self, screen):
+        deinit_physics()
         Scene.exit(self, screen)

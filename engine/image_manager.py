@@ -21,7 +21,9 @@ def draw_rect(screen,screen_pos,rect, color,angle=0):
 		screen.blit(rot_image, (rot_rect[0]-screen_pos[0],rot_rect[1]-screen_pos[1]))
 	else:
 		draw.state_save(screen)
-		draw.rgb(color[0],color[1],color[2])
+		draw.rgb(color[0]/255,color[1]/255,color[2]/255)
+		if angle != 0:
+			draw.rotate(angle)
 		draw.translate(rect.pos[0],rect.pos[1])
 		draw.rectangle(rect.size[0],rect.size[1])
 		draw.state_restore(screen)
