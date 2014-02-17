@@ -41,7 +41,6 @@ def loop():
 	while not finish:
 		if not pookoo:
 			screen.fill(pygame.Color(0, 0, 0))
-		
 			console.process_input()
 		else:
 			draw.clear()
