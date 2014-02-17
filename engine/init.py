@@ -2,15 +2,26 @@ import sys
 from engine.const import log,pookoo
 if not pookoo:
 	import pygame
+else:
+	import window
+	import log
+	import draw
 screen_size = (0,0)
 def init_screen():
 	global screen_size
-	screen_info = pygame.display.Info()
-	screen_size = (screen_info.current_w, screen_info.current_h)
-	screen_size = (1280,720)
-	log("Screen size: "+str(screen_size))
-	pygame.mouse.set_visible(False)
-	return pygame.display.set_mode(screen_size)
+	if not pookoo:
+		screen_info = pygame.display.Info()
+		screen_size = (screen_info.current_w, screen_info.current_h)
+		screen_size = (1280,720)
+		log("Screen size: "+str(screen_size))
+		pygame.mouse.set_visible(False)
+		return pygame.display.set_mode(screen_size)
+	else:
+		log.info("Initialize screen")
+		if not window.begin():
+			log.error("Couldn't initialize GUI :(")
+			exit()
+		draw.begin()
 def init_joystick():
 	pygame.joystick.init()
 def get_screen_size():

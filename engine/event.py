@@ -7,8 +7,20 @@ Created on 8 sept. 2013
 from engine.const import pookoo, log
 if not pookoo:
     import pygame
-    from pygame.locals import *
-
+    
+class KEY():
+    if not pookoo:
+        K_UP = pygame.K_UP
+        K_DOWN = pygame.K_DOWN
+        K_LEFT = pygame.K_LEFT
+        K_RIGHT = pygame.K_RIGHT
+        K_ESCAPE = pygame.K_ESCAPE
+    else:
+        K_UP = 82
+        K_DOWN = 81
+        K_LEFT = 80
+        K_RIGHT = 79
+        K_ESCAPE = 41
 
 
 physics_events = []
@@ -52,15 +64,15 @@ def add_button(action,key_value):
     except TypeError:
         '''the key value is not a letter or a number'''
         if key_value == 'UP':
-            button_key[K_UP] = key_value
+            button_key[KEY.K_UP] = key_value
         if key_value == 'DOWN':
-            button_key[K_DOWN] = key_value
+            button_key[KEY.K_DOWN] = key_value
         if key_value == 'LEFT':
-            button_key[K_LEFT] = key_value
+            button_key[KEY.K_LEFT] = key_value
         if key_value == 'RIGHT':
-            button_key[K_RIGHT] = key_value
+            button_key[KEY.K_RIGHT] = key_value
         if key_value == 'ESC':
-            button_key[K_ESCAPE] = key_value
+            button_key[KEY.K_ESCAPE] = key_value
             
             
 def get_button(action):
@@ -72,25 +84,26 @@ def get_button(action):
     
 def update_event():
     global button_key,button_value
-    for event in pygame.event.get():
-        if event.type == KEYDOWN:
-            try:
-                button_value[button_key[event.key]] = True
-            except KeyError:
-                '''Key not mapped'''
-                pass
-            if event.key == K_TAB:
-                if pygame.key.get_mods() & KMOD_CTRL:
-                    from engine.loop import get_console
-                    console = get_console()
-                    console.set_active()
-                    console.preserve_events = False
-        elif event.type == KEYUP:
-            try:
-                button_value[button_key[event.key]] = False
-            except KeyError:
-                '''Key not mapped'''
-                pass
+    if not pookoo:
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                try:
+                    button_value[button_key[event.key]] = True
+                except KeyError:
+                    '''Key not mapped'''
+                    pass
+                if event.key == K_TAB:
+                    if pygame.key.get_mods() & KMOD_CTRL:
+                        from engine.loop import get_console
+                        console = get_console()
+                        console.set_active()
+                        console.preserve_events = False
+            elif event.type == KEYUP:
+                try:
+                    button_value[button_key[event.key]] = False
+                except KeyError:
+                    '''Key not mapped'''
+                    pass
 
 def get_mouse():
     return pygame.mouse.get_pos(), pygame.mouse.get_pressed()

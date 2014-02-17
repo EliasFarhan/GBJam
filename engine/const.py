@@ -50,5 +50,12 @@ if sys.platform == 'darwin':
 
 startup = "gameplay"
 
-def log(text):
-	sys.stdout.write(str(text)+"\n")
+def log(text,error=0):
+	if not pookoo:
+		sys.stdout.write(str(text)+"\n")
+	else:
+		import log as log_module
+		if error == 0:
+			log_module.info(text)
+		else:
+			log_module.error(text)

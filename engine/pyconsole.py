@@ -20,6 +20,7 @@
 
 import os, sys
 from engine.const import pookoo
+from engine.rect import Rect
 if not pookoo:
 	import pygame  
 	from pygame.locals import *
@@ -91,11 +92,12 @@ def balanced(t):
 	
 class Console:
 	def __init__(self, screen, rect, functions={}, key_calls={}, vars={}, syntax={}):
-		if not pygame.display.get_init():
-			raise pygame.error("Display not initialized. Initialize the display before creating a Console")
-		
-		if not pygame.font.get_init():
-			pygame.font.init()
+		if not pookoo:
+			if not pygame.display.get_init():
+				raise pygame.error("Display not initialized. Initialize the display before creating a Console")
+			
+			if not pygame.font.get_init():
+				pygame.font.init()
 
 		self.parent_screen = screen
 		self.rect = pygame.Rect(rect)

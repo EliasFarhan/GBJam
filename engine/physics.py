@@ -33,9 +33,11 @@ def init_physics(gravity_arg=None):
         gravity_value = gravity 
     else:
         gravity_value = gravity_arg
-    
-    world = b2World(gravity=(0,gravity_value))
-    world.contactListener = KuduContactListener()
+    if pookoo:
+        physics.open(gravity_value)
+    else:
+        world = b2World(gravity=(0,gravity_value))
+        world.contactListener = KuduContactListener()
 
 def add_dynamic_object(obj,pos):
     global world

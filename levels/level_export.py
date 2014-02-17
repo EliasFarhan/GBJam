@@ -13,7 +13,9 @@ def load_level(level):
     file = None
     try:
         file = open(level.filename, mode='r')
+        
     except IOError:
+        log("Loading level: "+level.filename,1)
         return False
     level_data = None
     try:
