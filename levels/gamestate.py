@@ -17,6 +17,8 @@ class GameState(Scene,Editor):
         self.filename = filename
         if debug:
             Editor.__init__(self)
+    def __del__(self):
+        deinit_physics()
     def init(self):
         init_physics()
         self.images = [
@@ -36,6 +38,11 @@ class GameState(Scene,Editor):
         
         add_button('editor', 'e')
         self.editor_click = False
+        
+        self.dialog = False
+        self.dialog_box = None
+        self.dialog_answers = []
+        
         
         
     def reload(self,newfilename):
