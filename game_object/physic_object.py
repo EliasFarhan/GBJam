@@ -43,7 +43,6 @@ class AngleSquare(GameObject):
         self.init_physics()
     def loop(self,screen,screen_pos):
         if debug:
-            log("YOLO"+str(self.rect.pos))
             draw_rect(screen, screen_pos, self.rect, (255,0,0,255), self.angle)
     
 

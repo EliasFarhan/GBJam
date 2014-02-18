@@ -5,11 +5,54 @@ Created on 8 sept. 2013
 '''
 
 from engine.const import pookoo, log
+from engine.sound_manager import load_sound, play_sound, set_playlist
 if not pookoo:
     import pygame
 else:
     import input
     
+
+class Event():
+    def __init__(self):
+        self.parent_event = None
+        self.next_event = None
+    def execute(self):
+        if self.next_event:
+            self.next_event.execute()
+        elif self.parent_event:
+            if self.parent_event.next_event:
+                self.parent_event.next_event.execute()
+
+class DialogEvent():
+    def __init__(self,gamestate,text,answers):
+        self.text = text
+        self.answers = answers
+        self.gamestate = gamestate
+    def execute(self):
+        self.gamestate.dialog = True
+        self.gamestate.dialog_text = self.text
+        self.gamestate.answers = self.answers.keys()
+    def answer(self,answer):
+        self.gamestate.dialog = False
+        new_event = self.answers[answer]
+        if new_event:
+            new_event.execute()
+        else:
+            Event.execute(self)
+            
+class SoundEvent():
+    def __init__(self,sound_name):
+        self.sound_name = sound_name
+        self.sound = load_sound(sound_name)
+    def execute(self):
+        play_sound(self.sound)
+        Event.execute(self)
+class MusicEvent():
+    def __init__(self,playlist):
+        self.playlist = playlist
+    def execute(self):
+        set_playlist(self.playlist)
+
 class KEY():
     if not pookoo:
         K_UP = pygame.K_UP
@@ -116,4 +159,6 @@ def get_mouse():
 def show_mouse(show=True):
     if not pookoo:
         pygame.mouse.set_visible(show)
+
+
     

@@ -37,11 +37,29 @@ class GameState(Scene,Editor):
         add_button('editor', 'e')
         self.editor_click = False
         
+        '''current dialog'''
+        self.dialog = False
+        self.dialog_box = None
+        self.dialog_text = ''
+        self.dialog_answers = []
         
     def reload(self,newfilename):
         self.filename = newfilename
         self.init()
     def loop(self, screen):
+        '''Dialog'''
+        if self.dialog and not self.editor:
+            show_mouse()
+            for button in self.dialog_answers:
+                '''show answers'''
+                pass
+        
+        '''Event
+        TODO: if mouse_click on element, execute its event, of not null'''
+        
+        
+        '''Editor'''
+        
         if not self.editor_click and get_button('editor'):
             self.editor = not self.editor
             if not self.editor:
@@ -52,9 +70,11 @@ class GameState(Scene,Editor):
         if debug and self.editor:
             show_mouse()
             Editor.loop(self)
+        
         if not self.editor:
             update_physics()
-        
+            
+        '''Show images'''
         for i in range(self.player.layer):
             for j in range(len(self.images[i])):
                 self.images[i][j].loop(screen,self.screen_pos)

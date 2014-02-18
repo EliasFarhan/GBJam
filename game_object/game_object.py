@@ -12,6 +12,8 @@ class GameObject:
         self.size = None
         self.rect = None
         
+        self.event = []
+        self.event_index = 0
     def scale(self,enlargement,speed=1.1):
         scale_speed = speed
         if not enlargement:
@@ -37,4 +39,8 @@ class GameObject:
     def check_click(self,mouse_pos,screen_pos):
         point_pos = (screen_pos[0]+mouse_pos[0], screen_pos[1]+mouse_pos[1])
         return self.rect.collide_point(point_pos)
+    def execute_event(self):
+        if self.event:
+            self.event[self.event_index].execute()
+            self.event_index = 1
     
