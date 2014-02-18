@@ -70,7 +70,6 @@ def loop():
 	else:
 		draw.state_free(state)
 		window.finish()
-	sys.exit()
 
 def start():
 	global fps,screen

@@ -17,6 +17,8 @@ class GameState(Scene,Editor):
         self.filename = filename
         if debug:
             Editor.__init__(self)
+    def __del__(self):
+        deinit_physics()
     def init(self):
         init_physics()
         self.images = [
@@ -42,6 +44,8 @@ class GameState(Scene,Editor):
         self.dialog_box = None
         self.dialog_text = ''
         self.dialog_answers = []
+        
+        
         
     def reload(self,newfilename):
         self.filename = newfilename
