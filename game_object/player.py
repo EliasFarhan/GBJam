@@ -4,7 +4,7 @@ Created on 8 sept. 2013
 @author: efarhan
 '''
 from game_object.image import Image, AnimImage
-from game_object.player_export import load_player
+from json_export.player_export import load_player
 from engine.event import get_physics_event, get_button, add_button
 from animation.animation import Animation
 from engine.const import log,pookoo
@@ -21,6 +21,7 @@ class Player(AnimImage):
         self.anim = Animation()
         self.body = None
         self.foot = False
+        self.center_image = True
         self.direction = True #True for right
         log('Loading player file '+self.filename)
         status = load_player(self)

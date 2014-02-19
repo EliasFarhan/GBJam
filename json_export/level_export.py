@@ -8,21 +8,11 @@ from game_object.player import Player
 from game_object.physic_object import AngleSquare
 from engine.const import log,path_prefix
 from game_object.image import Image
+from json_export.json_export import load_json
+from json_export.event_export import load_event
 
 def load_level(level):
-    file = None
-    try:
-        file = open(level.filename, mode='r')
-        
-    except IOError:
-        log("Loading level: "+level.filename,1)
-        return False
-    level_data = None
-    try:
-        level_data = json.loads(file.read())
-    except ValueError as e: #No json object decoded
-        log(e)
-        return False
+    level_data = load_json(level.filename)
     ''' 
     Import a level with:
     
@@ -34,6 +24,10 @@ def load_level(level):
     
     level.player = Player(path_prefix+level_data['player'])
     level.bg_color = level_data['background_color']
+    try:
+        level.show_mouse = level_data['show_mouse']
+    except KeyError:
+        pass
     for physic_object in level_data['physic_objects']:
         if physic_object["type"] == "box":
             
@@ -70,11 +64,14 @@ def load_level(level):
             except KeyError:
                 pass
             layer = image_data["layer"]
+            image = Image(path, pos, None, size, angle)
+            try:
+                event_path = image_data["event"]
+                image.event = load_event(event_path)
+            except KeyError:
+                pass
             if 0 < layer < len(level.images)-1:
-                level.images[layer-1].append(Image(path, pos, None, size, angle))
-            
-            
-    file.close()
+                level.images[layer-1].append(image)
     return True
 def save_level(level):
     

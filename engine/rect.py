@@ -21,9 +21,14 @@ class Rect():
         else:
             return self.rect.center
     def collide_point(self,point_pos):
-        if pookoo:
-            return (self.pos[0] < point_pos[0] < self.pos[0]+self.size[0] and
+        
+        status = False
+        '''if pookoo:
+            status = (self.pos[0] < point_pos[0] < self.pos[0]+self.size[0] and
                     self.pos[1] < point_pos[1] < self.pos[1]+self.size[1])
         else:
-            return self.rect.collidepoint(point_pos)
-        
+            status = self.rect.collidepoint(point_pos)'''
+        status = (self.pos[0] < point_pos[0] < self.pos[0]+self.size[0] and
+                    self.pos[1] < point_pos[1] < self.pos[1]+self.size[1])
+        log("Status: "+str(status)+" "+str(point_pos)+" "+str(self.pos)+" "+str(self.size))
+        return status

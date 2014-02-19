@@ -23,7 +23,7 @@ class Image(GameObject):
         self.path = path
         self.size = size
         self.screen_relative_pos = None
-        
+        self.center_image = False
         self.init_image()
     def init_image(self):
         if self.size == None:
@@ -42,7 +42,7 @@ class Image(GameObject):
             
             factor = self.size[0]/texture.size(self.img)[0]
             log(str(texture.size(self.img))+" "+str(self.size))
-        show_image(self.img, screen, (pos[0]-screen_pos[0],pos[1]-screen_pos[1]),factor=factor)
+        show_image(self.img, screen, (pos[0]-screen_pos[0],pos[1]-screen_pos[1]),factor=factor,center_image=self.center_image)
         
 class AnimImage(Image):
     '''Can be animated if a directory is given,

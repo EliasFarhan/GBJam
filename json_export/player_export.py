@@ -9,18 +9,10 @@ from engine.const import log
 from engine.physics import add_dynamic_object, add_static_box
 from engine.init import get_screen_size
 from engine.event import add_button
+from json_export.json_export import load_json
 
 def load_player(player):
-    file = None
-    try:
-        file = open(player.filename, mode='r')
-    except IOError:
-        return 2
-    player_data = None
-    try:
-        player_data = json.loads(file.read())
-    except ValueError: #No json object decoded
-        return 3
+    player_data = load_json(player.filename)
     '''
     Create player instance
     
@@ -45,8 +37,7 @@ def load_player(player):
         add_static_box(pos, size, angle, data, sensor, body=player.body)
     for player_action in player_data['player_actions'].items():
         add_button(player_action[0],player_action[1])
-    
-    file.close()
+
     return 1
 
 def save_player(player):

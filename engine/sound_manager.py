@@ -1,4 +1,4 @@
-from engine.const import pookoo
+from engine.const import pookoo, log
 if not pookoo:
 	import pygame
 
@@ -8,6 +8,7 @@ music_index = 0
 
 def set_playlist(music_list):
 	global playlist
+	log("YOLO")
 	playlist = music_list
 	pygame.mixer.music.load(playlist[0])
 	pygame.mixer.music.play()
@@ -51,7 +52,7 @@ def load_sound(name):
 	return sounds[name]
 
 def play_sound(sound):
-	global sounds
+	log("Play sound")
 	sound.play()
 
 

@@ -74,7 +74,7 @@ def load_image_with_size(name, size,permanent=False):
 			img_name[name] = pygame.transform.scale(img_name[name], size)
 	return img_name[name]
 
-def show_image(image, screen, pos,angle=0,center=False,rot_func=None,factor=1):
+def show_image(image, screen, pos,angle=0,center=False,rot_func=None,factor=1,center_image=False):
 	if image == 0:
 		return
 	try:
@@ -87,7 +87,10 @@ def show_image(image, screen, pos,angle=0,center=False,rot_func=None,factor=1):
 			if center:
 				image_rect_obj.center = (screen.get_rect().center[0]+int(pos[0]), screen.get_rect().center[1]-int(pos[1]))
 			else:
-				image_rect_obj.center = (int(pos[0]), int(pos[1]))
+				if center_image:
+					image_rect_obj.center = (int(pos[0]), int(pos[1]))
+				else:
+					image_rect_obj.topleft = (int(pos[0]), int(pos[1]))
 				
 			if angle != 0:
 				if rot_func == None:

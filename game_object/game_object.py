@@ -4,6 +4,7 @@ Created on Feb 3, 2014
 @author: efarhan
 '''
 from engine.rect import Rect
+from engine.const import log
 
 class GameObject:
     def __init__(self):
@@ -12,8 +13,7 @@ class GameObject:
         self.size = None
         self.rect = None
         
-        self.event = []
-        self.event_index = 0
+        self.event = None
     def scale(self,enlargement,speed=1.1):
         scale_speed = speed
         if not enlargement:
@@ -37,6 +37,7 @@ class GameObject:
         self.update_rect()
         
     def check_click(self,mouse_pos,screen_pos):
+        log(str(screen_pos)+" "+str(mouse_pos))
         point_pos = (screen_pos[0]+mouse_pos[0], screen_pos[1]+mouse_pos[1])
         return self.rect.collide_point(point_pos)
     def execute_event(self):

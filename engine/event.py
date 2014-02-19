@@ -14,8 +14,12 @@ else:
 
 class Event():
     def __init__(self):
-        self.parent_event = None
+        self.parent_event = None # for dialog only
         self.next_event = None
+    def set_parent_event(self,parent_event):
+        self.parent_event = parent_event
+        if self.next_event == None:
+            self.next_event = parent_event.next_event
     def execute(self):
         if self.next_event:
             self.next_event.execute()
@@ -23,11 +27,14 @@ class Event():
             if self.parent_event.next_event:
                 self.parent_event.next_event.execute()
 
-class DialogEvent():
+class DialogEvent(Event):
     def __init__(self,gamestate,text,answers):
+        Event.__init__(self)
         self.text = text
-        self.answers = answers
+        self.answers = {}
         self.gamestate = gamestate
+    def set_answers(self,answers):
+        self.answers = answers
     def execute(self):
         self.gamestate.dialog = True
         self.gamestate.dialog_text = self.text
@@ -40,18 +47,22 @@ class DialogEvent():
         else:
             Event.execute(self)
             
-class SoundEvent():
+class SoundEvent(Event):
     def __init__(self,sound_name):
+        Event.__init__(self)
         self.sound_name = sound_name
         self.sound = load_sound(sound_name)
     def execute(self):
         play_sound(self.sound)
         Event.execute(self)
-class MusicEvent():
+
+class MusicEvent(Event):
     def __init__(self,playlist):
+        Event.__init__(self)
         self.playlist = playlist
     def execute(self):
         set_playlist(self.playlist)
+        Event.execute(self)
 
 class KEY():
     if not pookoo:
