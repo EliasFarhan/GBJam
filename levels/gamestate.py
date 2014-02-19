@@ -14,12 +14,14 @@ from game_object.text import Text
 from engine.init import get_screen_size
 from engine.image_manager import fill_surface
 from pygame.tests.test_utils import gradient
+from levels.dialog_gui import DialogGUI
 
-class GameState(Scene,Editor):
+class GameState(Scene,Editor,DialogGUI):
     def __init__(self,filename):
         self.filename = filename
         if debug:
             Editor.__init__(self)
+        DialogGUI.__init__(self)
     def __del__(self):
         deinit_physics()
     def init(self):
@@ -46,12 +48,7 @@ class GameState(Scene,Editor):
         
         '''current dialog'''
         
-        self.dialog = False
-        self.dialog_box = None
-        self.dialog_text = Text((0,get_screen_size()[1]*2/3), 
-                                get_screen_size()[1]/6, 
-                                "comicsansms", "",gradient=60)
-        self.dialog_answers = []
+        
         
         self.click = False
         
@@ -75,7 +72,6 @@ class GameState(Scene,Editor):
                     for image in layer:
                         if image.check_click(mouse_pos,self.screen_pos):
                             event = image.event
-                            log("New event: "+str(event))
                 if event:
                     event.execute()
             elif not pressed[0]:
@@ -106,14 +102,7 @@ class GameState(Scene,Editor):
             for j in range(len(self.images[i])):
                 self.images[i][j].loop(screen,self.screen_pos)
         
-        '''Dialog'''
-        if self.dialog and not self.editor:
-            show_mouse()
-            for button in self.dialog_answers:
-                '''TODO show answers'''
-                pass
-        
-            self.dialog_text.loop(screen, self.screen_pos)
+        DialogGUI.loop(self,screen)
         
         for physic_object in self.physic_objects:
             physic_object.loop(screen,self.screen_pos)
