@@ -4,12 +4,16 @@ Created on 9 dec. 2013
 @author: efarhan
 '''
 
-from engine.scene import Scene
+from levels.scene import Scene
 from engine.const import log, debug
 from json_export.level_export import load_level, save_level
 from engine.physics import init_physics, update_physics,deinit_physics
 from levels.editor import Editor
 from engine.event import show_mouse, add_button, get_button, get_mouse
+from game_object.text import Text
+from engine.init import get_screen_size
+from engine.image_manager import fill_surface
+from pygame.tests.test_utils import gradient
 
 class GameState(Scene,Editor):
     def __init__(self,filename):
@@ -19,6 +23,7 @@ class GameState(Scene,Editor):
     def __del__(self):
         deinit_physics()
     def init(self):
+
         init_physics()
         self.images = [
                        [],
@@ -43,7 +48,9 @@ class GameState(Scene,Editor):
         
         self.dialog = False
         self.dialog_box = None
-        self.dialog_text = ''
+        self.dialog_text = Text((0,get_screen_size()[1]*2/3), 
+                                get_screen_size()[1]/6, 
+                                "comicsansms", "",gradient=60)
         self.dialog_answers = []
         
         self.click = False
@@ -53,12 +60,8 @@ class GameState(Scene,Editor):
         self.filename = newfilename
         self.init()
     def loop(self, screen):
-        '''Dialog'''
-        if self.dialog and not self.editor:
-            show_mouse()
-            for button in self.dialog_answers:
-                '''TODO show answers'''
-                pass
+        fill_surface(screen, self.bg_color[0],self.bg_color[1],self.bg_color[2],255)
+        
         
         '''Event
         If mouse_click on element, execute its event, of not null'''
@@ -102,8 +105,20 @@ class GameState(Scene,Editor):
         for i in range(self.player.layer,len(self.images)):
             for j in range(len(self.images[i])):
                 self.images[i][j].loop(screen,self.screen_pos)
+        
+        '''Dialog'''
+        if self.dialog and not self.editor:
+            show_mouse()
+            for button in self.dialog_answers:
+                '''TODO show answers'''
+                pass
+        
+            self.dialog_text.loop(screen, self.screen_pos)
+        
         for physic_object in self.physic_objects:
             physic_object.loop(screen,self.screen_pos)
+            
+        
     def exit(self, screen):
         deinit_physics()
         Scene.exit(self, screen)

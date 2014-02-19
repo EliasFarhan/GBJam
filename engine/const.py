@@ -55,7 +55,10 @@ startup = path_prefix+'data/json/level.json'
 
 def log(text,error=0):
 	if not pookoo:
-		sys.stdout.write(str(text)+"\n")
+		if error == 0:
+			sys.stdout.write(str(text)+"\n")
+		else:
+			sys.stderr.write(str(text)+"\n")
 	else:
 		import log as log_module
 		if error == 0:

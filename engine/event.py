@@ -28,7 +28,7 @@ class Event():
                 self.parent_event.next_event.execute()
 
 class DialogEvent(Event):
-    def __init__(self,gamestate,text,answers):
+    def __init__(self,gamestate,text):
         Event.__init__(self)
         self.text = text
         self.answers = {}
@@ -37,7 +37,7 @@ class DialogEvent(Event):
         self.answers = answers
     def execute(self):
         self.gamestate.dialog = True
-        self.gamestate.dialog_text = self.text
+        self.gamestate.dialog_text.set_text(self.text)
         self.gamestate.answers = self.answers.keys()
     def answer(self,answer):
         self.gamestate.dialog = False

@@ -1,4 +1,4 @@
-from engine.scene import Scene
+from levels.scene import Scene
 from engine.init import get_screen_size
 from engine.const import framerate
 from engine.image_manager import fill_surface

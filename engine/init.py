@@ -15,6 +15,7 @@ def init_screen():
 		screen_size = (1280,720)
 		log("Screen size: "+str(screen_size))
 		pygame.mouse.set_visible(False)
+		pygame.font.init()
 		return pygame.display.set_mode(screen_size)
 	else:
 		log.info("Initialize screen")
