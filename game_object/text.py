@@ -27,8 +27,9 @@ class Text(GameObject):
         if color == None:
             new_color = self.color
         self.text_surface = load_text(self.font,text,new_color)
-        self.size = self.text_surface.get_size()
-        self.rect = Rect(self.pos, self.size)
+        if self.text_surface:
+            self.size = self.text_surface.get_size()
+            self.rect = Rect(self.pos, self.size)
         
     def loop(self,screen,screen_pos):
         if self.time < self.gradient:

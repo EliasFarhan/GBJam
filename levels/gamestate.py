@@ -13,7 +13,6 @@ from engine.event import show_mouse, add_button, get_button, get_mouse
 from game_object.text import Text
 from engine.init import get_screen_size
 from engine.image_manager import fill_surface
-from pygame.tests.test_utils import gradient
 from levels.dialog_gui import DialogGUI
 
 class GameState(Scene,Editor,DialogGUI):
@@ -22,8 +21,6 @@ class GameState(Scene,Editor,DialogGUI):
         if debug:
             Editor.__init__(self)
         DialogGUI.__init__(self)
-    def __del__(self):
-        deinit_physics()
     def init(self):
 
         init_physics()

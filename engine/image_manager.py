@@ -59,7 +59,10 @@ def load_image(name,permanent=False):
 		if not pookoo:
 			img_name[name] = pygame.image.load(name).convert_alpha()
 		else:
-			img_name[name] = texture.open(name)
+			try:
+				img_name[name] = texture.open(name)
+			except ValueError:
+				return None
 		if permanent:
 			permanent_images.append(name)
 	return img_name[name]
