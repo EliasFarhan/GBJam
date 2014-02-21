@@ -4,9 +4,10 @@ Created on Feb 19, 2014
 @author: efarhan
 '''
 from json_export.json_export import load_json
-from engine.event import SoundEvent, MusicEvent, DialogEvent
 from engine.const import log
 from engine import level_manager
+from engine.sound_manager import SoundEvent, MusicEvent
+from levels.dialog_gui import DialogEvent
 
 def load_event(filename, object=None):
     event_data = load_json(filename)

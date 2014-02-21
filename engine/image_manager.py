@@ -35,24 +35,20 @@ def fill_surface(surface,r,g,b,a=255):
 		else:
 			surface.fill((r,g,b,a))
 def sanitize_img_manager():
-	global images,permanent_indexes
 	for index in images.keys():
-		if index not in permanent_indexes:
+		if index not in permanent_images:
 			try:
 				images.pop(index)
 			except KeyError:
 				pass
 	
 def get_image(index):
-	global images
 	return images[index]
 
 def get_size(index):
-	global images
 	if not pookoo:
 		return index.get_size()
 def load_image(name,permanent=False):
-	global images,permanent_images
 	try:
 		img_name[name]
 	except KeyError:
@@ -65,7 +61,6 @@ def load_image(name,permanent=False):
 	return img_name[name]
 	
 def load_image_with_size(name, size,permanent=False):
-	global img_name
 	try:
 		img_name[name]
 	except KeyError:

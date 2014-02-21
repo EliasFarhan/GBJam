@@ -10,13 +10,10 @@ else:
 ratio = 64/1.5
 
 def pixel2meter(pixels):
-    global ratio
     return pixels/ratio
 def meter2pixel(meter):
-    global ratio
     return meter*ratio
 def set_ratio_pixel(new_ratio):
-    global ratio
     ratio = new_ratio
     
 
@@ -26,12 +23,11 @@ index = 1
 world = None
 
 def deinit_physics():
-    global world
     if pookoo:
         physics.close(world)
     world = None
 def init_physics(gravity_arg=None):
-    global world,static_objects,dynamic_objects
+    global world
     if world != None:
         deinit_physics()
     
@@ -47,7 +43,6 @@ def init_physics(gravity_arg=None):
         world.contactListener = KuduContactListener()
 
 def add_dynamic_object(obj,pos):
-    global world
     position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
     dynamic_object = None
     if not pookoo:
@@ -59,13 +54,11 @@ def add_dynamic_object(obj,pos):
     return dynamic_object
 
 def remove_body(index):
-    global world
     try:
         world.DestroyBody(static_objects.pop(index))
     except KeyError:
         pass
 def update_physics():
-    global timeStep, vel_iters, pos_iters,world
     if not pookoo:
         world.Step(timeStep,vel_iters,pos_iters)
         world.ClearForces()
@@ -91,7 +84,6 @@ def jump(obj):
     dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
     
 def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
-    global world,static_objects,index
     static_body = body
     if(static_body == None):
         pos_body = (pixel2meter(pos[0]), pixel2meter(pos[1]))
