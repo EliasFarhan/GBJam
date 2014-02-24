@@ -55,7 +55,7 @@ def add_dynamic_object(obj,pos):
 
 def remove_body(index):
     try:
-        world.DestroyBody(static_objects.pop(index))
+        world.DestroyBody(index)
     except KeyError:
         pass
 def update_physics():

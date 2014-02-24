@@ -5,6 +5,7 @@ Created on 8 sept. 2013
 '''
 
 from engine.const import pookoo, log
+from engine.init import resize_screen
 if not pookoo:
     import pygame
 else:
@@ -124,6 +125,8 @@ def update_event():
                 except KeyError:
                     '''Key not mapped'''
                     pass
+            elif event.type == pygame.VIDEORESIZE:
+                resize_screen(event.w, event.h)
     else:
         for k_value in button_key.keys():
             button_value[button_key[k_value]] = input.keyboard_pressed(k_value)

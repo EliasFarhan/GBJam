@@ -8,6 +8,10 @@ from engine.const import log
 
 class Editor():
     def __init__(self):
+        
+        add_button('editor', 'e')
+        self.editor_click = False
+        
         self.editor = False
         self.mouse_clicked = (0,0,0)
         self.current_selected = None

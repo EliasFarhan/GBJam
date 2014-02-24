@@ -16,7 +16,7 @@ def init_screen():
 		log("Screen size: "+str(screen_size))
 		pygame.mouse.set_visible(False)
 		pygame.font.init()
-		return pygame.display.set_mode(screen_size)
+		return pygame.display.set_mode(screen_size,pygame.RESIZABLE)
 	else:
 		log.info("Initialize screen")
 		if not window.begin():
@@ -34,9 +34,14 @@ def toogle_fullscreen():
 	screen = get_screen()
 	size = screen.get_size()
 	flags = 0
-	if screen.get_flags() == 0:
-		flags = pygame.FULLSCREEN
+	if screen.get_flags() == pygame.RESIZABLE:
+		flags = pygame.FULLSCREEN | pygame.RESIZABLE
 		screen_info = pygame.display.Info()
 		size = (screen_info.current_w, screen_info.current_h)
 	set_screen(pygame.display.set_mode(size,flags))
-	
+def resize_screen(w,h):
+	from engine.loop import get_screen,set_screen
+	screen = get_screen()
+	size = (w,h)
+	flags = screen.get_flags()
+	set_screen(pygame.display.set_mode(size,flags))

@@ -28,6 +28,15 @@ def load_level(level):
         level.show_mouse = level_data['show_mouse']
     except KeyError:
         pass
+    try:
+        level.use_physics = level_data['physics']
+    except KeyError:
+        pass
+    try:
+        level.use_network = level_data['network']
+    except KeyError:
+        pass
+    
     for physic_object in level_data['physic_objects']:
         if physic_object["type"] == "box":
             

@@ -40,12 +40,8 @@ class GameState(Scene,Editor,DialogGUI):
                 from engine.level_manager import switch_level
                 switch_level(Scene())
         
-        add_button('editor', 'e')
-        self.editor_click = False
         
-        '''current dialog'''
-        
-        
+
         
         self.click = False
         

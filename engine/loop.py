@@ -34,7 +34,7 @@ def loop():
 		console = Console(screen, (0,0,init.get_screen_size()[0],init.get_screen_size()[1]/3))
 	
 	add_button('quit','ESC')
-	
+	add_button('reset','r')
 	
 	level_manager.switch_level(GameState(startup))
 	state = None
@@ -60,6 +60,8 @@ def loop():
 			else:
 				f(state)
 		
+		if get_button('reset'):
+			level_manager.switch_level(GameState(startup))
 		
 		if not pookoo:
 			console.draw()
