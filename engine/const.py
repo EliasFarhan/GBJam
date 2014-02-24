@@ -4,6 +4,7 @@ Created on 8 sept. 2013
 @author: efarhan
 '''
 import sys
+from json_export.init_export import load_init_file
 #constant for physics and gameplay
 
 pybox2d = False
@@ -45,13 +46,16 @@ jump_step = 5
 framerate = 60
 animation_step = 12
 
+
 if sys.platform == 'darwin':
 	jump_step = 4
 	framerate = 30
 	animation_step = 3
 	invulnerability = 30
 
-startup = path_prefix+'data/json/level.json'
+screen_size, startup = load_init_file(path_prefix+'data/json/init.json')
+
+startup = path_prefix+startup
 
 def log(text,error=0):
 	if not pookoo:

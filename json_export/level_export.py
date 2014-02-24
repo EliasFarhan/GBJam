@@ -21,67 +21,68 @@ def load_level(level):
     -IA (if any)
     -Player position, size, etc... but not recreate the player!!!
     '''
-    
-    level.player = Player(path_prefix+level_data['player'])
-    level.bg_color = level_data['background_color']
-    try:
-        level.show_mouse = level_data['show_mouse']
-    except KeyError:
-        pass
-    try:
-        level.use_physics = level_data['physics']
-    except KeyError:
-        pass
-    try:
-        level.use_network = level_data['network']
-    except KeyError:
-        pass
-    
-    for physic_object in level_data['physic_objects']:
-        if physic_object["type"] == "box":
-            
-            pos = physic_object["pos"]
-            size = physic_object["size"]
-            
-            sensor = False
-            try:
-                sensor = physic_object["sensor"]
-            except KeyError:
-                pass
-            data = 0
-            try:
-                data = physic_object["user_data"]
-            except KeyError:
-                pass
-            angle = 0
-            try:
-                angle = physic_object["angle"]
-            except KeyError:
-                pass
-            level.physic_objects.append(AngleSquare(pos, size, angle, data, sensor))
-    for image_data in level_data['images']:
-        if image_data["type"] == "Image":
-            pos = image_data["pos"]
-            size = None
-            try:
-                size = image_data["size"]
-            except KeyError:
-                pass
-            path = path_prefix+image_data["path"]
-            try:
-                angle = image_data["angle"]
-            except KeyError:
-                pass
-            layer = image_data["layer"]
-            image = Image(path, pos, None, size, angle)
-            try:
-                event_path = image_data["event"]
-                image.event = load_event(event_path)
-            except KeyError:
-                pass
-            if 0 < layer < len(level.images)-1:
-                level.images[layer-1].append(image)
-    return True
+    if level_data:
+        level.player = Player(path_prefix+level_data['player'])
+        level.bg_color = level_data['background_color']
+        try:
+            level.show_mouse = level_data['show_mouse']
+        except KeyError:
+            pass
+        try:
+            level.use_physics = level_data['physics']
+        except KeyError:
+            pass
+        try:
+            level.use_network = level_data['network']
+        except KeyError:
+            pass
+        
+        for physic_object in level_data['physic_objects']:
+            if physic_object["type"] == "box":
+                
+                pos = physic_object["pos"]
+                size = physic_object["size"]
+                
+                sensor = False
+                try:
+                    sensor = physic_object["sensor"]
+                except KeyError:
+                    pass
+                data = 0
+                try:
+                    data = physic_object["user_data"]
+                except KeyError:
+                    pass
+                angle = 0
+                try:
+                    angle = physic_object["angle"]
+                except KeyError:
+                    pass
+                level.physic_objects.append(AngleSquare(pos, size, angle, data, sensor))
+        for image_data in level_data['images']:
+            if image_data["type"] == "Image":
+                pos = image_data["pos"]
+                size = None
+                try:
+                    size = image_data["size"]
+                except KeyError:
+                    pass
+                path = path_prefix+image_data["path"]
+                try:
+                    angle = image_data["angle"]
+                except KeyError:
+                    pass
+                layer = image_data["layer"]
+                image = Image(path, pos, None, size, angle)
+                try:
+                    event_path = image_data["event"]
+                    image.event = load_event(event_path)
+                except KeyError:
+                    pass
+                if 0 < layer < len(level.images)-1:
+                    level.images[layer-1].append(image)
+        return True
+    return False
 def save_level(level):
     
     

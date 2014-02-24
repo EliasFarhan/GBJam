@@ -3,7 +3,7 @@ Created on Feb 19, 2014
 
 @author: efarhan
 '''
-from engine.const import log
+
 import json
 
 def load_json(filename):
@@ -12,6 +12,7 @@ def load_json(filename):
         file = open(filename, mode='r')
         
     except IOError:
+        from engine.const import log
         log("Loading file error: "+filename,1)
         return False
     json_data = None

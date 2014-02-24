@@ -1,5 +1,6 @@
 import sys
 from engine.const import log,pookoo
+from engine import const
 if not pookoo:
 	import pygame
 else:
@@ -10,12 +11,9 @@ screen_size = (0,0)
 def init_screen():
 	global screen_size
 	if not pookoo:
-		screen_info = pygame.display.Info()
-		screen_size = (screen_info.current_w, screen_info.current_h)
-		screen_size = (1280,720)
-		log("Screen size: "+str(screen_size))
 		pygame.mouse.set_visible(False)
 		pygame.font.init()
+		screen_size = const.screen_size
 		return pygame.display.set_mode(screen_size,pygame.RESIZABLE)
 	else:
 		log.info("Initialize screen")
