@@ -117,7 +117,7 @@ def update_event():
                     '''Key not mapped'''
                     pass
                 if event.key == pygame.K_TAB:
-                    if pygame.key.get_mods() & KMOD_CTRL:
+                    if pygame.key.get_mods() & pygame.KMOD_CTRL:
                         from engine.loop import get_console
                         console = get_console()
                         console.set_active()

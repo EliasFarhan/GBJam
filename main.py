@@ -1,7 +1,7 @@
 #kudu start program
 import sys
 import os
-sys.path.append(os.path.abspath("../script"))
+sys.path.append(os.path.abspath("."))
 import engine.loop as game
 
 
