@@ -1,3 +1,8 @@
+'''
+Abstraction of the loop function
+providing the level
+'''
+
 from engine.const import pookoo
 
 level = 0

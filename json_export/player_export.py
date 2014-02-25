@@ -12,11 +12,12 @@ from engine.event import add_button
 from json_export.json_export import load_json
 
 def load_player(player):
-    player_data = load_json(player.filename)
     '''
-    Create player instance
+    Set player instance from JSON file
     
     '''
+    player_data = load_json(player.filename)
+
     player.pos = (player_data['pos'][0][0],player_data['pos'][1][0])
     player.screen_relative_pos = (player_data['pos'][0][1],player_data['pos'][1][1])
     player.size = (player_data['size'][0],player_data['size'][1])
@@ -38,7 +39,7 @@ def load_player(player):
     for player_action in player_data['player_actions'].items():
         add_button(player_action[0],player_action[1])
 
-    return 1
+    return True
 
 def save_player(player):
     pass

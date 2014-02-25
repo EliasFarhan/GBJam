@@ -1,4 +1,6 @@
 '''
+Manage the font loading and rendering
+
 Created on Feb 19, 2014
 
 @author: efarhan

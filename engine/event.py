@@ -1,4 +1,7 @@
 '''
+Manage physics, input event 
+and create a root for Event Engine 
+
 Created on 8 sept. 2013
 
 @author: efarhan

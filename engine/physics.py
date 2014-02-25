@@ -1,4 +1,7 @@
-
+'''
+Manages physics with Box2D
+convert automatically from pixel to meters
+'''
 from engine.const import move_speed, jump, framerate,jump_step,gravity, log,\
     pybox2d, pookoo
 if pookoo:

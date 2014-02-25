@@ -58,6 +58,9 @@ screen_size, startup = load_init_file(path_prefix+'data/json/init.json')
 startup = path_prefix+startup
 
 def log(text,error=0):
+	"""
+	Log a message into the stdout or the stdin
+	"""
 	if not pookoo:
 		if error == 0:
 			sys.stdout.write(str(text)+"\n")

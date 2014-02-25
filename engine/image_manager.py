@@ -1,3 +1,7 @@
+'''
+Manage images loading, transforming and rendering
+'''
+
 from engine.const import pookoo, log,path_prefix
 if not pookoo:
 	import pygame

@@ -1,4 +1,7 @@
 '''
+Rect type useful for collision with GUI button
+or to know the center of a rectangle
+
 Created on Feb 1, 2014
 
 @author: efarhan

@@ -10,11 +10,18 @@ from engine.sound_manager import SoundEvent, MusicEvent
 from levels.dialog_gui import DialogEvent
 
 def load_event(filename, object=None):
+    '''
+    Load an Event JSON file, then parse it
+    '''
     event_data = load_json(filename)
     return parse_event_json(event_data,object=object)
     
 def parse_event_json(event_dict,parent_event=None,object=None):
+    '''
+    Recursively load a file
     
+    TODO: do it as a list, not a linked-list and import code from Cavi
+    '''
     event_type = ""
     try:
         event_type = event_dict['type']

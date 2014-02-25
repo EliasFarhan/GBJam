@@ -12,7 +12,6 @@ from json_export.json_export import load_json
 from json_export.event_export import load_event
 
 def load_level(level):
-    level_data = load_json(level.filename)
     ''' 
     Import a level with:
     
@@ -21,6 +20,7 @@ def load_level(level):
     -IA (if any)
     -Player position, size, etc... but not recreate the player!!!
     '''
+    level_data = load_json(level.filename)
     if level_data:
         level.player = Player(path_prefix+level_data['player'])
         level.bg_color = level_data['background_color']

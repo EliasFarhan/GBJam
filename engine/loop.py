@@ -1,4 +1,8 @@
-﻿from engine.const import framerate, log, pookoo, startup
+﻿'''
+Main loop of the engine
+'''
+
+from engine.const import framerate, log, pookoo, startup
 import sys
 if not pookoo:
 	import pygame
