@@ -14,15 +14,6 @@ from event.mouse_event import show_mouse, get_mouse
 class GUI():
     def __init__(self):
         self.dialog = False
-        self.dialog_box = Image("data/sprites/gui/dialog_box.png", 
-                                pos=(0,get_screen_size()[1]*2/3), 
-                                size=(get_screen_size()[0],int(get_screen_size()[1]/3)))
-        self.dialog_text = Text((50,get_screen_size()[1]*2/3+10), 
-                                get_screen_size()[1]/7, 
-                                "comicsansms", "",gradient=60)
-        self.dialog_text2 = Text((50,get_screen_size()[1]*5/6), 
-                                get_screen_size()[1]/7, 
-                                "comicsansms", "",gradient=60)
         self.answer_text = []
         self.dialog_answers = []
         self.dialog_event = None

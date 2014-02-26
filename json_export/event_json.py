@@ -5,6 +5,7 @@ Created on Feb 19, 2014
 
 @author: efarhan
 '''
+import builtins
 from json_export.json_export import load_json
 from engine.const import log
 from engine.level_manager import get_level
@@ -17,20 +18,34 @@ from event.sound_event import SoundEvent, MusicEvent
 def load_event(filename, object=None):
     event_data = load_json(filename)
     return parse_event_json(event_data,object=object)
-    
-def parse_event_json(event_dict,parent_event=None,object=None):
-    event_type = ""
+
+def parse_event_json(event_dict, parent_event=None, object=None):
+    first_event = None
+    previous_event = None
     event = None
+    try:
+        event_data = event_dict['event']
+        if event_data.__class__ == builtins.list:
+            for e in event_data['event']:
+                event = parse_event_json(e, parent_event, object)
+                if not first_event:
+                    first_event = event
+                if previous_event:
+                    previous_event.next_event = event
+                previous_event = event
+            return first_event
+        elif event_data.__class__ == builtins.str:
+            return load_event(event_dict['event'], object)
+    except KeyError:
+        return parse_event_type_json(event_dict, parent_event, object)
+def parse_event_type_json(event_dict,parent_event=None,object=None):
+    event = None
+    event_type = ''
     try:
         event_type = event_dict['type']
     except KeyError:
-        try:
-            event = load_event(event_dict['event'], object)
-        except KeyError:
-            #log("KeyError on event "+str(event_dict),1)
-            return None
-    except TypeError:
-        log("TypeError on event "+str(event_dict),1)
+        return None
+        
     
     if event_type == 'SoundEvent':
         event = parse_sound_event(event_dict,parent_event,object)
@@ -50,8 +65,6 @@ def parse_event_json(event_dict,parent_event=None,object=None):
     elif event_type == 'SetValueEvent':
         event = parse_set_value_event(event_dict, parent_event, object)
 
-    if event and parent_event:
-        pass#wevent.set_parent_event(parent_event)
     
     return event
 
