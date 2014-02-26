@@ -3,7 +3,6 @@ Manage sound and music
 '''
 
 from engine.const import pookoo, log
-from engine.event import Event
 if not pookoo:
 	import pygame
 
@@ -11,30 +10,6 @@ sounds = {}
 permanent_sound = []
 playlist = []
 music_index = 0
-
-class SoundEvent(Event):
-	'''
-	Load a sound file and play it
-	when execute is call
-	'''
-	def __init__(self,sound_name):
-		Event.__init__(self)
-		self.sound_name = sound_name
-		self.sound = load_sound(sound_name)
-	def execute(self):
-		play_sound(self.sound)
-		Event.execute(self)
-
-class MusicEvent(Event):
-	'''
-	Set the music playlist on execute
-	'''
-	def __init__(self,playlist):
-		Event.__init__(self)
-		self.playlist = playlist
-	def execute(self):
-		set_playlist(self.playlist)
-		Event.execute(self)
 
 def set_playlist(music_list):
 	'''

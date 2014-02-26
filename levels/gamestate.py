@@ -13,14 +13,14 @@ from engine.event import show_mouse, add_button, get_button, get_mouse
 from game_object.text import Text
 from engine.init import get_screen_size
 from engine.image_manager import fill_surface
-from levels.dialog_gui import DialogGUI
+from levels.gui import GUI
 
-class GameState(Scene,Editor,DialogGUI):
+class GameState(Scene,Editor,GUI):
     def __init__(self,filename):
         self.filename = filename
         if debug:
             Editor.__init__(self)
-        DialogGUI.__init__(self)
+        GUI.__init__(self)
     def init(self):
 
         init_physics()
@@ -95,7 +95,7 @@ class GameState(Scene,Editor,DialogGUI):
             for j in range(len(self.images[i])):
                 self.images[i][j].loop(screen,self.screen_pos)
         
-        DialogGUI.loop(self,screen)
+        GUI.loop(self,screen)
         
         for physic_object in self.physic_objects:
             physic_object.loop(screen,self.screen_pos)
