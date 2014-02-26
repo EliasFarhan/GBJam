@@ -4,11 +4,12 @@ convert automatically from pixel to meters
 '''
 from engine.const import move_speed, jump, framerate,jump_step,gravity, log,\
     pybox2d, pookoo
+from event.physics_event import clear_physics_event, PhysicsEvent,\
+    add_physics_event
 if pookoo:
     import physics
 else:
     from Box2D import *
-    from engine.contact_listener import KuduContactListener
 
 ratio = 64/1.5
 
@@ -62,6 +63,7 @@ def remove_body(index):
     except KeyError:
         pass
 def update_physics():
+    clear_physics_event()
     if not pookoo:
         world.Step(timeStep,vel_iters,pos_iters)
         world.ClearForces()
@@ -81,7 +83,6 @@ def move(body,vx=None,vy=None):
             fy = dyn_obj.mass * vely / timeStep
         dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
 def jump(obj):
-    dyn_obj = dynamic_objects[obj]
     force = dyn_obj.mass * jump / timeStep
     force /= float(jump_step)
     dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
@@ -133,4 +134,14 @@ def add_static_circle(pos,radius,sensor=False,user_data=0):
     index+=1
     return index - 1
 
+if not pookoo:
+    class KuduContactListener(b2ContactListener):
+        def BeginContact(self, contact):
+            a = contact.fixtureA.userData
+            b = contact.fixtureB.userData
+            add_physics_event(PhysicsEvent(a,b,True))
+        def EndContact(self, contact):
+            a = contact.fixtureA.userData
+            b = contact.fixtureB.userData
+            add_physics_event(PhysicsEvent(a,b,False))
 

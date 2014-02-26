@@ -11,11 +11,10 @@ def add_physics_event(event):
     physics_events.append(event)
 def get_physics_event():
     global physics_events
-    result = []
-    for i in range(len(physics_events)):
-        result.append(physics_events.pop())
-    return result
-
+    return physics_events
+def clear_physics_event():
+    global physics_events
+    del physics_events[:]
 
 class PhysicsEvent:
     def __init__(self,a,b,begin):
