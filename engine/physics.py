@@ -29,7 +29,9 @@ world = None
 def deinit_physics():
     if pookoo:
         physics.close(world)
-    world = None
+    else:
+        del world
+        world = None
 def init_physics(gravity_arg=None):
     global world
     if world != None:
