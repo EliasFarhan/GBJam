@@ -6,9 +6,9 @@ Created on Sep 9, 2013
 @author: efarhan
 """
 from engine.const import pookoo
+from event.physics_event import add_physics_event, PhysicsEvent
 if not pookoo:
     from Box2D import *
-from engine.event import add_physics_event, PhysicsEvent
 if not pookoo:
     class KuduContactListener(b2ContactListener):
         def BeginContact(self, contact):

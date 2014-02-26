@@ -8,8 +8,10 @@ Created on Feb 19, 2014
 from json_export.json_export import load_json
 from engine.const import log
 from engine.level_manager import get_level
-from engine.event import KEY, SoundEvent, MusicEvent, ConditionnalEvent,\
-    IncreaseValueEvent, SetValueEvent, DialogEvent, VisualEvent, SwitchEvent
+from event.visual_event import VisualEvent, ChangeImageEvent
+from event.event import SetValueEvent, SwitchEvent, IncreaseValueEvent,\
+    ConditionnalEvent, DialogEvent
+from event.sound_event import SoundEvent, MusicEvent
 
 
 def load_event(filename, object=None):

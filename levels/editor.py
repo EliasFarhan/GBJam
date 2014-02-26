@@ -3,8 +3,10 @@ Created on Feb 1, 2014
 
 @author: efarhan
 '''
-from engine.event import get_mouse, add_button, get_button
+
 from engine.const import log
+from event.keyboard_event import add_button, get_button
+from event.mouse_event import get_mouse
 
 class Editor():
     def __init__(self):

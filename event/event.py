@@ -11,11 +11,30 @@ from engine.const import pookoo, log
 from engine.init import resize_screen
 from engine.sound_manager import load_sound, play_sound, set_playlist
 from engine.stat import egal_condition, set_value, get_value
+from event.keyboard_event import update_keyboard_event
 if not pookoo:
     import pygame
 else:
     import input
     
+def update_event():
+    '''
+    Update the states of Input Event
+    '''
+    global button_key,button_value
+    if not pookoo:
+        for event in pygame.event.get():
+            update_keyboard_event(event)
+            
+            if event.type == pygame.VIDEORESIZE:
+                resize_screen(event.w, event.h)
+            elif event.type == pygame.QUIT:
+                quit()
+    else:
+        for k_value in button_key.keys():
+            button_value[button_key[k_value]] = input.keyboard_pressed(k_value)
+    
+
 class Event():
     def __init__(self):
         self.parent_event = None # for dialog only
@@ -31,23 +50,6 @@ class Event():
         elif self.parent_event:
             if self.parent_event.next_event:
                 self.parent_event.next_event.execute()
-
-class SoundEvent(Event):
-    def __init__(self,sound_name):
-        Event.__init__(self)
-        self.sound_name = sound_name
-        self.sound = load_sound(sound_name)
-    def execute(self):
-        play_sound(self.sound)
-        Event.execute(self)
-
-class MusicEvent(Event):
-    def __init__(self,playlist):
-        Event.__init__(self)
-        self.playlist = playlist
-    def execute(self):
-        set_playlist(self.playlist)
-        Event.execute(self)
 
 class ConditionnalEvent(Event):
     def __init__(self,name,value,event1,event2):
@@ -108,38 +110,7 @@ class DialogEvent(Event):
         else:
             Event.execute(self)
 
-class VisualEvent(Event):
-    def __init__(self,gamestate,name="",names=[],pos=None,next_pos=None,size=1):
-        self.gamestate = gamestate
-        self.name = name
-        self.names = names
-        self.pos = pos
-        self.next_pos = next_pos
-        self.size = size
-        Event.__init__(self)
-    def change(self,names=[]):
-        for name in names:
-            
-            self.gamestate.characters[name].index = self.size
-            if self.pos:
-                self.gamestate.characters[name].pos = self.pos
-            if self.next_pos:
-                self.gamestate.characters[name].next_pos = self.next_pos
-            self.gamestate.characters[name].update_rect()
-    def execute(self):
-        if self.name != "":
-            self.change([self.name])
-        elif self.names != []:
-            self.change(self.names)
-        Event.execute(self)
 
-class ChangeImageEvent(VisualEvent):
-    def __init__(self,gamestate,name,path):
-        VisualEvent.__init__(self, gamestate, name)
-        self.path = path
-    def execute(self):
-        self.gamestate.characters[self.name].reload(self.path)
-        VisualEvent.execute(self)
 
 class SwitchEvent(Event):
     def __init__(self,gamestate,new_level_name):
@@ -153,39 +124,7 @@ class SwitchEvent(Event):
 
 
 
-physics_events = []
 
-def add_physics_event(event):
-    global physics_events
-    physics_events.append(event)
-def get_physics_event():
-    global physics_events
-    result = []
-    for i in range(len(physics_events)):
-        result.append(physics_events.pop())
-    return result
-
-
-class PhysicsEvent:
-    def __init__(self,a,b,begin):
-        self.a=a
-        self.b=b
-        self.begin=begin
-
-
-def get_mouse():
-    '''
-    Return mouse state as 
-    position, (left, middle, right)
-    '''
-    return pygame.mouse.get_pos(), pygame.mouse.get_pressed()
-
-def show_mouse(show=True):
-    '''
-    Show mouse on display
-    '''
-    if not pookoo:
-        pygame.mouse.set_visible(show)
 
 
 

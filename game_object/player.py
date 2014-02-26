@@ -4,13 +4,14 @@ Created on 8 sept. 2013
 @author: efarhan
 '''
 from game_object.image import Image, AnimImage
-from json_export.player_export import load_player
-from engine.event import get_physics_event, get_button, add_button
+from json_export.player_json import load_player
 from animation.animation import Animation
 from engine.const import log,pookoo
 from engine.physics import meter2pixel, move
 from game_object import physic_object
 from engine.init import get_screen_size
+from event.keyboard_event import get_button
+from event.physics_event import get_physics_event
 if pookoo:
     import physics
 

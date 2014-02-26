@@ -4,7 +4,7 @@ Created on 8 sept. 2013
 @author: efarhan
 '''
 import sys
-from json_export.init_export import load_init_file
+from json_export.init_json import load_init_file
 #constant for physics and gameplay
 
 pybox2d = False

@@ -6,14 +6,15 @@ Created on 9 dec. 2013
 
 from levels.scene import Scene
 from engine.const import log, debug
-from json_export.level_export import load_level, save_level
+from json_export.level_json import load_level, save_level
 from engine.physics import init_physics, update_physics,deinit_physics
 from levels.editor import Editor
-from engine.event import show_mouse, add_button, get_button, get_mouse
 from game_object.text import Text
 from engine.init import get_screen_size
 from engine.image_manager import fill_surface
 from levels.gui import GUI
+from event.mouse_event import show_mouse, get_mouse
+from event.keyboard_event import get_button
 
 class GameState(Scene,Editor,GUI):
     def __init__(self,filename):

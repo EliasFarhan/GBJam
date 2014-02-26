@@ -62,35 +62,29 @@ def get_button(action):
     except KeyError:
         return False
     
-def update_keyboard_event():
+def update_keyboard_event(event):
     '''
     Update the states of Input Event
     '''
-    global button_key,button_value
     if not pookoo:
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                try:
-                    button_value[button_key[event.key]] = True
-                except KeyError:
-                    '''Key not mapped'''
-                    pass
-                if event.key == pygame.K_TAB:
-                    if pygame.key.get_mods() & pygame.KMOD_CTRL:
-                        from engine.loop import get_console
-                        console = get_console()
-                        console.set_active()
-                        console.preserve_events = False
-            elif event.type == pygame.KEYUP:
-                try:
-                    button_value[button_key[event.key]] = False
-                except KeyError:
-                    '''Key not mapped'''
-                    pass
-            elif event.type == pygame.VIDEORESIZE:
-                resize_screen(event.w, event.h)
-            elif event.type == pygame.QUIT:
-                quit()
+        if event.type == pygame.KEYDOWN:
+            try:
+                button_value[button_key[event.key]] = True
+            except KeyError:
+                '''Key not mapped'''
+                pass
+            if event.key == pygame.K_TAB:
+                if pygame.key.get_mods() & pygame.KMOD_CTRL:
+                    from engine.loop import get_console
+                    console = get_console()
+                    console.set_active()
+                    console.preserve_events = False
+        elif event.type == pygame.KEYUP:
+            try:
+                button_value[button_key[event.key]] = False
+            except KeyError:    
+                '''Key not mapped'''
+                pass
     else:
         for k_value in button_key.keys():
             button_value[button_key[k_value]] = input.keyboard_pressed(k_value)
