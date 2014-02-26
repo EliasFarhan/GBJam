@@ -1,4 +1,6 @@
 '''
+TODO: event type can be string for a newfile or a list with events
+
 Created on Feb 19, 2014
 
 @author: efarhan
@@ -7,7 +9,7 @@ from json_export.json_export import load_json
 from engine.const import log
 from engine.level_manager import get_level
 from engine.event import KEY, SoundEvent, MusicEvent, ConditionnalEvent,\
-    IncreaseValueEvent, SetValueEvent, DialogEvent, VisualEvent
+    IncreaseValueEvent, SetValueEvent, DialogEvent, VisualEvent, SwitchEvent
 
 
 def load_event(filename, object=None):
@@ -83,6 +85,13 @@ def parse_visual_event(event_dict,parent_event=None,object=None):
     except KeyError:
         pass
     return event
+
+def parse_default_event(event_dict,parent_event=None,object=None):
+    '''
+    TODO: automatic Event loading with exec
+    '''
+    pass
+    
 def parse_set_value_event(event_dict,parent_event=None,object=None):
     event = SetValueEvent(event_dict["name"], event_dict["value"])
     try:

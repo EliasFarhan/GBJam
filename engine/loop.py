@@ -31,6 +31,9 @@ def get_screen():
 	global screen
 	return screen
 
+def set_finish():
+	global finish
+	finish = True
 def loop():
 	global finish,screen,console
 	if not pookoo:
@@ -54,7 +57,8 @@ def loop():
 			draw.rgb(0.0, 0.0, 0.0)
 			draw.rectangle(window.width(), window.height())
 		update_event()
-		finish = get_button('quit')
+		if not finish:
+			finish = get_button('quit')
 		f = level_manager.function_level()
 		if f == 0:
 			break

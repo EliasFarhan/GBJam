@@ -13,7 +13,7 @@ class GameObject:
         self.size = None
         self.rect = None
         
-        self.event = None
+        self.event = []
     def scale(self,enlargement,speed=1.1):
         scale_speed = speed
         if not enlargement:
