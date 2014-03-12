@@ -14,6 +14,7 @@ permanent_sound = []
 playlist = []
 music_index = 0
 music = None
+sounds = []
 
 def set_playlist(music_list):
 	'''
@@ -68,6 +69,10 @@ def update_music_status():
 			music_index = music_index%len(playlist)
 			music = sfml.Music.from_file(playlist[music_index])
 			music.play()
+		for s in sounds:
+			if s.status == sfml.Sound.STOPPED:
+				'''TODO: remove sound'''
+				pass
 def check_music_status():
 	'''
 	Return True if a music is currently playing

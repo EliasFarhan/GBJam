@@ -55,6 +55,8 @@ class GameState(Scene,Editor,GUI):
             self.event[name].execute()
         except KeyError:
             pass
+        except AttributeError:
+            pass
     def reload(self,newfilename):
         self.filename = newfilename
         self.init()

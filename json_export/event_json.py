@@ -27,8 +27,8 @@ def parse_event_json(event_dict, parent_event=None, object=None):
     try:
         event_data = event_dict['event']
         if event_data.__class__ == list:
-            for e in event_data['event']:
-                event = parse_event_json(e, parent_event, object)
+            for e in event_data:
+                event = parse_event_json(e, parent_event)
                 if not first_event:
                     first_event = event
                 if previous_event:
@@ -36,9 +36,13 @@ def parse_event_json(event_dict, parent_event=None, object=None):
                 previous_event = event
             return first_event
         elif event_data.__class__ == str:
-            return load_event(event_dict['event'], object)
+            return load_event(event_dict['event'])
     except KeyError:
         return parse_event_type_json(event_dict, parent_event, object)
+    except TypeError as e:
+        log(str(e)+" "+str(event_dict),1)
+        return None
+
 def parse_event_type_json(event_dict,parent_event=None,object=None):
     event = None
     event_type = ''
