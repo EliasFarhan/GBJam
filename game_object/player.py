@@ -11,15 +11,16 @@ from engine.physics import meter2pixel, move
 from engine.init import get_screen_size
 from event.keyboard_event import get_button
 from event.physics_event import get_physics_event
+from game_object.game_object_main import GameObject
 
 
 class Player(AnimImage):
     def __init__(self, path, pos=(0,0),layer = 1):
+        GameObject.__init__(self)
         self.layer = layer
         self.filename = path
         self.anim = Animation()
         self.body = None
-        self.angle = 0
         self.foot = False
         self.center_image = True
         self.screen_relative_pos = [0,0]

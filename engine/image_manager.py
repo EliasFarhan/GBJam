@@ -97,7 +97,8 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 		elif render == 'sfml':
 			if new_size:
 				text_size = image.texture.size
-				image.factor = text_size[0]/new_size[0]
+				
+				image.ratio = sfml.Vector2(new_size[0]/float(text_size[0]),new_size[1]/float(text_size[1]))
 			if angle!=0:
 
 				image.rotation = angle
