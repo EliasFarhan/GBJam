@@ -68,6 +68,7 @@ def load_level(level):
                 except KeyError:
                     pass
                 path = path_prefix+image_data["path"]
+                angle = 0
                 try:
                     angle = image_data["angle"]
                 except KeyError:

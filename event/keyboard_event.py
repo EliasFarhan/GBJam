@@ -87,4 +87,15 @@ def update_keyboard_event(event):
             except KeyError:    
                 '''Key not mapped'''
                 pass
-
+    elif render == 'sfml':
+        if type(event) == sfml.Event.PRESSED:
+            try:
+                button_value[button_key[event.key]] = True
+            except KeyError:
+                '''Key not in map'''
+        elif type(event) == sfml.Event.RELEASED:
+            try:
+                button_value[button_key[event.key]] = False
+            except KeyError:    
+                '''Key not mapped'''
+                pass

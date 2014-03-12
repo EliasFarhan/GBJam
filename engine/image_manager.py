@@ -52,6 +52,8 @@ def load_image(name,permanent=False):
 	except KeyError:
 		if render == 'pygame':
 			img_name[name] = pygame.image.load(name).convert_alpha()
+		elif render == 'sfml':
+			img_name[name] = sfml.Sprite(sfml.Texture.from_file(name))
 		if permanent:
 			permanent_images.append(name)
 	return img_name[name]
@@ -92,6 +94,8 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 					image,image_rect_obj = rot_func(image, image_rect_obj, angle)
 			if(image_rect_obj.colliderect(screen.get_rect())):
 				screen.blit(image, image_rect_obj)
+		elif render == 'sfml':
+			screen.draw(image)
 	except KeyError:
 		pass
 	

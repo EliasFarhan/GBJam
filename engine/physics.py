@@ -45,12 +45,10 @@ def init_physics(gravity_arg=None):
 def add_dynamic_object(obj,pos):
     position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
     dynamic_object = None
-    if not pookoo:
-        dynamic_object = world.CreateDynamicBody(position=position)
-        dynamic_object.angle = 0
-        dynamic_object.fixed_rotation = True
-    else:
-        dynamic_object = physics.body_add_dynamic(world,position[0],position[1])
+    dynamic_object = world.CreateDynamicBody(position=position)
+    dynamic_object.angle = 0
+    dynamic_object.fixed_rotation = True
+    
     return dynamic_object
 
 def remove_body(index):
@@ -65,16 +63,16 @@ def update_physics():
     
 def move(body,vx=None,vy=None):
     dyn_obj = body
-    if not pookoo:
-        velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
-        fx,fy=0,0
-        if(vx != None):
-            velx = vx * move_speed - velx
-            fx = dyn_obj.mass * velx / timeStep
-        if(vy != None):
-            vely = vy * move_speed - vely
-            fy = dyn_obj.mass * vely / timeStep
-        dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
+
+    velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
+    fx,fy=0,0
+    if(vx != None):
+        velx = vx * move_speed - velx
+        fx = dyn_obj.mass * velx / timeStep
+    if(vy != None):
+        vely = vy * move_speed - vely
+        fy = dyn_obj.mass * vely / timeStep
+    dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
 def jump(obj):
     force = dyn_obj.mass * jump / timeStep
     force /= float(jump_step)
@@ -94,27 +92,20 @@ def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
     center_pos = (0,0)
     if body != None:
         center_pos = (pixel2meter(pos[0]),pixel2meter(pos[1]))
-    if not pookoo:
-        polygon_shape = b2PolygonShape()
-        polygon_shape.SetAsBox(pixel2meter(size[0]), pixel2meter(size[1]),
+    
+    polygon_shape = b2PolygonShape()
+    polygon_shape.SetAsBox(pixel2meter(size[0]), pixel2meter(size[1]),
                                    b2Vec2(center_pos),angle)
-        fixture_def = b2FixtureDef()
-        fixture_def.density = 1
-        fixture_def.shape = polygon_shape
-        fixture_def.userData = data
-        fixture_def.isSensor = sensor
-        static_body.CreateFixture(fixture_def)
+    fixture_def = b2FixtureDef()
+    fixture_def.density = 1
+    fixture_def.shape = polygon_shape
+    fixture_def.userData = data
+    fixture_def.isSensor = sensor
+    static_body.CreateFixture(fixture_def)
         
-        if body == None:
-            return static_body
-    else:
-        physics.geometry_add_box(static_body, 
-                                 center_pos[0], center_pos[1],
-                                 pixel2meter(size[0]),pixel2meter(size[1]),
-                                 angle, sensor,
-                                 data)
-        if body == None:
-            return static_body
+    if body == None:
+        return static_body
+
             
     
 
