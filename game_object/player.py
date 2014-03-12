@@ -19,8 +19,10 @@ class Player(AnimImage):
         self.filename = path
         self.anim = Animation()
         self.body = None
+        self.angle = 0
         self.foot = False
         self.center_image = True
+        self.screen_relative_pos = [0,0]
         self.direction = True #True for right
         log('Loading player file '+self.filename)
         status = load_player(self)

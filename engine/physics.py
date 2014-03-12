@@ -62,17 +62,18 @@ def update_physics():
     world.ClearForces()
     
 def move(body,vx=None,vy=None):
-    dyn_obj = body
-
-    velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
-    fx,fy=0,0
-    if(vx != None):
-        velx = vx * move_speed - velx
-        fx = dyn_obj.mass * velx / timeStep
-    if(vy != None):
-        vely = vy * move_speed - vely
-        fy = dyn_obj.mass * vely / timeStep
-    dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
+    if body:
+        dyn_obj = body
+    
+        velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
+        fx,fy=0,0
+        if(vx != None):
+            velx = vx * move_speed - velx
+            fx = dyn_obj.mass * velx / timeStep
+        if(vy != None):
+            vely = vy * move_speed - vely
+            fy = dyn_obj.mass * vely / timeStep
+        dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
 def jump(obj):
     force = dyn_obj.mass * jump / timeStep
     force /= float(jump_step)

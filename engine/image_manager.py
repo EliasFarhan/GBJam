@@ -1,7 +1,7 @@
 '''
 Manage images loading, transforming and rendering
 '''
-from engine.const import render
+from engine.const import render, log
 
 
 if render == 'pygame':
@@ -98,8 +98,9 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 			if new_size:
 				text_size = image.texture.size
 				image.factor = text_size[0]/new_size[0]
-			if angle:
-				image.angle = angle
+			if angle!=0:
+
+				image.rotation = angle
 			image.position = pos
 			screen.draw(image)
 	except KeyError:

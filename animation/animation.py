@@ -18,6 +18,7 @@ class Animation():
         self.state = ""
         self.anim_counter = 0
         self.anim_speed = animation_step
+        self.img_indexes = []
     def load_images(self,size=None,permanent = False):
         self.img_indexes = []
         
@@ -62,7 +63,10 @@ class Animation():
                     else:
                         self.img = anim_index[find_index-1]
             except ValueError:
-                self.img = anim_index[0]
+                try:
+                    self.img = anim_index[0]
+                except IndexError:
+                    pass
             self.anim_counter = 0
         else:
             self.anim_counter += 1

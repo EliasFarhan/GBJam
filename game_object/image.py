@@ -17,7 +17,7 @@ class Image(GameObject):
     def __init__(self,path,pos,screen_relative_pos=None,size=None,angle=0):
         GameObject.__init__(self)
         self.img = 0
-        self.angle = 0
+        self.angle = angle
         self.pos = pos
         self.path = path
         self.size = size
@@ -37,7 +37,7 @@ class Image(GameObject):
             pos = (pos[0]+self.screen_relative_pos[0]*get_screen_size()[0],
                    pos[1]+self.screen_relative_pos[1]*get_screen_size()[1])
         factor = 1
-        show_image(self.img, screen, (pos[0]-screen_pos[0],pos[1]-screen_pos[1]),factor=factor,center_image=self.center_image)
+        show_image(self.img, screen, (pos[0]-screen_pos[0],pos[1]-screen_pos[1]),factor=factor,center_image=self.center_image,angle=self.angle)
         
 class AnimImage(Image):
     '''Can be animated if a directory is given,
