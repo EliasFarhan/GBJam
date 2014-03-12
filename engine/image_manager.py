@@ -95,6 +95,12 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 			if(image_rect_obj.colliderect(screen.get_rect())):
 				screen.blit(image, image_rect_obj)
 		elif render == 'sfml':
+			if new_size:
+				text_size = image.texture.size
+				image.factor = text_size[0]/new_size[0]
+			if angle:
+				image.angle = angle
+			image.position = pos
 			screen.draw(image)
 	except KeyError:
 		pass

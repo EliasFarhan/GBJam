@@ -27,11 +27,13 @@ try:
 	
 	render = 'sfml'
 except ImportError:
-	pass
+	try:
+		import pygame
+	except ImportError:
+		log("pygame or pysfml should be installed",1)
 
 try:
 	import Box2D
-	pybox2d=False
 except ImportError:
 	log('Box2D should be installed',1)
 	
