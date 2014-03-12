@@ -18,6 +18,8 @@ from event.keyboard_event import get_button
 
 class GameState(Scene,Editor,GUI):
     def __init__(self,filename):
+        self.bg_color = [0,0,0]
+        self.player = None
         self.filename = filename
         if debug:
             Editor.__init__(self)
@@ -88,13 +90,14 @@ class GameState(Scene,Editor,GUI):
             update_physics()
             
         '''Show images'''
-        for i in range(self.player.layer):
-            for j in range(len(self.images[i])):
-                self.images[i][j].loop(screen,self.screen_pos)
-        self.screen_pos = self.player.loop(screen,self.screen_pos,self.editor)
-        for i in range(self.player.layer,len(self.images)):
-            for j in range(len(self.images[i])):
-                self.images[i][j].loop(screen,self.screen_pos)
+        if self.player:
+            for i in range(self.player.layer):
+                for j in range(len(self.images[i])):
+                    self.images[i][j].loop(screen,self.screen_pos)
+            self.screen_pos = self.player.loop(screen,self.screen_pos,self.editor)
+            for i in range(self.player.layer,len(self.images)):
+                for j in range(len(self.images[i])):
+                    self.images[i][j].loop(screen,self.screen_pos)
         
         GUI.loop(self,screen)
         

@@ -7,21 +7,19 @@ Created on Feb 1, 2014
 @author: efarhan
 '''
 
-from engine.const import pookoo, log
+from engine.const import  log, render
 
-if not pookoo:
+if render == 'pygame':
     import pygame
 
 class Rect():
     def __init__(self,pos, size):
         self.pos = pos
         self.size = size
-        if not pookoo:
+        if render == 'pygame':
             self.rect = pygame.Rect(pos,size)
     def get_center(self):
-        if pookoo:
-            return (self.pos[0]+self.size[0]/2,self.pos[1]+self.size[1]/2)
-        else:
+        if render == 'pygame':
             return self.rect.center
     def collide_point(self,point_pos):
         

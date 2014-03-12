@@ -3,7 +3,7 @@ Created on Feb 26, 2014
 
 @author: efarhan
 '''
-from game_object.game_object import GameObject
+from game_object.game_object_main import GameObject
 from game_object.text import Text
 from game_object.image import Image
 

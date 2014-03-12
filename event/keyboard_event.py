@@ -3,24 +3,26 @@ Created on Feb 26, 2014
 
 @author: efarhan
 '''
-from engine.const import pookoo
+from engine.const import render
 
-if not pookoo:
+
+if render == 'pygame':
     import pygame
-    
+elif render == 'sfml':
+    import sfml
 class KEY():
-    if not pookoo:
+    if render == 'pygame':
         K_UP = pygame.K_UP
         K_DOWN = pygame.K_DOWN
         K_LEFT = pygame.K_LEFT
         K_RIGHT = pygame.K_RIGHT
         K_ESCAPE = pygame.K_ESCAPE
-    else:
-        K_UP = 82
-        K_DOWN = 81
-        K_LEFT = 80
-        K_RIGHT = 79
-        K_ESCAPE = 41
+    elif render == 'sfml':
+        K_UP = sfml.Keyboard.UP
+        K_DOWN = sfml.Keyboard.DOWN
+        K_LEFT = sfml.Keyboard.LEFT
+        K_RIGHT = sfml.Keyboard.RIGHT
+        K_ESCAPE = sfml.Keyboard.ESCAPE
 
 '''button_map = {'action' : 'key'}'''
 button_map = {}
@@ -66,7 +68,7 @@ def update_keyboard_event(event):
     '''
     Update the states of Input Event
     '''
-    if not pookoo:
+    if render == 'pygame':
         if event.type == pygame.KEYDOWN:
             try:
                 button_value[button_key[event.key]] = True

@@ -2,9 +2,11 @@
 Manage sound and music 
 '''
 
-from engine.const import pookoo, log
-if not pookoo:
+from engine.const import log, render
+if render == 'pygame':
 	import pygame
+elif render == 'sfml':
+	import sfml
 
 sounds = {}
 permanent_sound = []

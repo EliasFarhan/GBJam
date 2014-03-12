@@ -1,13 +1,13 @@
 '''
 Manage images loading, transforming and rendering
 '''
+from engine.const import render
 
-from engine.const import pookoo, log,path_prefix
-if not pookoo:
+
+if render == 'pygame':
 	import pygame
-else:
-	import texture
-	import draw
+elif render == 'sfml':
+	import sfml
 	
 from math import radians,cos,sin
 
@@ -17,23 +17,15 @@ img_name = {}
 permanent_images= []
 
 def draw_rect(screen,screen_pos,rect, color,angle=0):
-	if not pookoo:
+	if render == 'pygame':
 		surface = pygame.Surface(rect.size,flags=pygame.SRCALPHA)
 		surface.fill(pygame.Color(color[0],color[1],color[2],color[3]))
 		
 		rot_image, rot_rect = rot_center(surface, rect, angle)
 		screen.blit(rot_image, (rot_rect[0]-screen_pos[0],rot_rect[1]-screen_pos[1]))
-	else:
-		draw.state_save(screen)
-		draw.rgb(color[0]/255,color[1]/255,color[2]/255)
-		
-		draw.translate(rect.pos[0]-screen_pos[0],rect.pos[1]-screen_pos[1])
-		if angle != 0:
-			draw.rotate(-angle)
-		draw.rectangle(rect.size[0],rect.size[1])
-		draw.state_restore(screen)
+
 def fill_surface(surface,r,g,b,a=255):
-	if not pookoo:
+	if render == 'pygame':
 		if(a==255):
 			surface.fill((r,g,b))
 		else:
@@ -50,19 +42,14 @@ def get_image(index):
 	return images[index]
 
 def get_size(index):
-	if not pookoo:
+	if render == 'pygame':
 		return index.get_size()
 def load_image(name,permanent=False):
 	try:
 		img_name[name]
 	except KeyError:
-		if not pookoo:
+		if render == 'pygame':
 			img_name[name] = pygame.image.load(name).convert_alpha()
-		else:
-			try:
-				img_name[name] = texture.open(name)
-			except ValueError:
-				return None
 		if permanent:
 			permanent_images.append(name)
 	return img_name[name]
@@ -72,7 +59,7 @@ def load_image_with_size(name, size,permanent=False):
 		img_name[name]
 	except KeyError:
 		index = load_image(name,permanent)
-		if size != None and not pookoo:
+		if size != None and render == 'pygame':
 			img_name[name] = pygame.transform.scale(img_name[name], size)
 	return img_name[name]
 
@@ -80,7 +67,7 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 	if image == 0:
 		return
 	try:
-		if not pookoo:
+		if render == 'pygame':
 			image_rect_obj = image.get_rect()
 			if(factor != 1):
 				image = pygame.transform.scale(image,(int(image_rect_obj.w*factor),int(image_rect_obj.h*factor)))
@@ -103,20 +90,6 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 					image,image_rect_obj = rot_func(image, image_rect_obj, angle)
 			if(image_rect_obj.colliderect(screen.get_rect())):
 				screen.blit(image, image_rect_obj)
-		else:
-			draw.state_save(screen)
-			
-			if center:
-				draw.translate(window.width()/2+int(pos[0]),window.height/2-int(pos[1]))
-			else:
-				draw.translate(pos[0],pos[1])
-			if angle != 0:
-				draw.rotate(angle)
-			if factor != 1:
-				draw.scale(factor)
-			
-			draw.texture(image)
-			draw.state_restore(screen)
 	except KeyError:
 		pass
 	

@@ -7,22 +7,25 @@ Created on 8 sept. 2013
 @author: efarhan
 '''
 
-from engine.const import pookoo, log
+
 from engine.init import resize_screen
 from engine.sound_manager import load_sound, play_sound, set_playlist
 from engine.stat import egal_condition, set_value, get_value
 from event.keyboard_event import update_keyboard_event
-if not pookoo:
+from engine.const import render
+
+if render == 'pygame':
     import pygame
-else:
-    import input
+elif render == 'sfml':
+    import sfml
+
     
 def update_event():
     '''
     Update the states of Input Event
     '''
     global button_key,button_value
-    if not pookoo:
+    if render == 'pygame':
         for event in pygame.event.get():
             update_keyboard_event(event)
             
@@ -30,10 +33,14 @@ def update_event():
                 resize_screen(event.w, event.h)
             elif event.type == pygame.QUIT:
                 quit()
-    else:
-        for k_value in button_key.keys():
-            button_value[button_key[k_value]] = input.keyboard_pressed(k_value)
-    
+    elif render == 'sfml':
+        from engine.loop import get_screen
+        window = get_screen()
+        for event in window.events:
+            update_keyboard_event(event)
+            
+            if type(event) is sfml.CloseEvent:
+                window.close()
 
 class Event():
     def __init__(self):

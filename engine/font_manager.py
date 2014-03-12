@@ -5,11 +5,10 @@ Created on Feb 19, 2014
 
 @author: efarhan
 '''
-from engine.const import pookoo
+from engine.const import render
 
-if pookoo:
-    import font
-else:
+
+if render == 'pygame':
     import pygame
     
 fonts = {}

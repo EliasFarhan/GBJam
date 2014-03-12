@@ -8,7 +8,7 @@ from game_object.player import Player
 from game_object.physic_object import AngleSquare
 from engine.const import log,path_prefix
 from game_object.image import Image
-from json_export.json_export import load_json
+from json_export.json_main import load_json
 from json_export.event_json import load_event
 
 def load_level(level):

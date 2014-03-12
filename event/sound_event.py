@@ -3,7 +3,7 @@ Created on Feb 26, 2014
 
 @author: efarhan
 '''
-from event.event import Event
+from event.event_main import Event
 from engine.sound_manager import load_sound, play_sound, set_playlist
 
 

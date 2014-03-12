@@ -2,8 +2,9 @@
 Abstraction of the loop function
 providing the level
 '''
+from engine.const import render
 
-from engine.const import pookoo
+
 
 level = 0
 
@@ -12,7 +13,7 @@ def switch_level(level_obj):
 	from engine.loop import get_console
 	
 	level = level_obj
-	if not pookoo:
+	if render == 'pygame':
 		c = get_console()
 		c.submit_input('''import __main__;current_scene = __main__.game.level_manager.get_level()''')
 	if level != 0:

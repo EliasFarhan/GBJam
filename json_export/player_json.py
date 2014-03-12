@@ -8,7 +8,7 @@ import json
 from engine.const import log
 from engine.physics import add_dynamic_object, add_static_box
 from engine.init import get_screen_size
-from json_export.json_export import load_json
+from json_export.json_main import load_json
 from event.keyboard_event import add_button
 
 def load_player(player):

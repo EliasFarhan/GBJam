@@ -2,14 +2,10 @@
 Manages physics with Box2D
 convert automatically from pixel to meters
 '''
-from engine.const import move_speed, jump, framerate,jump_step,gravity, log,\
-    pybox2d, pookoo
+from engine.const import move_speed, jump, framerate,jump_step,gravity
 from event.physics_event import clear_physics_event, PhysicsEvent,\
     add_physics_event
-if pookoo:
-    import physics
-else:
-    from Box2D import *
+from Box2D import *
 
 ratio = 64/1.5
 
@@ -42,11 +38,9 @@ def init_physics(gravity_arg=None):
         gravity_value = gravity 
     else:
         gravity_value = gravity_arg
-    if pookoo:
-        world = physics.open(gravity_value)
-    else:
-        world = b2World(gravity=(0,gravity_value))
-        world.contactListener = KuduContactListener()
+
+    world = b2World(gravity=(0,gravity_value))
+    world.contactListener = KuduContactListener()
 
 def add_dynamic_object(obj,pos):
     position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
@@ -136,14 +130,13 @@ def add_static_circle(pos,radius,sensor=False,user_data=0):
     index+=1
     return index - 1
 
-if not pookoo:
-    class KuduContactListener(b2ContactListener):
-        def BeginContact(self, contact):
-            a = contact.fixtureA.userData
-            b = contact.fixtureB.userData
-            add_physics_event(PhysicsEvent(a,b,True))
-        def EndContact(self, contact):
-            a = contact.fixtureA.userData
-            b = contact.fixtureB.userData
-            add_physics_event(PhysicsEvent(a,b,False))
+class KuduContactListener(b2ContactListener):
+    def BeginContact(self, contact):
+        a = contact.fixtureA.userData
+        b = contact.fixtureB.userData
+        add_physics_event(PhysicsEvent(a,b,True))
+    def EndContact(self, contact):
+        a = contact.fixtureA.userData
+        b = contact.fixtureB.userData
+        add_physics_event(PhysicsEvent(a,b,False))
 

@@ -6,14 +6,12 @@ Created on 8 sept. 2013
 from game_object.image import Image, AnimImage
 from json_export.player_json import load_player
 from animation.animation import Animation
-from engine.const import log,pookoo
+from engine.const import log, render
 from engine.physics import meter2pixel, move
-from game_object import physic_object
 from engine.init import get_screen_size
 from event.keyboard_event import get_button
 from event.physics_event import get_physics_event
-if pookoo:
-    import physics
+
 
 class Player(AnimImage):
     def __init__(self, path, pos=(0,0),layer = 1):
@@ -78,10 +76,9 @@ class Player(AnimImage):
             else:
                 self.anim.state = 'jump_left'
         physics_pos = (0,0)
-        if not pookoo:
+        if render == 'pygame':
             physics_pos = self.body.position
-        else:
-            physics_pos = physics.body_get_position(self.body)
+
         physics_pos = (meter2pixel(physics_pos[0]),meter2pixel(physics_pos[1]))
         pos = (physics_pos[0]-self.screen_relative_pos[0]*get_screen_size()[0],
                physics_pos[1]-self.screen_relative_pos[1]*get_screen_size()[1])

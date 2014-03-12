@@ -1,27 +1,22 @@
 import sys
-from engine.const import log,pookoo
+from engine.const import log, render
 from engine import const
-if not pookoo:
+if render == 'pygame':
 	import pygame
-else:
-	import window
-	import log
-	import draw
+elif render == 'sfml':
+	import sfml
 screen_size = (0,0)
+
 def init_screen():
 	global screen_size
-	if not pookoo:
+	if render == 'pygame':
 		pygame.mouse.set_visible(False)
 		pygame.font.init()
 		screen_size = const.screen_size
 		return pygame.display.set_mode(screen_size,pygame.RESIZABLE)
-	else:
-		log.info("Initialize screen")
-		if not window.begin():
-			log.error("Couldn't initialize GUI :(")
-			exit()
-		screen_size = (window.width(),window.height())
-		draw.begin()
+	elif render == 'sfml':
+		window = sfml.RenderWindow(sfml.VideoMode(const.screen_size[0],const.screen_size[1]),'SFML Window')
+		return window
 def init_joystick():
 	pygame.joystick.init()
 def get_screen_size():

@@ -3,7 +3,7 @@ Created on Feb 19, 2014
 
 @author: efarhan
 '''
-from game_object.game_object import GameObject
+from game_object.game_object_main import GameObject
 from engine.font_manager import load_font, load_text
 from engine.rect import Rect
 from engine.const import log

@@ -9,10 +9,9 @@ from engine.image_manager import  show_image, load_image, get_size,\
 from animation.animation import Animation
 from engine.init import get_screen_size
 from engine.rect import Rect
-from game_object.game_object import GameObject
-from engine.const import pookoo,log
-if pookoo:
-    import texture
+from game_object.game_object_main import GameObject
+from engine.const import log
+
 
 class Image(GameObject):
     def __init__(self,path,pos,screen_relative_pos=None,size=None,angle=0):
@@ -38,10 +37,6 @@ class Image(GameObject):
             pos = (pos[0]+self.screen_relative_pos[0]*get_screen_size()[0],
                    pos[1]+self.screen_relative_pos[1]*get_screen_size()[1])
         factor = 1
-        if pookoo:
-            
-            factor = self.size[0]/texture.size(self.img)[0]
-            log(str(texture.size(self.img))+" "+str(self.size))
         show_image(self.img, screen, (pos[0]-screen_pos[0],pos[1]-screen_pos[1]),factor=factor,center_image=self.center_image)
         
 class AnimImage(Image):

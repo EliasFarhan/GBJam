@@ -5,12 +5,12 @@ Created on Feb 19, 2014
 
 @author: efarhan
 '''
-import builtins
-from json_export.json_export import load_json
+
+from json_export.json_main import load_json
 from engine.const import log
 from engine.level_manager import get_level
 from event.visual_event import VisualEvent, ChangeImageEvent
-from event.event import SetValueEvent, SwitchEvent, IncreaseValueEvent,\
+from event.event_main import SetValueEvent, SwitchEvent, IncreaseValueEvent,\
     ConditionnalEvent, DialogEvent
 from event.sound_event import SoundEvent, MusicEvent
 

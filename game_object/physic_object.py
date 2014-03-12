@@ -9,7 +9,7 @@ from engine.image_manager import draw_rect
 from engine.physics import add_static_box, remove_body
 from engine.const import debug,log
 from engine.rect import Rect
-from game_object.game_object import GameObject
+from game_object.game_object_main import GameObject
 
 class Circle():
     pass

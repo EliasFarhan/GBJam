@@ -3,38 +3,37 @@ Created on 8 sept. 2013
 
 @author: efarhan
 '''
+
 import sys
 from json_export.init_json import load_init_file
 #constant for physics and gameplay
 
-pybox2d = False
-pookoo = False
+render = 'pygame'
+
+def log(text,error=0):
+	"""
+	Log a message into the stdout or the stdin
+	"""
+	if error == 0:
+		sys.stdout.write(str(text)+"\n")
+	else:
+		sys.stderr.write(str(text)+"\n")
+
 
 path_prefix = ""
 
 try:
-	import window
-	import log
-	import texture
-	import font
-	import audio
-	import draw
-	import physics
+	import sfml
 	
-	path_prefix = "../"
-	pookoo = True
+	render = 'sfml'
 except ImportError:
 	pass
 
 try:
-	import pypybox2d
-except ImportError:
-	pybox2d = True
-try:
 	import Box2D
 	pybox2d=False
 except ImportError:
-	pybox2d=True
+	log('Box2D should be installed',1)
 	
 
 cuted_size = (500,500)
@@ -57,18 +56,4 @@ screen_size, startup = load_init_file(path_prefix+'data/json/init.json')
 
 startup = path_prefix+startup
 
-def log(text,error=0):
-	"""
-	Log a message into the stdout or the stdin
-	"""
-	if not pookoo:
-		if error == 0:
-			sys.stdout.write(str(text)+"\n")
-		else:
-			sys.stderr.write(str(text)+"\n")
-	else:
-		import log as log_module
-		if error == 0:
-			log_module.info(text)
-		else:
-			log_module.error(text)
+

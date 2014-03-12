@@ -2,16 +2,16 @@
 Main loop of the engine
 '''
 
-from engine.const import framerate, log, pookoo, startup
+from engine.const import framerate, log, startup, render
 import sys
-if not pookoo:
+if render == 'pygame':
 	import pygame
-else:
-	import draw
-	import window
+elif render == 'sfml':
+	import sfml
+
 import engine.init as init
 import engine.level_manager as level_manager
-from event.event import update_event
+from event.event_main import update_event
 from event.keyboard_event import add_button, get_button
 from levels.logo_kwakwa import Kwakwa
 from engine.pyconsole import Console
@@ -35,9 +35,10 @@ def get_screen():
 def set_finish():
 	global finish
 	finish = True
+	
 def loop():
 	global finish,screen,console
-	if not pookoo:
+	if render == 'pygame':
 		fps_clock = pygame.time.Clock()
 		console = Console(screen, (0,0,init.get_screen_size()[0],init.get_screen_size()[1]/3))
 	
@@ -46,17 +47,11 @@ def loop():
 	
 	level_manager.switch_level(GameState(startup))
 	state = None
-	if pookoo:
-		state = draw.state_new()
+
 	while not finish:
-		if not pookoo:
+		if render == 'pygame':
 			screen.fill(pygame.Color(0, 0, 0))
 			console.process_input()
-		else:
-			window.step()
-			draw.clear()
-			draw.rgb(0.0, 0.0, 0.0)
-			draw.rectangle(window.width(), window.height())
 		update_event()
 		if not finish:
 			finish = get_button('quit')
@@ -64,27 +59,23 @@ def loop():
 		if f == 0:
 			break
 		else:
-			if not pookoo:
+			if render == 'pygame':
 				f(screen)
-			else:
-				f(state)
+			
 		
 		if get_button('reset'):
 			level_manager.switch_level(GameState(startup))
 		
-		if not pookoo:
+		if render == 'pygame':
 			console.draw()
 			pygame.display.flip()
 			fps_clock.tick(framerate)
-	if not pookoo:
+	if render == 'pygame':
 		pygame.quit()
-	else:
-		draw.state_free(state)
-		window.finish()
 
 def start():
 	global fps,screen
-	if not pookoo:
+	if render == 'pygame':
 		pygame.init()
 	screen = init.init_screen()
 	loop()

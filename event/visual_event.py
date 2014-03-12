@@ -3,7 +3,7 @@ Created on Feb 26, 2014
 
 @author: efarhan
 '''
-from event.event import Event
+from event.event_main import Event
 
 class VisualEvent(Event):
     def __init__(self,gamestate,name="",names=[],pos=None,next_pos=None,size=1):

@@ -19,9 +19,9 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 import os, sys
-from engine.const import pookoo
 from engine.rect import Rect
-if not pookoo:
+from engine.const import render
+if render == 'pygame':
 	import pygame  
 	from pygame.locals import *
 
