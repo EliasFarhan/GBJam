@@ -17,6 +17,7 @@ from event.sound_event import SoundEvent, MusicEvent
 
 def load_event(filename, object=None):
     event_data = load_json(filename)
+    log("Loading event: "+filename)
     return parse_event_json(event_data,object=object)
 
 def parse_event_json(event_dict, parent_event=None, object=None):
@@ -25,7 +26,7 @@ def parse_event_json(event_dict, parent_event=None, object=None):
     event = None
     try:
         event_data = event_dict['event']
-        if event_data.__class__ == builtins.list:
+        if event_data.__class__ == list:
             for e in event_data['event']:
                 event = parse_event_json(e, parent_event, object)
                 if not first_event:
@@ -34,7 +35,7 @@ def parse_event_json(event_dict, parent_event=None, object=None):
                     previous_event.next_event = event
                 previous_event = event
             return first_event
-        elif event_data.__class__ == builtins.str:
+        elif event_data.__class__ == str:
             return load_event(event_dict['event'], object)
     except KeyError:
         return parse_event_type_json(event_dict, parent_event, object)

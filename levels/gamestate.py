@@ -20,6 +20,7 @@ class GameState(Scene,Editor,GUI):
     def __init__(self,filename):
         self.bg_color = [0,0,0]
         self.player = None
+        self.event = {}
         self.filename = filename
         if debug:
             Editor.__init__(self)
@@ -48,7 +49,12 @@ class GameState(Scene,Editor,GUI):
         
         self.click = False
         
-        
+        self.execute_event('on_init')
+    def execute_event(self,name):
+        try:
+            self.event[name].execute()
+        except KeyError:
+            pass
     def reload(self,newfilename):
         self.filename = newfilename
         self.init()

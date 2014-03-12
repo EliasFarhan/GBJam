@@ -14,6 +14,7 @@ from engine.stat import egal_condition, set_value, get_value
 from event.keyboard_event import update_keyboard_event
 from engine.const import render
 
+
 if render == 'pygame':
     import pygame
 elif render == 'sfml':
@@ -40,7 +41,8 @@ def update_event():
             update_keyboard_event(event)
             
             if type(event) is sfml.CloseEvent:
-                window.close()
+                from engine.loop import set_finish
+                set_finish()
 
 class Event():
     def __init__(self):

@@ -23,6 +23,7 @@ def load_json(filename):
     try:
         json_data = json.loads(file.read())
     except ValueError as e: #No json object decoded
+        from engine.const import log
         log(e,1)
         return None
     file.close()

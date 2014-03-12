@@ -37,6 +37,13 @@ def load_level(level):
         except KeyError:
             pass
         
+        try:
+            for e in level_data["event"].keys():
+                level.event[e] = load_event(level_data["event"][e])
+                log(e+" "+str(level.event[e]))
+        except KeyError:
+            pass
+        
         for physic_object in level_data['physic_objects']:
             if physic_object["type"] == "box":
                 
