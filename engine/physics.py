@@ -60,11 +60,8 @@ def remove_body(index):
         pass
 def update_physics():
     clear_physics_event()
-    if not pookoo:
-        world.Step(timeStep,vel_iters,pos_iters)
-        world.ClearForces()
-    else:
-        physics.step(world,timeStep)
+    world.Step(timeStep,vel_iters,pos_iters)
+    world.ClearForces()
     
 def move(body,vx=None,vy=None):
     dyn_obj = body

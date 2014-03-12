@@ -30,6 +30,8 @@ def fill_surface(surface,r,g,b,a=255):
 			surface.fill((r,g,b))
 		else:
 			surface.fill((r,g,b,a))
+	elif render == 'sfml':
+		surface.clear()
 def sanitize_img_manager():
 	for index in images.keys():
 		if index not in permanent_images:

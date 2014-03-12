@@ -87,6 +87,4 @@ def update_keyboard_event(event):
             except KeyError:    
                 '''Key not mapped'''
                 pass
-    else:
-        for k_value in button_key.keys():
-            button_value[button_key[k_value]] = input.keyboard_pressed(k_value)
+

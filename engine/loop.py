@@ -2,7 +2,7 @@
 Main loop of the engine
 '''
 
-from engine.const import framerate, log, startup, render
+from engine.const import framerate, log, startup, render, debug
 import sys
 if render == 'pygame':
 	import pygame
@@ -46,8 +46,7 @@ def loop():
 	add_button('reset','r')
 	
 	level_manager.switch_level(GameState(startup))
-	state = None
-
+	
 	while not finish:
 		if render == 'pygame':
 			screen.fill(pygame.Color(0, 0, 0))
@@ -59,8 +58,7 @@ def loop():
 		if f == 0:
 			break
 		else:
-			if render == 'pygame':
-				f(screen)
+			f(screen)
 			
 		
 		if get_button('reset'):
@@ -70,6 +68,9 @@ def loop():
 			console.draw()
 			pygame.display.flip()
 			fps_clock.tick(framerate)
+		elif render == 'sfml':
+			screen.vertical_synchronization = True
+			screen.framerate_limit = framerate
 	if render == 'pygame':
 		pygame.quit()
 
