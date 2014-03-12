@@ -69,8 +69,8 @@ def loop():
 			pygame.display.flip()
 			fps_clock.tick(framerate)
 		elif render == 'sfml':
-			screen.vertical_synchronization = True
 			screen.framerate_limit = framerate
+			screen.display()
 	if render == 'pygame':
 		pygame.quit()
 
