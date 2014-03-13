@@ -4,6 +4,7 @@ Main loop of the engine
 
 from engine.const import framerate, log, startup, render, debug
 import sys
+from engine.physics import deinit_physics
 if render == 'pygame':
 	import pygame
 elif render == 'sfml':
@@ -71,6 +72,7 @@ def loop():
 		elif render == 'sfml':
 			screen.framerate_limit = framerate
 			screen.display()
+	deinit_physics()
 	if render == 'pygame':
 		pygame.quit()
 

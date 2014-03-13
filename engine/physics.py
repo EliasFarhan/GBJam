@@ -23,11 +23,9 @@ index = 1
 world = None
 
 def deinit_physics():
-    if pookoo:
-        physics.close(world)
-    else:
-        del world
-        world = None
+    global world
+    del world
+    world = None
 def init_physics(gravity_arg=None):
     global world
     if world != None:

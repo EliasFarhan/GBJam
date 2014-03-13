@@ -14,14 +14,13 @@ permanent_sound = []
 playlist = []
 music_index = 0
 music = None
-sounds = []
+sounds_playing = []
 
 def set_playlist(music_list):
 	'''
 	Set a new playlist and play the first element
 	'''
 	global playlist,music
-	log("YOLO")
 	playlist = music_list
 	if render == 'pygame':
 		pygame.mixer.music.load(playlist[0])
@@ -56,7 +55,7 @@ def update_music_status():
 	Switch to next music if it's over,
 	must be called to have smooth transition
 	'''
-	global music,music_index,playlist
+	global music,music_index,playlist,sounds_playing
 	if render == 'pygame':
 		if(not pygame.mixer.music.get_busy()):
 			music_index += 1
@@ -69,10 +68,14 @@ def update_music_status():
 			music_index = music_index%len(playlist)
 			music = sfml.Music.from_file(playlist[music_index])
 			music.play()
-		for s in sounds:
+		delete_sounds = []
+		for s in sounds_playing:
 			if s.status == sfml.Sound.STOPPED:
 				'''TODO: remove sound'''
-				pass
+				delete_sounds.append(s)
+		for s in delete_sounds:
+			sounds_playing.remove(s)
+		del delete_sounds
 def check_music_status():
 	'''
 	Return True if a music is currently playing
@@ -100,9 +103,12 @@ def play_sound(sound):
 	'''
 	Plays a given sound
 	'''
+	global sounds_playing
 	if render == 'pygame':
 		sound.play()
 	elif render == 'sfml':
-		sfml.Sound(sound).play()
+		sound_playing = sfml.Sound(sound)
+		sound_playing.play()
+		sounds_playing.append(sound_playing)
 
 

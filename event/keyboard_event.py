@@ -17,12 +17,16 @@ class KEY():
         K_LEFT = pygame.K_LEFT
         K_RIGHT = pygame.K_RIGHT
         K_ESCAPE = pygame.K_ESCAPE
+        K_A = pygame.K_a
+        K_Z = pygame.K_z
     elif render == 'sfml':
         K_UP = sfml.Keyboard.UP
         K_DOWN = sfml.Keyboard.DOWN
         K_LEFT = sfml.Keyboard.LEFT
         K_RIGHT = sfml.Keyboard.RIGHT
         K_ESCAPE = sfml.Keyboard.ESCAPE
+        K_A = sfml.Keyboard.A
+        K_Z = sfml.Keyboard.Z
 
 '''button_map = {'action' : 'key'}'''
 button_map = {}
@@ -40,9 +44,8 @@ def add_button(action,key_value):
     button_value[action] = 0
     
     try:
-        if (ord('a') <= ord(key_value) <= ord('z')) or \
-        (ord('0') <= ord(key_value) <= ord('9')):
-            button_key[ord(key_value)] = key_value
+        if (ord('a') <= ord(key_value) <= ord('z')):
+            button_key[ord(key_value)-ord('a')+KEY.K_A] = key_value
     except TypeError:
         '''the key value is not a letter or a number'''
         if key_value == 'UP':
@@ -88,14 +91,9 @@ def update_keyboard_event(event):
                 '''Key not mapped'''
                 pass
     elif render == 'sfml':
-        if type(event) == sfml.Event.PRESSED:
+        if type(event) == sfml.KeyEvent and event.pressed:
             try:
-                button_value[button_key[event.key]] = True
+                button_value[button_key[event.code]] = event.pressed
             except KeyError:
                 '''Key not in map'''
-        elif type(event) == sfml.Event.RELEASED:
-            try:
-                button_value[button_key[event.key]] = False
-            except KeyError:    
-                '''Key not mapped'''
                 pass

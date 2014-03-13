@@ -33,7 +33,8 @@ def update_event():
             if event.type == pygame.VIDEORESIZE:
                 resize_screen(event.w, event.h)
             elif event.type == pygame.QUIT:
-                quit()
+                from engine.loop import set_finish
+                set_finish()
     elif render == 'sfml':
         from engine.loop import get_screen
         window = get_screen()

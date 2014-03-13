@@ -23,13 +23,8 @@ def load_font(name,size):
         fonts[name]
     except KeyError:
         try:
-            if not pookoo:
+            if render == 'pygame':
                 fonts[name] = pygame.font.Font(name, pixel2point(size))
-            else:
-                try:
-                    fonts[name] = font.open(name)
-                except ValueError:
-                    return None
         except IOError:
             fonts[name] = pygame.font.SysFont(name, pixel2point(size))
     return fonts[name]

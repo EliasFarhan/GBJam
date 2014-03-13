@@ -53,10 +53,13 @@ def load_image(name,permanent=False):
 		if render == 'pygame':
 			img_name[name] = pygame.image.load(name).convert_alpha()
 		elif render == 'sfml':
-			img_name[name] = sfml.Sprite(sfml.Texture.from_file(name))
+			img_name[name] = sfml.Texture.from_file(name)
 		if permanent:
 			permanent_images.append(name)
-	return img_name[name]
+	if render == 'pygame':
+		return img_name[name]
+	elif render == 'sfml':
+		return sfml.Sprite(img_name[name])
 	
 def load_image_with_size(name, size,permanent=False):
 	try:
@@ -65,7 +68,10 @@ def load_image_with_size(name, size,permanent=False):
 		index = load_image(name,permanent)
 		if size != None and render == 'pygame':
 			img_name[name] = pygame.transform.scale(img_name[name], size)
-	return img_name[name]
+	if render == 'pygame':
+		return img_name[name]
+	elif render == 'sfml':
+		return sfml.Sprite(img_name[name])
 
 def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=None,factor=1,center_image=False):
 	if image == 0:
@@ -95,15 +101,15 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 			if(image_rect_obj.colliderect(screen.get_rect())):
 				screen.blit(image, image_rect_obj)
 		elif render == 'sfml':
+			sprite = image
 			if new_size:
-				text_size = image.texture.size
+				text_size = sprite.texture.size
 				
-				image.ratio = sfml.Vector2(new_size[0]/float(text_size[0]),new_size[1]/float(text_size[1]))
-			if angle!=0:
-
-				image.rotation = angle
-			image.position = pos
-			screen.draw(image)
+				sprite.ratio = sfml.Vector2(new_size[0]/float(text_size[0]),new_size[1]/float(text_size[1]))
+			if angle != 0:
+				sprite.rotation = angle
+			sprite.position = pos
+			screen.draw(sprite)
 	except KeyError:
 		pass
 	
