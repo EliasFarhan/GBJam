@@ -3,7 +3,6 @@ Manage sound and music
 '''
 
 from engine.const import log, render
-from pygame.mixer import music
 if render == 'pygame':
 	import pygame
 elif render == 'sfml':
