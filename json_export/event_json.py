@@ -44,7 +44,7 @@ def parse_event_type_json(event_dict,parent_event=None,object=None):
     event = None
     event_type = get_element(event_dict,'type')
 
-    if event_type:
+    if event_type and event_type.isalpha():
         try:
             from event.event_engine import *
             exec("""event = %s.parse_event(event_dict)"""%(event_type))
@@ -57,13 +57,3 @@ def parse_event_type_json(event_dict,parent_event=None,object=None):
     return event
 
 
-
-
-
-def parse_conditionnal_event(event_dict,parent_event=None,object=None):
-
-    if_event = parse_event_json(event_dict["if_event"], parent_event, object)
-    else_event = parse_event_json(event_dict["else_event"], parent_event, object)
-    event = ConditionnalEvent(event_dict["name"], event_dict["value"], if_event, else_event)
-
-    return event

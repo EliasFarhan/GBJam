@@ -78,7 +78,7 @@ def load_level(level):
                         angle = 0
                     if image_type == "Image":
                         path = get_element(image_data, "path")
-                        if path:
+                        if path and pos:
                             path = path_prefix+path
                         else:
                             log("Invalid arg path not defined for Image",1)
@@ -99,9 +99,9 @@ def load_level(level):
                         image = Text(pos, size, font, text, angle,color)
 
                     event_path = get_element(image_data, "event")
-                    if event_path != None:
+                    if event_path:
                         image.event = load_event(event_path)
-                    if 0 < layer < len(level.images)-1:
+                    if image and 0 < layer < len(level.images)-1:
                         level.images[layer-1].append(image)
         return True
     return False

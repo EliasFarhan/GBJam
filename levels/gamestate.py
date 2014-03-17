@@ -106,7 +106,10 @@ class GameState(Scene,Editor,GUI):
             for i in range(self.player.layer,len(self.images)):
                 for j in range(len(self.images[i])):
                     self.images[i][j].loop(screen,self.screen_pos)
-        
+        else:
+            for i in range(len(self.images)):
+                for j in range(len(self.images[i])):
+                    self.images[i][j].loop(screen,self.screen_pos)
         GUI.loop(self,screen)
         
         for physic_object in self.physic_objects:
