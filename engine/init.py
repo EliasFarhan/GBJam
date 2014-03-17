@@ -10,8 +10,11 @@ screen_size = (0,0)
 def init_all():
 	if render == 'pygame':
 		pygame.init()
-	init_screen()
+	screen = init_screen()
+	if render == 'sfml':
+		log(str(screen.settings))
 	init_joystick()
+	return screen
 def init_screen():
 	global screen_size
 	if render == 'pygame':

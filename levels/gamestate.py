@@ -46,7 +46,7 @@ class GameState(Scene,Editor,GUI):
         
         
 
-        
+        self.lock = False
         self.click = False
         
         self.execute_event('on_init')
@@ -83,18 +83,9 @@ class GameState(Scene,Editor,GUI):
                 
         '''Editor'''
         
-        if not self.editor_click and get_button('editor'):
-            self.editor = not self.editor
-            if not self.editor:
-                save_level(self)
-            self.editor_click = True
-        if not get_button('editor'):
-            self.editor_click = False
-        if debug and self.editor:
-            show_mouse()
-            Editor.loop(self)
+        Editor.loop(self)
         
-        if not self.editor:
+        if not self.lock:
             update_physics()
             
         '''Show images'''
@@ -110,8 +101,10 @@ class GameState(Scene,Editor,GUI):
             for i in range(len(self.images)):
                 for j in range(len(self.images[i])):
                     self.images[i][j].loop(screen,self.screen_pos)
+        '''GUI'''
         GUI.loop(self,screen)
         
+        '''Show physics objects in debug mode'''
         for physic_object in self.physic_objects:
             physic_object.loop(screen,self.screen_pos)
             
