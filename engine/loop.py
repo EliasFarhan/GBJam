@@ -59,7 +59,6 @@ def loop():
 			level_manager.switch_level(GameState(startup))
 		
 		if render == 'pygame':
-			console.draw()
 			pygame.display.flip()
 			fps_clock.tick(framerate)
 		elif render == 'sfml':
