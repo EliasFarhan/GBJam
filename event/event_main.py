@@ -60,37 +60,11 @@ class Event():
         elif self.parent_event:
             if self.parent_event.next_event:
                 self.parent_event.next_event.execute()
+    @staticmethod
+    def parse_event():
+        return Event()
 
-class ConditionnalEvent(Event):
-    def __init__(self,name,value,event1,event2):
-        Event.__init__(self)
-        self.name = name
-        self.value = value
-        self.if_event = event1
-        self.else_event = event2
-    def execute(self):
-        if egal_condition(self.name,self.value):
-            if self.if_event:
-                self.if_event.execute()
-        else:
-            if self.else_event:
-                self.else_event.execute()
-            
-class IncreaseValueEvent(Event):
-    def __init__(self,name):
-        Event.__init__(self)
-        self.name = name
-    def execute(self):
-        set_value(self.name, get_value(self.name)+1)
-        Event.execute(self)
-class SetValueEvent(Event):
-    def __init__(self,name,value):
-        Event.__init__(self)
-        self.name = name
-        self.value = value
-    def execute(self):
-        set_value(self.name, self.value)
-        Event.execute(self)
+
 
 
 class DialogEvent(Event):
