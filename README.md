@@ -4,6 +4,8 @@ Kudu is a game engine written in python (compatible with 2-3), depending on pyth
 
 It use json to store game data like the structure of level and the images of the player animation, or the GUI.
 
+Documentation here: http://team-kwakwa.com/kudu_doc/index.html
+
 ###Install
 Install python-sfml: http://www.python-sfml.org/ 
 (or pygame, but deprecated: http://www.pygame.org/ )
