@@ -4,12 +4,12 @@ Kudu is a game engine written in python (compatible with 2-3), depending on pyth
 
 It use json to store game data like the structure of level and the images of the player animation, or the GUI.
 
-Documentation here: [](http://team-kwakwa.com/kudu_doc/index.html)
+Documentation [here](http://team-kwakwa.com/kudu_doc/index.html)
 
 ###Install
-Install python-sfml: [](http://www.python-sfml.org/)
-(or pygame, but deprecated: [](http://www.pygame.org/) )
-Box2D: [](http://code.google.com/p/pybox2d/)
+Install [python-sfml](http://www.python-sfml.org/)
+(or [pygame](http://www.pygame.org/), but deprecated )
+[Box2D](http://code.google.com/p/pybox2d/)
 
 ### Create game project
 - Create an init JSON file in data/json/init.json who will look like this:
@@ -17,7 +17,9 @@ Box2D: [](http://code.google.com/p/pybox2d/)
 	"init": "data/json/level.json",
 	"screen_size": [1280,720]
 } ```
+
 - Create a level JSON file:
+
 ```{
 	"images": {
 	
