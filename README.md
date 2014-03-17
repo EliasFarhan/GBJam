@@ -20,14 +20,12 @@ Install [python-sfml](http://www.python-sfml.org/)
 
 - Create a level JSON file:
 
-```{
+``` {
 	"images": {
-	
 	},
 	"physic_object": {
-	
 	}
-}```
+} ```
 
 
 
