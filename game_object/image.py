@@ -37,7 +37,7 @@ class Image(GameObject):
             pos = (pos[0]+self.screen_relative_pos[0]*get_screen_size()[0],
                    pos[1]+self.screen_relative_pos[1]*get_screen_size()[1])
         show_image(self.img, screen, (pos[0]-screen_pos[0],pos[1]-screen_pos[1]),new_size=self.size,center_image=self.center_image,angle=self.angle)
-        
+        GameObject.loop(self, screen, screen_pos)
 class AnimImage(Image):
     '''Can be animated if a directory is given,
     if a png file is given, it will load it

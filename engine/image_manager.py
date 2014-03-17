@@ -23,7 +23,8 @@ def draw_rect(screen,screen_pos,rect, color,angle=0):
 		
 		rot_image, rot_rect = rot_center(surface, rect, angle)
 		screen.blit(rot_image, (rot_rect[0]-screen_pos[0],rot_rect[1]-screen_pos[1]))
-
+	elif render == 'sfml':
+		pass
 def fill_surface(surface,r,g,b,a=255):
 	if render == 'pygame':
 		if(a==255):

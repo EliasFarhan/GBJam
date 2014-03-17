@@ -5,7 +5,7 @@ Created on 11 janv. 2014
 '''
 import json
 from game_object.player import Player
-from game_object.physic_object import AngleSquare
+from game_object.physic_object import PhysicRect
 from engine.const import log,path_prefix
 from game_object.image import Image
 from json_export.json_main import load_json, get_element
@@ -63,7 +63,7 @@ def load_level(level):
                     angle = get_element(physic_object,"angle")
                     if angle == None:
                         angle = 0
-                    level.physic_objects.append(AngleSquare(pos, size, angle, user_data, sensor))
+                    level.physic_objects.append(PhysicRect(pos, size, angle, user_data, sensor))
         images_dict = get_element(level_data, 'images')
         if images_dict != None:
             for image_data in level_data['images']:
@@ -107,7 +107,7 @@ def save_level(level):
     level_data['background_color'] = level.bg_color
     level_data['physic_objects'] = []
     for physic_object in level.physic_objects:
-        if physic_object.__class__ == AngleSquare:
+        if physic_object.__class__ == PhysicRect:
             obj = {}
             obj['type'] = 'box'
             obj['pos'] = [physic_object.pos[0],physic_object.pos[1]]

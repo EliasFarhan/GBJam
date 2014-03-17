@@ -4,7 +4,8 @@ Created on Feb 3, 2014
 @author: efarhan
 '''
 from engine.rect import Rect
-from engine.const import log
+from engine.const import log, debug
+from engine.image_manager import draw_rect
 
 class GameObject:
     def __init__(self):
@@ -43,4 +44,7 @@ class GameObject:
     def execute_event(self):
         if self.event:
             self.event.execute()
+    def loop(self,screen,screen_pos):
+        if debug:
+            draw_rect(screen, screen_pos, self.rect, (255,0,0,200), self.angle)
     
