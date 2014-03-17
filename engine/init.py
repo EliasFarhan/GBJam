@@ -23,7 +23,7 @@ def init_screen():
 		window = sfml.RenderWindow(sfml.VideoMode(const.screen_size[0],const.screen_size[1]),'SFML Window')
 		return window
 def init_joystick():
-	
+	pass
 def get_screen_size():
 	global screen_size
 	return screen_size

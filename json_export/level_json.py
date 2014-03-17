@@ -8,8 +8,9 @@ from game_object.player import Player
 from game_object.physic_object import AngleSquare
 from engine.const import log,path_prefix
 from game_object.image import Image
-from json_export.json_main import load_json
+from json_export.json_main import load_json, get_element
 from json_export.event_json import load_event
+from game_object.text import Text
 
 def load_level(level):
     ''' 
@@ -22,73 +23,80 @@ def load_level(level):
     '''
     level_data = load_json(level.filename)
     if level_data:
-        level.player = Player(path_prefix+level_data['player'])
-        level.bg_color = level_data['background_color']
-        try:
-            level.show_mouse = level_data['show_mouse']
-        except KeyError:
-            pass
-        try:
-            level.use_physics = level_data['physics']
-        except KeyError:
-            pass
-        try:
-            level.use_network = level_data['network']
-        except KeyError:
-            pass
+        player_path = get_element(level_data, 'player')
+        if player_path:
+            level.player = Player(path_prefix+player_path)
+        bg_color = get_element('bg_color')
+        if bg_color != None:
+            level.bg_color = bg_color
+        show_mouse = get_element(level_data,'show_mouse')
+        if show_mouse != None:
+            level.show_mouse = show_mouse
         
-        try:
-            for e in level_data["event"].keys():
-                level.event[e] = load_event(level_data["event"][e])
-                log(e+" "+str(level.event[e]))
-        except KeyError:
-            pass
+        use_physics = get_element(level_data,'use_physics')
+        if use_physics != None:
+            level.use_physics = use_physics
+        network = get_element(level_data, 'network')
+        if network != None:
+            level.use_network = network
         
-        for physic_object in level_data['physic_objects']:
-            if physic_object["type"] == "box":
-                
-                pos = physic_object["pos"]
-                size = physic_object["size"]
-                
-                sensor = False
-                try:
-                    sensor = physic_object["sensor"]
-                except KeyError:
-                    pass
-                data = 0
-                try:
-                    data = physic_object["user_data"]
-                except KeyError:
-                    pass
-                angle = 0
-                try:
-                    angle = physic_object["angle"]
-                except KeyError:
-                    pass
-                level.physic_objects.append(AngleSquare(pos, size, angle, data, sensor))
-        for image_data in level_data['images']:
-            if image_data["type"] == "Image":
-                pos = image_data["pos"]
-                size = None
-                try:
-                    size = image_data["size"]
-                except KeyError:
-                    pass
-                path = path_prefix+image_data["path"]
-                angle = 0
-                try:
-                    angle = image_data["angle"]
-                except KeyError:
-                    pass
-                layer = image_data["layer"]
-                image = Image(path, pos, None, size, angle)
-                try:
-                    event_path = image_data["event"]
-                    image.event = load_event(event_path)
-                except KeyError:
-                    pass
-                if 0 < layer < len(level.images)-1:
-                    level.images[layer-1].append(image)
+        event_data = get_element(level_data, "event")
+        if event_data:
+            for e in event_data.keys():
+                level.event[e] = load_event(event_data[e])
+
+        physics_obj_dict = get_element(level_data, 'physic_objects')
+        if physics_obj_dict:
+            for physic_object in physics_obj_dict:
+                obj_type = get_element(physic_object, "type")
+                if obj_type == "box":
+                    
+                    pos = get_element(physic_object,"pos")
+                    size = get_element(physic_object,"size")
+                    
+                    sensor = get_element(physic_object, "sensor")
+                    if sensor == None:
+                        sensor = False
+                    user_data = get_element(physic_object,"user_data")
+                    if user_data == None:
+                        user_data = 0
+                    angle = get_element(physic_object,"angle")
+                    if angle == None:
+                        angle = 0
+                    level.physic_objects.append(AngleSquare(pos, size, angle, user_data, sensor))
+        images_dict = get_element(level_data, 'images')
+        if images_dict != None:
+            for image_data in level_data['images']:
+                image_type = get_element(image_data,"type")
+                if image_type != None:
+                    image = None
+                    pos = get_element(image_data, "pos")
+                    size = get_element(image_data, "size")
+                    layer = get_element(image_data, "layer")
+                    angle = get_element(image_data, "angle")
+                    if angle == None:
+                        angle = 0
+                    if image_type == "Image":
+                        path = get_element(image_data, "path")
+                        if path:
+                            path = path_prefix+path
+                        else:
+                            continue
+                        if pos and path:
+                            image = Image(path, pos, None, size, angle)
+                    elif image_data["type"] == "Text":
+                        font = get_element(image_data, "font")
+                        if font:
+                            font = path_prefix+font
+                        else:
+                            continue
+                        #image = Text(pos, size, font, text, angle, color, gradient, center)
+
+                    event_path = get_element(image_data, "event")
+                    if event_path != None:
+                        image.event = load_event(event_path)
+                    if 0 < layer < len(level.images)-1:
+                        level.images[layer-1].append(image)
         return True
     return False
 def save_level(level):

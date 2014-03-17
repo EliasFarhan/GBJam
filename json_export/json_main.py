@@ -6,6 +6,13 @@ Created on Feb 19, 2014
 
 import json
 
+def get_element(data_dict,name):
+    try:
+        return data_dict[name]
+    except KeyError:
+        return None
+    
+
 def load_json(filename):
     '''Load a JSON file
     
