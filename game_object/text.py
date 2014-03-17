@@ -45,6 +45,5 @@ class Text(GameObject):
         pos = self.pos
         if not self.relative:
             pos = (pos[0]-screen_pos[0],pos[1]-screen_pos[1])
-        log(self.text_surface)
         show_image(self.text_surface, screen, pos, self.angle, self.center)
         #screen.blit(self.text_surface,self.pos)

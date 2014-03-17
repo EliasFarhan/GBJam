@@ -40,7 +40,6 @@ def load_text(font,text,color=(0,0,0),size=0):
         if font:
             return font.render(text,False,color)
     elif render == 'sfml':
-        log(str(size))
         if font and size:
             text = sfml.Text(text)
             text.font = font

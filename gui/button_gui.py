@@ -14,9 +14,10 @@ class ButtonGUI(GameObject):
         self.size = size
         self.update_rect(self)
         self.button_image = None
+        self.show = show
         if button_img != '':
             self.button_image = Image(button_img, pos, size=size)
-        self.text = Text(pos, size, font, text=button_text)
+        self.text = Text(pos, size[1]-margin, font, text=button_text)
     def set_text(self,text):
         self.text.change_text(text)
     def loop(self,screen,screen_pos):
