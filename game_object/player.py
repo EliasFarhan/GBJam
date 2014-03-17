@@ -5,7 +5,7 @@ Created on 8 sept. 2013
 '''
 from game_object.image import Image, AnimImage
 from json_export.player_json import load_player
-from animation.animation import Animation
+from animation.animation_main import Animation
 from engine.const import log, render
 from engine.physics import meter2pixel, move
 from engine.init import get_screen_size
