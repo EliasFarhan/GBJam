@@ -26,7 +26,7 @@ def load_level(level):
         player_path = get_element(level_data, 'player')
         if player_path:
             level.player = Player(path_prefix+player_path)
-        bg_color = get_element('bg_color')
+        bg_color = get_element(level_data,'bg_color')
         if bg_color != None:
             level.bg_color = bg_color
         show_mouse = get_element(level_data,'show_mouse')
