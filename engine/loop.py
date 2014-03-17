@@ -78,8 +78,7 @@ def loop():
 
 def start():
 	global fps,screen
-	if render == 'pygame':
-		pygame.init()
+	
 	screen = init.init_screen()
 	loop()
 	
