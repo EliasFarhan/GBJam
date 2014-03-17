@@ -81,6 +81,7 @@ def load_level(level):
                         if path:
                             path = path_prefix+path
                         else:
+                            log("Invalid arg path not defined for Image",1)
                             continue
                         if pos and path:
                             image = Image(path, pos, None, size, angle)
@@ -91,6 +92,7 @@ def load_level(level):
                         if font and text:
                             font = path_prefix+font
                         else:
+                            log("Invalid arg font and text not defined for Text",1)
                             continue
                         if not color:
                             color = [0,0,0]
