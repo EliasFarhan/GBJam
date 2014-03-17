@@ -35,3 +35,13 @@ def load_json(filename):
         return None
     file.close()
     return json_data
+def write_json(filename,data):
+    try:
+        json_file = open(filename,mode='w')
+    except IOError:
+        from engine.const import log
+        log("Loading file error: "+filename,1)
+        return None
+    json_file.write(json.dumps(obj=data,indent=4))
+    json_file.close()
+    return True

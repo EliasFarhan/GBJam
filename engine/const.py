@@ -5,6 +5,7 @@ Created on 8 sept. 2013
 '''
 
 import sys
+path_prefix = ""
 from json_export.init_json import load_init_file
 #constant for physics and gameplay
 
@@ -20,7 +21,7 @@ def log(text,error=0):
 		sys.stderr.write(str(text)+"\n")
 
 
-path_prefix = ""
+
 
 try:
 	import sfml
@@ -54,7 +55,7 @@ if sys.platform == 'darwin':
 	animation_step = 3
 	invulnerability = 30
 
-screen_size, startup = load_init_file(path_prefix+'data/json/init.json')
+screen_size, startup = load_init_file('data/json/init.json')
 
 startup = path_prefix+startup
 
