@@ -86,11 +86,15 @@ def load_level(level):
                             image = Image(path, pos, None, size, angle)
                     elif image_data["type"] == "Text":
                         font = get_element(image_data, "font")
-                        if font:
+                        text = get_element(image_data, "text")
+                        color = get_element(image_data, "color")
+                        if font and text:
                             font = path_prefix+font
                         else:
                             continue
-                        #image = Text(pos, size, font, text, angle, color, gradient, center)
+                        if not color:
+                            color = [0,0,0]
+                        image = Text(pos, size, font, text, angle,color)
 
                     event_path = get_element(image_data, "event")
                     if event_path != None:
