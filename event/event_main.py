@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 '''
 Manage physics, input event 
 and create a root for Event Engine 
