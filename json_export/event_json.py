@@ -10,8 +10,7 @@ from json_export.json_main import load_json
 from engine.const import log
 from engine.level_manager import get_level
 from event.visual_event import VisualEvent, ChangeImageEvent
-from event.event_main import SetValueEvent, SwitchEvent, IncreaseValueEvent,\
-    ConditionnalEvent, DialogEvent
+from event.event_main import SwitchEvent
 from event.sound_event import SoundEvent, MusicEvent
 
 
