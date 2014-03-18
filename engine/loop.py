@@ -10,21 +10,18 @@ if render == 'pygame':
 elif render == 'sfml':
 	import sfml
 
-import engine.init as init
+from engine.init import init_all
 import engine.level_manager as level_manager
 from event.event_main import update_event
 from event.keyboard_event import add_button, get_button
 from levels.logo_kwakwa import Kwakwa
-from engine.pyconsole import Console
 from levels.gamestate import GameState
 
 finish = False
 screen = None
-console = None
 
-def get_console():
-	global console
-	return console
+
+
 
 def set_screen(new_screen):
 	global screen
@@ -41,7 +38,6 @@ def loop():
 	global finish,screen,console
 	if render == 'pygame':
 		fps_clock = pygame.time.Clock()
-		console = Console(screen, (0,0,init.get_screen_size()[0],init.get_screen_size()[1]/3))
 	
 	add_button('quit','ESC')
 	add_button('reset','r')
@@ -49,13 +45,10 @@ def loop():
 	level_manager.switch_level(GameState(startup))
 	
 	while not finish:
-		if render == 'pygame':
-			screen.fill(pygame.Color(0, 0, 0))
-			console.process_input()
 		update_event()
 		if not finish:
 			finish = get_button('quit')
-		f = level_manager.function_level()
+		f = level_manager.update_level()
 		if f == 0:
 			break
 		else:
@@ -66,7 +59,6 @@ def loop():
 			level_manager.switch_level(GameState(startup))
 		
 		if render == 'pygame':
-			console.draw()
 			pygame.display.flip()
 			fps_clock.tick(framerate)
 		elif render == 'sfml':
@@ -79,7 +71,7 @@ def loop():
 def start():
 	global fps,screen
 	
-	screen = init.init_screen()
+	screen = init_all()
 	loop()
 	
 	

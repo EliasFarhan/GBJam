@@ -13,7 +13,7 @@ class GameObject:
         self.pos = None
         self.size = None
         self.rect = None
-        
+        self.remove = False
         self.event = None
     def scale(self,enlargement,speed=1.1):
         scale_speed = speed

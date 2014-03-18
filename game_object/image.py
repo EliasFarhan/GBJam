@@ -6,7 +6,7 @@ Created on 11 sept. 2013
 
 from engine.image_manager import  show_image, load_image, get_size,\
     load_image_with_size
-from animation.animation import Animation
+from animation.animation_main import Animation
 from engine.init import get_screen_size
 from engine.rect import Rect
 from game_object.game_object_main import GameObject

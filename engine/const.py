@@ -25,21 +25,20 @@ def log(text,error=0):
 
 try:
 	import sfml
-	
 	render = 'sfml'
-except ImportError:
+except ImportError as e:
+	log("Warning: could not load SFML: "+str(e)+" loading pygame instead. DEPRECATED",1)
 	try:
 		import pygame
 	except ImportError:
 		log("pygame or pysfml should be installed",1)
-
+		quit()
 try:
 	import Box2D
 except ImportError:
 	log('Box2D should be installed',1)
-	
+	quit()
 
-cuted_size = (500,500)
 debug = True
 gravity = 20
 move_speed = 2

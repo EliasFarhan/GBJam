@@ -6,7 +6,7 @@ Created on Feb 19, 2014
 from game_object.game_object_main import GameObject
 from engine.font_manager import load_font, load_text
 from engine.rect import Rect
-from engine.const import log
+from engine.const import log, render
 from engine.image_manager import show_image
 
 class Text(GameObject):
@@ -14,9 +14,9 @@ class Text(GameObject):
         GameObject.__init__(self)
         self.pos = pos
         self.center = center
-        self.size = size
+        self.character_size = size
         self.color = color
-        self.font = load_font(font,size)
+        self.font = load_font(font,self.character_size)
         self.set_text(text)
         self.gradient = gradient
         self.time = 1
@@ -30,17 +30,20 @@ class Text(GameObject):
         new_color = color
         if color == None:
             new_color = self.color
-        self.text_surface = load_text(self.font,text,new_color)
+        self.text_surface = load_text(self.font,text,new_color,self.character_size)
         if self.text_surface:
-            self.size = self.text_surface.get_size()
+            if render == 'pygame':
+                self.size = self.text_surface.get_size()
+            elif render == 'sfml':
+                self.size = (self.text_surface.global_bounds.width,self.text_surface.global_bounds.height)
             self.update_rect()
-        
+        self.text_surface.position = self.pos
     def loop(self,screen,screen_pos):
         if self.time < self.gradient:
             self.time += 1
             self.change_text(self.text[0:int(self.time/self.gradient*len(self.text))])
         pos = self.pos
-        if self.relative:
-            pass
-        show_image(self.text_surface, screen, pos, self.angle, self.center, new_size, rot_func, factor, center_image)
-        screen.blit(self.text_surface,self.pos)
+        if not self.relative:
+            pos = (pos[0]-screen_pos[0],pos[1]-screen_pos[1])
+        show_image(self.text_surface, screen, pos, self.angle, self.center)
+        #screen.blit(self.text_surface,self.pos)

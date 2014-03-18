@@ -5,7 +5,7 @@ Created on Feb 19, 2014
 
 @author: efarhan
 '''
-from engine.const import render
+from engine.const import render, log
 
 
 if render == 'pygame':
@@ -46,4 +46,5 @@ def load_text(font,text,color=(0,0,0),size=0):
             text.character_size = pixel2point(size)
             text.color = sfml.Color(color[0],color[1],color[2])
             return text
+        
     return None

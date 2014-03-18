@@ -1,4 +1,4 @@
-'''Init all render special features'''
+
 import sys
 from engine.const import log, render
 from engine import const
@@ -11,8 +11,11 @@ screen_size = (0,0)
 def init_all():
 	if render == 'pygame':
 		pygame.init()
-	init_screen()
+	screen = init_screen()
+	if render == 'sfml':
+		log(str(screen.settings))
 	init_joystick()
+	return screen
 def init_screen():
 	global screen_size
 	if render == 'pygame':
@@ -25,12 +28,9 @@ def init_screen():
 		return window
 def init_joystick():
 	pass
-
-
 def get_screen_size():
 	global screen_size
 	return screen_size
-
 def toogle_fullscreen():
 	from engine.loop import get_screen,set_screen
 	screen = get_screen()
@@ -41,7 +41,6 @@ def toogle_fullscreen():
 		screen_info = pygame.display.Info()
 		size = (screen_info.current_w, screen_info.current_h)
 	set_screen(pygame.display.set_mode(size,flags))
-
 def resize_screen(w,h):
 	from engine.loop import get_screen,set_screen
 	screen = get_screen()

@@ -26,7 +26,7 @@ def load_level(level):
         player_path = get_element(level_data, 'player')
         if player_path:
             level.player = Player(path_prefix+player_path)
-        bg_color = get_element('bg_color')
+        bg_color = get_element(level_data,'bg_color')
         if bg_color != None:
             level.bg_color = bg_color
         show_mouse = get_element(level_data,'show_mouse')
@@ -78,24 +78,30 @@ def load_level(level):
                         angle = 0
                     if image_type == "Image":
                         path = get_element(image_data, "path")
-                        if path:
+                        if path and pos:
                             path = path_prefix+path
                         else:
+                            log("Invalid arg path not defined for Image",1)
                             continue
                         if pos and path:
                             image = Image(path, pos, None, size, angle)
                     elif image_data["type"] == "Text":
                         font = get_element(image_data, "font")
-                        if font:
+                        text = get_element(image_data, "text")
+                        color = get_element(image_data, "color")
+                        if font and text:
                             font = path_prefix+font
                         else:
+                            log("Invalid arg font and text not defined for Text",1)
                             continue
-                        #image = Text(pos, size, font, text, angle, color, gradient, center)
+                        if not color:
+                            color = [0,0,0]
+                        image = Text(pos, size, font, text, angle,color)
 
                     event_path = get_element(image_data, "event")
-                    if event_path != None:
+                    if event_path:
                         image.event = load_event(event_path)
-                    if 0 < layer < len(level.images)-1:
+                    if image and 0 < layer < len(level.images)-1:
                         level.images[layer-1].append(image)
         return True
     return False
