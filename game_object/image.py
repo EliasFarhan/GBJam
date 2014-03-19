@@ -3,7 +3,7 @@ Created on 11 sept. 2013
 
 @author: efarhan
 '''
-
+import os
 from engine.image_manager import  show_image, load_image, get_size,\
     load_image_with_size
 from animation.animation_main import Animation
@@ -61,7 +61,9 @@ class AnimImage(Image):
         self.img = self.anim.img
         Image.loop(self, screen, screen_pos)
         
-        
+def MaskImage():
+    def __init__(self):
+        self.masks = [] #we can have different masks combined
         
 
 

@@ -113,7 +113,34 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 			screen.draw(sprite)
 	except KeyError:
 		pass
-	
+
+def generate_mask(masks):
+	'''TODO: pass several masks as sprite and return a single sprite'''
+	pass
+def show_mask_img(screen,bg,mask,bg_pos, mask_pos=(0,0), bg_size=None,mask_size=None,bg_angle=0,mask_angle=0):
+	if render == 'sfml':
+		render_size = None
+		if mask_size:
+			render_size = mask_size
+		else:
+			render_size = mask.texture.size
+		mask_render = sfml.RenderTexture(render_size[0],render_size[1])
+		alpha_states = sfml.RenderStates(sfml.BlendMode.BLEND_MULTIPLY)
+		
+		mask_render.clear(sfml.Color(0,0,0,0))
+		bg.pos = bg_pos
+		if bg_angle != 0:
+			bg.rotation = bg_angle
+		mask_render.draw(bg)
+		if mask_angle != 0:
+			mask.rotation = mask_angle
+		
+		mask_render.draw(mask,states=alpha_states)
+		mask_render.display()
+		mask_render_sprite = sfml.Sprite(mask_render.texture)
+		mask_render_sprite.position = mask_pos
+		screen.draw(mask_render_sprite)
+		
 def rot_center(image, rect, angle):
 	"""rotate an image while keeping its center and size"""
 	rot_image = pygame.transform.rotate(image, angle)

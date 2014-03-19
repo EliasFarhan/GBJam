@@ -9,9 +9,7 @@ Created on 8 sept. 2013
 '''
 
 
-from engine.init import resize_screen
-from engine.sound_manager import load_sound, play_sound, set_playlist
-from engine.stat import egal_condition, set_value, get_value
+from engine.init import resize_screen
 from event.keyboard_event import update_keyboard_event
 from engine.const import render
 
