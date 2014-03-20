@@ -65,7 +65,7 @@ class GameObject:
             pos = (pos[0]-screen_pos[0],pos[1]-screen_pos[1])
         if debug:
             self.update_rect()
-            #draw_rect(screen, screen_pos, self.rect, (0,0,255,200), self.angle)
+            draw_rect(screen, screen_pos, self.rect, (0,0,255,200), self.angle)
             if self.body:
                 show_fixtures(screen, screen_pos, self.body)
             

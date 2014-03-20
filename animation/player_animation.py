@@ -15,6 +15,7 @@ class PlayerAnimation(Animation):
         Animation.__init__(self, player)
         self.foot = False
         self.player = self.obj
+        self.speed = 3
         self.direction = True #True for right
     def load_images(self, size=None, permanent=False):
         Animation.load_images(self, size=size, permanent=permanent)
@@ -41,12 +42,12 @@ class PlayerAnimation(Animation):
             self.direction = False
             if self.foot:
                 self.state = 'move_left'
-            move(self.player.body, -self.player.speed)
+            move(self.player.body, -self.speed)
         elif horizontal == 1:
             self.direction = True
             if self.foot:
                 self.state = 'move_right'
-            move(self.player.body, self.player.speed)
+            move(self.player.body, self.speed)
         else:
             if self.foot:
                 if self.direction:

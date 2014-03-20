@@ -6,7 +6,7 @@ Created on 8 sept. 2013
 
 import sys
 path_prefix = ""
-from json_export.init_json import load_init_file
+
 #constant for physics and gameplay
 
 render = 'pygame'
@@ -53,7 +53,7 @@ if sys.platform == 'darwin':
 	framerate = 30
 	animation_step = 3
 	invulnerability = 30
-
+from json_export.init_json import load_init_file
 screen_size, startup = load_init_file('data/json/init.json')
 
 startup = path_prefix+startup

@@ -4,8 +4,9 @@ Created on Feb 24, 2014
 @author: efarhan
 '''
 import os
-from json_export.json_main import load_json, write_json
+from json_export.json_main import load_json, write_json, get_element
 from engine.const import path_prefix
+from json_export.key_json import load_key_json
 
 
 def load_init_file(path):
@@ -25,5 +26,10 @@ def load_init_file(path):
             init_data = load_json(path_prefix+path)
     screen_size = init_data["screen_size"]
     startup = init_data["startup"]
-
+    action_data = get_element(init_data,"actions")
+    if action_data:
+        if type(action_data) == dict:
+            load_key_json(action_data)
+        elif type(action_data) == unicode:
+            load_key_json(load_json(action_data))
     return screen_size, startup
