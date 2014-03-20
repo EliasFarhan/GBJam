@@ -93,8 +93,8 @@ class Animation():
             
             try:
                 exec('''from %s import %s'''%(".".join(dir_list[0:len(dir_list)-1]), dir_list[len(dir_list)-1]))
-            except ImportError:
-                log("Error while importing "+anim_type, 1)
+            except ImportError as e:
+                log("Error while importing "+anim_type+" "+str(e), 1)
                 return None
             
             try:

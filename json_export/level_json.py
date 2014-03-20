@@ -39,8 +39,14 @@ def load_image_from_json(image_data,level,image_type):
     event_path = get_element(image_data, "event")
     if event_path:
         image.event = load_event(event_path)
-    if image and 0 < layer < len(level.images)-1:
+    if not layer:
+        layer = 1
+    elif layer > len(level.images)-1:
+        layer = len(level.images)-1
+    if image:
         level.images[layer-1].append(image)
+    return image
+    
 def load_level(level):
     ''' 
     Import a level with:
@@ -57,8 +63,9 @@ def load_level(level):
             '''TODO: load the json containing the player
             and treat it as an AnimImage'''
             player_json = load_json(path_prefix+player_path)
-            load_image_from_json(player_json, level, "AnimImage")
-        
+            player = load_image_from_json(player_json, level, "AnimImage")
+            if player:
+                level.player = player
         bg_color = get_element(level_data,'bg_color')
         if bg_color != None:
             level.bg_color = bg_color

@@ -11,6 +11,7 @@ class GameObject:
     def __init__(self):
         self.angle = 0
         self.screen_relative = False
+        self.screen_relative_pos = None
         self.pos = None
         self.size = None
         self.rect = None

@@ -18,10 +18,11 @@ def init_all():
 	return screen
 def init_screen():
 	global screen_size
+	screen_size = const.screen_size
 	if render == 'pygame':
 		pygame.mouse.set_visible(False)
 		pygame.font.init()
-		screen_size = const.screen_size
+		
 		return pygame.display.set_mode(screen_size,pygame.RESIZABLE)
 	elif render == 'sfml':
 		window = sfml.RenderWindow(sfml.VideoMode(const.screen_size[0],const.screen_size[1]),'SFML Window')

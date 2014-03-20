@@ -6,19 +6,19 @@ Created on 1 mars 2014
 from event.physics_event import get_physics_event
 from engine.physics import move, meter2pixel, get_body_position
 from engine.init import get_screen_size
-from animation.object_animation import ObjectAnimation
 from event.keyboard_event import get_button
+from animation.animation_main import Animation
 
-class PlayerAnimation(ObjectAnimation):
+class PlayerAnimation(Animation):
     def __init__(self,player):
-        ObjectAnimation.__init__(self, player)
+        Animation.__init__(self, player)
         self.player = self.obj
         self.direction = True #True for right
         self.body = None
     def load_images(self, size=None, permanent=False):
-        ObjectAnimation.load_images(self, size=size, permanent=permanent)
+        Animation.load_images(self, size=size, permanent=permanent)
     def update_animation(self, state="", invert=False):
-        return ObjectAnimation.update_animation(self, state=state, invert=invert)
+        return Animation.update_animation(self, state=state, invert=invert)
     def update_state(self):
         RIGHT = get_button('player_right')
         LEFT = get_button('player_left')
@@ -62,4 +62,4 @@ class PlayerAnimation(ObjectAnimation):
         self.player.pos = pos
     @staticmethod
     def parse_animation(anim_data):
-        ObjectAnimation.parse_animation(anim_data)
+        Animation.parse_animation(anim_data)

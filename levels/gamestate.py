@@ -90,24 +90,11 @@ class GameState(Scene,Editor,GUI):
             
         '''Show images'''
         remove_image = []
-        if self.player:
-            for i in range(self.player.layer):
-                for j in range(len(self.images[i])):
-                    self.images[i][j].loop(screen,self.screen_pos)
-                    if self.images[i][j].remove:
-                        remove_image.append(self.images[i][j])
-            self.screen_pos = self.player.loop(screen,self.screen_pos,self.editor)
-            for i in range(self.player.layer,len(self.images)):
-                for j in range(len(self.images[i])):
-                    self.images[i][j].loop(screen,self.screen_pos)
-                    if self.images[i][j].remove:
-                        remove_image.append(self.images[i][j])
-        else:
-            for i in range(len(self.images)):
-                for j in range(len(self.images[i])):
-                    self.images[i][j].loop(screen,self.screen_pos)
-                    if self.images[i][j].remove:
-                        remove_image.append(self.images[i][j])
+        for i in range(len(self.images)):
+            for j in range(len(self.images[i])):
+                self.images[i][j].loop(screen,self.screen_pos)
+                if self.images[i][j].remove:
+                    remove_image.append(self.images[i][j])
         for r in remove_image:
             self.images[i].remove(r)
         '''GUI'''
