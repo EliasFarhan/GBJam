@@ -8,7 +8,10 @@ import json
 
 def get_element(data_dict,name):
     try:
-        return data_dict[name]
+        if data_dict:
+            return data_dict[name]
+        else:
+            return None
     except KeyError:
         return None
     
