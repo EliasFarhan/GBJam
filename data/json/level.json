@@ -1,0 +1,42 @@
+{
+	"gui": "data/json/level1/gui.json",
+	"show_mouse": false,
+	"player": "data/json/player.json",
+	"physics": true,
+	"network": false,
+	"checkpoints": [
+		[0,0]
+		
+	],
+    "images": [
+        {
+            "layer": 1, 
+            "pos": [
+                0,
+                0
+            ],
+            "path": "data/sprites/background/fond_meta.png", 
+            "type": "Image"
+        },
+        {
+        	"type": "GameObject",
+        	"layer": 3,
+        	"pos": [-700,700],
+        	"size": [3000,200],
+        	"physic_objects": {
+        		"type": "static",
+        		"fixtures": [
+        			{
+        				"user_data": 11,
+						"type": "box"
+        			}
+        		]
+        	}
+        }
+    ], 
+    "bg_color": [
+        255, 
+        255, 
+        255
+    ]
+}

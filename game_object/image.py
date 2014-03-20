@@ -25,6 +25,7 @@ class Image(GameObject):
         self.screen_relative_pos = screen_relative_pos
         self.center_image = False
         self.init_image()
+        self.update_rect()
     def init_image(self):
         if self.size == None:
             self.img = load_image(self.path)

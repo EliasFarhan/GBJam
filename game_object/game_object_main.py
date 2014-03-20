@@ -7,6 +7,7 @@ from engine.rect import Rect
 from engine.const import log, debug
 from engine.image_manager import draw_rect
 from engine.physics import show_fixtures
+from engine.init import get_screen_size
 
 class GameObject:
     def __init__(self):
@@ -50,13 +51,21 @@ class GameObject:
         if self.event:
             self.event.execute()
     def loop(self,screen,screen_pos):
-        pos = (-screen_pos[0],-screen_pos[1])
-        if self.pos and not self.screen_relative:
-            pos = (self.pos[0]+pos[0],self.pos[1]+pos[1])
-        elif self.pos:
+        pos = (0,0)
+        if self.pos:
             pos = self.pos
+        
+        if self.screen_relative_pos != None: 
+            pos = (pos[0]+self.screen_relative_pos[0]*get_screen_size()[0],
+                   pos[1]+self.screen_relative_pos[1]*get_screen_size()[1])
+        
+        if self.screen_relative:
+            pos = self.pos
+        else:
+            pos = (pos[0]-screen_pos[0],pos[1]-screen_pos[1])
         if debug:
-            draw_rect(screen, pos, self.rect, (0,0,255,200), self.angle)
+            self.update_rect()
+            #draw_rect(screen, screen_pos, self.rect, (0,0,255,200), self.angle)
             if self.body:
                 show_fixtures(screen, screen_pos, self.body)
             

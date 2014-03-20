@@ -12,88 +12,11 @@ from json_export.event_json import load_event
 from game_object.text import Text
 from game_object.game_object_main import GameObject
 from engine.physics import add_dynamic_object, add_static_box, add_static_object
+from json_export.image_json import load_image_from_json
 
-def load_image_from_json(image_data,level,image_type=None):
-    image = None
-    if image_type == None:
-        try:
-            image_type = image_data["type"]
-        except KeyError:
-            return 
-    pos = get_element(image_data, "pos")
-    size = get_element(image_data, "size")
-    layer = get_element(image_data, "layer")
-    angle = get_element(image_data, "angle")
-    if angle == None:
-        angle = 0
-    if image_type == "GameObject":
-        image = GameObject()
-        image.pos = pos
-        image.size = size
-        image.angle = angle
-    if image_type == "Image":
-        image = Image.parse_image(image_data, pos, size, angle)
-    elif image_type == "AnimImage":
-        image = AnimImage.parse_image(image_data, pos, size, angle)
-    elif image_type == "Text":
-        font = get_element(image_data, "font")
-        text = get_element(image_data, "text")
-        color = get_element(image_data, "color")
-        if font and text:
-            font = path_prefix+font
-        else:
-            log("Invalid arg font and text not defined for Text",1)
-            return
-        if not color:
-            color = [0,0,0]
-        image = Text(pos, size, font, text, angle,color)
-    
-    physic_objects = get_element(image_data, "physic_objects")
-    if physic_objects:
-        load_physic_objects(physic_objects,image)
-    
-    event_path = get_element(image_data, "event")
-    if event_path:
-        image.event = load_event(event_path)
-    if not layer:
-        layer = 1
-    elif layer > len(level.images)-1:
-        layer = len(level.images)-1
-    if image:
-        level.images[layer-1].append(image)
-    return image
 
-def load_physic_objects(physics_data,image):
-    log(str(physics_data))
-    body_type = get_element(physics_data, "type")
-    if body_type:
-        if body_type == "dynamic":
-            image.body = add_dynamic_object(image, image.pos)
-        elif body_type == "static":
-            image.body = add_static_object(image,image.pos)
-    if not image.body:
-        image.body = add_static_object(image,image.pos)
-    fixtures_data = get_element(physics_data,"fixtures")
-    if fixtures_data:
-        for physic_object in fixtures_data:
-            obj_type = get_element(physic_object, "type")
-            if obj_type == "box":
-                pos = get_element(physic_object,"pos")
-                if not pos:
-                    pos = (0,0)
-                size = get_element(physic_object,"size")
-                if not size:
-                    size = image.size
-                sensor = get_element(physic_object, "sensor")
-                if sensor == None:
-                    sensor = False
-                user_data = get_element(physic_object,"user_data")
-                if user_data == None:
-                    user_data = image
-                angle = get_element(physic_object,"angle")
-                if angle == None:
-                    angle = 0
-                image.fixtures.append(add_static_box(image.body, pos, size, angle, user_data, sensor))
+
+
 def load_level(level):
     ''' 
     Import a level with:

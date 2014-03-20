@@ -17,6 +17,8 @@ img_name = {}
 permanent_images= []
 
 def draw_rect(screen,screen_pos,rect, color,angle=0):
+	if not (rect and rect.pos and rect.size):
+		return
 	if render == 'pygame':
 		surface = pygame.Surface(rect.size,flags=pygame.SRCALPHA)
 		surface.fill(pygame.Color(color[0],color[1],color[2],color[3]))
@@ -24,7 +26,13 @@ def draw_rect(screen,screen_pos,rect, color,angle=0):
 		rot_image, rot_rect = rot_center(surface, rect, angle)
 		screen.blit(rot_image, (rot_rect[0]-screen_pos[0],rot_rect[1]-screen_pos[1]))
 	elif render == 'sfml':
-		pass
+		log(str(rect)+str(rect.pos)+str(rect.size)+str(screen_pos))
+		drawing_rect = sfml.RectangleShape()
+		drawing_rect.position = (rect.pos[0]-screen_pos[0],rect.pos[1]-screen_pos[1])
+		drawing_rect.rotation = angle
+		drawing_rect.size = rect.size
+		drawing_rect.fill_color = sfml.Color(color[0],color[1],color[2],color[3])
+		screen.draw(drawing_rect)
 def fill_surface(surface,r,g,b,a=255):
 	if render == 'pygame':
 		if(a==255):

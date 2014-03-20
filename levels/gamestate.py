@@ -89,6 +89,7 @@ class GameState(Scene,Editor,GUI):
             update_physics()
             
         '''Show images'''
+        self.screen_pos = self.player.pos
         remove_image = []
         for i in range(len(self.images)):
             for j in range(len(self.images[i])):
@@ -97,12 +98,10 @@ class GameState(Scene,Editor,GUI):
                     remove_image.append(self.images[i][j])
         for r in remove_image:
             self.images[i].remove(r)
+        
         '''GUI'''
         GUI.loop(self,screen)
         
-        '''Show physics objects in debug mode'''
-        for physic_object in self.physic_objects:
-            physic_object.loop(screen,self.screen_pos)
             
         
     def exit(self, screen):

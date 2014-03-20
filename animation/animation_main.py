@@ -40,6 +40,8 @@ class Animation():
                     self.img_indexes.append(load_image_with_size(f, size, permanent))
             self.img = self.img_indexes[0]
         self.size = get_size(self.img)
+        if self.obj:
+            self.obj.update_rect()
     def update_animation(self,state="",invert=False):
         if state != "":
             self.state = state

@@ -25,9 +25,11 @@ index = 1
 world = None
 
 def get_body_position(body):
-    pos = body.position
-    return (meter2pixel(pos[0]),meter2pixel(pos[1]))
-
+    if body:
+        pos = body.position
+        return (meter2pixel(pos[0]),meter2pixel(pos[1]))
+    else:
+        return None
 def deinit_physics():
     global world
     del world
@@ -47,6 +49,7 @@ def init_physics(gravity_arg=None):
     world.contactListener = KuduContactListener()
 
 def add_dynamic_object(obj,pos):
+    global world
     position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
     dynamic_object = world.CreateDynamicBody(position=position)
     dynamic_object.angle = 0
@@ -55,8 +58,9 @@ def add_dynamic_object(obj,pos):
     return dynamic_object
 
 def add_static_object(obj,pos):
+    global world
     position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
-    static_object = world.CreateDynamicBody(position=position)
+    static_object = world.CreateStaticBody(position=position)
     static_object.angle = 0
     static_object.fixed_rotation = True
     
@@ -69,6 +73,7 @@ def remove_body(index):
         pass
 def update_physics():
     clear_physics_event()
+    log(str(world.bodies[0].position)+ " "+ str(world.bodies[1].position))
     world.Step(timeStep,vel_iters,pos_iters)
     world.ClearForces()
     
@@ -121,15 +126,16 @@ def add_static_circle(pos,radius,sensor=False,user_data=0):
 
 class KuduContactListener(b2ContactListener):
     def BeginContact(self, contact):
-        a = contact.fixtureA.userData
-        b = contact.fixtureB.userData
+        a = contact.fixtureA
+        b = contact.fixtureB
         add_physics_event(PhysicsEvent(a,b,True))
     def EndContact(self, contact):
-        a = contact.fixtureA.userData
-        b = contact.fixtureB.userData
+        a = contact.fixtureA
+        b = contact.fixtureB
         add_physics_event(PhysicsEvent(a,b,False))
 
 def show_fixtures(screen,screen_pos,body):
+
     body_pos = body.position
     body_pos = (meter2pixel(body_pos[0]), meter2pixel(body_pos[1]))
     
