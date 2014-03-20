@@ -60,3 +60,6 @@ class PlayerAnimation(ObjectAnimation):
         pos = (physics_pos[0]-self.player.screen_relative_pos[0]*get_screen_size()[0],
                physics_pos[1]-self.player.screen_relative_pos[1]*get_screen_size()[1])
         self.player.pos = pos
+    @staticmethod
+    def parse_animation(anim_data):
+        ObjectAnimation.parse_animation(anim_data)
