@@ -11,11 +11,11 @@ from engine.init import get_screen_size
 from json_export.json_main import load_json
 from event.keyboard_event import add_button
 
-def load_player(player):
+def load_animation(animg_data):
     '''
     Set player instance from JSON file
     
-    '''
+    
     player_data = load_json(player.filename)
     if player_data:
         player.pos = (player_data['pos'][0][0],player_data['pos'][1][0])
@@ -41,7 +41,7 @@ def load_player(player):
 
         return True
     return False
-
+    '''
 def save_player(player):
     pass
     

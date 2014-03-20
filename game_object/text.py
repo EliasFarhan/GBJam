@@ -47,3 +47,6 @@ class Text(GameObject):
             pos = (pos[0]-screen_pos[0],pos[1]-screen_pos[1])
         show_image(self.text_surface, screen, pos, self.angle, self.center)
         #screen.blit(self.text_surface,self.pos)
+    @staticmethod
+    def parse_image(image_data, pos, size, angle):
+        return None

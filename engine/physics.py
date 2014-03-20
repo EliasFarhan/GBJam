@@ -22,6 +22,10 @@ vel_iters, pos_iters = 10,10
 index = 1
 world = None
 
+def get_body_position(body):
+    pos = body.position
+    return (meter2pixel(pos[0]),meter2pixel(pos[1]))
+
 def deinit_physics():
     global world
     del world
@@ -72,7 +76,7 @@ def move(body,vx=None,vy=None):
             vely = vy * move_speed - vely
             fy = dyn_obj.mass * vely / timeStep
         dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
-def jump(obj):
+def jump(dyn_obj):
     force = dyn_obj.mass * jump / timeStep
     force /= float(jump_step)
     dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
@@ -81,12 +85,8 @@ def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
     static_body = body
     if(static_body == None):
         pos_body = (pixel2meter(pos[0]), pixel2meter(pos[1]))
-        if pookoo:
-            static_body = physics.body_add_static(world,pos[0],pos[1])
-            return static_body
-        else:
-            static_body = world.CreateStaticBody(position=pos_body)
-            static_body.angle = 0
+        static_body = world.CreateStaticBody(position=pos_body)
+        static_body.angle = 0
     
     center_pos = (0,0)
     if body != None:
@@ -113,9 +113,9 @@ def add_static_circle(pos,radius,sensor=False,user_data=0):
                                 position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
                                 shapes=b2.Circle(radius=pixel2meter(radius),)\
                                                      )
-    static_objects[index] = static_body
-    index+=1
-    return index - 1
+    
+    
+    return static_body
 
 class KuduContactListener(b2ContactListener):
     def BeginContact(self, contact):

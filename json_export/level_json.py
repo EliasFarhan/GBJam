@@ -4,14 +4,43 @@ Created on 11 janv. 2014
 @author: efarhan
 '''
 import json
-from game_object.player import Player
 from game_object.physic_object import PhysicRect
 from engine.const import log,path_prefix
-from game_object.image import Image
+from game_object.image import Image, AnimImage
 from json_export.json_main import load_json, get_element
 from json_export.event_json import load_event
 from game_object.text import Text
 
+def load_image_from_json(image_data,level,image_type):
+    image = None
+    pos = get_element(image_data, "pos")
+    size = get_element(image_data, "size")
+    layer = get_element(image_data, "layer")
+    angle = get_element(image_data, "angle")
+    if angle == None:
+        angle = 0
+    if image_type == "Image":
+        image = Image.parse_image(image_data, pos, size, angle)
+    elif image_type == "AnimImage":
+        image = AnimImage.parse_image(image_data, pos, size, angle)
+    elif image_type == "Text":
+        font = get_element(image_data, "font")
+        text = get_element(image_data, "text")
+        color = get_element(image_data, "color")
+        if font and text:
+            font = path_prefix+font
+        else:
+            log("Invalid arg font and text not defined for Text",1)
+            return None
+        if not color:
+            color = [0,0,0]
+        image = Text(pos, size, font, text, angle,color)
+
+    event_path = get_element(image_data, "event")
+    if event_path:
+        image.event = load_event(event_path)
+    if image and 0 < layer < len(level.images)-1:
+        level.images[layer-1].append(image)
 def load_level(level):
     ''' 
     Import a level with:
@@ -25,7 +54,11 @@ def load_level(level):
     if level_data:
         player_path = get_element(level_data, 'player')
         if player_path:
-            level.player = Player(path_prefix+player_path)
+            '''TODO: load the json containing the player
+            and treat it as an AnimImage'''
+            player_json = load_json(path_prefix+player_path)
+            load_image_from_json(player_json, level, "AnimImage")
+        
         bg_color = get_element(level_data,'bg_color')
         if bg_color != None:
             level.bg_color = bg_color
@@ -69,40 +102,7 @@ def load_level(level):
             for image_data in level_data['images']:
                 image_type = get_element(image_data,"type")
                 if image_type != None:
-                    image = None
-                    pos = get_element(image_data, "pos")
-                    size = get_element(image_data, "size")
-                    layer = get_element(image_data, "layer")
-                    angle = get_element(image_data, "angle")
-                    if angle == None:
-                        angle = 0
-                    if image_type == "Image":
-                        path = get_element(image_data, "path")
-                        if path and pos:
-                            path = path_prefix+path
-                        else:
-                            log("Invalid arg path not defined for Image",1)
-                            continue
-                        if pos and path:
-                            image = Image(path, pos, None, size, angle)
-                    elif image_data["type"] == "Text":
-                        font = get_element(image_data, "font")
-                        text = get_element(image_data, "text")
-                        color = get_element(image_data, "color")
-                        if font and text:
-                            font = path_prefix+font
-                        else:
-                            log("Invalid arg font and text not defined for Text",1)
-                            continue
-                        if not color:
-                            color = [0,0,0]
-                        image = Text(pos, size, font, text, angle,color)
-
-                    event_path = get_element(image_data, "event")
-                    if event_path:
-                        image.event = load_event(event_path)
-                    if image and 0 < layer < len(level.images)-1:
-                        level.images[layer-1].append(image)
+                    load_image_from_json(image_data,level,image_type)
         return True
     return False
 def save_level(level):

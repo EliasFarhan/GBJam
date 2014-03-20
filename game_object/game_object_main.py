@@ -10,6 +10,7 @@ from engine.image_manager import draw_rect
 class GameObject:
     def __init__(self):
         self.angle = 0
+        self.screen_relative = False
         self.pos = None
         self.size = None
         self.rect = None
@@ -45,6 +46,11 @@ class GameObject:
         if self.event:
             self.event.execute()
     def loop(self,screen,screen_pos):
+        pos = (-screen_pos[0],-screen_pos[1])
+        if self.pos and not self.screen_relative:
+            pos = (self.pos[0]+pos[0],self.pos[1]+pos[1])
+        elif self.pos:
+            pos = self.pos
         if debug:
-            draw_rect(screen, screen_pos, self.rect, (255,0,0,200), self.angle)
+            draw_rect(screen, pos, self.rect, (0,0,255,200), self.angle)
     
