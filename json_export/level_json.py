@@ -4,21 +4,33 @@ Created on 11 janv. 2014
 @author: efarhan
 '''
 import json
-from game_object.physic_object import PhysicRect
+
 from engine.const import log,path_prefix
 from game_object.image import Image, AnimImage
 from json_export.json_main import load_json, get_element
 from json_export.event_json import load_event
 from game_object.text import Text
+from game_object.game_object_main import GameObject
+from engine.physics import add_dynamic_object, add_static_box, add_static_object
 
-def load_image_from_json(image_data,level,image_type):
+def load_image_from_json(image_data,level,image_type=None):
     image = None
+    if image_type == None:
+        try:
+            image_type = image_data["type"]
+        except KeyError:
+            return 
     pos = get_element(image_data, "pos")
     size = get_element(image_data, "size")
     layer = get_element(image_data, "layer")
     angle = get_element(image_data, "angle")
     if angle == None:
         angle = 0
+    if image_type == "GameObject":
+        image = GameObject()
+        image.pos = pos
+        image.size = size
+        image.angle = angle
     if image_type == "Image":
         image = Image.parse_image(image_data, pos, size, angle)
     elif image_type == "AnimImage":
@@ -31,11 +43,15 @@ def load_image_from_json(image_data,level,image_type):
             font = path_prefix+font
         else:
             log("Invalid arg font and text not defined for Text",1)
-            return None
+            return
         if not color:
             color = [0,0,0]
         image = Text(pos, size, font, text, angle,color)
-
+    
+    physic_objects = get_element(image_data, "physic_objects")
+    if physic_objects:
+        load_physic_objects(physic_objects,image)
+    
     event_path = get_element(image_data, "event")
     if event_path:
         image.event = load_event(event_path)
@@ -46,7 +62,38 @@ def load_image_from_json(image_data,level,image_type):
     if image:
         level.images[layer-1].append(image)
     return image
-    
+
+def load_physic_objects(physics_data,image):
+    log(str(physics_data))
+    body_type = get_element(physics_data, "type")
+    if body_type:
+        if body_type == "dynamic":
+            image.body = add_dynamic_object(image, image.pos)
+        elif body_type == "static":
+            image.body = add_static_object(image,image.pos)
+    if not image.body:
+        image.body = add_static_object(image,image.pos)
+    fixtures_data = get_element(physics_data,"fixtures")
+    if fixtures_data:
+        for physic_object in fixtures_data:
+            obj_type = get_element(physic_object, "type")
+            if obj_type == "box":
+                pos = get_element(physic_object,"pos")
+                if not pos:
+                    pos = (0,0)
+                size = get_element(physic_object,"size")
+                if not size:
+                    size = image.size
+                sensor = get_element(physic_object, "sensor")
+                if sensor == None:
+                    sensor = False
+                user_data = get_element(physic_object,"user_data")
+                if user_data == None:
+                    user_data = image
+                angle = get_element(physic_object,"angle")
+                if angle == None:
+                    angle = 0
+                image.fixtures.append(add_static_box(image.body, pos, size, angle, user_data, sensor))
 def load_level(level):
     ''' 
     Import a level with:
@@ -58,12 +105,17 @@ def load_level(level):
     '''
     level_data = load_json(level.filename)
     if level_data:
-        player_path = get_element(level_data, 'player')
-        if player_path:
-            '''TODO: load the json containing the player
+        player_data = get_element(level_data, 'player')
+        if player_data:
+            '''load the json containing the player
             and treat it as an AnimImage'''
-            player_json = load_json(path_prefix+player_path)
-            player = load_image_from_json(player_json, level, "AnimImage")
+            player = None
+            if type(player_data) == unicode:
+                player_json = load_json(path_prefix+player_data)
+                player = load_image_from_json(player_json, level, "AnimImage")
+            elif type(player_data) == dict:
+                player = load_image_from_json(player_data, level, "AnimImage")
+            
             if player:
                 level.player = player
         bg_color = get_element(level_data,'bg_color')
@@ -85,34 +137,18 @@ def load_level(level):
             for e in event_data.keys():
                 level.event[e] = load_event(event_data[e])
 
-        physics_obj_dict = get_element(level_data, 'physic_objects')
-        if physics_obj_dict:
-            for physic_object in physics_obj_dict:
-                obj_type = get_element(physic_object, "type")
-                if obj_type == "box":
-                    
-                    pos = get_element(physic_object,"pos")
-                    size = get_element(physic_object,"size")
-                    
-                    sensor = get_element(physic_object, "sensor")
-                    if sensor == None:
-                        sensor = False
-                    user_data = get_element(physic_object,"user_data")
-                    if user_data == None:
-                        user_data = 0
-                    angle = get_element(physic_object,"angle")
-                    if angle == None:
-                        angle = 0
-                    level.physic_objects.append(PhysicRect(pos, size, angle, user_data, sensor))
         images_dict = get_element(level_data, 'images')
         if images_dict != None:
             for image_data in level_data['images']:
-                image_type = get_element(image_data,"type")
-                if image_type != None:
+                if type(image_data) == unicode:
+                    load_image_from_json(load_json(image_data), level, None)
+                
+                elif type(image_data) == dict:
+                    image_type = get_element(image_data,"type")
                     load_image_from_json(image_data,level,image_type)
         return True
     return False
-def save_level(level):
+'''def save_level(level):
     
     
     level_data = {}
@@ -144,4 +180,4 @@ def save_level(level):
         i+=1
     file = open(level.filename,mode='w')
     file.write(json.dumps(obj=level_data,indent=4))
-    file.close()
+    file.close()'''

@@ -14,9 +14,9 @@ class PlayerAnimation(Animation):
         Animation.__init__(self, player)
         self.player = self.obj
         self.direction = True #True for right
-        self.body = None
     def load_images(self, size=None, permanent=False):
         Animation.load_images(self, size=size, permanent=permanent)
+    
     def update_animation(self, state="", invert=False):
         return Animation.update_animation(self, state=state, invert=invert)
     def update_state(self):

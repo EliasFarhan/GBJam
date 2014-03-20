@@ -14,6 +14,8 @@ def get_element(data_dict,name):
             return None
     except KeyError:
         return None
+    except TypeError:
+        return None
     
 
 def load_json(filename):

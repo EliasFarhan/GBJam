@@ -6,7 +6,7 @@ Created on 9 dec. 2013
 
 from levels.scene import Scene
 from engine.const import log, debug
-from json_export.level_json import load_level, save_level
+from json_export.level_json import load_level
 from engine.physics import init_physics, update_physics,deinit_physics
 from levels.editor import Editor
 from game_object.text import Text

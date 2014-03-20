@@ -18,17 +18,11 @@ class Rect():
         self.size = size
         if render == 'pygame':
             self.rect = pygame.Rect(pos,size)
+    def set_center(self,center_pos):
+        self.pos = (center_pos[0]-self.size[0]/2, center_pos[1]-self.size[1]/2)
     def get_center(self):
-        if render == 'pygame':
-            return self.rect.center
+        return (self.pos[0]+self.size[0]/2, self.pos[1]+self.size[1]/2)
     def collide_point(self,point_pos):
-        
-        status = False
-        '''if pookoo:
-            status = (self.pos[0] < point_pos[0] < self.pos[0]+self.size[0] and
-                    self.pos[1] < point_pos[1] < self.pos[1]+self.size[1])
-        else:
-            status = self.rect.collidepoint(point_pos)'''
         status = (self.pos[0] < point_pos[0] < self.pos[0]+self.size[0] and
                     self.pos[1] < point_pos[1] < self.pos[1]+self.size[1])
         log("Status: "+str(status)+" "+str(point_pos)+" "+str(self.pos)+" "+str(self.size))

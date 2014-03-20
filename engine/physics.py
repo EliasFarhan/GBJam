@@ -2,10 +2,12 @@
 Manages physics with Box2D
 convert automatically from pixel to meters
 '''
-from engine.const import move_speed, jump, framerate,jump_step,gravity
+from engine.const import move_speed, jump, framerate,jump_step,gravity, log
 from event.physics_event import clear_physics_event, PhysicsEvent,\
     add_physics_event
 from Box2D import *
+from engine.rect import Rect
+from engine.image_manager import draw_rect
 
 ratio = 64/1.5
 
@@ -46,12 +48,19 @@ def init_physics(gravity_arg=None):
 
 def add_dynamic_object(obj,pos):
     position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
-    dynamic_object = None
     dynamic_object = world.CreateDynamicBody(position=position)
     dynamic_object.angle = 0
     dynamic_object.fixed_rotation = True
     
     return dynamic_object
+
+def add_static_object(obj,pos):
+    position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
+    static_object = world.CreateDynamicBody(position=position)
+    static_object.angle = 0
+    static_object.fixed_rotation = True
+    
+    return static_object
 
 def remove_body(index):
     try:
@@ -81,16 +90,11 @@ def jump(dyn_obj):
     force /= float(jump_step)
     dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
     
-def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
-    static_body = body
-    if(static_body == None):
-        pos_body = (pixel2meter(pos[0]), pixel2meter(pos[1]))
-        static_body = world.CreateStaticBody(position=pos_body)
-        static_body.angle = 0
-    
-    center_pos = (0,0)
-    if body != None:
-        center_pos = (pixel2meter(pos[0]),pixel2meter(pos[1]))
+def add_static_box(body,pos,size,angle=0,data=0,sensor=False):
+    if not (body and pos and size):
+        log("Invalid arg body pos size in box creation",1)
+        return None
+    center_pos = (pixel2meter(pos[0]),pixel2meter(pos[1]))
     
     polygon_shape = b2PolygonShape()
     polygon_shape.SetAsBox(pixel2meter(size[0]), pixel2meter(size[1]),
@@ -100,10 +104,8 @@ def add_static_box(pos,size,angle=0,data=0,sensor=False,body=None):
     fixture_def.shape = polygon_shape
     fixture_def.userData = data
     fixture_def.isSensor = sensor
-    static_body.CreateFixture(fixture_def)
-        
-    if body == None:
-        return static_body
+    return body.CreateFixture(fixture_def)
+
 
             
     
@@ -127,3 +129,24 @@ class KuduContactListener(b2ContactListener):
         b = contact.fixtureB.userData
         add_physics_event(PhysicsEvent(a,b,False))
 
+def show_fixtures(screen,screen_pos,body):
+    body_pos = body.position
+    body_pos = (meter2pixel(body_pos[0]), meter2pixel(body_pos[1]))
+    
+    for fixture in body.fixtures:
+        fixture_pos = fixture.shape.vertices[0]
+        fixture_pos = (meter2pixel(fixture_pos[0]),meter2pixel(fixture_pos[1]))
+        fixture_pos = (body_pos[0]+fixture_pos[0],body_pos[1]+fixture_pos[1])
+        fixture_size = [0.0,0.0]
+        fixture_size = [fixture.shape.vertices[1][0]-fixture.shape.vertices[0][0],fixture.shape.vertices[2][1]-fixture.shape.vertices[0][1]]
+        fixture_size = (fixture_size[0]/2, fixture_size[1]/2)
+        fixture_size = (meter2pixel(fixture_size[0]),meter2pixel(fixture_size[1]))
+        fixture_pos = (fixture_pos[0]-fixture_size[0],fixture_pos[1]-fixture_size[1])
+        fixture_size = (2*fixture_size[0],2*fixture_size[1])
+        rect = Rect(fixture_pos,fixture_size)
+        rect.set_center(fixture_pos)
+
+        color = (255,0,0,100)
+        if fixture.sensor == 1:
+            color = (0,0,255,100)
+        draw_rect(screen, screen_pos, rect, color)

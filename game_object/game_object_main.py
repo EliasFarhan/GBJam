@@ -6,12 +6,15 @@ Created on Feb 3, 2014
 from engine.rect import Rect
 from engine.const import log, debug
 from engine.image_manager import draw_rect
+from engine.physics import show_fixtures
 
 class GameObject:
     def __init__(self):
         self.angle = 0
         self.screen_relative = False
         self.screen_relative_pos = None
+        self.body = None
+        self.fixtures = []
         self.pos = None
         self.size = None
         self.rect = None
@@ -54,4 +57,6 @@ class GameObject:
             pos = self.pos
         if debug:
             draw_rect(screen, pos, self.rect, (0,0,255,200), self.angle)
-    
+            if self.body:
+                show_fixtures(screen, screen_pos, self.body)
+            
