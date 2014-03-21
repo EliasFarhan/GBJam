@@ -73,7 +73,7 @@ def remove_body(index):
         pass
 def update_physics():
     clear_physics_event()
-    log(str(world.bodies[0].position)+ " "+ str(world.bodies[1].position))
+
     world.Step(timeStep,vel_iters,pos_iters)
     world.ClearForces()
     
@@ -141,18 +141,19 @@ def show_fixtures(screen,screen_pos,body):
     
     for fixture in body.fixtures:
         fixture_pos = fixture.shape.vertices[0]
+        log(fixture.shape.vertices)
         fixture_pos = (meter2pixel(fixture_pos[0]),meter2pixel(fixture_pos[1]))
         fixture_pos = (body_pos[0]+fixture_pos[0],body_pos[1]+fixture_pos[1])
         fixture_size = [0.0,0.0]
         fixture_size = [fixture.shape.vertices[1][0]-fixture.shape.vertices[0][0],fixture.shape.vertices[2][1]-fixture.shape.vertices[0][1]]
         fixture_size = (fixture_size[0]/2, fixture_size[1]/2)
         fixture_size = (meter2pixel(fixture_size[0]),meter2pixel(fixture_size[1]))
-        fixture_pos = (fixture_pos[0]-fixture_size[0],fixture_pos[1]-fixture_size[1])
+        fixture_pos = (fixture_pos[0]+fixture_size[0],fixture_pos[1]+fixture_size[1])
         fixture_size = (2*fixture_size[0],2*fixture_size[1])
         rect = Rect(fixture_pos,fixture_size)
         rect.set_center(fixture_pos)
 
-        color = (255,0,0,100)
+        color = (255,0,0,200)
         if fixture.sensor == 1:
-            color = (0,0,255,100)
+            color = (0,0,255,200)
         draw_rect(screen, screen_pos, rect, color)

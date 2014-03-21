@@ -116,3 +116,5 @@ class Animation():
             anim.state_range = state_range
         anim.anim_freq = anim_freq
         return anim
+    def get_screen_pos(self):
+        return (0,0)

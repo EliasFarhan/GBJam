@@ -27,8 +27,9 @@ def load_image_from_json(image_data,level,image_type=None):
         image = GameObject()
         image.pos = pos
         image.size = size
+        image.update_rect()
         image.angle = angle
-    if image_type == "Image":
+    elif image_type == "Image":
         image = Image.parse_image(image_data, pos, size, angle)
     elif image_type == "AnimImage":
         image = AnimImage.parse_image(image_data, pos, size, angle)
@@ -44,7 +45,22 @@ def load_image_from_json(image_data,level,image_type=None):
         if not color:
             color = [0,0,0]
         image = Text(pos, size, font, text, angle,color)
-    
+    else:
+        if type(image_type) != unicode:
+            return
+        for c in image_type:
+            if c != '.' and c.isalpha():
+                return
+        dir_list = image_type.split(".")
+        try:
+            exec('''from %s import %s'''%(".".join(dir_list[0:len(dir_list)-1]), dir_list[len(dir_list)-1]))
+        except ImportError:
+            return
+        try:
+            exec('''image = %s.parse_image(image_data, pos, size, angle)'''%(dir_list[len(dir_list)-1]))
+        except Exception as e:
+            log('Error with loading image_type: %s'%(image_type)+str(e),1)
+            return
     physic_objects = get_element(image_data, "physic_objects")
     if physic_objects:
         load_physic_objects(physic_objects,image)

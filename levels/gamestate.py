@@ -89,7 +89,7 @@ class GameState(Scene,Editor,GUI):
             update_physics()
             
         '''Show images'''
-        self.screen_pos = self.player.pos
+        self.screen_pos = self.player.anim.get_screen_pos()
         remove_image = []
         for i in range(len(self.images)):
             for j in range(len(self.images[i])):

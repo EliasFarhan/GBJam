@@ -26,7 +26,7 @@ def draw_rect(screen,screen_pos,rect, color,angle=0):
 		rot_image, rot_rect = rot_center(surface, rect, angle)
 		screen.blit(rot_image, (rot_rect[0]-screen_pos[0],rot_rect[1]-screen_pos[1]))
 	elif render == 'sfml':
-		log(str(rect)+str(rect.pos)+str(rect.size)+str(screen_pos))
+		log(str(rect.pos)+str(rect.size))
 		drawing_rect = sfml.RectangleShape()
 		drawing_rect.position = (rect.pos[0]-screen_pos[0],rect.pos[1]-screen_pos[1])
 		drawing_rect.rotation = angle
@@ -62,7 +62,11 @@ def load_image(name,permanent=False):
 		if render == 'pygame':
 			img_name[name] = pygame.image.load(name).convert_alpha()
 		elif render == 'sfml':
-			img_name[name] = sfml.Texture.from_file(name)
+			try:
+				img_name[name] = sfml.Texture.from_file(name)
+			except IOError as e:
+				log(str(e),1)
+				return None
 		if permanent:
 			permanent_images.append(name)
 	if render == 'pygame':
@@ -83,7 +87,7 @@ def load_image_with_size(name, size,permanent=False):
 		return sfml.Sprite(img_name[name])
 
 def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=None,factor=1,center_image=False):
-	if image == 0:
+	if image == None:
 		return
 	try:
 		if render == 'pygame':

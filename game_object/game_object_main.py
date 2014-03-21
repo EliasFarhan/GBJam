@@ -29,7 +29,13 @@ class GameObject:
         self.update_rect()
     
     def update_rect(self):
-        self.rect = Rect(self.pos, self.size)
+        pos = (0,0)
+        if self.pos:
+            pos = self.pos
+        if self.screen_relative_pos:
+            pos = (pos[0]+self.screen_relative_pos[0]*get_screen_size()[0],
+                   pos[1]+self.screen_relative_pos[1]*get_screen_size()[1])
+        self.rect = Rect(pos, self.size)
         
     def move(self,horizontal=0,vertical=0):
         self.pos = (self.pos[0]+horizontal,self.pos[1]+vertical)
