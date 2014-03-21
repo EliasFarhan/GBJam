@@ -63,13 +63,11 @@ class PlayerAnimation(Animation):
         physics_pos = get_body_position(self.player.body)
         
         if physics_pos:
-            pos = (physics_pos[0]-self.player.size[0]/2,
-                   physics_pos[1]-self.player.size[1]/2)
+            pos = physics_pos-self.player.size/2
         else:
             pos = (self.player.pos[0],self.player.pos[1])
         if self.player.screen_relative_pos:
-            pos = (pos[0]-self.player.screen_relative_pos[0]*get_screen_size()[0],
-                   pos[1]-self.player.screen_relative_pos[1]*get_screen_size()[1])
+            pos = pos-self.player.screen_relative_pos*get_screen_size()
         self.player.pos = pos
     def get_screen_pos(self):
         return self.player.pos

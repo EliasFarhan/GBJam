@@ -8,6 +8,7 @@ from engine.const import log, debug
 from engine.image_manager import draw_rect
 from engine.physics import show_fixtures
 from engine.init import get_screen_size
+from engine.vector import Vector2
 
 class GameObject:
     def __init__(self):
@@ -25,20 +26,20 @@ class GameObject:
         scale_speed = speed
         if not enlargement:
             scale_speed = 1/speed
-        self.size = (int(self.size[0]*scale_speed),int(self.size[1]*scale_speed))
+        self.size = self.size*scale_speed
         self.update_rect()
     
     def update_rect(self):
-        pos = (0,0)
+        pos = Vector2()
         if self.pos:
             pos = self.pos
         if self.screen_relative_pos:
-            pos = (pos[0]+self.screen_relative_pos[0]*get_screen_size()[0],
-                   pos[1]+self.screen_relative_pos[1]*get_screen_size()[1])
+            log(type(self.screen_relative_pos))
+            pos = pos+self.screen_relative_pos*get_screen_size()
         self.rect = Rect(pos, self.size,self.angle)
         
     def move(self,horizontal=0,vertical=0):
-        self.pos = (self.pos[0]+horizontal,self.pos[1]+vertical)
+        self.pos = self.pos+Vector2().coordinate(horizontal,vertical)
         self.update_rect()
         
     def rotate(self,right):
@@ -62,8 +63,7 @@ class GameObject:
             pos = self.pos
         
         if self.screen_relative_pos != None: 
-            pos = (pos[0]+self.screen_relative_pos[0]*get_screen_size()[0],
-                   pos[1]+self.screen_relative_pos[1]*get_screen_size()[1])
+            pos = pos+self.screen_relative_pos*get_screen_size()
         
         if self.screen_relative:
             pos = self.pos

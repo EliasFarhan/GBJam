@@ -12,6 +12,7 @@ from engine.rect import Rect
 from game_object.game_object_main import GameObject
 from engine.const import log, path_prefix
 from json_export.json_main import get_element
+from engine.vector import Vector2
 
 
 class Image(GameObject):
@@ -19,10 +20,10 @@ class Image(GameObject):
         GameObject.__init__(self)
         self.img = 0
         self.angle = angle
-        self.pos = pos
+        self.pos = Vector2().tuple2(pos)
         self.path = path
         self.size = size
-        self.screen_relative_pos = screen_relative_pos
+        self.screen_relative_pos = Vector2().tuple2(screen_relative_pos)
         self.center_image = False
         self.init_image()
         self.update_rect()
@@ -30,8 +31,10 @@ class Image(GameObject):
         if self.size == None:
             self.img = load_image(self.path)
             self.size = get_size(self.img)
+            
         else:
             self.img = load_image_with_size(self.path, self.size)
+        self.size = Vector2().tuple2(self.size)
         self.rect = Rect(self.pos, self.size)
     def loop(self, screen, screen_pos):
         pos = (0,0)
@@ -39,13 +42,12 @@ class Image(GameObject):
             pos = self.pos
         
         if self.screen_relative_pos != None: 
-            pos = (pos[0]+self.screen_relative_pos[0]*get_screen_size()[0],
-                   pos[1]+self.screen_relative_pos[1]*get_screen_size()[1])
+            pos = pos+self.screen_relative_pos*get_screen_size()
         
         if self.screen_relative:
             pos = self.pos
         else:
-            pos = (pos[0]-screen_pos[0],pos[1]-screen_pos[1])
+            pos = pos-screen_pos
         
         center_image = False
         try:
@@ -82,9 +84,9 @@ class AnimImage(Image):
     def parse_image(image_data, pos, size, angle):
         
         image = AnimImage()
-        image.pos = pos[0]
-        image.size = size
-        image.screen_relative_pos = pos[1]
+        image.pos = Vector2().tuple2(pos[0])
+        image.size = Vector2().tuple2(size)
+        image.screen_relative_pos = Vector2().tuple2(pos[1])
         anim_data = get_element(image_data, "anim")
         if anim_data:
             image.anim = Animation.parse_animation(anim_data, image)

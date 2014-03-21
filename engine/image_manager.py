@@ -57,6 +57,8 @@ def get_image(index):
 def get_size(index):
 	if render == 'pygame':
 		return index.get_size()
+	elif render == 'sfml':
+		return index.texture.size
 def load_image(name,permanent=False):
 	try:
 		img_name[name]

@@ -10,6 +10,7 @@ from engine.const import path_prefix, log
 from game_object.text import Text
 from json_export.physic_json import load_physic_objects
 from json_export.event_json import load_event
+from engine.vector import Vector2
 def load_image_from_json(image_data,level,image_type=None):
     image = None
     if image_type == None:
@@ -25,8 +26,8 @@ def load_image_from_json(image_data,level,image_type=None):
         angle = 0
     if image_type == "GameObject":
         image = GameObject()
-        image.pos = pos
-        image.size = size
+        image.pos = Vector2().tuple2(pos)
+        image.size = Vector2().tuple2(size)
         image.update_rect()
         image.angle = angle
     elif image_type == "Image":

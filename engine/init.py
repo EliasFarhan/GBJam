@@ -2,6 +2,7 @@
 import sys
 from engine.const import log, render, fullscreen
 from engine import const
+from engine.vector import Vector2
 if render == 'pygame':
 	import pygame
 elif render == 'sfml':
@@ -35,7 +36,7 @@ def init_joystick():
 	pass
 def get_screen_size():
 	global screen_size
-	return screen_size
+	return Vector2().coordinate(screen_size[0],screen_size[1])
 def toogle_fullscreen():
 	from engine.loop import get_screen,set_screen
 	screen = get_screen()

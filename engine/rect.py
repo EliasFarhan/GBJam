@@ -21,7 +21,7 @@ class Rect():
         if render == 'pygame':
             self.rect = pygame.Rect(pos,size)
         elif render == 'sfml':
-            self.rect = sfml.Rectangle(self.pos,self.size)
+            self.rect = sfml.Rectangle(self.pos.get_tuple(),self.size.get_tuple())
     def set_center(self,center_pos):
         self.pos = (center_pos[0]-self.size[0]/2, center_pos[1]-self.size[1]/2)
     def get_center(self):

@@ -9,13 +9,28 @@ from event.physics_event import clear_physics_event, PhysicsEvent,\
 from Box2D import *
 from engine.rect import Rect
 from engine.image_manager import draw_rect
+from numbers import Number
+from engine.vector import Vector2
 
 ratio = 64/1.5
 
 def pixel2meter(pixels):
-    return pixels/ratio
+    if pixels.__class__ == Vector2 or isinstance(pixels, Number):
+        return pixels/ratio
+    elif type(pixels) == tuple or type(pixels) == list:
+        return (pixels[0]/ratio,pixels[1]/ratio)
+    else:
+        raise TypeError("pixel2meter takes Vector2, numbers or tuple2")
+    
+    return None
 def meter2pixel(meter):
-    return meter*ratio
+    if meter.__class__ == Vector2 or isinstance(meter, Number):
+        return meter*ratio
+    elif type(meter) == tuple or type(meter) == list:
+        return (meter[0]*ratio,meter[1]*ratio)
+    else:
+        raise TypeError("pixel2meter takes Vector2, numbers or tuple2")
+    return None
 def set_ratio_pixel(new_ratio):
     ratio = new_ratio
     
@@ -27,8 +42,8 @@ world = None
 
 def get_body_position(body):
     if body:
-        pos = body.position
-        return (meter2pixel(pos[0]),meter2pixel(pos[1]))
+        pos = Vector2().tuple2(body.position)
+        return meter2pixel(pos)
     else:
         return None
 def deinit_physics():
@@ -51,8 +66,8 @@ def init_physics(gravity_arg=None):
 
 def add_dynamic_object(obj,pos):
     global world
-    position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
-    dynamic_object = world.CreateDynamicBody(position=position)
+    position = pixel2meter(pos)
+    dynamic_object = world.CreateDynamicBody(position=position.get_tuple())
     dynamic_object.angle = 0
     dynamic_object.fixed_rotation = True
     
@@ -60,8 +75,8 @@ def add_dynamic_object(obj,pos):
 
 def add_static_object(obj,pos):
     global world
-    position = (pixel2meter(pos[0]),pixel2meter(pos[1]))
-    static_object = world.CreateStaticBody(position=position)
+    position = pixel2meter(pos)
+    static_object = world.CreateStaticBody(position=position.get_tuple())
     static_object.angle = 0
     static_object.fixed_rotation = True
     
@@ -100,10 +115,10 @@ def add_static_box(body,pos,size,angle=0,data=0,sensor=False):
     if not (body and pos and size):
         log("Invalid arg body pos size in box creation",1)
         return None
-    center_pos = (pixel2meter(pos[0]),pixel2meter(pos[1]))
+    center_pos = pixel2meter(pos)
     
     polygon_shape = b2PolygonShape()
-    polygon_shape.SetAsBox(pixel2meter(size[0]), pixel2meter(size[1]),
+    polygon_shape.SetAsBox(pixel2meter(size.x), pixel2meter(size.y),
                                    b2Vec2(center_pos),angle*math.pi/180.0)
     fixture_def = b2FixtureDef()
     fixture_def.density = 1

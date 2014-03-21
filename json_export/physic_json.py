@@ -19,10 +19,9 @@ def load_physic_objects(physics_data,image):
         if image.pos:
             pos = image.pos
         if image.screen_relative_pos:
-            pos = (pos[0]+image.screen_relative_pos[0]*get_screen_size()[0],
-                   pos[1]+image.screen_relative_pos[1]*get_screen_size()[1])
+            pos = pos+image.screen_relative_pos*get_screen_size()
         if image.size:
-            pos = (pos[0]+image.size[0]/2,pos[1]+image.size[1]/2)
+            pos = pos+image.size/2
         if body_type == "dynamic":
             image.body = add_dynamic_object(image, pos)
         elif body_type == "static":
@@ -31,8 +30,7 @@ def load_physic_objects(physics_data,image):
     if image.pos:
         pos = image.pos
     if image.screen_relative_pos:
-        pos = (pos[0]+image.screen_relative_pos[0]*get_screen_size()[0]+image.size[0]/2,
-               pos[1]+image.screen_relative_pos[1]*get_screen_size()[1]+image.size[1]/2)
+        pos = pos+image.screen_relative_pos*get_screen_size()+image.size/2
     if not image.body:
         image.body = add_static_object(image,pos)
     angle = get_element(physics_data, "angle")
@@ -42,11 +40,11 @@ def load_physic_objects(physics_data,image):
         if image.angle != 0:
             image.body.angle = image.angle*math.pi/180
             '''TODO: Set new pos for body'''
-            v = Vector2().coordinate(x=image.size[0]/2, y=image.size[1]/2)
+            v = image.size/2
             v.rotate(image.angle)
-            pos = (image.pos[0]+v.x,image.pos[1]+v.y)
-            pos = (pixel2meter(pos[0]),pixel2meter(pos[1]))
-            image.body.position = pos
+            pos = image.pos+v
+            pos = pixel2meter(pos)
+            image.body.position = pos.get_tuple()
             
     fixtures_data = get_element(physics_data,"fixtures")
     if fixtures_data:
@@ -58,7 +56,7 @@ def load_physic_objects(physics_data,image):
                     pos = (0,0)
                 size = get_element(physic_object,"size")
                 if not size:
-                    size = (image.size[0]/2,image.size[1]/2)
+                    size = image.size/2
                 sensor = get_element(physic_object, "sensor")
                 if sensor == None:
                     sensor = False
