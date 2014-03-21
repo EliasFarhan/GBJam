@@ -14,6 +14,7 @@
         	"layer": 3,
         	"pos": [0,700],
         	"size": [1000,200],
+        	"angle": 20,
         	"physic_objects": {
         		"type": "static",
         		"fixtures": [

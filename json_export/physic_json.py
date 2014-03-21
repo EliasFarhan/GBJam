@@ -3,10 +3,13 @@ Created on 20 mars 2014
 
 @author: efarhan
 '''
+import math
 from engine.const import log
 from json_export.json_main import get_element
-from engine.physics import add_dynamic_object, add_static_object, add_static_box
+from engine.physics import add_dynamic_object, add_static_object, add_static_box,\
+    get_body_position, pixel2meter
 from engine.init import get_screen_size
+from engine.vector import Vector2
 
 def load_physic_objects(physics_data,image):
     log(str(physics_data))
@@ -32,6 +35,19 @@ def load_physic_objects(physics_data,image):
                pos[1]+image.screen_relative_pos[1]*get_screen_size()[1]+image.size[1]/2)
     if not image.body:
         image.body = add_static_object(image,pos)
+    angle = get_element(physics_data, "angle")
+    if angle:
+        image.body.angle = angle*math.pi/180
+    else:
+        if image.angle != 0:
+            image.body.angle = image.angle*math.pi/180
+            '''TODO: Set new pos for body'''
+            v = Vector2().coordinate(x=image.size[0]/2, y=image.size[1]/2)
+            v.rotate(image.angle)
+            pos = (image.pos[0]+v.x,image.pos[1]+v.y)
+            pos = (pixel2meter(pos[0]),pixel2meter(pos[1]))
+            image.body.position = pos
+            
     fixtures_data = get_element(physics_data,"fixtures")
     if fixtures_data:
         for physic_object in fixtures_data:
@@ -51,5 +67,6 @@ def load_physic_objects(physics_data,image):
                     user_data = image
                 angle = get_element(physic_object,"angle")
                 if angle == None:
+                    
                     angle = 0
                 image.fixtures.append(add_static_box(image.body, pos, size, angle, user_data, sensor))

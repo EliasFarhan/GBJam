@@ -2,6 +2,7 @@
 Manages physics with Box2D
 convert automatically from pixel to meters
 '''
+import math
 from engine.const import move_speed, jump, framerate,jump_step,gravity, log
 from event.physics_event import clear_physics_event, PhysicsEvent,\
     add_physics_event
@@ -103,7 +104,7 @@ def add_static_box(body,pos,size,angle=0,data=0,sensor=False):
     
     polygon_shape = b2PolygonShape()
     polygon_shape.SetAsBox(pixel2meter(size[0]), pixel2meter(size[1]),
-                                   b2Vec2(center_pos),angle)
+                                   b2Vec2(center_pos),angle*math.pi/180.0)
     fixture_def = b2FixtureDef()
     fixture_def.density = 1
     fixture_def.shape = polygon_shape

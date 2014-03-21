@@ -29,7 +29,7 @@ def init_screen():
 		style = sfml.Style.DEFAULT
 		if fullscreen:
 			style = sfml.Style.FULLSCREEN
-		window = sfml.RenderWindow(desktop,'SFML Window',style)
+		window = sfml.RenderWindow(desktop,'Kudu Window',style)
 		return window
 def init_joystick():
 	pass
