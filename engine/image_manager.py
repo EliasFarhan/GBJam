@@ -120,8 +120,7 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 		elif render == 'sfml':
 			sprite = image
 			if new_size:
-				text_size = (int(sprite.texture.size[0]*float(screen.size[1])/get_screen_size()[1]),
-							int(sprite.texture.size[1]*float(screen.size[1])/get_screen_size()[1])) 
+				text_size = sprite.texture.size 
 				
 				sprite.ratio = sfml.Vector2(new_size[0]*float(screen.size[1])/get_screen_size()[1]/float(text_size[0]),
 										new_size[1]*float(screen.size[1])/get_screen_size()[1]/float(text_size[1]))
