@@ -3,7 +3,7 @@ Created on 11 sept. 2013
 
 @author: efarhan
 '''
-import os
+
 from engine.image_manager import  show_image, load_image, get_size,\
     load_image_with_size
 from animation.animation_main import Animation
@@ -24,6 +24,8 @@ class Image(GameObject):
         self.path = path
         self.size = size
         self.screen_relative_pos = Vector2().tuple2(screen_relative_pos)
+        
+        
         self.center_image = False
         self.init_image()
         self.update_rect()
@@ -47,26 +49,43 @@ class Image(GameObject):
         if self.screen_relative:
             pos = self.pos
         else:
-            pos = pos-screen_pos
+            pos = pos-screen_pos*self.screen_factor
+        
+        
+        
         
         center_image = False
         try:
             center_image = self.center_image
         except AttributeError:
             pass
-        show_image(self.img, screen, pos,new_size=self.size,center_image=center_image,angle=self.angle)
+        i = 0
+        if self.img_loop:
+            i = int((screen_pos.x-self.pos.x)/(self.size.x/self.screen_factor))
+            
+        show_image(self.img, screen, pos+self.size/self.screen_factor*i,new_size=self.size,center_image=center_image,angle=self.angle)
+        if self.img_loop and pos.x+(i+1)*self.size.x/self.screen_factor < screen_pos.x+get_screen_size().x:
+            show_image(self.img, screen, pos+self.size/self.screen_factor*(i+1),new_size=self.size,center_image=center_image,angle=self.angle)
         GameObject.loop(self, screen, screen_pos)
     @staticmethod
     def parse_image(image_data,pos,size,angle):
         path = get_element(image_data, "path")
         if path and pos:
             path = path_prefix+path
+            image = Image(path, pos, None, size, angle)
+            screen_factor = get_element(image_data, "screen_factor")
+            if screen_factor:
+                image.screen_factor = screen_factor
+            img_loop = get_element(image_data, "loop")
+            if img_loop:
+                image.img_loop = True
+            return image
         else:
             log("Invalid arg path not defined for Image",1)
             return None
-        if pos and path:
-            return Image(path, pos, None, size, angle)
-        return None
+        
+    
+
 class AnimImage(Image):
     '''Can be animated if a directory is given,
     if a png file is given, it will load it
@@ -84,6 +103,10 @@ class AnimImage(Image):
     def parse_image(image_data, pos, size, angle):
         
         image = AnimImage()
+        '''TODO: parse correctly position, depending on
+        type:
+        [x,y] pos
+        [[x,y],[x',y'] pos, screen_relative_pos'''
         image.pos = Vector2().tuple2(pos[0])
         image.size = Vector2().tuple2(size)
         image.screen_relative_pos = Vector2().tuple2(pos[1])

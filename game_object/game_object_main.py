@@ -16,6 +16,8 @@ class GameObject:
         self.screen_relative = False
         self.screen_relative_pos = None
         self.body = None
+        self.screen_factor = 1
+        self.img_loop = False
         self.fixtures = []
         self.pos = None
         self.size = None
