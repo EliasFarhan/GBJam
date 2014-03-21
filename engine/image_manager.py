@@ -121,7 +121,8 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 				text_size = (int(sprite.texture.size[0]*float(screen.size[1])/get_screen_size()[1]),
 							int(sprite.texture.size[1]*float(screen.size[1])/get_screen_size()[1])) 
 				
-				sprite.ratio = sfml.Vector2(new_size[0]/float(text_size[0]),new_size[1]/float(text_size[1]))
+				sprite.ratio = sfml.Vector2(new_size[0]*float(screen.size[1])/get_screen_size()[1]/float(text_size[0]),
+										new_size[1]*float(screen.size[1])/get_screen_size()[1]/float(text_size[1]))
 			if angle != 0:
 				sprite.rotation = angle
 			sprite.position = (int(pos[0]*float(screen.size[1])/get_screen_size()[1]),int(pos[1]*float(screen.size[1])/get_screen_size()[1]))
