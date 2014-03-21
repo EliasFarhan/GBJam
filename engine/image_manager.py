@@ -29,9 +29,10 @@ def draw_rect(screen,screen_pos,rect, color,angle=0):
 	elif render == 'sfml':
 		log(str(rect.pos)+str(rect.size))
 		drawing_rect = sfml.RectangleShape()
-		drawing_rect.position = (rect.pos[0]-screen_pos[0],rect.pos[1]-screen_pos[1])
+		drawing_rect.position = ((rect.pos[0]-screen_pos[0])*float(screen.size[1])/get_screen_size()[1],(rect.pos[1]-screen_pos[1])*float(screen.size[1])/get_screen_size()[1])
+		
 		drawing_rect.rotation = angle
-		drawing_rect.size = rect.size
+		drawing_rect.size = (rect.size[0]*float(screen.size[1])/get_screen_size()[1],rect.size[1]*float(screen.size[1])/get_screen_size()[1])
 		drawing_rect.fill_color = sfml.Color(color[0],color[1],color[2],color[3])
 		screen.draw(drawing_rect)
 def fill_surface(surface,r,g,b,a=255):
@@ -117,13 +118,13 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 		elif render == 'sfml':
 			sprite = image
 			if new_size:
-				text_size = (int(sprite.texture.size[0]*float(screen.size[0])/get_screen_size()[0]),
+				text_size = (int(sprite.texture.size[0]*float(screen.size[1])/get_screen_size()[1]),
 							int(sprite.texture.size[1]*float(screen.size[1])/get_screen_size()[1])) 
 				
 				sprite.ratio = sfml.Vector2(new_size[0]/float(text_size[0]),new_size[1]/float(text_size[1]))
 			if angle != 0:
 				sprite.rotation = angle
-			sprite.position = (int(pos[0]*float(screen.size[0])/get_screen_size()[0]),int(pos[1]*float(screen.size[1])/get_screen_size()[1]))
+			sprite.position = (int(pos[0]*float(screen.size[1])/get_screen_size()[1]),int(pos[1]*float(screen.size[1])/get_screen_size()[1]))
 			screen.draw(sprite)
 	except KeyError:
 		pass
