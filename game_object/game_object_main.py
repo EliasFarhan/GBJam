@@ -68,7 +68,7 @@ class GameObject:
         if self.screen_relative:
             pos = self.pos
         else:
-            pos = (pos[0]-screen_pos[0],pos[1]-screen_pos[1])
+            pos = pos-screen_pos
         if debug:
             self.update_rect()
             draw_rect(screen, screen_pos, self.rect, (0,0,255,200), self.angle)

@@ -28,8 +28,11 @@ class Vector2():
         self.length = length
         return self
     def tuple2(self,tuple):
+        if not tuple:
+            return None
         self.coordinate(tuple[0], tuple[1])
         return self
+    
     def rotate(self,angle):
         (self.x,self.y) = Matrix22([[math.cos(angle*math.pi/180),-math.sin(angle*math.pi/180)],[math.sin(angle*math.pi/180),math.cos(angle*math.pi/180)]])*(self)
     def __add__(self,v):
@@ -56,3 +59,5 @@ class Vector2():
         return self.x*v.x+self.y*v.y
     def get_tuple(self):
         return (self.x,self.y)
+    def get_int_tuple(self):
+        return (int(self.x),int(self.y))

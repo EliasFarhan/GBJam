@@ -37,7 +37,7 @@ class Image(GameObject):
         self.size = Vector2().tuple2(self.size)
         self.rect = Rect(self.pos, self.size)
     def loop(self, screen, screen_pos):
-        pos = (0,0)
+        pos = Vector2()
         if self.pos:
             pos = self.pos
         
@@ -54,6 +54,7 @@ class Image(GameObject):
             center_image = self.center_image
         except AttributeError:
             pass
+        log(str("POSITION"+str(pos.get_tuple())))
         show_image(self.img, screen, pos,new_size=self.size,center_image=center_image,angle=self.angle)
         GameObject.loop(self, screen, screen_pos)
     @staticmethod

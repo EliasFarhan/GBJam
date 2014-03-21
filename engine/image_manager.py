@@ -3,6 +3,7 @@ Manage images loading, transforming and rendering
 '''
 from engine.const import render, log
 from engine.init import get_screen_size
+from engine.vector import Vector2
 
 
 if render == 'pygame':
@@ -29,10 +30,11 @@ def draw_rect(screen,screen_pos,rect, color,angle=0):
 	elif render == 'sfml':
 		log(str(rect.pos)+str(rect.size))
 		drawing_rect = sfml.RectangleShape()
-		drawing_rect.position = ((rect.pos[0]-screen_pos[0])*float(screen.size[1])/get_screen_size()[1],(rect.pos[1]-screen_pos[1])*float(screen.size[1])/get_screen_size()[1])
+		screen_diff_ratio = float(screen.size.y)/get_screen_size().y
+		drawing_rect.position = ((rect.pos-screen_pos)*screen_diff_ratio).get_tuple()
 		
 		drawing_rect.rotation = angle
-		drawing_rect.size = (rect.size[0]*float(screen.size[1])/get_screen_size()[1],rect.size[1]*float(screen.size[1])/get_screen_size()[1])
+		drawing_rect.size = (rect.size*screen_diff_ratio).get_tuple()
 		drawing_rect.fill_color = sfml.Color(color[0],color[1],color[2],color[3])
 		screen.draw(drawing_rect)
 def fill_surface(surface,r,g,b,a=255):
@@ -119,14 +121,15 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 				screen.blit(image, image_rect_obj)
 		elif render == 'sfml':
 			sprite = image
+			screen_diff_ratio = float(screen.size.y)/get_screen_size().y
 			if new_size:
-				text_size = sprite.texture.size 
+				text_size = Vector2().tuple2(sprite.texture.size) 
 				
-				sprite.ratio = sfml.Vector2(new_size[0]*float(screen.size[1])/get_screen_size()[1]/float(text_size[0]),
-										new_size[1]*float(screen.size[1])/get_screen_size()[1]/float(text_size[1]))
+				sprite.ratio = (new_size*screen_diff_ratio/text_size).get_tuple()
 			if angle != 0:
 				sprite.rotation = angle
-			sprite.position = (int(pos[0]*float(screen.size[1])/get_screen_size()[1]),int(pos[1]*float(screen.size[1])/get_screen_size()[1]))
+			
+			sprite.position = (pos*screen_diff_ratio).get_int_tuple()
 			screen.draw(sprite)
 	except KeyError:
 		pass

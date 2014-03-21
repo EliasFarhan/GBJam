@@ -166,8 +166,8 @@ def show_fixtures(screen,screen_pos,body):
         fixture_size = (meter2pixel(fixture_size[0]),meter2pixel(fixture_size[1]))
         fixture_pos = (fixture_pos[0]+fixture_size[0],fixture_pos[1]+fixture_size[1])
         fixture_size = (2*fixture_size[0],2*fixture_size[1])
-        rect = Rect(fixture_pos,fixture_size)
-        rect.set_center(fixture_pos)
+        rect = Rect(Vector2().tuple2(fixture_pos),Vector2().tuple2(fixture_size))
+        rect.set_center(Vector2().tuple2(fixture_pos))
 
         color = (255,0,0,200)
         if fixture.sensor == 1:

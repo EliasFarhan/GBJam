@@ -8,6 +8,7 @@ Created on Feb 1, 2014
 '''
 
 from engine.const import  log, render
+from engine.vector import Vector2
 
 if render == 'pygame':
     import pygame
@@ -23,7 +24,7 @@ class Rect():
         elif render == 'sfml':
             self.rect = sfml.Rectangle(self.pos.get_tuple(),self.size.get_tuple())
     def set_center(self,center_pos):
-        self.pos = (center_pos[0]-self.size[0]/2, center_pos[1]-self.size[1]/2)
+        self.pos = center_pos-self.size/2
     def get_center(self):
         if render == 'sfml':
             return self.rect.center
