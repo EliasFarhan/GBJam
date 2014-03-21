@@ -26,10 +26,13 @@ def load_init_file(path):
             init_data = load_json(path_prefix+path)
     screen_size = init_data["screen_size"]
     startup = init_data["startup"]
+    fullscreen = get_element(init_data, "fullscreen")
+    if fullscreen == None:
+        fullscreen = False
     action_data = get_element(init_data,"actions")
     if action_data:
         if type(action_data) == dict:
             load_key_json(action_data)
         elif type(action_data) == unicode:
             load_key_json(load_json(action_data))
-    return screen_size, startup
+    return [screen_size, startup, fullscreen]

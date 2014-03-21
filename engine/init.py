@@ -1,6 +1,6 @@
 
 import sys
-from engine.const import log, render
+from engine.const import log, render, fullscreen
 from engine import const
 if render == 'pygame':
 	import pygame
@@ -25,7 +25,11 @@ def init_screen():
 		
 		return pygame.display.set_mode(screen_size,pygame.RESIZABLE)
 	elif render == 'sfml':
-		window = sfml.RenderWindow(sfml.VideoMode(const.screen_size[0],const.screen_size[1]),'SFML Window')
+		desktop = sfml.VideoMode.get_desktop_mode()
+		style = sfml.Style.DEFAULT
+		if fullscreen:
+			style = sfml.Style.FULLSCREEN
+		window = sfml.RenderWindow(desktop,'SFML Window',style)
 		return window
 def init_joystick():
 	pass

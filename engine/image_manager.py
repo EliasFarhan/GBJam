@@ -2,6 +2,7 @@
 Manage images loading, transforming and rendering
 '''
 from engine.const import render, log
+from engine.init import get_screen_size
 
 
 if render == 'pygame':
@@ -116,12 +117,13 @@ def show_image(image, screen, pos,angle=0,center=False,new_size=None,rot_func=No
 		elif render == 'sfml':
 			sprite = image
 			if new_size:
-				text_size = sprite.texture.size
+				text_size = (int(sprite.texture.size[0]*float(screen.size[0])/get_screen_size()[0]),
+							int(sprite.texture.size[1]*float(screen.size[1])/get_screen_size()[1])) 
 				
 				sprite.ratio = sfml.Vector2(new_size[0]/float(text_size[0]),new_size[1]/float(text_size[1]))
 			if angle != 0:
 				sprite.rotation = angle
-			sprite.position = pos
+			sprite.position = (int(pos[0]*float(screen.size[0])/get_screen_size()[0]),int(pos[1]*float(screen.size[1])/get_screen_size()[1]))
 			screen.draw(sprite)
 	except KeyError:
 		pass

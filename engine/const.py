@@ -45,6 +45,7 @@ move_speed = 2
 jump = 10 #8.5
 jump_step = 5
 framerate = 60
+fullscreen = False
 animation_step = 12
 
 
@@ -54,7 +55,7 @@ if sys.platform == 'darwin':
 	animation_step = 3
 	invulnerability = 30
 from json_export.init_json import load_init_file
-screen_size, startup = load_init_file('data/json/init.json')
+[screen_size, startup,fullscreen] = load_init_file('data/json/init.json')
 
 startup = path_prefix+startup
 
