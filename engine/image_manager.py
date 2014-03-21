@@ -28,7 +28,7 @@ def draw_rect(screen,screen_pos,rect, color,angle=0):
 		rot_image, rot_rect = rot_center(surface, rect, angle)
 		screen.blit(rot_image, (rot_rect[0]-screen_pos[0],rot_rect[1]-screen_pos[1]))
 	elif render == 'sfml':
-		log(str(rect.pos)+str(rect.size))
+		
 		drawing_rect = sfml.RectangleShape()
 		screen_diff_ratio = float(screen.size.y)/get_screen_size().y
 		drawing_rect.position = ((rect.pos-screen_pos)*screen_diff_ratio).get_tuple()

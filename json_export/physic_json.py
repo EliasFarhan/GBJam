@@ -12,7 +12,6 @@ from engine.init import get_screen_size
 from engine.vector import Vector2
 
 def load_physic_objects(physics_data,image):
-    log(str(physics_data))
     body_type = get_element(physics_data, "type")
     if body_type:
         pos = (0,0)

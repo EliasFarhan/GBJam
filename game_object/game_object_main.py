@@ -34,7 +34,6 @@ class GameObject:
         if self.pos:
             pos = self.pos
         if self.screen_relative_pos:
-            log(type(self.screen_relative_pos))
             pos = pos+self.screen_relative_pos*get_screen_size()
         self.rect = Rect(pos, self.size,self.angle)
         

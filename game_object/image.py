@@ -54,7 +54,6 @@ class Image(GameObject):
             center_image = self.center_image
         except AttributeError:
             pass
-        log(str("POSITION"+str(pos.get_tuple())))
         show_image(self.img, screen, pos,new_size=self.size,center_image=center_image,angle=self.angle)
         GameObject.loop(self, screen, screen_pos)
     @staticmethod

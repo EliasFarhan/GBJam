@@ -157,7 +157,6 @@ def show_fixtures(screen,screen_pos,body):
     
     for fixture in body.fixtures:
         fixture_pos = fixture.shape.vertices[0]
-        log(fixture.shape.vertices)
         fixture_pos = (meter2pixel(fixture_pos[0]),meter2pixel(fixture_pos[1]))
         fixture_pos = (body_pos[0]+fixture_pos[0],body_pos[1]+fixture_pos[1])
         fixture_size = [0.0,0.0]
