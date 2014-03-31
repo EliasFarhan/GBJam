@@ -5,7 +5,7 @@ Created on 9 dec. 2013
 '''
 
 from levels.scene import Scene
-from engine.const import log, debug
+from engine.const import log, CONST
 from json_export.level_json import load_level
 from engine.physics import init_physics, update_physics,deinit_physics
 from levels.editor import Editor
@@ -22,7 +22,7 @@ class GameState(Scene,Editor,GUI):
         self.player = None
         self.event = {}
         self.filename = filename
-        if debug:
+        if CONST.debug:
             Editor.__init__(self)
         GUI.__init__(self)
     def init(self):
@@ -50,6 +50,7 @@ class GameState(Scene,Editor,GUI):
         self.click = False
         
         self.execute_event('on_init')
+
     def execute_event(self,name):
         try:
             self.event[name].execute()
@@ -57,9 +58,11 @@ class GameState(Scene,Editor,GUI):
             pass
         except AttributeError:
             pass
+
     def reload(self,newfilename):
         self.filename = newfilename
         self.init()
+
     def loop(self, screen):
         fill_surface(screen, self.bg_color[0],self.bg_color[1],self.bg_color[2],255)
         
@@ -82,8 +85,8 @@ class GameState(Scene,Editor,GUI):
                 self.click = False
                 
         '''Editor'''
-        
-        Editor.loop(self)
+        if CONST.debug:
+            Editor.loop(self)
         
         if not self.lock:
             update_physics()

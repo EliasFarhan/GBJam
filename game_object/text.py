@@ -6,7 +6,7 @@ Created on Feb 19, 2014
 from game_object.game_object_main import GameObject
 from engine.font_manager import load_font, load_text
 from engine.rect import Rect
-from engine.const import log, render
+from engine.const import log, CONST
 from engine.image_manager import show_image
 
 class Text(GameObject):
@@ -32,9 +32,7 @@ class Text(GameObject):
             new_color = self.color
         self.text_surface = load_text(self.font,text,new_color,self.character_size)
         if self.text_surface:
-            if render == 'pygame':
-                self.size = self.text_surface.get_size()
-            elif render == 'sfml':
+            if CONST.render == 'sfml':
                 self.size = (self.text_surface.global_bounds.width,self.text_surface.global_bounds.height)
             self.update_rect()
         self.text_surface.position = self.pos

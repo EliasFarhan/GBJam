@@ -6,7 +6,7 @@ Created on 20 mars 2014
 from json_export.json_main import get_element
 from game_object.game_object_main import GameObject
 from game_object.image import Image, AnimImage
-from engine.const import path_prefix, log
+from engine.const import CONST,log
 from game_object.text import Text
 from json_export.physic_json import load_physic_objects
 from json_export.event_json import load_event
@@ -39,7 +39,7 @@ def load_image_from_json(image_data,level,image_type=None):
         text = get_element(image_data, "text")
         color = get_element(image_data, "color")
         if font and text:
-            font = path_prefix+font
+            font = CONST.path_prefix+font
         else:
             log("Invalid arg font and text not defined for Text",1)
             return

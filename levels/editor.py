@@ -4,7 +4,7 @@ Created on Feb 1, 2014
 @author: efarhan
 '''
 
-from engine.const import log, debug
+from engine.const import log, CONST
 from event.keyboard_event import add_button, get_button
 from event.mouse_event import get_mouse, show_mouse
 
@@ -38,7 +38,7 @@ class Editor():
             self.editor_click = True
         if not get_button('editor'):
             self.editor_click = False
-        if debug and self.editor:
+        if CONST.debug and self.editor:
             show_mouse()
             Editor.loop(self)
         mouse_pos, pressed = get_mouse()

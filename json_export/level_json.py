@@ -5,7 +5,7 @@ Created on 11 janv. 2014
 '''
 import json
 
-from engine.const import log,path_prefix
+from engine.const import log,CONST
 from game_object.image import Image, AnimImage
 from json_export.json_main import load_json, get_element
 from json_export.event_json import load_event
@@ -34,7 +34,7 @@ def load_level(level):
             and treat it as an AnimImage'''
             player = None
             if type(player_data) == unicode:
-                player_json = load_json(path_prefix+player_data)
+                player_json = load_json(CONST.path_prefix+player_data)
                 player = load_image_from_json(player_json, level, "AnimImage")
             elif type(player_data) == dict:
                 player = load_image_from_json(player_data, level, "AnimImage")

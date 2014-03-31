@@ -7,7 +7,7 @@ import os
 from os import listdir
 from os.path import isfile, join
 from engine.image_manager import load_image, load_image_with_size, get_size
-from engine.const import animation_step,path_prefix, log
+from engine.const import CONST, log
 from json_export.json_main import get_element
 from engine.vector import Vector2
 
@@ -20,14 +20,14 @@ class Animation():
         self.path_list = []
         self.state = ""
         self.anim_counter = 0
-        self.anim_freq = animation_step
+        self.anim_freq = CONST.animation_step
         self.img_indexes = []
     def load_images(self,size=None,permanent = False):
         self.img_indexes = []
         
         for p in self.path_list:
             
-            path = path_prefix+self.path+p
+            path = CONST.path_prefix+self.path+p
             files = []
             if ".png" in path:
                 files = [path]
@@ -83,7 +83,7 @@ class Animation():
         state_range = get_element(anim_data, "state_range")
         anim_freq = get_element(anim_data, "anim_freq")
         if not anim_freq:
-            anim_freq = animation_step
+            anim_freq = CONST.animation_step
         anim = None
         
         '''Check type entry is a string with '.' or alpha'''

@@ -5,12 +5,10 @@ Created on Feb 19, 2014
 
 @author: efarhan
 '''
-from engine.const import render, log
+from engine.const import CONST, log
 
 
-if render == 'pygame':
-    import pygame
-elif render == 'sfml':
+if CONST.render == 'sfml':
     import sfml
     
 fonts = {}
@@ -25,21 +23,14 @@ def load_font(name,size):
         fonts[name]
     except KeyError:
         try:
-            if render == 'pygame':
-                fonts[name] = pygame.font.Font(name, pixel2point(size))
-            elif render == 'sfml':
+            if CONST.render == 'sfml':
                 fonts[name] = sfml.Font.from_file(name)
         except IOError:
-            if render == 'pygame':
-                fonts[name] = pygame.font.SysFont(name, pixel2point(size))
-            elif render == 'sfml':
+            if CONST.render == 'sfml':
                 return None
     return fonts[name]
 def load_text(font,text,color=(0,0,0),size=0):
-    if render == 'pygame':
-        if font:
-            return font.render(text,False,color)
-    elif render == 'sfml':
+    if CONST.render == 'sfml':
         if font and size:
             text = sfml.Text(text)
             text.font = font

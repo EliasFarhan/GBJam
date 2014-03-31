@@ -3,7 +3,7 @@ Manages physics with Box2D
 convert automatically from pixel to meters
 '''
 import math
-from engine.const import move_speed, jump, framerate,jump_step,gravity, log
+from engine.const import CONST, log
 from event.physics_event import clear_physics_event, PhysicsEvent,\
     add_physics_event
 from Box2D import *
@@ -35,7 +35,7 @@ def set_ratio_pixel(new_ratio):
     ratio = new_ratio
     
 
-timeStep = 1.0 / framerate
+timeStep = 1.0 / CONST.framerate
 vel_iters, pos_iters = 10,10
 index = 1
 world = None
@@ -57,7 +57,7 @@ def init_physics(gravity_arg=None):
     
     gravity_value = 0
     if(gravity_arg == None):
-        gravity_value = gravity 
+        gravity_value = CONST.gravity
     else:
         gravity_value = gravity_arg
 
@@ -100,15 +100,15 @@ def move(body,vx=None,vy=None):
         velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
         fx,fy=0,0
         if(vx != None):
-            velx = vx * move_speed - velx
+            velx = vx * CONST.move_speed - velx
             fx = dyn_obj.mass * velx / timeStep
         if(vy != None):
-            vely = vy * move_speed - vely
+            vely = vy * CONST.move_speed - vely
             fy = dyn_obj.mass * vely / timeStep
         dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
 def jump(dyn_obj):
     force = dyn_obj.mass * jump / timeStep
-    force /= float(jump_step)
+    force /= float(CONST.jump_step)
     dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
     
 def add_static_box(body,pos,size,angle=0,data=0,sensor=False):
