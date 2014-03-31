@@ -5,7 +5,7 @@ Created on Feb 1, 2014
 '''
 
 from engine.const import log, CONST
-from event.keyboard_event import add_button, get_button
+from event.event_main import add_button, get_button
 from event.mouse_event import get_mouse, show_mouse
 
 class Editor():

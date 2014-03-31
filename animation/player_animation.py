@@ -3,10 +3,10 @@ Created on 1 mars 2014
 
 @author: efarhan
 '''
+from event.event_main import get_button
 from event.physics_event import get_physics_event
 from engine.physics import move, meter2pixel, get_body_position
 from engine.init import get_screen_size
-from event.keyboard_event import get_button
 from animation.animation_main import Animation
 from engine.const import log
 

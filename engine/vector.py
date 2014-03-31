@@ -14,8 +14,8 @@ class Matrix22():
                 self.values[1][0]*vector.x+self.values[1][1]*vector.y)
 class Vector2():
     def __init__(self):
-        self.length = 1.0
-        self.x = 1.0
+        self.length = 0.0
+        self.x = 0.0
         self.y = 0.0
     def coordinate(self,x,y):
         self.x = x
@@ -27,6 +27,16 @@ class Vector2():
         self.y = length*math.sin(angle*math.pi/180)
         self.length = length
         return self
+    def normalize(self):
+        try:
+            ratio = 1.0/self.length
+            self.x *= ratio
+            self.y *= ratio
+            self.length = 1.0
+        except ZeroDivisionError:
+            pass
+    def invert(self):
+        return Vector2().coordinate(self.y, self.x)
     def tuple2(self,tuple):
         if not tuple:
             return None

@@ -11,9 +11,7 @@ if CONST.render == 'sfml':
 
 from engine.init import init_all
 import engine.level_manager as level_manager
-from event.event_main import update_event
-from event.keyboard_event import add_button, get_button
-from levels.logo_kwakwa import Kwakwa
+from event.event_main import update_event, add_button, get_button
 from levels.gamestate import GameState
 
 finish = False

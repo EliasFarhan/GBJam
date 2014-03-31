@@ -3,10 +3,11 @@ Created on Feb 26, 2014
 
 @author: efarhan
 '''
-from engine.const import log, render
-if render == 'pygame':
+from engine.const import log,CONST
+from event.keyboard_event import button_map
+if CONST.render == 'pygame':
     import pygame
-elif render == 'sfml':
+elif CONST.render == 'sfml':
     import sfml
 
 from symbol import parameters
@@ -22,47 +23,54 @@ button_value = {}
 axis = {}
 
 hat = {}
-def joystick_init():
-    global joystick
-    pygame.joystick.init()
-    if pygame.joystick.get_count() > 0:
-        joystick = pygame.joystick.Joystick(0)
-        if 'XBOX' in joystick.get_name():
-            log("An XBOX controller is plug in")
-        joystick.init()
+
+
 def update_joy_event():
     global joystick
-    if joystick:
-        for i in range(joystick.get_numaxes()):
-            axis['AXIS'+str(i)] = joystick.get_axis(i)
-        for i in range(joystick.get_numhats()):
-            axis['HAT'+str(i)] = joystick.get_axis(i)
-        for i in range(joystick.get_numbuttons()):
-            button_value['BUTTON'+str(i)] = joystick.get_button(i)
+
+    if CONST.render == 'sfml':
+        joystick = sfml.Joystick
+        for joy in range(sfml.Joystick.COUNT):
+            if sfml.Joystick.is_connected(joy):
+                for i in range(sfml.Joystick.AXIS_COUNT):
+                    if sfml.Joystick.has_axis(joy,i):
+                        if i < 6:
+                            axis['JOY'+str(joy)+'AXIS'+str(i)] = sfml.Joystick.get_axis_position(joy,i)
+                        else:
+                            axis['JOY'+str(joy)+'HAT'+str(i-6)] = sfml.Joystick.get_axis_position(joy,i)
+                for i in range(sfml.Joystick.get_button_count(joy)):
+                    button_value['JOY'+str(joy)+'BUTTON'+str(i)] = sfml.Joystick.is_button_pressed(joy,i)
+
+
 def get_joy_button(action):
     global button_map,button_value
     if joystick:
         try:
-            button_key = button_map[action]
-            if 'BUTTON' in button_key:
-                return button_value[button_map[action]]
-            elif 'AXIS' in button_key:
-                parameters = button_key.split('_')
-                if int(parameters[1]) < joystick.get_numaxes():
-                    if parameters[2] == "-":
-                        return (axis[parameters[0]+parameters[1]]<-0.9)
-                    else:
-                        return (axis[parameters[0]+parameters[1]]>0.9)
+            button_key_list = button_map[action]
+            value = False
+            for button_key in button_key_list:
+                if 'BUTTON' in button_key:
+                    
+                    value = value or button_value["".join(button_key.split('_'))]
+                elif 'AXIS' in button_key:
+                    parameters = button_key.split('_')
+                    axis_name = "".join(parameters[0:len(parameters)-1])
+
+                    if parameters[-1] == '-':
+                        value = value or axis[axis_name] < -50
+                    elif parameters[-1] == '+':
+                        value = value or axis[axis_name] > 50
+                elif 'HAT' in button_key:
+                    pass
+            return value
         except KeyError:
             pass
+
     return False
-def add_joy_button(action, button):
+
+
+def add_joy_button(action, button_list):
     global joystick
-    if joystick:
-        parameters = button.split('_')
-        if parameters[0] == 'JOY':
-            if parameters[1] == 'BUTTON':
-                button_map[action] = 'BUTTON'+parameters[2]
-            elif parameters[1] == 'AXIS':
-                button_map[action] = "_".join(parameters[1:len(parameters)])
+    button_map[action] = button_list
+
         
