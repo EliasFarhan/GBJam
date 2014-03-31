@@ -4,6 +4,7 @@ Created on 9 dec. 2013
 @author: efarhan
 '''
 from engine.vector import Vector2
+from event.event_main import update_event
 
 from levels.scene import Scene
 from engine.const import log, CONST
@@ -90,6 +91,7 @@ class GameState(Scene, Editor, GUI):
 
         if not self.lock:
             update_physics()
+
 
         '''Show images'''
         if self.player and self.player.anim:

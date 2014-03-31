@@ -3,7 +3,8 @@ Created on 20 mars 2014
 
 @author: efarhan
 '''
-from event.keyboard_event import add_button
+from event.event_main import add_button
+
 
 def load_key_json(key_json):
     if key_json:

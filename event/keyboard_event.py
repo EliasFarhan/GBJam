@@ -8,6 +8,8 @@ from engine.const import CONST
 
 if CONST.render == 'sfml':
     import sfml
+
+
 class KEY():
     if CONST.render == 'sfml':
         K_UP = sfml.Keyboard.UP

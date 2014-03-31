@@ -9,7 +9,6 @@ Created on 8 sept. 2013
 '''
 
 
-
 from event.keyboard_event import update_keyboard_event, get_key_button,\
     add_key_button
 from engine.const import CONST, log
@@ -18,34 +17,27 @@ from event.joystick_event import get_joy_button, add_joy_button,\
 from engine.level_manager import get_level
 from engine.vector import Vector2
 
-
-
-
-
 if CONST.render == 'pygame':
     import pygame
 elif CONST.render == 'sfml':
     import sfml
-def add_button(action,key_list):
-    add_joy_button(action,key_list)
-    add_key_button(action,key_list)
-    
+
+
+def add_button(action, key_list):
+    add_joy_button(action, key_list)
+    add_key_button(action, key_list)
+
+
 def get_button(action):
     return get_key_button(action) or get_joy_button(action)
+
+
 def update_event():
     '''
     Update the states of Input Event
     '''
-    global button_key,button_value
-    if CONST.render == 'pygame':
-        for event in pygame.event.get():
-            update_keyboard_event(event)
-            
 
-            if event.type == pygame.QUIT:
-                from engine.loop import set_finish
-                set_finish()
-    elif CONST.render == 'sfml':
+    if CONST.render == 'sfml':
         from engine.loop import get_screen
         window = get_screen()
         update_joy_event()

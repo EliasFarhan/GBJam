@@ -1,25 +1,39 @@
+import sys
 from engine.const import log, CONST
 
 from engine.vector import Vector2
+from json_export.json_main import load_json
+from event.event_main import add_button
 
 if CONST.render == 'sfml':
     import sfml
-screen_size = (0, 0)
 
 
 def init_all():
-
     screen = init_screen()
     if CONST.render == 'sfml':
         log(str(screen.settings))
     init_joystick()
+    init_actions()
     return screen
 
 
-def init_screen():
-    global screen_size
-    screen_size = CONST.screen_size
+def init_actions():
+    actions = None
+    if type(CONST.actions) == unicode:
+        actions = load_json(CONST.actions)
+    elif type(CONST.actions) == dict:
+        actions = CONST.actions
+    else:
+        log("Error: could not load actions, Undefined type: "+str(type(CONST.actions)),1)
+        return
+    for key in actions.items():
+        log(key)
+        add_button(key[0], key[1])
 
+
+def init_screen():
+    screen_size = CONST.screen_size
     if CONST.render == 'sfml':
         desktop = sfml.VideoMode.get_desktop_mode()
         style = sfml.Style.DEFAULT
@@ -34,13 +48,12 @@ def init_joystick():
 
 
 def get_screen_size():
-    global screen_size
-    return Vector2().coordinate(screen_size[0], screen_size[1])
+    return Vector2().coordinate(CONST.screen_size[0], CONST.screen_size[1])
 
 
-def toggle_fullscreen():
-    """TODO: toggle the screen to fullscreen or not"""
+def toogle_fullscreen():
+    """TODO: toggle fullscreen"""
 
 
 def resize_screen(w, h):
-    """TODO: resize the given windows"""
+    """TODO: resize window"""

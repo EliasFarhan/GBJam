@@ -12,7 +12,8 @@ from engine.image_manager import draw_rect
 from numbers import Number
 from engine.vector import Vector2
 
-ratio = 64/1.5
+ratio = 100/1.5
+
 
 def pixel2meter(pixels):
     if pixels.__class__ == Vector2 or isinstance(pixels, Number):
@@ -21,8 +22,10 @@ def pixel2meter(pixels):
         return (pixels[0]/ratio,pixels[1]/ratio)
     else:
         raise TypeError("pixel2meter takes Vector2, numbers or tuple2")
-    
+
     return None
+
+
 def meter2pixel(meter):
     if meter.__class__ == Vector2 or isinstance(meter, Number):
         return meter*ratio
@@ -31,6 +34,8 @@ def meter2pixel(meter):
     else:
         raise TypeError("pixel2meter takes Vector2, numbers or tuple2")
     return None
+
+
 def set_ratio_pixel(new_ratio):
     ratio = new_ratio
     
@@ -46,10 +51,14 @@ def get_body_position(body):
         return meter2pixel(pos)
     else:
         return None
+
+
 def deinit_physics():
     global world
     del world
     world = None
+
+
 def init_physics(gravity_arg=None):
     global world
     if world != None:
@@ -57,12 +66,13 @@ def init_physics(gravity_arg=None):
     
     gravity_value = 0
     if(gravity_arg == None):
-        gravity_value = CONST.gravity
+        gravity_value = CONST.gravity 
     else:
         gravity_value = gravity_arg
 
     world = b2World(gravity=(0,gravity_value))
     world.contactListener = KuduContactListener()
+
 
 def add_dynamic_object(obj,pos):
     global world
@@ -73,6 +83,7 @@ def add_dynamic_object(obj,pos):
     
     return dynamic_object
 
+
 def add_static_object(obj,pos):
     global world
     position = pixel2meter(pos)
@@ -82,35 +93,47 @@ def add_static_object(obj,pos):
     
     return static_object
 
+
 def remove_body(index):
     try:
         world.DestroyBody(index)
     except KeyError:
         pass
+
+
 def update_physics():
     clear_physics_event()
 
     world.Step(timeStep,vel_iters,pos_iters)
     world.ClearForces()
-    
-def move(body,vx=None,vy=None):
+
+
+def move(body,vx=None,vy=None,linear=False):
     if body:
-        dyn_obj = body
-    
-        velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
-        fx,fy=0,0
-        if(vx != None):
-            velx = vx * CONST.move_speed - velx
-            fx = dyn_obj.mass * velx / timeStep
-        if(vy != None):
-            vely = vy * CONST.move_speed - vely
-            fy = dyn_obj.mass * vely / timeStep
-        dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
+        if not linear:
+            dyn_obj = body
+        
+            velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
+            fx,fy=0,0
+            if(vx != None):
+                velx = vx * CONST.move_speed - velx
+                fx = dyn_obj.mass * velx / timeStep
+            if(vy != None):
+                vely = vy * CONST.move_speed - vely
+                fy = dyn_obj.mass * vely / timeStep
+            dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
+        else:
+            dyn_obj = body
+            pos = dyn_obj.position
+            dyn_obj.position = b2Vec2(pos[0]+vx*timeStep,pos[1]+vy*timeStep)
+
+
 def jump(dyn_obj):
     force = dyn_obj.mass * jump / timeStep
     force /= float(CONST.jump_step)
     dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
-    
+
+
 def add_static_box(body,pos,size,angle=0,data=0,sensor=False):
     if not (body and pos and size):
         log("Invalid arg body pos size in box creation",1)
@@ -149,6 +172,35 @@ class KuduContactListener(b2ContactListener):
         a = contact.fixtureA
         b = contact.fixtureB
         add_physics_event(PhysicsEvent(a,b,False))
+
+def cast_ray(callback,point1,point2):
+    if not (point2.x-point1.x == 0 and point2.y-point1.y == 0):
+        p1 = b2Vec2(pixel2meter(point1).get_tuple())
+        p2 = b2Vec2(pixel2meter(point2).get_tuple())
+        world.RayCast(callback,p1,p2)
+class RayCastClosestCallback(b2RayCastCallback):
+    """This callback finds the closest hit"""
+    def __repr__(self): return 'Closest hit'
+    def __init__(self, **kwargs):
+        b2RayCastCallback.__init__(self, **kwargs)
+        self.fixture=None
+        self.hit=False
+        self.fraction = 1.0
+
+    # Called for each fixture found in the query. You control how the ray proceeds
+    # by returning a float that indicates the fractional length of the ray. By returning
+    # 0, you set the ray length to zero. By returning the current fraction, you proceed
+    # to find the closest point. By returning 1, you continue with the original ray
+    # clipping. By returning -1, you will filter out the current fixture (the ray
+    # will not hit it).
+    
+    def ReportFixture(self, fixture, point, normal, fraction):
+        self.hit=True
+        self.fixture=fixture
+        self.point=b2Vec2(point)
+        self.normal=b2Vec2(normal)
+        self.fraction = fraction
+        return self.fraction
 
 def show_fixtures(screen,screen_pos,body):
 
