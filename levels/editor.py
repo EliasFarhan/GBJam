@@ -28,13 +28,12 @@ class Editor():
         add_button('scale_enlarg', 'UP')
         add_button('rotate_left', 'LEFT')
         add_button('rotate_right', 'RIGHT')
+
+        add_button('save','LCTRL+s')
     
     def loop(self):
         if not self.editor_click and get_button('editor'):
             self.editor = not self.editor
-            if not self.editor:
-                '''TODO save level'''
-                pass
             self.editor_click = True
         if not get_button('editor'):
             self.editor_click = False
