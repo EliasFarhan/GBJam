@@ -3,7 +3,7 @@ Created on Feb 26, 2014
 
 @author: efarhan
 '''
-from engine.const import CONST
+from engine.const import CONST, log
 
 
 if CONST.render == 'sfml':
@@ -60,11 +60,7 @@ def add_one_key(key_value):
 
 def add_key_button(action,key_list):
     global button_map,button_value,button_key
-    try:
-        button_map[action]
-        button_map[action].extend(key_list)
-    except KeyError:
-        button_map[action] = key_list
+    button_map[action] = key_list
     for key_value in key_list:
         keys = key_value.split("+")
         for k in keys:
@@ -72,14 +68,14 @@ def add_key_button(action,key_list):
 
             
 def get_key_button(action):
-    global button_value,button_map
+    global button_value, button_map
     try:
         value = False
         for key in button_map[action]:
             if "+" in key:
                 key_value = True
                 for k in key.split("+"):
-                    key_value = key_value and button_value[key]
+                    key_value = key_value and button_value[k]
                 value = (value or key_value)
             else:
                 value = (value or button_value[key])
@@ -89,6 +85,7 @@ def get_key_button(action):
 
 
 def update_keyboard_event(event):
+    global button_value,button_key
     '''
     Update the states of Input Event
     '''

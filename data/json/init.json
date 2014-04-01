@@ -3,9 +3,9 @@
 	"fullscreen": false,
 	"startup": "data/json/level.json",
 	"actions": {
-		"player_right": "d",
-		"player_left": "a",
-		"player_up": "w",
-		"player_down": "s"
+		"player_right": ["d","RIGHT"],
+		"player_left": ["a","LEFT"],
+		"player_up": ["w","UP"],
+		"player_down": ["s","DOWN"]
 	}
 }

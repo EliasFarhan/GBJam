@@ -13,6 +13,7 @@ from engine.vector import Vector2
 
 class GameObject:
     def __init__(self):
+        self.id = ""
         self.angle = 0
         self.screen_relative = False
         self.screen_relative_pos = None

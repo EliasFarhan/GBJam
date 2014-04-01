@@ -8,7 +8,7 @@
 		[0,0]
 		
 	],
-    "images": [
+    "objects": [
         {
         	"type": "GameObject",
         	"layer": 3,

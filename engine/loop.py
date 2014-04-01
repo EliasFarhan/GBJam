@@ -36,7 +36,7 @@ def set_finish():
 def loop():
     global finish, screen, console
 
-    add_button('quit', ['ESC','RCTRL+Q'])
+    add_button('quit', ['ESC','LCTRL+q'])
     add_button('reset', ['r'])
 
     level_manager.switch_level(GameState(CONST.startup))

@@ -1,8 +1,8 @@
-'''
+"""
 Created on Feb 19, 2014
 
 @author: efarhan
-'''
+"""
 
 import json
 
@@ -19,10 +19,10 @@ def get_element(data_dict,name):
     
 
 def load_json(filename):
-    '''Load a JSON file
-    
-    Return None if IOError or ValueError and add an error in the stderr 
-    '''
+    """Load a JSON file
+
+    Return None if IOError or ValueError and add an error in the stderr
+    """
     file = None
     try:
         file = open(filename, mode='r')
@@ -40,12 +40,14 @@ def load_json(filename):
         return None
     file.close()
     return json_data
+
+
 def write_json(filename,data):
     try:
         json_file = open(filename,mode='w')
-    except IOError:
+    except IOError as e:
         from engine.const import log
-        log("Loading file error: "+filename,1)
+        log("Writing file error: "+filename+" "+str(e),1)
         return None
     json_file.write(json.dumps(obj=data,indent=4))
     json_file.close()

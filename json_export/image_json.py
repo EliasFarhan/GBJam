@@ -11,9 +11,17 @@ from game_object.text import Text
 from json_export.physic_json import load_physic_objects
 from json_export.event_json import load_event
 from engine.vector import Vector2
-def load_image_from_json(image_data,level,image_type=None):
+
+
+object_id = 0
+def reset_object_id():
+    global object_id
+    object_id = 0
+
+def load_image_from_json(image_data, level, image_type=None):
+    global object_id
     image = None
-    if image_type == None:
+    if image_type is None:
         try:
             image_type = image_data["type"]
         except KeyError:
@@ -22,7 +30,7 @@ def load_image_from_json(image_data,level,image_type=None):
     size = get_element(image_data, "size")
     layer = get_element(image_data, "layer")
     angle = get_element(image_data, "angle")
-    if angle == None:
+    if angle is None:
         angle = 0
     if image_type == "GameObject":
         image = GameObject()
@@ -30,10 +38,13 @@ def load_image_from_json(image_data,level,image_type=None):
         image.size = Vector2(size)
         image.update_rect()
         image.angle = angle
+        image.id = "GO"+str(id)
     elif image_type == "Image":
         image = Image.parse_image(image_data, pos, size, angle)
+        image.id = "Im"+str(id)
     elif image_type == "AnimImage":
         image = AnimImage.parse_image(image_data, pos, size, angle)
+        image.id = "AI"+str(id)
     elif image_type == "Text":
         font = get_element(image_data, "font")
         text = get_element(image_data, "text")
@@ -46,6 +57,7 @@ def load_image_from_json(image_data,level,image_type=None):
         if not color:
             color = [0,0,0]
         image = Text(pos, size, font, text, angle,color)
+        image.id = "Te"+str(id)
     else:
         if type(image_type) != unicode:
             return
@@ -75,4 +87,5 @@ def load_image_from_json(image_data,level,image_type=None):
         layer = len(level.images)-1
     if image:
         level.images[layer-1].append(image)
+    object_id += 1
     return image

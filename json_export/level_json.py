@@ -7,25 +7,23 @@ import json
 
 from engine.const import log,CONST
 from game_object.image import Image, AnimImage
-from json_export.json_main import load_json, get_element
+from json_export.json_main import load_json, get_element, write_json
 from json_export.event_json import load_event
 from game_object.text import Text
 from game_object.game_object_main import GameObject
 from engine.physics import add_dynamic_object, add_static_box, add_static_object
-from json_export.image_json import load_image_from_json
-
-
+from json_export.image_json import load_image_from_json, reset_object_id
 
 
 def load_level(level):
-    ''' 
+    """
     Import a level with:
-    
+
     -Physics static object
     -Images with or without animation
     -IA (if any)
     -Player position, size, etc... but not recreate the player!!!
-    '''
+    """
     level_data = load_json(level.filename)
     if level_data:
         player_data = get_element(level_data, 'player')
@@ -42,17 +40,17 @@ def load_level(level):
             if player:
                 level.player = player
         bg_color = get_element(level_data,'bg_color')
-        if bg_color != None:
+        if bg_color is not None:
             level.bg_color = bg_color
         show_mouse = get_element(level_data,'show_mouse')
-        if show_mouse != None:
+        if show_mouse is not None:
             level.show_mouse = show_mouse
         
         use_physics = get_element(level_data,'use_physics')
-        if use_physics != None:
+        if use_physics is not None:
             level.use_physics = use_physics
         network = get_element(level_data, 'network')
-        if network != None:
+        if network is not None:
             level.use_network = network
         
         event_data = get_element(level_data, "event")
@@ -60,47 +58,31 @@ def load_level(level):
             for e in event_data.keys():
                 level.event[e] = load_event(event_data[e])
 
-        images_dict = get_element(level_data, 'images')
-        if images_dict != None:
-            for image_data in level_data['images']:
-                if type(image_data) == unicode:
-                    load_image_from_json(load_json(image_data), level, None)
+        objects_dict = get_element(level_data, 'objects')
+        reset_object_id()
+        if objects_dict is not None:
+            for object_data in objects_dict:
+                if type(object_data) == unicode:
+                    load_image_from_json(load_json(object_data), level, None)
                 
-                elif type(image_data) == dict:
-                    image_type = get_element(image_data,"type")
-                    load_image_from_json(image_data,level,image_type)
+                elif type(object_data) == dict:
+                    image_type = get_element(object_data,"type")
+                    load_image_from_json(object_data,level,image_type)
         return True
     return False
-'''def save_level(level):
-    
-    
-    level_data = {}
-    level_data['player'] = level.player.filename
-    level_data['background_color'] = level.bg_color
-    level_data['physic_objects'] = []
-    for physic_object in level.physic_objects:
-        if physic_object.__class__ == PhysicRect:
-            obj = {}
-            obj['type'] = 'box'
-            obj['pos'] = [physic_object.pos[0],physic_object.pos[1]]
-            obj['size'] = [physic_object.size[0],physic_object.size[1]]
-            obj['sensor'] = physic_object.sensor
-            obj['user_data'] = physic_object.data
-            obj['angle'] = physic_object.angle
-            level_data['physic_objects'].append(obj)
-    i = 1 #layer
-    level_data['images'] = []
-    for layer in level.images:
-        for image in layer:
-            obj = {}
-            obj['type'] = 'Image'
-            obj['layer'] = i
-            obj['path'] = image.path
-            obj['size'] = [image.size[0],image.size[1]]
-            obj['pos'] = [image.pos[0],image.pos[1]]
-            obj['angle'] = image.angle
-            level_data['images'].append(obj)
-        i+=1
-    file = open(level.filename,mode='w')
-    file.write(json.dumps(obj=level_data,indent=4))
-    file.close()'''
+
+
+def save_level(level):
+    """Save the level from editor only
+    it loads the level JSON file and write the modification"""
+    log("Error: Save level not yet implemented",1)
+    return
+    '''Load written level data'''
+    level_data = load_json(level.filename)
+
+    '''Modifiy level_data with new value'''
+    objects_list = get_element(level_data,"objects")
+    if objects_list:
+        for object_data in objects_list:
+            pass
+    write_json(level.filename,level_data)
