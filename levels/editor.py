@@ -5,36 +5,41 @@ Created on Feb 1, 2014
 '''
 
 from engine.const import log, CONST
+from engine.init import get_screen_size
 from engine.vector import Vector2
 from event.event_main import add_button, get_button
 from event.mouse_event import get_mouse, show_mouse
+from game_object.text import Text
 from json_export.level_json import save_level
 
 
 class Editor():
     def __init__(self):
-        
+
         add_button('editor', 'e')
         self.editor_click = False
-        
+
         self.editor = False
-        self.mouse_clicked = (0,0,0)
+        self.mouse_clicked = (0, 0, 0)
         self.current_selected = None
-        self.scale_clicked = (0,0)#red, enlarg
+        self.gui_current_selected = Text(Vector2(0,get_screen_size().y-100), 100, "data/font/pixel_arial.ttf", "",relative=True)
+
+        self.scale_clicked = (0, 0)  #red, enlarg
 
         self.save_clicked = False
-        
+
         add_button('scale_red', ['DOWN'])
         add_button('scale_enlarg', ['UP'])
         add_button('rotate_left', ['LEFT'])
         add_button('rotate_right', ['RIGHT'])
 
-        add_button('save',['LCTRL+s'])
+        add_button('save', ['LCTRL+s'])
 
         self.obj_init_pos = Vector2()
         self.mouse_init_pos = Vector2()
-    
-    def loop(self):
+
+
+    def loop(self,screen,screen_pos):
         if not self.editor_click and get_button('editor'):
             self.editor = not self.editor
             self.lock = self.editor
@@ -57,7 +62,6 @@ class Editor():
         elif not get_button('save'):
             self.save_clicked = False
 
-
         '''Left click,
         select a object and move it'''
         if pressed[0] and not self.mouse_clicked[0]:
@@ -65,21 +69,24 @@ class Editor():
             for layer in self.images:
                 for image in layer:
                     if image.check_click(mouse_pos, self.screen_pos):
-                        log("Current_object is: "+str(image))
+                        log("Current_object is: " + str(image))
                         self.current_selected = image
                         self.obj_init_pos = self.current_selected.pos
-                        self.mouse_init_pos = mouse_pos+self.screen_pos
-            self.mouse_clicked = (1, self.mouse_clicked[1],self.mouse_clicked[2])
+                        self.mouse_init_pos = mouse_pos + self.screen_pos
+            self.mouse_clicked = (1, self.mouse_clicked[1], self.mouse_clicked[2])
         elif pressed[0] and self.mouse_clicked[0]:
             '''Move the current object'''
             if self.current_selected is not None:
-                self.current_selected.set_pos(self.obj_init_pos,mouse_pos+self.screen_pos-self.mouse_init_pos)
+                self.current_selected.set_pos(self.obj_init_pos, mouse_pos + self.screen_pos - self.mouse_init_pos)
         if pressed[1]:
             self.current_selected = None
 
         if not pressed[0] and self.mouse_clicked[0]:
-            self.mouse_clicked = (0, self.mouse_clicked[1],self.mouse_clicked[2])
+            self.mouse_clicked = (0, self.mouse_clicked[1], self.mouse_clicked[2])
 
+        if self.current_selected:
+            self.gui_current_selected.change_text(self.current_selected.id)
+            self.gui_current_selected.loop(screen,screen_pos)
         '''Keyboard event
         if self.current_selected is not None:
             if get_button('move_right'):

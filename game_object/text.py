@@ -11,7 +11,7 @@ from engine.image_manager import show_image
 from engine.vector import Vector2
 
 class Text(GameObject):
-    def __init__(self,pos,size,font,text,angle=0,color=(0,0,0),gradient=0,center=False):
+    def __init__(self,pos,size,font,text,angle=0,color=(0,0,0),gradient=0,center=False,relative=False):
         GameObject.__init__(self)
         self.pos = pos
         self.center = center
@@ -21,7 +21,7 @@ class Text(GameObject):
         self.set_text(text)
         self.gradient = gradient
         self.time = 1
-        self.relative = False
+        self.relative = relative
     def set_text(self,text):
         self.text = text
         self.time = 1
@@ -40,11 +40,11 @@ class Text(GameObject):
             if CONST.render == 'pygame':
                 self.size = self.text_surface.get_size()
             elif CONST.render == 'sfml':
-                self.size = Vector2().tuple2((self.text_surface.global_bounds.width,self.text_surface.global_bounds.height))
-                log(self.text_surface.global_bounds)
+                self.size = Vector2((self.text_surface.global_bounds.width,self.text_surface.global_bounds.height))
             if self.size:
                 self.update_rect()
         self.text_surface.position = self.pos.get_tuple()
+
     def loop(self,screen,screen_pos):
         if self.text_surface:
             if self.time < self.gradient:
@@ -54,7 +54,7 @@ class Text(GameObject):
             if not self.relative:
                 pos = pos-screen_pos
             if self.center and self.size:
-                pos = pos - Vector2().coordinate(self.size.x/2,0)
+                pos = pos - Vector2(self.size.x/2, 0)
             show_image(self.text_surface, screen, pos, self.angle, self.center,new_size=self.size)
         #screen.blit(self.text_surface,self.pos)
     @staticmethod

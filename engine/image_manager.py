@@ -21,7 +21,6 @@ def draw_rect(screen, screen_pos, rect, color, angle=0):
     if not (rect and rect.pos and rect.size):
         return
     if CONST.render == 'sfml':
-
         drawing_rect = sfml.RectangleShape()
         screen_diff_ratio = float(screen.size.y) / get_screen_size().y
         drawing_rect.position = ((rect.pos - screen_pos) * screen_diff_ratio).get_tuple()
@@ -88,8 +87,12 @@ def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_fun
             sprite = image
             screen_diff_ratio = float(screen.size.y) / get_screen_size().y
             if new_size:
-                text_size = Vector2(sprite.texture.size)
+                text_size = None
 
+                if isinstance(sprite, sfml.Sprite):
+                    text_size = Vector2(sprite.texture.size)
+                else:
+                    text_size = new_size
                 sprite.ratio = (new_size * screen_diff_ratio / text_size).get_tuple()
             if angle != 0:
                 sprite.rotation = angle

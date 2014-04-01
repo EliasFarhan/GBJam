@@ -38,13 +38,13 @@ def load_image_from_json(image_data, level, image_type=None):
         image.size = Vector2(size)
         image.update_rect()
         image.angle = angle
-        image.id = "GO"+str(id)
+        image.id = "GO"+str(object_id)
     elif image_type == "Image":
         image = Image.parse_image(image_data, pos, size, angle)
-        image.id = "Im"+str(id)
+        image.id = "Im"+str(object_id)
     elif image_type == "AnimImage":
         image = AnimImage.parse_image(image_data, pos, size, angle)
-        image.id = "AI"+str(id)
+        image.id = "AI"+str(object_id)
     elif image_type == "Text":
         font = get_element(image_data, "font")
         text = get_element(image_data, "text")

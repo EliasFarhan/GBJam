@@ -83,9 +83,7 @@ class GameState(Scene, Editor, GUI):
             elif not pressed[0]:
                 self.click = False
 
-        '''Editor'''
-        if CONST.debug:
-            Editor.loop(self)
+
 
         if not self.lock:
             update_physics()
@@ -106,6 +104,9 @@ class GameState(Scene, Editor, GUI):
         '''GUI'''
         GUI.loop(self, screen)
 
+        '''Editor'''
+        if CONST.debug:
+            Editor.loop(self, screen, self.screen_pos)
     def exit(self, screen):
         deinit_physics()
         Scene.exit(self, screen)
