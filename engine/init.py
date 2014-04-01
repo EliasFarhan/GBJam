@@ -48,7 +48,7 @@ def init_joystick():
 
 
 def get_screen_size():
-    return Vector2().coordinate(CONST.screen_size[0], CONST.screen_size[1])
+    return Vector2(CONST.screen_size[0], CONST.screen_size[1])
 
 
 def toogle_fullscreen():

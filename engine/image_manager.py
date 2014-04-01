@@ -88,7 +88,7 @@ def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_fun
             sprite = image
             screen_diff_ratio = float(screen.size.y) / get_screen_size().y
             if new_size:
-                text_size = Vector2().tuple2(sprite.texture.size)
+                text_size = Vector2(sprite.texture.size)
 
                 sprite.ratio = (new_size * screen_diff_ratio / text_size).get_tuple()
             if angle != 0:

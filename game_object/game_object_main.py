@@ -6,7 +6,7 @@ Created on Feb 3, 2014
 from engine.rect import Rect
 from engine.const import log, CONST
 from engine.image_manager import draw_rect
-from engine.physics import show_fixtures
+from engine.physics import show_fixtures, get_body_position, set_body_position
 from engine.init import get_screen_size
 from engine.vector import Vector2
 
@@ -41,21 +41,28 @@ class GameObject:
             pos = pos+self.screen_relative_pos*get_screen_size()
         self.rect = Rect(pos, self.size,self.angle)
         
-    def move(self,horizontal=0,vertical=0):
-        self.pos = self.pos+Vector2().coordinate(horizontal,vertical)
+    def move(self, delta):
+        self.pos = self.pos+delta
+        if self.body:
+            body_pos = get_body_position(self.body)
+            set_body_position(self.body,body_pos+delta)
         self.update_rect()
         
     def rotate(self,right):
         self.angle += right
         self.update_rect()
-        
+
+    def set_pos(self,init_pos,delta_pos):
+        delta_move = delta_pos-(self.pos-init_pos)
+        self.move(delta_move)
+
     def set_angle(self,angle):
         self.angle = angle
         self.update_rect()
         
     def check_click(self,mouse_pos,screen_pos):
-        log(str(screen_pos)+" "+str(mouse_pos))
-        point_pos = (screen_pos[0]+mouse_pos[0], screen_pos[1]+mouse_pos[1])
+        log("Check Click:{0} {1}".format(str(screen_pos.get_tuple()), str(mouse_pos.get_tuple())))
+        point_pos = screen_pos + mouse_pos
         return self.rect.collide_point(point_pos)
 
     def execute_event(self):

@@ -45,12 +45,18 @@ vel_iters, pos_iters = 10,10
 index = 1
 world = None
 
+
 def get_body_position(body):
     if body:
-        pos = Vector2().tuple2(body.position)
+        pos = Vector2(body.position)
         return meter2pixel(pos)
     else:
         return None
+
+
+def set_body_position(body,pos):
+    if body:
+        body.position = pixel2meter(pos).get_tuple()
 
 
 def deinit_physics():
@@ -217,8 +223,8 @@ def show_fixtures(screen,screen_pos,body):
         fixture_size = (meter2pixel(fixture_size[0]),meter2pixel(fixture_size[1]))
         fixture_pos = (fixture_pos[0]+fixture_size[0],fixture_pos[1]+fixture_size[1])
         fixture_size = (2*fixture_size[0],2*fixture_size[1])
-        rect = Rect(Vector2().tuple2(fixture_pos),Vector2().tuple2(fixture_size))
-        rect.set_center(Vector2().tuple2(fixture_pos))
+        rect = Rect(Vector2(fixture_pos),Vector2(fixture_size))
+        rect.set_center(Vector2(fixture_pos))
 
         color = (255,0,0,200)
         if fixture.sensor == 1:

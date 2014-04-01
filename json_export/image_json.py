@@ -26,8 +26,8 @@ def load_image_from_json(image_data,level,image_type=None):
         angle = 0
     if image_type == "GameObject":
         image = GameObject()
-        image.pos = Vector2().tuple2(pos)
-        image.size = Vector2().tuple2(size)
+        image.pos = Vector2(pos)
+        image.size = Vector2(size)
         image.update_rect()
         image.angle = angle
     elif image_type == "Image":

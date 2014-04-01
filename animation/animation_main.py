@@ -40,7 +40,7 @@ class Animation():
                 else:
                     self.img_indexes.append(load_image_with_size(f, size, permanent))
             self.img = self.img_indexes[0]
-        self.size = Vector2().tuple2(get_size(self.img))
+        self.size = Vector2(get_size(self.img))
         if self.obj:
             self.obj.update_rect()
     def update_animation(self,state="",invert=False):

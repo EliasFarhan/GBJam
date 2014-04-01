@@ -37,8 +37,6 @@ class GameState(Scene, Editor, GUI):
             [],
             [],
             [], ]
-        self.physic_objects = [
-        ]
         self.screen_pos = Vector2()
         self.show_mouse = False
         if self.filename != "":

@@ -49,8 +49,8 @@ def update_event():
                 set_finish()
             elif type(event) is sfml.MouseButtonEvent:
                 from engine.init import get_screen_size
-                screen_ratio = float(get_screen_size().y)/Vector2().tuple2(get_screen().size).y
+                screen_ratio = float(get_screen_size().y)/Vector2(get_screen().size).y
                 from levels.gamestate import GameState
                 if get_level().__class__ == GameState:
-                    log((Vector2().tuple2(event.position)*screen_ratio+get_level().screen_pos).get_tuple())
+                    log((Vector2(event.position)*screen_ratio+get_level().screen_pos).get_tuple())
 

@@ -7,11 +7,15 @@ Created on Feb 1, 2014
 @author: efarhan
 '''
 
-from engine.const import log,CONST
+from engine.const import  log, CONST
 from engine.vector import Vector2
 
-if CONST.render == 'sfml':
+if CONST.render == 'pygame':
+    import pygame
+elif CONST.render == 'sfml':
     import sfml
+
+
 class Rect():
     def __init__(self,pos, size,angle=0):
         self.pos = pos
@@ -19,15 +23,18 @@ class Rect():
 
         if CONST.render == 'sfml':
             self.rect = sfml.Rectangle(self.pos.get_tuple(),self.size.get_tuple())
+
     def set_center(self,center_pos):
         self.pos = center_pos-self.size/2
+
     def get_center(self):
         if CONST.render == 'sfml':
             return self.rect.center
         
-        return (self.pos[0]+self.size[0]/2, self.pos[1]+self.size[1]/2)
+        return Vector2(self.pos+self.size/2)
+
     def collide_point(self,point_pos):
-        status = (self.pos[0] < point_pos[0] < self.pos[0]+self.size[0] and
-                    self.pos[1] < point_pos[1] < self.pos[1]+self.size[1])
-        log("Status: "+str(status)+" "+str(point_pos)+" "+str(self.pos)+" "+str(self.size))
+        log("Rect-Point collision: {0} {1} {2}".format(str(self.pos.get_tuple()), str(self.size.get_tuple()), str(point_pos.get_tuple())))
+        status = (self.pos.x < point_pos.x < self.pos.x+self.size.x and
+                  self.pos.y < point_pos.y < self.pos.y+self.size.y)
         return status
