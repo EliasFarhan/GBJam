@@ -7,7 +7,7 @@ import math
 from engine.const import log
 from json_export.json_main import get_element
 from engine.physics import add_dynamic_object, add_static_object, add_static_box,\
-    get_body_position, pixel2meter
+    get_body_position, pixel2meter, add_static_circle
 from engine.init import get_screen_size
 from engine.vector import Vector2
 
@@ -48,22 +48,33 @@ def load_physic_objects(physics_data,image):
     fixtures_data = get_element(physics_data,"fixtures")
     if fixtures_data:
         for physic_object in fixtures_data:
+            sensor = get_element(physic_object, "sensor")
+            if sensor is None:
+                sensor = False
+            user_data = get_element(physic_object,"user_data")
+            if user_data is None:
+                user_data = image
             obj_type = get_element(physic_object, "type")
             if obj_type == "box":
                 pos = get_element(physic_object,"pos")
                 if not pos:
-                    pos = (0,0)
+                    pos = Vector2()
+
                 size = get_element(physic_object,"size")
                 if not size:
                     size = image.size/2
-                sensor = get_element(physic_object, "sensor")
-                if sensor == None:
-                    sensor = False
-                user_data = get_element(physic_object,"user_data")
-                if user_data == None:
-                    user_data = image
+
                 angle = get_element(physic_object,"angle")
-                if angle == None:
+                if angle is None:
                     
                     angle = 0
                 image.fixtures.append(add_static_box(image.body, pos, size, angle, user_data, sensor))
+            elif obj_type == "circle":
+                pos = get_element(physic_object,"pos")
+                if not pos:
+                    pos = (0,0)
+                radius = get_element(physic_object,"radius")
+                if not radius:
+                    radius = 1
+
+                image.fixtures.append(add_static_circle(image.body,pos,radius,sensor,user_data))

@@ -13,17 +13,14 @@ from engine.const import log
 class Matrix22():
     def __init__(self,values):
         self.values = values
+
     def __mul__(self,vector):
         return (self.values[0][0]*vector.x+self.values[0][1]*vector.y,
                 self.values[1][0]*vector.x+self.values[1][1]*vector.y)
+
+
 class Vector2():
     def __init__(self,*args):
-        '''try:
-    iterator = iter(theElement)
-except TypeError:
-    # not iterable
-else:
-    # iterable'''
         try:
             self.x = 0.0
             self.y = 0.0
@@ -49,30 +46,36 @@ else:
             ex_type, ex, tb = sys.exc_info()
             traceback.print_tb(tb)
 
+
     def orientation(self,length,angle):
-        self.x = length*math.cos(angle*math.pi/180)
-        self.y = length*math.sin(angle*math.pi/180)
-        self.length = length
-        return self
+        x = length*math.cos(angle*math.pi/180)
+        y = length*math.sin(angle*math.pi/180)
+        return Vector2(x,y)
+
     def normalize(self):
         try:
             ratio = 1.0/self.length
-            self.x *= ratio
-            self.y *= ratio
-            self.length = 1.0
+            x = self.x*ratio
+            y = self.y*ratio
+            return Vector2(x,y)
         except ZeroDivisionError:
-            pass
+            return Vector2()
+
     def invert(self):
         return Vector2(self.y, self.x)
-
     
-    def rotate(self,angle):
-        (self.x,self.y) = Matrix22([[math.cos(angle*math.pi/180),-math.sin(angle*math.pi/180)],[math.sin(angle*math.pi/180),math.cos(angle*math.pi/180)]])*(self)
-    def __add__(self,v):
+    def rotate(self, angle):
+        (self.x, self.y) = Matrix22([
+            [math.cos(angle*math.pi/180),-math.sin(angle*math.pi/180)],
+            [math.sin(angle*math.pi/180),math.cos(angle*math.pi/180)]]) * self
+
+    def __add__(self, v):
         return Vector2(self.x+v.x, self.y+v.y)
-    def __sub__(self,v):
+
+    def __sub__(self, v):
         return Vector2(self.x-v.x, self.y-v.y)
-    def __mul__(self,v):
+
+    def __mul__(self, v):
         if v.__class__ == Vector2:
             return Vector2(self.x*v.x, self.y*v.y)
         elif isinstance(v, Number):
@@ -80,7 +83,8 @@ else:
         else:
             raise TypeError("Vector can only multiply numbers or Vector, type given: %s"%(str(type(v))))
         return None
-    def __div__(self,v):
+
+    def __div__(self, v):
         try:
             if v.__class__ == Vector2:
                 return Vector2(self.x/v.x, self.y/v.y)
@@ -92,9 +96,12 @@ else:
         except ZeroDivisionError:
             log("Error: Division by zero with: "+str(self.get_tuple())+", "+str(v.get_tuple()),1)
             return None
+
     def dot(self,v):
         return self.x*v.x+self.y*v.y
+
     def get_tuple(self):
         return self.x,self.y
+
     def get_int_tuple(self):
         return int(self.x),int(self.y)

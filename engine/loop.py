@@ -58,6 +58,8 @@ def loop():
             screen.framerate_limit = CONST.framerate
             screen.display()
     deinit_physics()
+    if CONST.render == 'sfml':
+        screen.close()
 
 
 def start():

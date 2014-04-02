@@ -157,17 +157,24 @@ def add_static_box(body,pos,size,angle=0,data=0,sensor=False):
     return body.CreateFixture(fixture_def)
 
 
-            
-    
+def add_static_circle(body,pos,radius,sensor=False,user_data=0):
+    if not (body and pos and radius):
+        log("Invalid arg body pos radius in circle creation",1)
+        return None
+    center_pos = pixel2meter(pos)
 
-def add_static_circle(pos,radius,sensor=False,user_data=0):
-    static_body = world.CreateStaticBody(\
-                                position=(pixel2meter(pos[0]), pixel2meter(pos[1])),\
-                                shapes=b2.Circle(radius=pixel2meter(radius),)\
-                                                     )
-    
-    
-    return static_body
+    circle_shape = b2CircleShape()
+    circle_shape.pos = pixel2meter(pos).get_tuple()
+    circle_shape.radius = pixel2meter(radius)
+
+    fixture_def = b2FixtureDef()
+    fixture_def.density = 1
+    fixture_def.shape = circle_shape
+    fixture_def.userData = user_data
+    fixture_def.isSensor = sensor
+
+    return body.CreateFixture(fixture_def)
+
 
 class KuduContactListener(b2ContactListener):
     def BeginContact(self, contact):
@@ -179,11 +186,14 @@ class KuduContactListener(b2ContactListener):
         b = contact.fixtureB
         add_physics_event(PhysicsEvent(a,b,False))
 
+
 def cast_ray(callback,point1,point2):
     if not (point2.x-point1.x == 0 and point2.y-point1.y == 0):
         p1 = b2Vec2(pixel2meter(point1).get_tuple())
         p2 = b2Vec2(pixel2meter(point2).get_tuple())
         world.RayCast(callback,p1,p2)
+
+
 class RayCastClosestCallback(b2RayCastCallback):
     """This callback finds the closest hit"""
     def __repr__(self): return 'Closest hit'
@@ -207,6 +217,7 @@ class RayCastClosestCallback(b2RayCastCallback):
         self.normal=b2Vec2(normal)
         self.fraction = fraction
         return self.fraction
+
 
 def show_fixtures(screen,screen_pos,body):
 
