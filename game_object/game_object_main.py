@@ -12,6 +12,7 @@ from engine.init import get_screen_size
 from engine.vector import Vector2
 
 
+
 class GameObject:
     def __init__(self):
         self.id = ""
@@ -22,9 +23,9 @@ class GameObject:
         self.screen_factor = 1
         self.img_loop = False
         self.fixtures = []
-        self.pos = None
-        self.not_rot_pos = None
-        self.size = None
+        self.pos = Vector2()
+        self.not_rot_pos = Vector2()
+        self.size = Vector2()
         self.rect = None
         self.click_rect = None
         self.remove = False
@@ -71,8 +72,10 @@ class GameObject:
             set_body_position(self.body,body_pos+delta)
         self.update_rect()
         
-    def rotate(self,right):
-        self.angle += right
+    def rotate(self, right):
+        self.angle = (self.angle + right)%360
+        if self.angle > 180:
+            self.angle = self.angle - 360
         self.update_rect()
 
     def set_pos(self,init_pos,delta_pos):
@@ -134,3 +137,28 @@ class GameObject:
             self.pos = (pos[0]-self.screen_relative_pos[0],pos[1]-self.screen_relative_pos[1])
         else:
             self.pos = pos
+
+    @staticmethod
+    def generate_json(json_dict, game_object, layer):
+        json_dict["layer"] = layer
+        json_dict["angle"] = game_object.angle
+        json_dict["pos"] = game_object.pos
+        """
+        TODO: Generate JSON from physics objects
+
+        "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },"""
+        from game_object.image import Image
+        if game_object.__class__ == GameObject:
+            json_dict["type"] = "GameObject"
+        elif game_object.__class__ == Image:
+            json_dict["type"] = "Image"
+        json_dict["id"] = game_object.id
+        json_dict["size"] = game_object.size

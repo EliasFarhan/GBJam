@@ -9,6 +9,7 @@ from engine.init import get_screen_size
 from engine.vector import Vector2
 from event.event_main import add_button, get_button
 from event.mouse_event import get_mouse, show_mouse
+from game_object.game_object_main import GameObject
 from game_object.text import Text
 from json_export.level_json import save_level
 
@@ -16,7 +17,7 @@ from json_export.level_json import save_level
 class Editor():
     def __init__(self):
 
-        add_button('editor', 'e')
+        add_button('editor', 'LCTRL+e')
         self.editor_click = False
 
         self.editor = False
@@ -39,6 +40,12 @@ class Editor():
         add_button('angle_down',['d'])
 
         add_button('save', ['LCTRL+s'])
+
+        add_button('box',['LCTRL'])
+
+        self.new_obj = None
+        self.new_obj_pos = Vector2()
+
 
         self.obj_init_pos = Vector2()
         self.mouse_init_pos = Vector2()
@@ -79,22 +86,32 @@ class Editor():
 
         '''Left click,
         select a object and move it'''
-        if pressed[0] and not self.mouse_clicked[0]:
-            '''Set current_selected'''
-            self.current_selected = None
-            for layer in self.objects:
-                for image in layer:
-                    if image.check_click(mouse_pos, self.screen_pos):
-                        log("Current_object is: " + str(image))
-                        self.current_selected = image
-                        self.obj_init_pos = self.current_selected.pos
-                        self.mouse_init_pos = mouse_pos + self.screen_pos
-            self.mouse_clicked = (1, self.mouse_clicked[1], self.mouse_clicked[2])
-        elif pressed[0] and self.mouse_clicked[0]:
-            '''Move the current object'''
-            if self.current_selected is not None:
-                self.current_selected.set_pos(self.obj_init_pos, mouse_pos + self.screen_pos - self.mouse_init_pos)
-
+        if not get_button('box'):
+            self.new_obj = None
+            if pressed[0] and not self.mouse_clicked[0]:
+                '''Set current_selected'''
+                self.current_selected = None
+                for layer in self.objects:
+                    for image in layer:
+                        if image.check_click(mouse_pos, self.screen_pos):
+                            log("Current_object is: " + str(image))
+                            self.current_selected = image
+                            self.obj_init_pos = self.current_selected.pos
+                            self.mouse_init_pos = mouse_pos + self.screen_pos
+                self.mouse_clicked = (1, self.mouse_clicked[1], self.mouse_clicked[2])
+            elif pressed[0] and self.mouse_clicked[0]:
+                '''Move the current object'''
+                if self.current_selected is not None:
+                    self.current_selected.set_pos(self.obj_init_pos, mouse_pos + self.screen_pos - self.mouse_init_pos)
+        else:
+            if pressed[0] and not self.mouse_clicked[0]:
+                self.mouse_clicked = (1, self.mouse_clicked[1], self.mouse_clicked[2])
+                self.new_obj = GameObject()
+                self.new_obj.pos = mouse_pos + self.screen_pos
+                self.objects[4].append(self.new_obj)
+            elif self.mouse_clicked[0]:
+                self.new_obj.size = mouse_pos + self.screen_pos - self.new_obj.pos
+                self.new_obj.update_rect()
 
         if not pressed[0] and self.mouse_clicked[0]:
             self.mouse_clicked = (0, self.mouse_clicked[1], self.mouse_clicked[2])

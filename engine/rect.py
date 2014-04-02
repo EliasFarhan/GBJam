@@ -20,6 +20,8 @@ class Rect():
     def __init__(self,pos, size,angle=0):
         self.pos = pos
         self.size = size
+        if not self.size:
+            self.size = Vector2()
 
         if CONST.render == 'sfml':
             self.rect = sfml.Rectangle(self.pos.get_tuple(),self.size.get_tuple())

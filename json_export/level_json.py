@@ -89,25 +89,13 @@ def save_level(level):
     for layer in level.objects:
         for image in layer:
             if image.__class__ is not AnimImage:
-                '''TODO: Move the image or GameObject'''
                 object_id = image.id
-                object_data = None
-                try:
-                    '''
-                    ****************************
-                    TODO: CLEARLY NOT SAFE, SHOULD BE UPDATED
-                    AND SHOULD SEARCH FOR A COMMON ID
-                    ID IS NOT INDEX
-                    '''
-                    object_data = objects_list[object_id]
-                    '''
-                    ****************************
-                    '''
-
+                object_data = next((x for x in objects_list if x['id'] == object_id),None)
+                if object_data:
                     object_data["pos"] = image.pos.get_list()
                     object_data["angle"] = image.angle
                     object_data["size"] = image.size.get_list()
-                except IndexError:
-                    '''TODO: Append GameObject or Image'''
-
+                else:
+                    '''Add GameObject or Image in Level JSON dict'''
+                    pass
     write_json(level.filename,level_data)
