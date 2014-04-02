@@ -99,3 +99,10 @@ class Editor():
         if self.current_selected:
             self.gui_current_selected.change_text(str(self.current_selected.__class__)+" "+str(self.current_selected.id))
             self.gui_current_selected.loop(screen, screen_pos)
+
+        '''Size scale'''
+        scale_x = get_button("scale_x_up")-get_button("scale_x_down")
+        scale_y = get_button("scale_y_up")-get_button("scale_y_down")
+
+        if self.current_selected:
+            self.current_selected.scale(scale_x,scale_y)

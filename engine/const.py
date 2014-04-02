@@ -31,7 +31,7 @@ class CONST:
     fullscreen = False
     animation_step = 7
     startup = ""
-
+    scale_speed = 0.01
     @staticmethod
     def parse_const(init_filename):
         init_json = load_json(CONST.path_prefix + 'data/json/init.json')

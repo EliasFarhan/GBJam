@@ -1,20 +1,20 @@
 {
+    "network": false, 
+    "show_mouse": false, 
+    "gui": "data/json/level1/gui.json", 
+    "player": "data/json/player.json", 
     "bg_color": [
         255, 
         255, 
         255
     ], 
-    "network": false, 
-    "player": "data/json/player.json", 
-    "gui": "data/json/level1/gui.json", 
-    "show_mouse": false, 
     "objects": [
         {
             "layer": 3, 
             "angle": 20, 
             "pos": [
-                0, 
-                700
+                -217.0, 
+                726.0000000000001
             ], 
             "physic_objects": {
                 "fixtures": [
@@ -28,8 +28,8 @@
             "type": "GameObject", 
             "id": 0, 
             "size": [
-                1000, 
-                200
+                1052.850844627425, 
+                200.0
             ]
         }, 
         {

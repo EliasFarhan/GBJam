@@ -30,11 +30,10 @@ class GameObject:
         self.remove = False
         self.event = None
 
-    def scale(self,enlargement,speed=1.1):
-        scale_speed = speed
-        if not enlargement:
-            scale_speed = 1/speed
-        self.size = self.size*scale_speed
+    def scale(self, x, y):
+
+        self.size = self.size*Vector2(x*CONST.scale_speed+1,
+                                      y*CONST.scale_speed+1)
         self.update_rect()
     
     def update_rect(self):
@@ -103,8 +102,6 @@ class GameObject:
         if CONST.debug:
             log("Check Click:{0} {1}".format(str(screen_pos.get_tuple()), str(mouse_pos.get_tuple())))
         point_pos = screen_pos + mouse_pos
-
-
 
         return self.click_rect.collide_point(point_pos)
 

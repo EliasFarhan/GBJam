@@ -93,7 +93,17 @@ def save_level(level):
                 object_id = image.id
                 object_data = None
                 try:
+                    '''
+                    ****************************
+                    TODO: CLEARLY NOT SAFE, SHOULD BE UPDATED
+                    AND SHOULD SEARCH FOR A COMMON ID
+                    ID IS NOT INDEX
+                    '''
                     object_data = objects_list[object_id]
+                    '''
+                    ****************************
+                    '''
+
                     object_data["pos"] = image.pos.get_list()
                     object_data["angle"] = image.angle
                     object_data["size"] = image.size.get_list()
