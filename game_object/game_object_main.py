@@ -26,6 +26,7 @@ class GameObject:
         self.not_rot_pos = None
         self.size = None
         self.rect = None
+        self.click_rect = None
         self.remove = False
         self.event = None
 
@@ -43,7 +44,27 @@ class GameObject:
         if self.screen_relative_pos:
             pos = pos+self.screen_relative_pos*get_screen_size()
         self.rect = Rect(pos, self.size,self.angle)
-        
+
+        center_pos = Vector2()
+        if self.body:
+            center_pos = get_body_position(self.body)
+            if self.screen_relative_pos:
+                center_pos = center_pos - self.screen_relative_pos*get_screen_size()
+
+        not_rot_pos = center_pos - self.size/2
+
+        v = self.size/2
+        v.rotate(-self.angle)
+        if self.angle > 0:
+            pos = not_rot_pos + (v-self.size/2)
+        else:
+            pos = not_rot_pos + (self.size/2-v)
+
+        v = Vector2(self.size.x,0)
+        v.rotate(self.angle)
+        v = Vector2(self.size.x,self.size.y+math.fabs(v.y))
+        self.click_rect = Rect(pos,v)
+
     def move(self, delta):
         self.pos = self.pos+delta
         if self.body:
@@ -51,14 +72,15 @@ class GameObject:
             set_body_position(self.body,body_pos+delta)
         self.update_rect()
         
-    def rotate(self,right,center=True):
-        self.set_angle(self.angle+right,center)
+    def rotate(self,right):
+        self.angle += right
+        self.update_rect()
 
     def set_pos(self,init_pos,delta_pos):
         delta_move = delta_pos-(self.pos-init_pos)
         self.move(delta_move)
 
-    def set_angle(self, angle, center=True):
+    def set_angle(self, angle):
         pos = Vector2()
         if self.body:
             pos = get_body_position(self.body)
@@ -67,9 +89,7 @@ class GameObject:
 
         v = self.size/2
         v.rotate(-self.angle)
-
         self.not_rot_pos = pos - self.size/2
-
         self.angle = angle
 
         if self.body:
@@ -80,9 +100,13 @@ class GameObject:
         self.update_rect()
         
     def check_click(self,mouse_pos,screen_pos):
-        log("Check Click:{0} {1}".format(str(screen_pos.get_tuple()), str(mouse_pos.get_tuple())))
+        if CONST.debug:
+            log("Check Click:{0} {1}".format(str(screen_pos.get_tuple()), str(mouse_pos.get_tuple())))
         point_pos = screen_pos + mouse_pos
-        return self.rect.collide_point(point_pos)
+
+
+
+        return self.click_rect.collide_point(point_pos)
 
     def execute_event(self):
         if self.event:
@@ -103,6 +127,8 @@ class GameObject:
         if CONST.debug:
             self.update_rect()
             draw_rect(screen, screen_pos, self.rect, (0,0,255,200), self.angle)
+            if self.click_rect:
+                draw_rect(screen,screen_pos,self.click_rect,(0,255,0,100))
             if self.body:
                 show_fixtures(screen, screen_pos, self.body)
 

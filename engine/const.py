@@ -56,12 +56,16 @@ class CONST:
 
 
 try:
-    import sfml
-
-    CONST.render = 'sfml'
+    import pookoo
 except ImportError as e:
-    log("Error: could not load SFML: " + str(e), 1)
-    exit()
+    log("Using pySFML, because Pookoo was not found")
+    try:
+        import sfml
+
+        CONST.render = 'sfml'
+    except ImportError as e:
+        log("Error: could not load SFML: " + str(e), 1)
+        exit()
 try:
     import Box2D
 except ImportError:

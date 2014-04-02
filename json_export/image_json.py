@@ -13,13 +13,26 @@ from json_export.event_json import load_event
 from engine.vector import Vector2
 
 
-object_id = 0
+global_object_id = 0
+
+
 def reset_object_id():
-    global object_id
-    object_id = 0
+    global global_object_id
+    global_object_id = 0
+
+
+def get_last_object_id():
+    global global_object_id
+    return global_object_id
+
+
+def set_last_object_id(new_id):
+    global global_object_id
+    global_object_id = new_id
+
 
 def load_image_from_json(image_data, level, image_type=None):
-    global object_id
+    global global_object_id
     image = None
     if image_type is None:
         try:
@@ -30,6 +43,9 @@ def load_image_from_json(image_data, level, image_type=None):
     size = get_element(image_data, "size")
     layer = get_element(image_data, "layer")
     angle = get_element(image_data, "angle")
+    object_id = get_element(image_data, "id")
+    if object_id is None:
+        object_id = global_object_id
     if angle is None:
         angle = 0
     if image_type == "GameObject":
@@ -38,13 +54,13 @@ def load_image_from_json(image_data, level, image_type=None):
         image.size = Vector2(size)
         image.update_rect()
         image.angle = angle
-        image.id = "GO"+str(object_id)
+        image.id = object_id
     elif image_type == "Image":
         image = Image.parse_image(image_data, pos, size, angle)
-        image.id = "Im"+str(object_id)
+        image.id = object_id
     elif image_type == "AnimImage":
         image = AnimImage.parse_image(image_data, pos, size, angle)
-        image.id = "AI"+str(object_id)
+        image.id = object_id
     elif image_type == "Text":
         font = get_element(image_data, "font")
         text = get_element(image_data, "text")
@@ -57,7 +73,7 @@ def load_image_from_json(image_data, level, image_type=None):
         if not color:
             color = [0,0,0]
         image = Text(pos, size, font, text, angle,color)
-        image.id = "Te"+str(id)
+        image.id = object_id
     else:
         if type(image_type) != unicode:
             return
@@ -81,11 +97,11 @@ def load_image_from_json(image_data, level, image_type=None):
     event_path = get_element(image_data, "event")
     if event_path:
         image.event = load_event(event_path)
-    if not layer:
+    if not layer or layer < 0:
         layer = 1
-    elif layer > len(level.images)-1:
-        layer = len(level.images)-1
+    elif layer > len(level.objects)-1:
+        layer = len(level.objects)-1
     if image:
-        level.images[layer-1].append(image)
-    object_id += 1
+        level.objects[layer-1].append(image)
+    global_object_id += 1
     return image

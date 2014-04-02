@@ -31,7 +31,7 @@ class GameState(Scene, Editor, GUI):
     def init(self):
 
         init_physics()
-        self.images = [
+        self.objects = [
             [],
             [],
             [],
@@ -74,7 +74,7 @@ class GameState(Scene, Editor, GUI):
             if pressed[0] and not self.click:
                 event = None
                 self.click = True
-                for layer in self.images:
+                for layer in self.objects:
                     for image in layer:
                         if image.check_click(mouse_pos, self.screen_pos):
                             event = image.event
@@ -93,13 +93,13 @@ class GameState(Scene, Editor, GUI):
         if self.player and self.player.anim:
             self.screen_pos = self.player.anim.get_screen_pos()
         remove_image = []
-        for i in range(len(self.images)):
-            for j in range(len(self.images[i])):
-                self.images[i][j].loop(screen, self.screen_pos)
-                if self.images[i][j].remove:
-                    remove_image.append(self.images[i][j])
+        for i in range(len(self.objects)):
+            for j in range(len(self.objects[i])):
+                self.objects[i][j].loop(screen, self.screen_pos)
+                if self.objects[i][j].remove:
+                    remove_image.append(self.objects[i][j])
         for r in remove_image:
-            self.images[i].remove(r)
+            self.objects[i].remove(r)
 
         '''GUI'''
         GUI.loop(self, screen)

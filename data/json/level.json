@@ -1,34 +1,66 @@
 {
-	"gui": "data/json/level1/gui.json",
-	"show_mouse": false,
-	"player": "data/json/player.json",
-	"physics": true,
-	"network": false,
-	"checkpoints": [
-		[0,0]
-		
-	],
-    "objects": [
-        {
-        	"type": "GameObject",
-        	"layer": 3,
-        	"pos": [0,700],
-        	"size": [1000,200],
-        	"angle": 20,
-        	"physic_objects": {
-        		"type": "static",
-        		"fixtures": [
-        			{
-        				"user_data": 11,
-						"type": "box"
-        			}
-        		]
-        	}
-        }
-    ], 
     "bg_color": [
         255, 
         255, 
         255
-    ]
+    ], 
+    "network": false, 
+    "player": "data/json/player.json", 
+    "gui": "data/json/level1/gui.json", 
+    "show_mouse": false, 
+    "objects": [
+        {
+            "layer": 3, 
+            "angle": 20, 
+            "pos": [
+                0, 
+                700
+            ], 
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box", 
+                        "user_data": 11
+                    }
+                ], 
+                "type": "static"
+            }, 
+            "type": "GameObject", 
+            "id": 0, 
+            "size": [
+                1000, 
+                200
+            ]
+        }, 
+        {
+            "layer": 3, 
+            "angle": -20, 
+            "pos": [
+                677.9999999999999, 
+                1078.0
+            ], 
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box", 
+                        "user_data": 11
+                    }
+                ], 
+                "type": "static"
+            }, 
+            "type": "GameObject", 
+            "id": 1, 
+            "size": [
+                1000, 
+                200
+            ]
+        }
+    ], 
+    "checkpoints": [
+        [
+            0, 
+            0
+        ]
+    ], 
+    "physics": true
 }

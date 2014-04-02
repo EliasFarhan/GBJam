@@ -20,32 +20,40 @@ class Editor():
         self.editor_click = False
 
         self.editor = False
+        self.text_size = 50
+
         self.mouse_clicked = (0, 0, 0)
         self.current_selected = None
-        self.gui_current_selected = Text(Vector2(0,get_screen_size().y-100), 100, "data/font/pixel_arial.ttf", "",relative=True)
+
 
         self.scale_clicked = (0, 0)  #red, enlarg
 
         self.save_clicked = False
 
-        add_button('scale_red', ['DOWN'])
-        add_button('scale_enlarg', ['UP'])
-        add_button('rotate_left', ['LEFT'])
-        add_button('rotate_right', ['RIGHT'])
+        add_button('scale_y_down', ['DOWN'])
+        add_button('scale_y_up', ['UP'])
+        add_button('scale_x_down', ['LEFT'])
+        add_button('scale_x_up', ['RIGHT'])
 
         add_button('save', ['LCTRL+s'])
 
         self.obj_init_pos = Vector2()
         self.mouse_init_pos = Vector2()
 
+        '''GUI'''
+        self.gui_editor_mode = Text(Vector2(0,get_screen_size().y-2*self.text_size), self.text_size, "data/font/pixel_arial.ttf", "Editor mode", relative=True)
+        self.gui_current_selected = Text(Vector2(0,get_screen_size().y-self.text_size), self.text_size, "data/font/pixel_arial.ttf", "",relative=True)
+        self.gui_saved = Text(Vector2(0,0), self.text_size, "data/font/pixel_arial.ttf", "Saved",relative=True)
 
-    def loop(self,screen,screen_pos):
-        if not self.editor_click and get_button('editor'):
+    def loop(self, screen,screen_pos):
+        if not (self.editor_click or not get_button('editor')):
             self.editor = not self.editor
             self.lock = self.editor
             self.editor_click = True
             if self.editor:
                 log("Editor mode activate")
+            else:
+                self.current_selected = None
         if not get_button('editor'):
             self.editor_click = False
         if self.editor:
@@ -55,7 +63,11 @@ class Editor():
         if not self.editor:
             return
 
+        self.gui_editor_mode.loop(screen,screen_pos)
+
         '''Save Level'''
+        if self.save_clicked:
+            self.gui_saved.loop(screen,screen_pos)
         if get_button('save') and not self.save_clicked:
             save_level(self)
             self.save_clicked = True
@@ -66,7 +78,8 @@ class Editor():
         select a object and move it'''
         if pressed[0] and not self.mouse_clicked[0]:
             '''Set current_selected'''
-            for layer in self.images:
+            self.current_selected = None
+            for layer in self.objects:
                 for image in layer:
                     if image.check_click(mouse_pos, self.screen_pos):
                         log("Current_object is: " + str(image))
@@ -78,40 +91,11 @@ class Editor():
             '''Move the current object'''
             if self.current_selected is not None:
                 self.current_selected.set_pos(self.obj_init_pos, mouse_pos + self.screen_pos - self.mouse_init_pos)
-        if pressed[1]:
-            self.current_selected = None
+
 
         if not pressed[0] and self.mouse_clicked[0]:
             self.mouse_clicked = (0, self.mouse_clicked[1], self.mouse_clicked[2])
 
         if self.current_selected:
-            self.gui_current_selected.change_text(self.current_selected.id)
-            self.gui_current_selected.loop(screen,screen_pos)
-        '''Keyboard event
-        if self.current_selected is not None:
-            if get_button('move_right'):
-                self.current_selected.move(horizontal=1)
-            if get_button('move_left'):
-                self.current_selected.move(horizontal=-1)
-            if get_button('move_up'):
-                self.current_selected.move(vertical=-1)
-            if get_button('move_down'):
-                self.current_selected.move(vertical=1)
-
-            if not self.scale_clicked[0] and get_button('scale_red'):
-                self.current_selected.scale(False)
-                self.scale_clicked = (1,self.scale_clicked[1])
-            else:
-                self.scale_clicked = (0,self.scale_clicked[1])
-
-            if not self.scale_clicked[1] and get_button('scale_enlarg'):
-                self.current_selected.scale(True)
-                self.scale_clicked = (self.scale_clicked[0],1)
-            else:
-                self.scale_clicked = (self.scale_clicked[1],0)
-
-            if get_button('rotate_left'):
-                self.current_selected.rotate(-1)
-            if get_button('rotate_right'):
-                self.current_selected.rotate(1)
-                        '''
+            self.gui_current_selected.change_text(str(self.current_selected.__class__)+" "+str(self.current_selected.id))
+            self.gui_current_selected.loop(screen, screen_pos)

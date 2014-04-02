@@ -75,14 +75,29 @@ def load_level(level):
 def save_level(level):
     """Save the level from editor only
     it loads the level JSON file and write the modification"""
-    log("Error: Save level not yet implemented",1)
-    return
     '''Load written level data'''
     level_data = load_json(level.filename)
 
     '''Modifiy level_data with new value'''
     objects_list = get_element(level_data,"objects")
     if objects_list:
-        for object_data in objects_list:
-            pass
+
+        for i, object_data in enumerate(objects_list):
+            object_id = get_element(object_data,"id")
+            if object_id is None:
+                object_data["id"] = i
+    for layer in level.objects:
+        for image in layer:
+            if image.__class__ is not AnimImage:
+                '''TODO: Move the image or GameObject'''
+                object_id = image.id
+                object_data = None
+                try:
+                    object_data = objects_list[object_id]
+                    object_data["pos"] = image.pos.get_list()
+                    object_data["angle"] = image.angle
+                    object_data["size"] = image.size.get_list()
+                except IndexError:
+                    '''TODO: Append GameObject or Image'''
+
     write_json(level.filename,level_data)

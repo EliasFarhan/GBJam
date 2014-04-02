@@ -103,5 +103,8 @@ class Vector2():
     def get_tuple(self):
         return self.x,self.y
 
+    def get_list(self):
+        return [self.x,self.y]
+
     def get_int_tuple(self):
         return int(self.x),int(self.y)
