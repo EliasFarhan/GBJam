@@ -11,10 +11,10 @@
     "objects": [
         {
             "layer": 3, 
-            "angle": 20, 
+            "angle": 7, 
             "pos": [
-                -217.0, 
-                726.0000000000001
+                -278.0, 
+                924.0000000000001
             ], 
             "physic_objects": {
                 "fixtures": [

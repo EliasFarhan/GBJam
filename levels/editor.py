@@ -35,6 +35,9 @@ class Editor():
         add_button('scale_x_down', ['LEFT'])
         add_button('scale_x_up', ['RIGHT'])
 
+        add_button('angle_up',['a'])
+        add_button('angle_down',['d'])
+
         add_button('save', ['LCTRL+s'])
 
         self.obj_init_pos = Vector2()
@@ -106,3 +109,7 @@ class Editor():
 
         if self.current_selected:
             self.current_selected.scale(scale_x,scale_y)
+        '''Angle'''
+        angle = get_button("angle_up")-get_button("angle_down")
+        if self.current_selected:
+            self.current_selected.rotate(angle)
