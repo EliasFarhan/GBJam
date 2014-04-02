@@ -3,6 +3,7 @@ Created on Feb 3, 2014
 
 @author: efarhan
 """
+import math
 from engine.rect import Rect
 from engine.const import log, CONST
 from engine.image_manager import draw_rect
@@ -22,6 +23,7 @@ class GameObject:
         self.img_loop = False
         self.fixtures = []
         self.pos = None
+        self.not_rot_pos = None
         self.size = None
         self.rect = None
         self.remove = False
@@ -49,16 +51,32 @@ class GameObject:
             set_body_position(self.body,body_pos+delta)
         self.update_rect()
         
-    def rotate(self,right):
-        self.angle += right
-        self.update_rect()
+    def rotate(self,right,center=True):
+        self.set_angle(self.angle+right,center)
 
     def set_pos(self,init_pos,delta_pos):
         delta_move = delta_pos-(self.pos-init_pos)
         self.move(delta_move)
 
-    def set_angle(self,angle):
+    def set_angle(self, angle, center=True):
+        pos = Vector2()
+        if self.body:
+            pos = get_body_position(self.body)
+            if self.screen_relative_pos:
+                pos = pos - self.screen_relative_pos*get_screen_size()
+
+        v = self.size/2
+        v.rotate(-self.angle)
+
+        self.not_rot_pos = pos - self.size/2
+
         self.angle = angle
+
+        if self.body:
+            self.body.angle = self.angle*math.pi/180
+        v = self.size/2
+        v.rotate(self.angle)
+        self.pos = self.not_rot_pos + self.size/2 + (v-self.size/2)
         self.update_rect()
         
     def check_click(self,mouse_pos,screen_pos):

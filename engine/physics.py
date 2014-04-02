@@ -148,7 +148,7 @@ def add_static_box(body,pos,size,angle=0,data=0,sensor=False):
     
     polygon_shape = b2PolygonShape()
     polygon_shape.SetAsBox(pixel2meter(size.x), pixel2meter(size.y),
-                                   b2Vec2(center_pos),angle*math.pi/180.0)
+                                   b2Vec2(center_pos.get_tuple()),angle*math.pi/180.0)
     fixture_def = b2FixtureDef()
     fixture_def.density = 1
     fixture_def.shape = polygon_shape
