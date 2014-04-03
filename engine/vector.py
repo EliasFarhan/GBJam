@@ -46,8 +46,8 @@ class Vector2():
             ex_type, ex, tb = sys.exc_info()
             traceback.print_tb(tb)
 
-
-    def orientation(self,length,angle):
+    @staticmethod
+    def orientation(length,angle):
         x = length*math.cos(angle*math.pi/180)
         y = length*math.sin(angle*math.pi/180)
         return Vector2(x,y)
@@ -85,6 +85,19 @@ class Vector2():
         return None
 
     def __div__(self, v):
+        try:
+            if v.__class__ == Vector2:
+                return Vector2(self.x/v.x, self.y/v.y)
+            elif isinstance(v, Number):
+                return Vector2(self.x/v, self.y/v)
+            else:
+                raise TypeError("Vector can only divide numbers or Vector, type given: %s"%(str(type(v))))
+            return None
+        except ZeroDivisionError:
+            log("Error: Division by zero with: "+str(self.get_tuple())+", "+str(v.get_tuple()),1)
+            return None
+
+    def __truediv__(self, v):
         try:
             if v.__class__ == Vector2:
                 return Vector2(self.x/v.x, self.y/v.y)

@@ -32,6 +32,12 @@ class CONST:
     animation_step = 7
     startup = ""
     scale_speed = 0.01
+    screen_size = [1920, 1080]
+    string_type = None
+    try:
+        string_type = basestring
+    except NameError:
+        string_type = str
     @staticmethod
     def parse_const(init_filename):
         init_json = load_json(CONST.path_prefix + 'data/json/init.json')
@@ -47,7 +53,7 @@ class CONST:
                     try:
                         log(str(const))
                         data = const[1]
-                        if type(data) == unicode:
+                        if type(data) == CONST.string_type:
                             data = "'" + data + "'"
                         exec ("CONST.%s = %s" % (const[0], str(data)))
                     except Exception as e:

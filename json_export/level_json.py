@@ -31,7 +31,8 @@ def load_level(level):
             '''load the json containing the player
             and treat it as an AnimImage'''
             player = None
-            if type(player_data) == unicode:
+            if isinstance(player_data, CONST.string_type):
+                log("Loading player "+player_data)
                 player_json = load_json(CONST.path_prefix+player_data)
                 player = load_image_from_json(player_json, level, "AnimImage")
             elif type(player_data) == dict:
@@ -62,7 +63,7 @@ def load_level(level):
         reset_object_id()
         if objects_dict is not None:
             for object_data in objects_dict:
-                if type(object_data) == unicode:
+                if type(object_data) == CONST.string_type:
                     load_image_from_json(load_json(object_data), level, None)
                 
                 elif type(object_data) == dict:

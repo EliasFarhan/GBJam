@@ -20,7 +20,8 @@ def init_all():
 
 def init_actions():
     actions = None
-    if type(CONST.actions) == unicode:
+
+    if isinstance(CONST.actions, CONST.string_type):
         actions = load_json(CONST.actions)
     elif type(CONST.actions) == dict:
         actions = CONST.actions
