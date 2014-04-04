@@ -105,9 +105,12 @@ class GameObject:
         if CONST.debug:
             log("Check Click:{0} {1}".format(str(screen_pos.get_tuple()), str(mouse_pos.get_tuple())))
         point_pos = screen_pos + mouse_pos
-
-        return self.click_rect.collide_point(point_pos)
-
+        if self.click_rect:
+            return self.click_rect.collide_point(point_pos)
+        elif self.rect:
+            return self.click_rect.collide_point(point_pos)
+        else:
+            return False
     def execute_event(self):
         if self.event:
             self.event.execute()

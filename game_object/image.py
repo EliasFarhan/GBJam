@@ -108,7 +108,7 @@ class AnimImage(Image):
         if self.anim:
             self.anim.update_animation()
             self.img = self.anim.img
-            Image.loop(self, screen, screen_pos)
+        Image.loop(self, screen, screen_pos)
 
     @staticmethod
     def parse_image(image_data, pos, size, angle):
@@ -118,7 +118,7 @@ class AnimImage(Image):
         type:
         [x,y] pos
         [[x,y],[x',y'] pos, screen_relative_pos'''
-        if isinstance(pos[0], list):
+        if isinstance(pos[0], list) or isinstance(pos[0], tuple):
             image.pos = Vector2(pos[0])
             image.screen_relative_pos = Vector2(pos[1])
         else:

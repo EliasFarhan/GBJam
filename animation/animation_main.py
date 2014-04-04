@@ -87,29 +87,43 @@ class Animation():
         anim = None
         
         '''Check type entry is a string with '.' or alpha'''
-        if anim_type and isinstance(anim_type,CONST.string_type):
+        if anim_type and isinstance(anim_type, CONST.string_type):
             for c in anim_type:
-                if c != '.' and not c.isalpha():
+                if c != '.' and c != '_' and not c.isalpha():
+                    log("Error: Invalid character type for animation type: "+anim_type,1)
                     return None
+        elif anim_type is None:
+            anim_type = ''
+        else:
+            log("Error: Invalid type of anim_type, given: "+type(anim_type),1)
+            return None
         if anim_type != '':
             dir_list = anim_type.split(".")
-            
+
+            module_name = ".".join(dir_list[0:len(dir_list)-1])
+            class_name = dir_list[len(dir_list)-1]
+            log(module_name+" "+class_name)
             try:
-                exec('''from %s import %s'''%(".".join(dir_list[0:len(dir_list)-1]), dir_list[len(dir_list)-1]))
+                exec('''from %s import %s'''%(module_name, class_name ))
             except ImportError as e:
                 log("Error while importing "+anim_type+" "+str(e), 1)
                 return None
             
             try:
-                exec('''anim = %s(obj)'''%(dir_list[len(dir_list)-1]))
+                d = locals()
+                exec('''anim = %s(obj)'''% class_name, globals(), d)
+                anim = d['anim']
             except Exception as e:
-                log("Error initializing animation: "+str(e),1)
+                log("Error initializing animation: "+str(e), 1)
                 return None
         else:
+            log("Use default animation")
             anim = Animation(obj)
-        if path:
+
+        if anim and path:
             anim.path = path
         else:
+            log("Error: UNDEFINED anim is None",1)
             return None
         if path_list and isinstance(path_list,list):
             anim.path_list = path_list

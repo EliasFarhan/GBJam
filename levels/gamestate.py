@@ -31,12 +31,7 @@ class GameState(Scene, Editor, GUI):
     def init(self):
 
         init_physics()
-        self.objects = [
-            [],
-            [],
-            [],
-            [],
-            [], ]
+        self.objects = [ [] for i in range(CONST.layers) ]
         self.screen_pos = Vector2()
         self.show_mouse = False
         if self.filename != "":
@@ -45,7 +40,6 @@ class GameState(Scene, Editor, GUI):
                 from engine.level_manager import switch_level
 
                 switch_level(Scene())
-
         self.lock = False
         self.click = False
 

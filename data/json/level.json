@@ -1,13 +1,13 @@
 {
     "network": false, 
-    "show_mouse": false, 
-    "gui": "data/json/level1/gui.json", 
-    "player": "data/json/player.json", 
     "bg_color": [
         255, 
         255, 
         255
     ], 
+    "gui": "data/json/level1/gui.json", 
+    "player": "data/json/player.json", 
+    "show_mouse": false, 
     "objects": [
         {
             "layer": 3, 
@@ -34,10 +34,10 @@
         }, 
         {
             "layer": 3, 
-            "angle": -11, 
+            "angle": -19, 
             "pos": [
-                669.631787810728, 
-                1085.0022711360182
+                639.631787810728, 
+                1082.0022711360182
             ], 
             "physic_objects": {
                 "fixtures": [

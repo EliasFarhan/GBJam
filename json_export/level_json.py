@@ -35,6 +35,7 @@ def load_level(level):
                 log("Loading player "+player_data)
                 player_json = load_json(CONST.path_prefix + player_data)
                 player = load_image_from_json(player_json, level, "AnimImage")
+
             elif isinstance(player_data,dict):
                 player = load_image_from_json(player_data, level, "AnimImage")
             else:

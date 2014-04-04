@@ -38,6 +38,7 @@ def load_image_from_json(image_data, level, image_type=None):
         try:
             image_type = image_data["type"]
         except KeyError:
+            log("Error: No image_type for:" + str(image_data),1)
             return 
     pos = get_element(image_data, "pos")
     size = get_element(image_data, "size")
@@ -60,7 +61,6 @@ def load_image_from_json(image_data, level, image_type=None):
         image.id = object_id
     elif image_type == "AnimImage":
         image = AnimImage.parse_image(image_data, pos, size, angle)
-        image.id = object_id
     elif image_type == "Text":
         font = get_element(image_data, "font")
         text = get_element(image_data, "text")
@@ -84,6 +84,7 @@ def load_image_from_json(image_data, level, image_type=None):
         try:
             exec('''from %s import %s'''%(".".join(dir_list[0:len(dir_list)-1]), dir_list[len(dir_list)-1]))
         except ImportError:
+            log("Error: ImportError with: "+str(image_type),1)
             return
         try:
             exec('''image = %s.parse_image(image_data, pos, size, angle)'''%(dir_list[len(dir_list)-1]))
@@ -95,7 +96,7 @@ def load_image_from_json(image_data, level, image_type=None):
         load_physic_objects(physic_objects,image)
     
     event_path = get_element(image_data, "event")
-    if event_path:
+    if image and event_path:
         image.event = load_event(event_path)
     if not layer or layer < 0:
         layer = 1

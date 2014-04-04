@@ -6,6 +6,8 @@ import math
 from engine.const import CONST, log
 from event.physics_event import clear_physics_event, PhysicsEvent,\
     add_physics_event
+
+import Box2D as b2_module
 from Box2D import *
 from engine.rect import Rect
 from engine.image_manager import draw_rect
@@ -127,7 +129,11 @@ def move(body,vx=None,vy=None,linear=False):
             if(vy != None):
                 vely = vy * CONST.move_speed - vely
                 fy = dyn_obj.mass * vely / timeStep
-            dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
+            if b2_module.__version__[0:3] == '2.3':
+                dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
+            elif b2_module.__version__[0:3] == '2.1':
+                dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter)
+
         else:
             dyn_obj = body
             pos = dyn_obj.position

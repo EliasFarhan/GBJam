@@ -80,7 +80,7 @@ def load_image_with_size(name, size, permanent=False):
 
 
 def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_func=None, factor=1, center_image=False):
-    if image == None:
+    if not image:
         return
     try:
         if CONST.render == 'sfml':

@@ -25,6 +25,7 @@ class CONST:
     debug = True
     gravity = 20
     move_speed = 2
+    layers = 5
     jump = 10  #8.5
     jump_step = 5
     framerate = 60
