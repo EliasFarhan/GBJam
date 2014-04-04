@@ -53,7 +53,7 @@ class CONST:
                     try:
                         log(str(const))
                         data = const[1]
-                        if type(data) == CONST.string_type:
+                        if isinstance(data, CONST.string_type):
                             data = "'" + data + "'"
                         exec ("CONST.%s = %s" % (const[0], str(data)))
                     except Exception as e:

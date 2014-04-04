@@ -87,7 +87,7 @@ class Animation():
         anim = None
         
         '''Check type entry is a string with '.' or alpha'''
-        if anim_type and type(anim_type) == str:
+        if anim_type and type(anim_type) == CONST.string_type:
             for c in anim_type:
                 if c != '.' and not c.isalpha():
                     return None
