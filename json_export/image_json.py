@@ -87,7 +87,9 @@ def load_image_from_json(image_data, level, image_type=None):
             log("Error: ImportError with: "+str(image_type),1)
             return
         try:
-            exec('''image = %s.parse_image(image_data, pos, size, angle)'''%(dir_list[len(dir_list)-1]))
+            d = locals()
+            exec('''image = %s.parse_image(image_data, pos, size, angle)'''%(dir_list[len(dir_list)-1]),globals(),d)
+            image = d['image']
         except Exception as e:
             log('Error with loading image_type: %s'%(image_type)+str(e),1)
             return

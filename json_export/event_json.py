@@ -48,7 +48,9 @@ def parse_event_type_json(event_dict,parent_event=None,object=None):
     if event_type and event_type.isalpha():
         try:
             exec("""from event.event_engine import *""")
-            exec("""event = %s.parse_event(event_dict)"""%(event_type))
+            d = locals()
+            exec("""event = %s.parse_event(event_dict)"""%(event_type),globals(),d)
+            event = d['event']
         except Exception as e:
             log("Error with event type: "+event_type+" \nException: "+e,1)
             return None
