@@ -87,7 +87,7 @@ class Animation():
         anim = None
         
         '''Check type entry is a string with '.' or alpha'''
-        if anim_type and type(anim_type) == CONST.string_type:
+        if anim_type and isinstance(anim_type,CONST.string_type):
             for c in anim_type:
                 if c != '.' and not c.isalpha():
                     return None
@@ -111,9 +111,9 @@ class Animation():
             anim.path = path
         else:
             return None
-        if path_list and type(path_list) == list:
+        if path_list and isinstance(path_list,list):
             anim.path_list = path_list
-        if state_range and type(state_range) == dict:
+        if state_range and isinstance(state_range,dict):
             anim.state_range = state_range
         anim.anim_freq = anim_freq
         return anim

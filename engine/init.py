@@ -23,7 +23,7 @@ def init_actions():
 
     if isinstance(CONST.actions, CONST.string_type):
         actions = load_json(CONST.actions)
-    elif type(CONST.actions) == dict:
+    elif isinstance(CONST.actions, dict):
         actions = CONST.actions
     else:
         log("Error: could not load actions, Undefined type: "+str(type(CONST.actions)),1)

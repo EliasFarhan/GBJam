@@ -75,7 +75,7 @@ def load_image_from_json(image_data, level, image_type=None):
         image = Text(pos, size, font, text, angle,color)
         image.id = object_id
     else:
-        if type(image_type) != CONST.string_type:
+        if not isinstance(image_type,CONST.string_type):
             return
         for c in image_type:
             if c != '.' and c.isalpha():

@@ -16,10 +16,10 @@ ratio = 100/1.5
 
 
 def pixel2meter(pixels):
-    if pixels.__class__ == Vector2 or isinstance(pixels, Number):
+    if isinstance(pixels,Vector2) or isinstance(pixels, Number):
         return pixels/ratio
-    elif type(pixels) == tuple or type(pixels) == list:
-        return (pixels[0]/ratio,pixels[1]/ratio)
+    elif isinstance(pixels, tuple) or isinstance(pixels,list):
+        return pixels[0]/ratio, pixels[1]/ratio
     else:
         raise TypeError("pixel2meter takes Vector2, numbers or tuple2")
 
@@ -27,10 +27,10 @@ def pixel2meter(pixels):
 
 
 def meter2pixel(meter):
-    if meter.__class__ == Vector2 or isinstance(meter, Number):
+    if isinstance(meter, Vector2) or isinstance(meter, Number):
         return meter*ratio
-    elif type(meter) == tuple or type(meter) == list:
-        return (meter[0]*ratio,meter[1]*ratio)
+    elif isinstance(meter, tuple) or isinstance(meter, list):
+        return meter[0]*ratio,meter[1]*ratio
     else:
         raise TypeError("pixel2meter takes Vector2, numbers or tuple2")
     return None

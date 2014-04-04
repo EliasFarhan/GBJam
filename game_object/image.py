@@ -118,7 +118,7 @@ class AnimImage(Image):
         type:
         [x,y] pos
         [[x,y],[x',y'] pos, screen_relative_pos'''
-        if type(pos[0]) == list:
+        if isinstance(pos[0], list):
             image.pos = Vector2(pos[0])
             image.screen_relative_pos = Vector2(pos[1])
         else:

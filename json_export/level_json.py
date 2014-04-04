@@ -33,11 +33,12 @@ def load_level(level):
             player = None
             if isinstance(player_data, CONST.string_type):
                 log("Loading player "+player_data)
-                player_json = load_json(CONST.path_prefix+player_data)
+                player_json = load_json(CONST.path_prefix + player_data)
                 player = load_image_from_json(player_json, level, "AnimImage")
-            elif type(player_data) == dict:
+            elif isinstance(player_data,dict):
                 player = load_image_from_json(player_data, level, "AnimImage")
-            
+            else:
+                log("Warning, you did not provide a player",1)
             if player:
                 level.player = player
         bg_color = get_element(level_data,'bg_color')
@@ -63,10 +64,10 @@ def load_level(level):
         reset_object_id()
         if objects_dict is not None:
             for object_data in objects_dict:
-                if type(object_data) == CONST.string_type:
+                if isinstance(object_data, CONST.string_type):
                     load_image_from_json(load_json(object_data), level, None)
                 
-                elif type(object_data) == dict:
+                elif isinstance(object_data,dict):
                     image_type = get_element(object_data,"type")
                     load_image_from_json(object_data,level,image_type)
         return True
