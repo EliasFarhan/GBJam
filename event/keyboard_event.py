@@ -22,6 +22,8 @@ class KEY():
         K_ENTER = sfml.Keyboard.RETURN
         K_A = sfml.Keyboard.A
         K_Z = sfml.Keyboard.Z
+    elif CONST.render == 'pookoo':
+        pass
 
 '''button_map = {'action' : 'key_list'}'''
 button_map = {}
@@ -34,6 +36,9 @@ button_key = {}
 
 
 def add_one_key(key_value):
+    if CONST.render == 'pookoo':
+        log("Error: KEYS not yet implemented",1)
+        return
     button_value[key_value] = 0
     try:
         if ord('a') <= ord(key_value) <= ord('z'):
@@ -56,7 +61,6 @@ def add_one_key(key_value):
             button_key[KEY.K_LCTRL] = key_value
         if key_value == 'ENTER':
             button_key[KEY.K_ENTER] = key_value
-
 
 def add_key_button(action,key_list):
     global button_map,button_value,button_key

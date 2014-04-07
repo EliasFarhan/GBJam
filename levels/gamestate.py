@@ -38,7 +38,6 @@ class GameState(Scene, Editor, GUI):
             log("Loading level " + self.filename)
             if not load_level(self):
                 from engine.level_manager import switch_level
-
                 switch_level(Scene())
         self.lock = False
         self.click = False

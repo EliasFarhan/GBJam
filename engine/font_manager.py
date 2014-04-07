@@ -10,7 +10,8 @@ from engine.const import CONST, log
 
 if CONST.render == 'sfml':
     import sfml
-    
+elif CONST.render == 'pookoo':
+    pass
 fonts = {}
 
 def pixel2point(pixel):

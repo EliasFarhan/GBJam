@@ -35,6 +35,7 @@ def init_actions():
 
 def init_screen():
     screen_size = CONST.screen_size
+    log("Init screen with screen_size:" + str(screen_size))
     if CONST.render == 'sfml':
         desktop = sfml.VideoMode.get_desktop_mode()
         style = sfml.Style.DEFAULT
@@ -42,6 +43,8 @@ def init_screen():
             style = sfml.Style.FULLSCREEN
         window = sfml.RenderWindow(desktop, 'Kudu Window', style)
         return window
+    elif CONST.render == 'pookoo':
+        pass
 
 
 def init_joystick():

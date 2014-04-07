@@ -12,7 +12,7 @@ def switch_level(level_obj):
 
     level = level_obj
     if level != 0:
-        CONST.parse_const("data/json/init.json")
+        CONST.parse_const(CONST.path_prefix+"data/json/init.json")
         level.init()
 
 

@@ -6,7 +6,8 @@ from engine.const import log, CONST
 
 if CONST.render == 'sfml':
     import sfml
-
+elif CONST.render == 'pookoo':
+    import pookoo.audio
 sounds = {}
 permanent_sound = []
 playlist = []
@@ -24,7 +25,8 @@ def set_playlist(music_list):
     if CONST.render == 'sfml':
         music = sfml.Music.from_file(playlist[0])
         music.play()
-
+    elif CONST.render == 'pookoo':
+        pass
 
 def add_music_to_playlist(self, name):
     """

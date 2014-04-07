@@ -13,9 +13,18 @@ def log(text, error=0):
 	Log a message into the stdout or the stdin
 	"""
     if error == 0:
-        sys.stdout.write(str(text) + "\n")
+        if CONST.render != "pookoo":
+            sys.stdout.write(str(text) + "\n")
+        else:
+            import pookoo.log as pookoo_log
+            pookoo_log.info(str(text) + "\n")
+
     else:
-        sys.stderr.write(str(text) + "\n")
+        if CONST.render != "pookoo":
+            sys.stderr.write(str(text) + "\n")
+        else:
+            import pookoo.log as pookoo_log
+            pookoo_log.error(str(text) + "\n")
 
 
 #constant for physics and gameplay
@@ -56,7 +65,7 @@ class CONST:
                         data = const[1]
                         if isinstance(data, CONST.string_type):
                             data = "'" + data + "'"
-                        exec ("CONST.%s = %s" % (const[0], str(data)))
+                        exec("CONST.%s = %s" % (const[0], str(data)))
                     except Exception as e:
                         log("Error while setting value %s: " % (const[0]) + str(e), 1)
                         continue
@@ -64,6 +73,9 @@ class CONST:
 
 try:
     import pookoo
+    log("Using POOKOO")
+    CONST.path_prefix = "../"
+    CONST.render = "pookoo"
 except ImportError as e:
     log("Using pySFML, because Pookoo was not found")
     try:
@@ -73,13 +85,14 @@ except ImportError as e:
     except ImportError as e:
         log("Error: could not load SFML: " + str(e), 1)
         exit()
-try:
-    import Box2D
-except ImportError:
-    log('Box2D should be installed', 1)
-    exit()
 
-CONST.parse_const('data/json/init.json')
+    try:
+        import Box2D
+    except ImportError:
+        log('Box2D should be installed', 1)
+        exit()
+
+CONST.parse_const(CONST.path_prefix+'data/json/init.json')
 
 
 

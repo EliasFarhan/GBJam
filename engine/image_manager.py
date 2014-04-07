@@ -8,6 +8,8 @@ from engine.vector import Vector2
 
 if CONST.render == 'sfml':
     import sfml
+elif CONST.render == 'pookoo':
+    pass
 
 from math import radians, cos, sin
 

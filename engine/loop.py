@@ -2,7 +2,7 @@
 Main loop of the engine
 """
 
-from engine.const import CONST
+from engine.const import CONST,log
 import sys
 from engine.physics import deinit_physics
 
@@ -47,6 +47,7 @@ def loop():
             finish = get_button('quit')
         f = level_manager.update_level()
         if f == 0:
+            log("No scene loaded",1)
             break
         else:
             f(screen)
@@ -64,6 +65,6 @@ def loop():
 
 def start():
     global screen
-
+    log("START")
     screen = init_all()
     loop()

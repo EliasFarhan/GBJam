@@ -24,7 +24,7 @@ def load_level(level):
     -IA (if any)
     -Player position, size, etc... but not recreate the player!!!
     """
-    level_data = load_json(level.filename)
+    level_data = load_json(CONST.path_prefix+level.filename)
     if level_data:
         player_data = get_element(level_data, 'player')
         if player_data:
