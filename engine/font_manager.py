@@ -20,6 +20,9 @@ def pixel2point(pixel):
 def load_font(name,size):
     '''Use pixel size'''
     global fonts
+    if CONST.render == 'pookoo':
+        log("Font not yet implemented",1)
+        return
     try:
         fonts[name]
     except KeyError:

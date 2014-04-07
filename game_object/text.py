@@ -43,7 +43,8 @@ class Text(GameObject):
                 self.size = Vector2((self.text_surface.global_bounds.width,self.text_surface.global_bounds.height))
             if self.size:
                 self.update_rect()
-        self.text_surface.position = self.pos.get_tuple()
+        if self.text_surface:
+            self.text_surface.position = self.pos.get_tuple()
 
     def loop(self,screen,screen_pos):
         if self.text_surface:

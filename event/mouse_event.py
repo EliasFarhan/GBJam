@@ -20,7 +20,8 @@ def get_mouse():
         return Vector2(sfml.Mouse.get_position()), [sfml.Mouse.is_button_pressed(sfml.Mouse.LEFT),
                                            sfml.Mouse.is_button_pressed(sfml.Mouse.RIGHT),
                                            sfml.Mouse.is_button_pressed(sfml.Mouse.MIDDLE)]
-
+    elif CONST.render == 'pookoo':
+        return None, None
 
 def show_mouse(show=True):
     """Show/hide mouse"""

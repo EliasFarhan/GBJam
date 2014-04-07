@@ -10,9 +10,7 @@ Created on Feb 1, 2014
 from engine.const import  log, CONST
 from engine.vector import Vector2
 
-if CONST.render == 'pygame':
-    import pygame
-elif CONST.render == 'sfml':
+if CONST.render == 'sfml':
     import sfml
 
 
