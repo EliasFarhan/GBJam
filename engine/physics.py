@@ -7,8 +7,9 @@ from engine.const import CONST, log
 from event.physics_event import clear_physics_event, PhysicsEvent,\
     add_physics_event
 
-import Box2D as b2_module
-from Box2D import *
+if CONST.render != 'pookoo':
+    import Box2D as b2_module
+    from Box2D import *
 from engine.rect import Rect
 from engine.image_manager import draw_rect
 from numbers import Number
@@ -77,17 +78,19 @@ def init_physics(gravity_arg=None):
         gravity_value = CONST.gravity 
     else:
         gravity_value = gravity_arg
-
-    world = b2World(gravity=(0,gravity_value))
-    world.contactListener = KuduContactListener()
+    if CONST.render != 'pookoo':
+        world = b2World(gravity=(0,gravity_value))
+        world.contactListener = KuduContactListener()
 
 
 def add_dynamic_object(obj,pos):
     global world
     position = pixel2meter(pos)
-    dynamic_object = world.CreateDynamicBody(position=position.get_tuple())
-    dynamic_object.angle = 0
-    dynamic_object.fixed_rotation = True
+    dynamic_object = None
+    if CONST.render != 'pookoo':
+        dynamic_object = world.CreateDynamicBody(position=position.get_tuple())
+        dynamic_object.angle = 0
+        dynamic_object.fixed_rotation = True
     
     return dynamic_object
 
@@ -95,9 +98,11 @@ def add_dynamic_object(obj,pos):
 def add_static_object(obj,pos):
     global world
     position = pixel2meter(pos)
-    static_object = world.CreateStaticBody(position=position.get_tuple())
-    static_object.angle = 0
-    static_object.fixed_rotation = True
+    static_object = None
+    if CONST.render != 'pookoo':
+        static_object = world.CreateStaticBody(position=position.get_tuple())
+        static_object.angle = 0
+        static_object.fixed_rotation = True
     
     return static_object
 
@@ -181,16 +186,16 @@ def add_static_circle(body,pos,radius,sensor=False,user_data=0):
 
     return body.CreateFixture(fixture_def)
 
-
-class KuduContactListener(b2ContactListener):
-    def BeginContact(self, contact):
-        a = contact.fixtureA
-        b = contact.fixtureB
-        add_physics_event(PhysicsEvent(a,b,True))
-    def EndContact(self, contact):
-        a = contact.fixtureA
-        b = contact.fixtureB
-        add_physics_event(PhysicsEvent(a,b,False))
+if CONST.render != 'pookoo':
+    class KuduContactListener(b2ContactListener):
+        def BeginContact(self, contact):
+            a = contact.fixtureA
+            b = contact.fixtureB
+            add_physics_event(PhysicsEvent(a,b,True))
+        def EndContact(self, contact):
+            a = contact.fixtureA
+            b = contact.fixtureB
+            add_physics_event(PhysicsEvent(a,b,False))
 
 
 def cast_ray(callback,point1,point2):
@@ -199,30 +204,30 @@ def cast_ray(callback,point1,point2):
         p2 = b2Vec2(pixel2meter(point2).get_tuple())
         world.RayCast(callback,p1,p2)
 
+if CONST.render != 'pookoo':
+    class RayCastClosestCallback(b2RayCastCallback):
+        """This callback finds the closest hit"""
+        def __repr__(self): return 'Closest hit'
+        def __init__(self, **kwargs):
+            b2RayCastCallback.__init__(self, **kwargs)
+            self.fixture=None
+            self.hit=False
+            self.fraction = 1.0
 
-class RayCastClosestCallback(b2RayCastCallback):
-    """This callback finds the closest hit"""
-    def __repr__(self): return 'Closest hit'
-    def __init__(self, **kwargs):
-        b2RayCastCallback.__init__(self, **kwargs)
-        self.fixture=None
-        self.hit=False
-        self.fraction = 1.0
-
-    # Called for each fixture found in the query. You control how the ray proceeds
-    # by returning a float that indicates the fractional length of the ray. By returning
-    # 0, you set the ray length to zero. By returning the current fraction, you proceed
-    # to find the closest point. By returning 1, you continue with the original ray
-    # clipping. By returning -1, you will filter out the current fixture (the ray
-    # will not hit it).
-    
-    def ReportFixture(self, fixture, point, normal, fraction):
-        self.hit=True
-        self.fixture=fixture
-        self.point=b2Vec2(point)
-        self.normal=b2Vec2(normal)
-        self.fraction = fraction
-        return self.fraction
+        # Called for each fixture found in the query. You control how the ray proceeds
+        # by returning a float that indicates the fractional length of the ray. By returning
+        # 0, you set the ray length to zero. By returning the current fraction, you proceed
+        # to find the closest point. By returning 1, you continue with the original ray
+        # clipping. By returning -1, you will filter out the current fixture (the ray
+        # will not hit it).
+        
+        def ReportFixture(self, fixture, point, normal, fraction):
+            self.hit=True
+            self.fixture=fixture
+            self.point=b2Vec2(point)
+            self.normal=b2Vec2(normal)
+            self.fraction = fraction
+            return self.fraction
 
 
 def show_fixtures(screen,screen_pos,body):
