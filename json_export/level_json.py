@@ -9,10 +9,8 @@ from engine.const import log,CONST
 from game_object.image import Image, AnimImage
 from json_export.json_main import load_json, get_element, write_json
 from json_export.event_json import load_event
-from game_object.text import Text
-from game_object.game_object_main import GameObject
-from engine.physics import add_dynamic_object, add_static_box, add_static_object
 from json_export.image_json import load_image_from_json, reset_object_id
+from levels.gui import GUI
 
 
 def load_level(level):
@@ -25,9 +23,9 @@ def load_level(level):
     -Player position, size, etc... but not recreate the player!!!
     """
     level_data = load_json(CONST.path_prefix+level.filename)
-    if level_data:
+    if level_data is not None:
         player_data = get_element(level_data, 'player')
-        if player_data:
+        if player_data is not None:
             '''load the json containing the player
             and treat it as an AnimImage'''
             player = None
@@ -39,9 +37,19 @@ def load_level(level):
             elif isinstance(player_data,dict):
                 player = load_image_from_json(player_data, level, "AnimImage")
             else:
-                log("Warning, you did not provide a player",1)
+                log("Warning: Invalid format for player JSON",1)
             if player:
                 level.player = player
+        gui_data = get_element(level_data, 'gui')
+        if gui_data is not None:
+            '''load the json containing the gui
+            parameters'''
+            if isinstance(gui_data, CONST.string_type):
+                GUI.load_gui_json(load_json(gui_data),level)
+            elif isinstance(gui_data,dict):
+                GUI.load_gui_json(gui_data,level)
+            else:
+                log("Warning: invalid format for GUI JSON",1)
         bg_color = get_element(level_data,'bg_color')
         if bg_color is not None:
             level.bg_color = bg_color
