@@ -51,7 +51,7 @@ class GameObject:
             if self.screen_relative_pos:
                 center_pos = center_pos - self.screen_relative_pos*get_screen_size()
 
-            self.not_rot_pos = center_pos - self.size/2
+            self.not_rot_pos = center_pos
 
         v = self.size/2
         v.rotate(-self.angle)
@@ -60,10 +60,10 @@ class GameObject:
         else:
             pos = self.not_rot_pos + (self.size/2-v)
 
-        v = Vector2(self.size.x,0)
-        v.rotate(self.angle)
-        v = Vector2(self.size.x,self.size.y+math.fabs(v.y))
-        self.click_rect = Rect(pos,v)
+        size_y = Vector2(self.size.x, 0)
+        size_y.rotate(self.angle)
+        v = Vector2(self.size.x, self.size.y + math.fabs(size_y.y))
+        self.click_rect = Rect(self.not_rot_pos-v/2, v)
 
     def move(self, delta):
         self.pos = self.pos+delta
