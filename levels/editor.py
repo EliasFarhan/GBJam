@@ -117,7 +117,8 @@ class Editor():
             self.mouse_clicked = (0, self.mouse_clicked[1], self.mouse_clicked[2])
 
         if self.current_selected:
-            self.gui_current_selected.change_text(str(self.current_selected.__class__)+" "+str(self.current_selected.id))
+            self.gui_current_selected.change_text(str(self.current_selected.__class__)+" "+str(self.current_selected.id)
+                                                  +" "+str(self.current_selected.angle))
             self.gui_current_selected.loop(screen, screen_pos)
 
         '''Size scale'''
@@ -129,4 +130,4 @@ class Editor():
         '''Angle'''
         angle = get_button("angle_up")-get_button("angle_down")
         if self.current_selected:
-            self.current_selected.rotate(angle)
+            self.current_selected.set_angle(self.current_selected.angle+angle)

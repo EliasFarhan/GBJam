@@ -43,7 +43,7 @@ class GameObject:
             pos = self.pos
         if self.screen_relative_pos:
             pos = pos+self.screen_relative_pos*get_screen_size()
-        self.rect = Rect(pos, self.size,self.angle)
+        self.rect = Rect(pos, self.size, self.angle)
 
         center_pos = Vector2()
         if self.body:
@@ -51,14 +51,14 @@ class GameObject:
             if self.screen_relative_pos:
                 center_pos = center_pos - self.screen_relative_pos*get_screen_size()
 
-        not_rot_pos = center_pos - self.size/2
+            self.not_rot_pos = center_pos - self.size/2
 
         v = self.size/2
         v.rotate(-self.angle)
         if self.angle > 0:
-            pos = not_rot_pos + (v-self.size/2)
+            pos = self.not_rot_pos + (v-self.size/2)
         else:
-            pos = not_rot_pos + (self.size/2-v)
+            pos = self.not_rot_pos + (self.size/2-v)
 
         v = Vector2(self.size.x,0)
         v.rotate(self.angle)
@@ -71,34 +71,33 @@ class GameObject:
             body_pos = get_body_position(self.body)
             set_body_position(self.body,body_pos+delta)
         self.update_rect()
-        
-    def rotate(self, right):
-        self.angle = (self.angle + right)%360
-        if self.angle > 180:
-            self.angle = self.angle - 360
-        self.update_rect()
 
     def set_pos(self,init_pos,delta_pos):
         delta_move = delta_pos-(self.pos-init_pos)
         self.move(delta_move)
 
-    def set_angle(self, angle):
+    def set_angle(self, angle, center=True):
         pos = Vector2()
-        if self.body:
-            pos = get_body_position(self.body)
-            if self.screen_relative_pos:
-                pos = pos - self.screen_relative_pos*get_screen_size()
 
-        v = self.size/2
-        v.rotate(-self.angle)
-        self.not_rot_pos = pos - self.size/2
-        self.angle = angle
+        self.angle = angle % 360
+        if self.angle > 180:
+            self.angle -= 360
 
         if self.body:
             self.body.angle = self.angle*math.pi/180
-        v = self.size/2
-        v.rotate(self.angle)
-        self.pos = self.not_rot_pos + self.size/2 + (v-self.size/2)
+        if center:
+            if self.body:
+                pos = get_body_position(self.body)
+                if self.screen_relative_pos:
+                    pos = pos - self.screen_relative_pos*get_screen_size()
+                self.not_rot_pos = pos - self.size/2
+                v = self.size/2
+                v.rotate(self.angle)
+                self.pos = self.not_rot_pos - v + self.size/2
+        else:
+            '''TODO: Readjust body pos'''
+            pass
+
         self.update_rect()
         
     def check_click(self,mouse_pos,screen_pos):
@@ -111,6 +110,7 @@ class GameObject:
             return self.click_rect.collide_point(point_pos)
         else:
             return False
+
     def execute_event(self):
         if self.event:
             self.event.execute()
