@@ -1,3 +1,4 @@
+from engine.const import log, CONST
 from engine.level_manager import get_level
 from event.event_engine import Event
 from json_export.event_json import load_event, parse_event_json
@@ -8,13 +9,14 @@ __author__ = 'efarhan'
 
 class DialogEvent(Event):
     def __init__(self, gamestate, text, text2=""):
+
         Event.__init__(self)
         self.text = text
         self.text2 = text2
         self.answers = {}
         self.gamestate = gamestate
 
-    def set_answers(self,answers):
+    def set_answers(self, answers):
         self.answers = answers
 
     def execute(self):
@@ -36,21 +38,25 @@ class DialogEvent(Event):
         else:
             Event.execute(self)
 
+
     @staticmethod
     def parse_event(event_dict):
         """Dynamic parsing of DialogEvent"""
-        text = get_element(event_dict,"text")
+        text = get_element(event_dict, "text")
         if text is None:
             return None
-        text2 = get_element(event_dict,"text2")
+        text2 = get_element(event_dict, "text2")
         if text2 is None:
             text2 = ''
 
-        dialog_event = DialogEvent(get_level(),text,text2)
+        dialog_event = DialogEvent(get_level(), text, text2)
         answers = get_element(event_dict, "answers")
         if answers is not None:
             for answer_key in answers:
-                answers[answer_key] = parse_event_json(answers[answer_key]) #TODO: add parent event?
-            dialog_event.set_answers(answers)
+                if isinstance(answers[answer_key],dict):
+                    answers[answer_key] = parse_event_json(answers[answer_key], dialog_event)
+                elif isinstance(answers[answer_key], CONST.string_type):
+                    answers[answer_key] = load_event(answers[answer_key], dialog_event)
 
-        return Event.parse_event(event_dict)
+            dialog_event.set_answers(answers)
+        return dialog_event

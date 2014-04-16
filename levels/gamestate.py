@@ -45,12 +45,11 @@ class GameState(Scene, Editor, GUI):
         self.execute_event('on_init')
 
     def execute_event(self, name):
+        log(str(self.event[name]))
         try:
             self.event[name].execute()
-        except KeyError:
-            pass
-        except AttributeError:
-            pass
+        except KeyError as e:
+            log("Error: No such event: %s"%(name)+str(e), 1)
 
     def reload(self, newfilename):
         self.filename = newfilename

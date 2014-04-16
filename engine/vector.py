@@ -21,6 +21,8 @@ class Matrix22():
 
 class Vector2():
     def __init__(self,*args):
+        if args is None:
+            log("Error: giving None as Vector2 arg",1)
         try:
             self.x = 0.0
             self.y = 0.0
@@ -29,14 +31,13 @@ class Vector2():
                 self.x = args[0]
                 self.y = args[1]
             elif len(args) == 1:
-                self.x = args[0][0]
-                self.y = args[0][1]
-
+                if not isinstance(args[0], Vector2):
+                    self.x = args[0][0]
+                    self.y = args[0][1]
+                else:
+                    self.x = args[0].x
+                    self.y = args[0].y
             self.length = math.sqrt(self.x**2+self.y**2)
-        except TypeError as e:
-            log("Error: Vector2 invalid arg type with: "+str(args)+ "|"+str(e), 1)
-            ex_type, ex, tb = sys.exc_info()
-            traceback.print_tb(tb)
         except IndexError as e:
             log("Error: Vector2 with argument: "+str(args)+ "|"+str(e), 1)
             ex_type, ex, tb = sys.exc_info()

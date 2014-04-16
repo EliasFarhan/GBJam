@@ -93,7 +93,7 @@ class Editor():
                 self.current_selected = None
                 for layer in self.objects:
                     for image in layer:
-                        if image.check_click(mouse_pos, self.screen_pos):
+                        if not image.screen_relative and image.check_click(mouse_pos, self.screen_pos):
                             log("Current_object is: " + str(image))
                             self.current_selected = image
                             self.obj_init_pos = self.current_selected.pos

@@ -6,7 +6,8 @@ Created on Feb 19, 2014
 @author: efarhan
 '''
 from engine.const import CONST, log
-
+from numbers import Number
+from engine.vector import Vector2
 
 if CONST.render == 'sfml':
     import sfml
@@ -38,8 +39,11 @@ def load_text(font,text,color=(0,0,0),size=0):
         if font and size:
             text = sfml.Text(text)
             text.font = font
-            text.character_size = pixel2point(size)
-            text.color = sfml.Color(color[0],color[1],color[2])
+            if isinstance(size,Number):
+                text.character_size = pixel2point(size)
+            elif isinstance(size,Vector2):
+                text.character_size = pixel2point(size.y)
+            text.color = sfml.Color(color[0], color[1], color[2])
             return text
         
     return None

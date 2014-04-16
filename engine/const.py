@@ -15,6 +15,7 @@ def log(text, error=0):
     if error == 0:
         if CONST.render != "pookoo":
             sys.stdout.write(str(text) + "\n")
+            sys.stdout.flush()
         else:
             from pookoo import log as pookoo_log
             pookoo_log.info(str(text) + "\n")
@@ -22,6 +23,7 @@ def log(text, error=0):
     else:
         if CONST.render != "pookoo":
             sys.stderr.write(str(text) + "\n")
+            sys.stderr.flush()
         else:
             from pookoo import log as pookoo_log
             pookoo_log.error(str(text) + "\n")

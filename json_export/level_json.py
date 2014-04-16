@@ -1,8 +1,8 @@
-'''
+"""
 Created on 11 janv. 2014
 
 @author: efarhan
-'''
+"""
 import json
 
 from engine.const import log,CONST

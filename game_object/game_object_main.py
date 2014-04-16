@@ -104,10 +104,10 @@ class GameObject:
         if CONST.debug:
             log("Check Click:{0} {1}".format(str(screen_pos.get_tuple()), str(mouse_pos.get_tuple())))
         point_pos = screen_pos + mouse_pos
-        if self.click_rect:
+        if self.click_rect and not self.screen_relative:
             return self.click_rect.collide_point(point_pos)
         elif self.rect:
-            return self.click_rect.collide_point(point_pos)
+            return self.rect.collide_point(point_pos)
         else:
             return False
 
@@ -129,11 +129,12 @@ class GameObject:
             pos = pos-screen_pos
         if CONST.debug:
             self.update_rect()
-            draw_rect(screen, screen_pos, self.rect, (0,0,255,200), self.angle)
-            if self.click_rect:
-                draw_rect(screen,screen_pos,self.click_rect,(0,255,0,100))
-            if self.body:
-                show_fixtures(screen, screen_pos, self.body)
+            if not self.screen_relative:
+                draw_rect(screen, screen_pos, self.rect, (0,0,255,200), self.angle)
+                if self.click_rect:
+                    draw_rect(screen,screen_pos,self.click_rect,(0,255,0,100))
+                if self.body:
+                    show_fixtures(screen, screen_pos, self.body)
 
     def set_position(self,pos):
         if self.screen_relative_pos:

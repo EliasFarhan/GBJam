@@ -16,15 +16,18 @@ from engine.vector import Vector2
 
 
 class Image(GameObject):
-    def __init__(self, path, pos, screen_relative_pos=None, size=None, angle=0):
+    def __init__(self, path, pos, screen_relative_pos=None, size=None, angle=0,relative=False):
         GameObject.__init__(self)
         self.img = 0
         self.angle = angle
         self.pos = Vector2(pos)
         self.path = path
         self.size = size
-        self.screen_relative_pos = Vector2(screen_relative_pos)
-        
+        if screen_relative_pos:
+            self.screen_relative_pos = Vector2(screen_relative_pos)
+        else:
+            self.screen_relative_pos = Vector2()
+        self.screen_relative = relative
         
         self.center_image = False
         self.init_image()
@@ -36,7 +39,7 @@ class Image(GameObject):
             self.size = get_size(self.img)
         else:
             self.img = load_image_with_size(self.path, self.size)
-        self.size = Vector2().tuple2(self.size)
+        self.size = Vector2(self.size)
         self.rect = Rect(self.pos, self.size)
 
     def loop(self, screen, screen_pos):

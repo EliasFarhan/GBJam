@@ -3,6 +3,7 @@ Created on Feb 26, 2014
 
 @author: efarhan
 '''
+from engine.const import log
 
 from engine.init import get_screen_size
 from engine.vector import Vector2
@@ -14,6 +15,7 @@ from event.mouse_event import show_mouse, get_mouse
 class GUI():
     def __init__(self):
         self.dialog = False
+
         self.answers_text = []
         self.answers_image = []
         self.dialog_event = None
@@ -25,25 +27,44 @@ class GUI():
         self.dialog_font = "data/font/pixel_arial.ttf"
         self.dialog_y_size = 1.0 / 3.0
         self.answer_size = Vector2(1.0 / 4.0, 1.0 / 6.0)
-        self.dialog_margin = 0.0
+        self.dialog_margin = 0.05
         self.answer_margin = 0.0
+        self.init_dialog_text()
+
+    def init_dialog_text(self):
+        self.dialog_text = Text(pos=get_screen_size()*Vector2(self.dialog_margin,1-self.dialog_y_size+self.dialog_margin),
+                                size=get_screen_size()*Vector2(1-2*self.dialog_margin,self.dialog_y_size/2-1.5*self.dialog_margin).y,
+                                font=self.dialog_font,
+                                text="",
+                                relative=True)
+        self.dialog_text2 = Text(pos=get_screen_size()*Vector2(self.dialog_margin,1-self.dialog_y_size/2+self.dialog_margin),
+                                 size=get_screen_size()*Vector2(1-2*self.dialog_margin,self.dialog_y_size/2-1.5*self.dialog_margin).y,
+                                 font=self.dialog_font,
+                                 text="",
+                                 relative=True)
+        self.dialog_box = Image(path=self.dialog_box_image,
+                                pos=(get_screen_size()*Vector2(0,1-self.dialog_y_size)).get_tuple(),
+                                size=(get_screen_size()*Vector2(1.0,self.dialog_y_size)).get_tuple(),
+                                relative=True)
 
     def set_dialog(self, text, text2=''):
         pass
 
     def set_answers(self, answers):
-
         del self.answers_text[:]
         del self.answers_image[:]
         i = 0
         answer_nmb = len(answers)
         for answer in answers:
-            pos = (int((1 - self.answer_size.x) * get_screen_size()[0]),
-                   int(((1 - self.dialog_y_size) - (answer_nmb - i) * self.answer_size.y) * get_screen_size()[1]))
-            size = (int(self.answer_size.x * get_screen_size()[0]), int(self.answer_size.y * get_screen_size()[1]))
-            self.answers_text.append(Text(pos, size, self.font, answer, relative=True))
+
+            pos = (get_screen_size()*Vector2((1 - self.answer_size.x), ((1 - self.dialog_y_size) - (answer_nmb - i) * self.answer_size.y)))
+            size = (get_screen_size()*Vector2(self.answer_size.x, self.answer_size.y))
+            log("YOYLOL")
+            self.answers_text.append(Text(pos=pos, size=size.y, font=self.dialog_font, text=answer, relative=True))
+            log("YOYLOL")
             if self.dialog_box_image:
-                self.answers_image.append(Image(self.dialog_box_image, pos, size=size))
+                log("YOYLOL")
+                self.answers_image.append(Image(self.dialog_box_image, pos, size=size,relative=True))
             i += 1
 
     def loop(self, screen):
@@ -82,7 +103,7 @@ class GUI():
             elif not pressed[0]:
                 self.click = False
         '''Dialog'''
-        if self.dialog and not self.editor:
+        if self.dialog and self.dialog_text and not self.editor:
             show_mouse()
             if self.dialog_text.time >= self.dialog_text.gradient:
                 for button in self.answers_image:
