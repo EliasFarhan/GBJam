@@ -64,7 +64,7 @@ def load_level(level):
         if network is not None:
             level.use_network = network
         
-        event_data = get_element(level_data, "event")
+        event_data = get_element(level_data, "events")
         if event_data:
             for e in event_data.keys():
                 level.event[e] = load_event(event_data[e])

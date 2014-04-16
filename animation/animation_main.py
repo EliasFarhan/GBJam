@@ -97,7 +97,7 @@ class Animation():
         else:
             log("Error: Invalid type of anim_type, given: "+type(anim_type),1)
             return None
-        if anim_type != '':
+        if anim_type is not '':
             dir_list = anim_type.split(".")
 
             module_name = ".".join(dir_list[0:len(dir_list)-1])

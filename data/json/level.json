@@ -1,13 +1,16 @@
 {
     "network": false, 
     "show_mouse": false, 
-    "gui": "data/json/level1/gui.json", 
+    "gui": "data/json/gui.json",
     "player": "data/json/player.json", 
     "bg_color": [
         255, 
         255, 
         255
-    ], 
+    ],
+    "events": {
+        "on_init": "data/json/event.json"
+    },
     "objects": [
         {
             "layer": 3, 

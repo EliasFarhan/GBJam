@@ -1,23 +1,10 @@
 {
-	"type": "DialogEvent",
+	"type": "event.gui_event.DialogEvent",
 	"text": "Hello World!",
 	 "answers": {
 	 	"Oui!": {
-	 		"type": "SoundEvent",
-			"path": "data/sound/pissed_off_duck.wav"
 	 	},
 	 	"Non!": {
-	 		"type": "None"
 	 	}
-	 },
-	 "next_event": {
-		"type": "MusicEvent",
-		"playlist": [
-			"data/music/Tenchi - Mushroom City.ogg",
-			"data/music/Tenchi - Shriving Sorrow.ogg"
-		]
-				
-	}
-	
-	
+	 }
 }
