@@ -101,7 +101,9 @@ class GameObject:
         
     def check_click(self, mouse_pos, screen_pos):
         if CONST.debug:
-            log("Check Click:{0} {1}".format(str(screen_pos.get_tuple()), str(mouse_pos.get_tuple())))
+            from game_object.text import Text
+            if isinstance(self, Text):
+                log("Check click for text: "+self.text)
         if not self.screen_relative:
             point_pos = screen_pos + mouse_pos
         else:

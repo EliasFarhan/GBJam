@@ -16,7 +16,7 @@ class SoundEvent(Event):
         Event.execute(self)
     @staticmethod
     def parse_event(event_dict):
-        path = get_element(event_dict,"path")
+        path = get_element(event_dict, "path")
         if path:
             return SoundEvent(path)
         else:

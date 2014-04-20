@@ -116,7 +116,7 @@ class Editor():
                 if not pressed[0]:
                     """Create a static physics body"""
                     self.new_obj.body = add_static_object(self.new_obj, self.new_obj.pos+self.new_obj.size/2)
-                    add_static_box(self.new_obj.body,Vector2(),self.new_obj.size/2,data=11)
+                    add_static_box(self.new_obj.body, Vector2(), self.new_obj.size/2, data=11)
                 self.new_obj.update_rect()
 
 

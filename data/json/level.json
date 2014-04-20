@@ -7,7 +7,7 @@
     ], 
     "gui": "data/json/gui.json", 
     "player": "data/json/player.json", 
-    "show_mouse": false, 
+    "show_mouse": true,
     "objects": [
         {
             "layer": 3, 
@@ -87,6 +87,6 @@
     ], 
     "physics": true, 
     "events": {
-        "on_init": "data/json/event1.json"
+        "on_init": "data/json/event.json"
     }
 }

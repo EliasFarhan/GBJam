@@ -3,6 +3,8 @@
 	"text": "Hello World!",
 	 "answers": {
 	 	"Oui!": {
+	 	    "type": "event.audio_event.SoundEvent",
+            "path": "data/sound/pissed_off_duck.wav"
 	 	},
 	 	"Non!": {
 	 	}
