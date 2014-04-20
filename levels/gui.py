@@ -59,11 +59,8 @@ class GUI():
 
             pos = (get_screen_size()*Vector2((1 - self.answer_size.x), ((1 - self.dialog_y_size) - (answer_nmb - i) * self.answer_size.y)))
             size = (get_screen_size()*Vector2(self.answer_size.x, self.answer_size.y))
-            log("YOYLOL")
             self.answers_text.append(Text(pos=pos, size=size.y, font=self.dialog_font, text=answer, relative=True))
-            log("YOYLOL")
             if self.dialog_box_image:
-                log("YOYLOL")
                 self.answers_image.append(Image(self.dialog_box_image, pos, size=size,relative=True))
             i += 1
 

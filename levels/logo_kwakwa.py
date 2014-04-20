@@ -17,6 +17,7 @@ class Kwakwa(Scene):
         self.loading_screen.init()
         self.text = Image('data/sprites/text/kwakwa.png',
                           get_screen_size()/2)
+        self.text.pos = self.text.pos-self.text.size/2
         self.count = 4 * CONST.framerate
         play_music("data/sound/pissed_off_duck.wav")
 
@@ -25,7 +26,6 @@ class Kwakwa(Scene):
         self.text.loop(screen, Vector2())
         if check_music_status():
             from engine.level_manager import switch_level
-
             switch_level(self.loading_screen)
 
 

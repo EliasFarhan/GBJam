@@ -13,7 +13,7 @@ from engine.const import log
 class PlayerAnimation(Animation):
     def __init__(self,player):
         Animation.__init__(self, player)
-        self.foot = False
+        self.foot = 0
         self.player = self.obj
         self.speed = 3
         self.direction = True #True for right
@@ -23,6 +23,7 @@ class PlayerAnimation(Animation):
     def update_animation(self, state="", invert=False):
         self.update_state()
         return Animation.update_animation(self, state=state, invert=invert)
+
     def update_state(self):
         RIGHT = get_button('player_right')
         LEFT = get_button('player_left')
@@ -35,8 +36,11 @@ class PlayerAnimation(Animation):
         physics_events = get_physics_event()
         
         for event in physics_events:
-            if event.a.userData == 2 or event.b.userData == 2:
-                self.foot = event.begin
+            if (event.a.userData == 2 and event.b.userData == 11 ) or ( event.b.userData == 2 and event.a.userData == 11):
+                if event.begin:
+                    self.foot += 1
+                else:
+                    self.foot -= 1
         
         if horizontal == -1:
             self.direction = False

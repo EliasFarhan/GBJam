@@ -21,7 +21,7 @@ class Text(GameObject):
         self.set_text(text)
         self.gradient = gradient
         self.time = 1
-        self.relative = relative
+        self.screen_relative = relative
 
     def set_text(self,text):
         self.text = text
@@ -55,7 +55,7 @@ class Text(GameObject):
                 self.time += 1
                 self.change_text(self.text[0:int(self.time/self.gradient*len(self.text))])
             pos = self.pos
-            if not self.relative:
+            if not self.screen_relative:
                 pos = pos-screen_pos
             if self.center and self.size:
                 pos = pos - Vector2(self.size.x/2.0, 0.0)

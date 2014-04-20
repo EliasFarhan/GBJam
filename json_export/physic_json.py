@@ -68,7 +68,7 @@ def load_physic_objects(physics_data,image):
                 if angle is None:
                     
                     angle = 0
-                image.fixtures.append(add_static_box(image.body, pos, size, angle, user_data, sensor))
+                image.fixtures.append(add_static_box(image.body, Vector2(pos), Vector2(size), angle, user_data, sensor))
             elif obj_type == "circle":
                 pos = get_element(physic_object,"pos")
                 if not pos:

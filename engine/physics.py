@@ -95,7 +95,7 @@ def add_dynamic_object(obj,pos):
     return dynamic_object
 
 
-def add_static_object(obj,pos):
+def add_static_object(obj, pos):
     global world
     position = pixel2meter(pos)
     static_object = None
@@ -151,7 +151,7 @@ def jump(dyn_obj):
     dyn_obj.ApplyForce(b2.Vec2(0,force),dyn_obj.worldCenter,True)
 
 
-def add_static_box(body,pos,size,angle=0,data=0,sensor=False):
+def add_static_box(body, pos, size, angle=0,data=0,sensor=False):
     if not (body and pos and size):
         log("Invalid arg body pos size in box creation",1)
         return None
@@ -159,10 +159,11 @@ def add_static_box(body,pos,size,angle=0,data=0,sensor=False):
     
     polygon_shape = b2PolygonShape()
     polygon_shape.SetAsBox(pixel2meter(size.x), pixel2meter(size.y),
-                                   b2Vec2(center_pos.get_tuple()),angle*math.pi/180.0)
+                           b2Vec2(center_pos.get_tuple()), angle*math.pi/180.0)
     fixture_def = b2FixtureDef()
     fixture_def.density = 1
     fixture_def.shape = polygon_shape
+
     fixture_def.userData = data
     fixture_def.isSensor = sensor
     return body.CreateFixture(fixture_def)

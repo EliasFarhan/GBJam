@@ -6,6 +6,7 @@ Created on Feb 1, 2014
 
 from engine.const import log, CONST
 from engine.init import get_screen_size
+from engine.physics import add_static_object, add_static_box
 from engine.vector import Vector2
 from event.event_main import add_button, get_button
 from event.mouse_event import get_mouse, show_mouse
@@ -104,6 +105,7 @@ class Editor():
                 if self.current_selected is not None:
                     self.current_selected.set_pos(self.obj_init_pos, mouse_pos + self.screen_pos - self.mouse_init_pos)
         else:
+            """Create a static physic with CTRL-left mouse"""
             if pressed[0] and not self.mouse_clicked[0]:
                 self.mouse_clicked = (1, self.mouse_clicked[1], self.mouse_clicked[2])
                 self.new_obj = GameObject()
@@ -111,7 +113,12 @@ class Editor():
                 self.objects[4].append(self.new_obj)
             elif self.mouse_clicked[0]:
                 self.new_obj.size = mouse_pos + self.screen_pos - self.new_obj.pos
+                if not pressed[0]:
+                    """Create a static physics body"""
+                    self.new_obj.body = add_static_object(self.new_obj, self.new_obj.pos+self.new_obj.size/2)
+                    add_static_box(self.new_obj.body,Vector2(),self.new_obj.size/2,data=11)
                 self.new_obj.update_rect()
+
 
         if not pressed[0] and self.mouse_clicked[0]:
             self.mouse_clicked = (0, self.mouse_clicked[1], self.mouse_clicked[2])

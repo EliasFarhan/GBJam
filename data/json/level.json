@@ -1,23 +1,20 @@
 {
     "network": false, 
-    "show_mouse": false, 
-    "gui": "data/json/gui.json",
-    "player": "data/json/player.json", 
     "bg_color": [
         255, 
         255, 
         255
-    ],
-    "events": {
-        "on_init": "data/json/event.json"
-    },
+    ], 
+    "gui": "data/json/gui.json", 
+    "player": "data/json/player.json", 
+    "show_mouse": false, 
     "objects": [
         {
             "layer": 3, 
-            "angle": 18, 
+            "angle": -8, 
             "pos": [
-                -316.0, 
-                762.0000000000001
+                -458.856167953336, 
+                1134.4689782661628
             ], 
             "physic_objects": {
                 "fixtures": [
@@ -37,10 +34,10 @@
         }, 
         {
             "layer": 3, 
-            "angle": -20, 
+            "angle": -173, 
             "pos": [
-                601.8996784076171, 
-                1085.8108621762033
+                1551.574621094404, 
+                1308.3840449640368
             ], 
             "physic_objects": {
                 "fixtures": [
@@ -57,6 +54,29 @@
                 1000.0, 
                 200.0
             ]
+        }, 
+        {
+            "layer": 4, 
+            "angle": 0, 
+            "pos": [
+                1571.5809631347659, 
+                1109.1910807291667
+            ], 
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box", 
+                        "user_data": 11
+                    }
+                ], 
+                "type": "static"
+            }, 
+            "type": "GameObject", 
+            "id": 2, 
+            "size": [
+                340.0, 
+                190.0
+            ]
         }
     ], 
     "checkpoints": [
@@ -65,5 +85,8 @@
             0
         ]
     ], 
-    "physics": true
+    "physics": true, 
+    "events": {
+        "on_init": "data/json/event1.json"
+    }
 }

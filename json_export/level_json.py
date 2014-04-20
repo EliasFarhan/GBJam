@@ -4,12 +4,14 @@ Created on 11 janv. 2014
 @author: efarhan
 """
 import json
+from numbers import Number
 
 from engine.const import log,CONST
+from game_object.game_object_main import GameObject
 from game_object.image import Image, AnimImage
 from json_export.json_main import load_json, get_element, write_json
 from json_export.event_json import load_event
-from json_export.image_json import load_image_from_json, reset_object_id
+from json_export.image_json import load_image_from_json, reset_object_id, get_last_object_id, set_last_object_id
 from levels.gui import GUI
 
 
@@ -88,25 +90,53 @@ def save_level(level):
     it loads the level JSON file and write the modification"""
     '''Load written level data'''
     level_data = load_json(level.filename)
-
-    '''Modifiy level_data with new value'''
-    objects_list = get_element(level_data,"objects")
-    if objects_list:
-
-        for i, object_data in enumerate(objects_list):
-            object_id = get_element(object_data,"id")
-            if object_id is None:
-                object_data["id"] = i
-    for layer in level.objects:
+    objects_list = get_element(level_data, "objects")
+    for layer_index, layer in enumerate(level.objects):
         for image in layer:
             if image.__class__ is not AnimImage:
                 object_id = image.id
-                object_data = next((x for x in objects_list if x['id'] == object_id),None)
-                if object_data:
-                    object_data["pos"] = image.pos.get_list()
-                    object_data["angle"] = image.angle
-                    object_data["size"] = image.size.get_list()
-                else:
+                object_data = next((x for x in objects_list if x['id'] == object_id), None)
+                if not object_data:
                     '''Add GameObject or Image in Level JSON dict'''
-                    pass
+                    object_id = get_last_object_id()
+                    set_last_object_id(object_id+1)
+                    object_data = {"id": object_id}
+                    objects_list.append(object_data)
+                    if isinstance(image,GameObject):
+                        object_data["type"] = "GameObject"
+                    elif isinstance(image, Image):
+                        object_data["type"] = "Image"
+                        object_data["path"] = image.path
+                object_data["pos"] = image.pos.get_list()
+                object_data["angle"] = image.angle
+                object_data["size"] = image.size.get_list()
+                object_data["layer"] = layer_index + 1
+                if image.body and not get_element(object_data, "physic_objects"):
+                    """Add physic description
+
+                    TODO:
+                    -circle shape
+                    -none middle pos for fixtures"""
+                    physic_objects = {}
+                    if CONST.render == 'sfml':
+                        import Box2D as b2
+                        if image.body.type == b2.b2_staticBody:
+                            physic_objects["type"] = "static"
+                        elif image.body.type == b2.b2_kinematicBody:
+                            physic_objects["type"] = "kinematic"
+                        elif image.body.type == b2.b2_dynamicBody:
+                            physic_objects["type"] = "dynamic"
+                        body_fixtures = []
+                        for fixture in image.body.fixtures:
+                            fixture_data = {}
+                            if isinstance(fixture.userData, Number):
+                                fixture_data["user_data"] = fixture.userData
+                            if isinstance(fixture.shape,b2.b2PolygonShape):
+                                fixture_data["type"] = "box"
+
+                            body_fixtures.append(fixture_data)
+                        physic_objects["fixtures"] = body_fixtures
+                    object_data["physic_objects"] = physic_objects
+
+    log(objects_list)
     write_json(level.filename,level_data)

@@ -15,8 +15,6 @@ if CONST.render == 'sfml':
     import sfml
 
 
-
-
 class LoadingScreen(Scene):
     def __init__(self):
         self.y_size = 100

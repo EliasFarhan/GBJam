@@ -19,9 +19,18 @@
 		"type": "dynamic",
 		"fixtures": [
 			{
+				"user_data": 1,
+				"type": "box",
+				"size": [35,32]
+			},
+			{
 				"user_data": 2,
-				"type": "box"
+				"type": "box",
+				"pos": [0,33],
+				"size": [37,5],
+				"sensor": true
 			}
+
 		]
 	}
 

@@ -41,7 +41,10 @@ def loop():
     add_button('quit', ['ESC','LCTRL+q'])
     add_button('reset', ['r'])
 
-    level_manager.switch_level(Kwakwa())
+    if CONST.debug:
+        level_manager.switch_level(GameState(CONST.startup))
+    else:
+        level_manager.switch_level(Kwakwa())
 
     while not finish:
         update_event()

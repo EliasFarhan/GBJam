@@ -12,7 +12,6 @@ from engine.init import get_screen_size
 from engine.vector import Vector2
 
 
-
 class GameObject:
     def __init__(self):
         self.id = ""
@@ -100,10 +99,13 @@ class GameObject:
 
         self.update_rect()
         
-    def check_click(self,mouse_pos,screen_pos):
+    def check_click(self, mouse_pos, screen_pos):
         if CONST.debug:
             log("Check Click:{0} {1}".format(str(screen_pos.get_tuple()), str(mouse_pos.get_tuple())))
-        point_pos = screen_pos + mouse_pos
+        if not self.screen_relative:
+            point_pos = screen_pos + mouse_pos
+        else:
+            point_pos = mouse_pos
         if self.click_rect and not self.screen_relative:
             return self.click_rect.collide_point(point_pos)
         elif self.rect:
@@ -142,27 +144,3 @@ class GameObject:
         else:
             self.pos = pos
 
-    @staticmethod
-    def generate_json(json_dict, game_object, layer):
-        json_dict["layer"] = layer
-        json_dict["angle"] = game_object.angle
-        json_dict["pos"] = game_object.pos
-        """
-        TODO: Generate JSON from physics objects
-
-        "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box",
-                        "user_data": 11
-                    }
-                ],
-                "type": "static"
-            },"""
-        from game_object.image import Image
-        if game_object.__class__ == GameObject:
-            json_dict["type"] = "GameObject"
-        elif game_object.__class__ == Image:
-            json_dict["type"] = "Image"
-        json_dict["id"] = game_object.id
-        json_dict["size"] = game_object.size

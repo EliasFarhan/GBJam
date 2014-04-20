@@ -95,7 +95,7 @@ def load_image_from_json(image_data, level, image_type=None):
             return
     physic_objects = get_element(image_data, "physic_objects")
     if physic_objects:
-        load_physic_objects(physic_objects,image)
+        load_physic_objects(physic_objects, image)
     
     event_path = get_element(image_data, "event")
     if image and event_path:

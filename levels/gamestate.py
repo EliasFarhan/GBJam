@@ -48,7 +48,8 @@ class GameState(Scene, Editor, GUI):
     def execute_event(self, name):
         log(str(self.event[name]))
         try:
-            self.event[name].execute()
+            if self.event[name]:
+                self.event[name].execute()
         except KeyError as e:
             log("Error: No such event: %s"%(name)+str(e), 1)
 
@@ -100,6 +101,7 @@ class GameState(Scene, Editor, GUI):
         '''Editor'''
         if CONST.debug:
             Editor.loop(self, screen, self.screen_pos)
+
     def exit(self, screen):
         deinit_physics()
         Scene.exit(self, screen)
