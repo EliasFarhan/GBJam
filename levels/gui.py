@@ -77,7 +77,7 @@ class GUI():
                 event = None
                 self.gui_click = True
                 if not self.dialog:
-                    for layer in self.images:
+                    for layer in self.objects:
                         for image in layer:
                             if image.check_click(mouse_pos, self.screen_pos):
                                 event = image.event

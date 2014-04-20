@@ -7,7 +7,8 @@ import math
 from engine.rect import Rect
 from engine.const import log, CONST
 from engine.image_manager import draw_rect
-from engine.physics import show_fixtures, get_body_position, set_body_position
+from engine.physics import show_fixtures, get_body_position, set_body_position, remove_body, add_static_box, \
+    add_static_object
 from engine.init import get_screen_size
 from engine.vector import Vector2
 
@@ -34,6 +35,11 @@ class GameObject:
 
         self.size = self.size*Vector2(x*CONST.scale_speed+1,
                                       y*CONST.scale_speed+1)
+        """TODO: update body"""
+        if self.body:
+            remove_body(self.body)
+            self.body = add_static_object(self,self.not_rot_pos)
+            add_static_box(self.body,Vector2(),self.size/2)
         self.update_rect()
     
     def update_rect(self):

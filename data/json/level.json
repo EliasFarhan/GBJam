@@ -7,7 +7,7 @@
     ], 
     "gui": "data/json/gui.json", 
     "player": "data/json/player.json", 
-    "show_mouse": true,
+    "show_mouse": true, 
     "objects": [
         {
             "layer": 3, 
@@ -57,10 +57,10 @@
         }, 
         {
             "layer": 4, 
-            "angle": 0, 
+            "angle": -4, 
             "pos": [
-                1571.5809631347659, 
-                1109.1910807291667
+                1551.4055890351615, 
+                1111.4448657061132
             ], 
             "physic_objects": {
                 "fixtures": [
@@ -74,8 +74,54 @@
             "type": "GameObject", 
             "id": 2, 
             "size": [
-                340.0, 
+                1262.1714212279528, 
                 190.0
+            ]
+        }, 
+        {
+            "layer": 4, 
+            "angle": -16, 
+            "pos": [
+                3421.3929587689977, 
+                1318.2896654899869
+            ], 
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box", 
+                        "user_data": 0
+                    }
+                ], 
+                "type": "static"
+            }, 
+            "type": "GameObject", 
+            "id": 3, 
+            "size": [
+                714.6234577202889, 
+                174.19226535351942
+            ]
+        }, 
+        {
+            "layer": 4, 
+            "angle": 23, 
+            "pos": [
+                2810.3380430988623, 
+                1024.6876284626567
+            ], 
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box", 
+                        "user_data": 0
+                    }
+                ], 
+                "type": "static"
+            }, 
+            "type": "GameObject", 
+            "id": 4, 
+            "size": [
+                714.6234577202889, 
+                210.3380342964049
             ]
         }
     ], 
