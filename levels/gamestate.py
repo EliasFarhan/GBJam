@@ -28,7 +28,7 @@ class GameState(Scene, Editor, GUI):
             Editor.__init__(self)
         GUI.__init__(self)
 
-    def init(self):
+    def init(self,loading=False):
 
         init_physics()
         self.objects = [ [] for i in range(CONST.layers) ]
@@ -42,7 +42,8 @@ class GameState(Scene, Editor, GUI):
         self.lock = False
         self.click = False
 
-        self.execute_event('on_init')
+        if not loading:
+            self.execute_event('on_init')
 
     def execute_event(self, name):
         log(str(self.event[name]))

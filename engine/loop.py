@@ -5,6 +5,8 @@ Main loop of the engine
 from engine.const import CONST,log
 import sys
 from engine.physics import deinit_physics
+from levels.loading_screen import LoadingScreen
+from levels.logo_kwakwa import Kwakwa
 
 if CONST.render == 'sfml':
     import sfml
@@ -39,7 +41,7 @@ def loop():
     add_button('quit', ['ESC','LCTRL+q'])
     add_button('reset', ['r'])
 
-    level_manager.switch_level(GameState(CONST.startup))
+    level_manager.switch_level(Kwakwa())
 
     while not finish:
         update_event()

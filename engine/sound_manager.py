@@ -28,6 +28,7 @@ def set_playlist(music_list):
     elif CONST.render == 'pookoo':
         pass
 
+
 def add_music_to_playlist(self, name):
     """
 	Add a music at the end of the playlist
@@ -73,6 +74,7 @@ def check_music_status():
     """
 	Return True if a music is currently playing
 	"""
+    global music
     if CONST.render == 'sfml':
         return music.status == sfml.Music.STOPPED
 
