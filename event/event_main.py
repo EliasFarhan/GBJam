@@ -53,4 +53,7 @@ def update_event():
                 from levels.gamestate import GameState
                 if get_level().__class__ == GameState:
                     log((Vector2(event.position)*screen_ratio+get_level().screen_pos).get_tuple())
+            elif type(event) is sfml.ResizeEvent:
+                new_size = event.size
+
 

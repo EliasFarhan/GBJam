@@ -59,5 +59,6 @@ def toogle_fullscreen():
     """TODO: toggle fullscreen"""
 
 
-def resize_screen(w, h):
+def resize_screen(new_size):
     """TODO: resize window"""
+

@@ -95,8 +95,7 @@ class Image(GameObject):
         else:
             log("Invalid arg path not defined for Image",1)
             return None
-        
-    
+
 
 class AnimImage(Image):
     '''Can be animated if a directory is given,
