@@ -70,7 +70,7 @@ def get_players_request():
                 parsed_data[3] = int(parsed_data[3])
 
                 """update players position"""
-                players[parsed_data[0]] = parsed_data[1:]
+                players[parsed_data[0]] = parsed_data
         except IndexError:
             pass
     finally:
