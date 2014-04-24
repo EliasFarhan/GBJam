@@ -31,6 +31,7 @@ def log(text, error=0):
 
 #constant for physics and gameplay
 class CONST:
+    network = False
     path_prefix = ""
     render = ''
     debug = True

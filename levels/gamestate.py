@@ -1,24 +1,22 @@
-'''
+"""
 Created on 9 dec. 2013
 
 @author: efarhan
-'''
+"""
 from engine.vector import Vector2
-from event.event_main import update_event
-
 from levels.scene import Scene
 from engine.const import log, CONST
+if CONST.network:
+    from network.gamestate_network import client, NetworkGamestate
 from json_export.level_json import load_level
 from engine.physics import init_physics, update_physics, deinit_physics
 from levels.editor import Editor
-from game_object.text import Text
-from engine.init import get_screen_size
 from engine.image_manager import fill_surface
 from levels.gui import GUI
 from event.mouse_event import show_mouse, get_mouse
 
 
-class GameState(Scene, Editor, GUI):
+class GameState(Scene, Editor, GUI,NetworkGamestate):
     def __init__(self, filename):
         self.bg_color = [0, 0, 0]
         self.player = None
@@ -28,7 +26,7 @@ class GameState(Scene, Editor, GUI):
             Editor.__init__(self)
         GUI.__init__(self)
 
-    def init(self,loading=False):
+    def init(self, loading=False):
 
         init_physics()
         self.objects = [ [] for i in range(CONST.layers) ]
@@ -42,6 +40,8 @@ class GameState(Scene, Editor, GUI):
         self.lock = False
         self.click = False
 
+
+        NetworkGamestate.init(self)
         if not loading:
             self.execute_event('on_init')
 
@@ -87,11 +87,13 @@ class GameState(Scene, Editor, GUI):
         if self.player and self.player.anim:
             self.screen_pos = self.player.anim.get_screen_pos()
         remove_image = []
-        for i in range(len(self.objects)):
-            for j in range(len(self.objects[i])):
-                self.objects[i][j].loop(screen, self.screen_pos)
-                if self.objects[i][j].remove:
-                    remove_image.append(self.objects[i][j])
+        for i, layer in enumerate(self.objects):
+            if i == 2:
+                NetworkGamestate.loop(self, screen)
+            for j, img in enumerate(layer):
+                img.loop(screen, self.screen_pos)
+                if img.remove:
+                    remove_image.append(img)
         for r in remove_image:
             self.objects[i].remove(r)
 
@@ -104,4 +106,5 @@ class GameState(Scene, Editor, GUI):
 
     def exit(self, screen):
         deinit_physics()
+
         Scene.exit(self, screen)

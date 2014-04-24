@@ -7,5 +7,6 @@
 		"player_left": ["a","LEFT"],
 		"player_up": ["w","UP"],
 		"player_down": ["s","DOWN"]
-	}
+	},
+	"network": true
 }

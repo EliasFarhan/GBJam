@@ -11,6 +11,7 @@ from engine.const import CONST, log
 from json_export.json_main import get_element
 from engine.vector import Vector2
 
+
 class Animation():
     def __init__(self,obj):
         self.obj = obj
@@ -22,6 +23,8 @@ class Animation():
         self.anim_counter = 0
         self.anim_freq = CONST.animation_step
         self.img_indexes = []
+        self.index = 0
+
     def load_images(self,size=None,permanent = False):
         self.img_indexes = []
         
@@ -43,10 +46,11 @@ class Animation():
         self.size = Vector2(get_size(self.img))
         if self.obj:
             self.obj.update_rect()
+
     def update_animation(self,state="",invert=False):
         if state != "":
             self.state = state
-        if(self.anim_counter == self.anim_freq):
+        if self.anim_counter == self.anim_freq:
             anim_index = []
             if self.state_range == {}:
                 anim_index = self.img_indexes
@@ -59,22 +63,27 @@ class Animation():
                 find_index = anim_index.index(self.img)
                 if not invert:
                     if find_index == len(anim_index)-1:
-                        self.img = anim_index[0]
+                        self.index = 0
                     else:
-                        self.img = anim_index[find_index+1]
+                        self.index = find_index+1
                 else:
                     if find_index == 0:
-                        self.img = anim_index[len(anim_index)-1]
+                        self.index = len(anim_index)-1
+
                     else:
-                        self.img = anim_index[find_index-1]
+                        self.index = find_index-1
+                self.img = anim_index[self.index]
             except ValueError:
                 try:
-                    self.img = anim_index[0]
+                    self.index = 0
+                    self.img = anim_index[self.index]
+
                 except IndexError:
                     pass
             self.anim_counter = 0
         else:
             self.anim_counter += 1
+
     @staticmethod
     def parse_animation(anim_data,obj=None):
         anim_type = get_element(anim_data,"anim_type")

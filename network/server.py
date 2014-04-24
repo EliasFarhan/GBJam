@@ -1,8 +1,14 @@
 import SocketServer
 
+"""
+Protocol instructions:
+-REQUEST_ID (return a unique id for the client)
+"""
+
 client_id = 0
 
-class MyUDPHandler(SocketServer.BaseRequestHandler):
+
+class KuduUDPHandler(SocketServer.BaseRequestHandler):
     """
     This class works similar to the TCP handler class, except that
     self.request consists of a pair of data and client socket, and since
@@ -19,10 +25,12 @@ class MyUDPHandler(SocketServer.BaseRequestHandler):
 
         if data == 'ID_REQUEST':
             client_id += 1
-            socket.sendto("NEW_ID;"+client_id, self.client_address)
+            socket.sendto("NEW_ID;"+str(client_id), self.client_address)
         else:
             socket.sendto("ERROR;BAD_REQUEST", self.client_address)
+
+
 if __name__ == "__main__":
     HOST, PORT = "92.222.15.13", 9999
-    server = SocketServer.UDPServer((HOST, PORT), MyUDPHandler)
+    server = SocketServer.UDPServer((HOST, PORT), KuduUDPHandler)
     server.serve_forever()
