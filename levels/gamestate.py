@@ -6,8 +6,7 @@ Created on 9 dec. 2013
 from engine.vector import Vector2
 from levels.scene import Scene
 from engine.const import log, CONST
-if CONST.network:
-    from network.gamestate_network import client, NetworkGamestate
+from network.gamestate_network import client, NetworkGamestate
 from json_export.level_json import load_level
 from engine.physics import init_physics, update_physics, deinit_physics
 from levels.editor import Editor
@@ -16,7 +15,7 @@ from levels.gui import GUI
 from event.mouse_event import show_mouse, get_mouse
 
 
-class GameState(Scene, Editor, GUI,NetworkGamestate):
+class GameState(Scene, Editor, GUI, NetworkGamestate):
     def __init__(self, filename):
         self.bg_color = [0, 0, 0]
         self.player = None

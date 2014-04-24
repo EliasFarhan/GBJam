@@ -8,5 +8,5 @@
 		"player_up": ["w","UP"],
 		"player_down": ["s","DOWN"]
 	},
-	"network": true
+	"network": false
 }
