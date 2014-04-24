@@ -34,7 +34,10 @@ class NetworkGamestate(Scene):
                         anim_index = self.player.anim.img_indexes[
                                      self.player.anim.state_range[players_list[p][2]][0]:
                                      self.player.anim.state_range[players_list[p][2]][1]]
-                        self.players_img[p].img = anim_index[players_list[p][3]]
+                        try:
+                            self.players_img[p].img = anim_index[players_list[p][3]]
+                        except IndexError:
+                            self.players_img[p].img = anim_index[0]
                     except KeyError:
                         pass
                     self.players_img[p].loop(screen,self.screen_pos)
