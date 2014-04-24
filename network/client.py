@@ -31,7 +31,7 @@ class PlayersListUpdate(Thread):
             if parsed_data[0] != "NEW_ID":
                 """Position"""
                 parsed_data[1] = parsed_data[1].split(',')
-                parsed_data[1] = Vector2(int(parsed_data[1][0]),int(parsed_data[1][1]))
+                parsed_data[1] = Vector2(int(float(parsed_data[1][0])),int(float(parsed_data[1][1])))
                 """Frame"""
                 parsed_data[3] = int(parsed_data[3])
 
