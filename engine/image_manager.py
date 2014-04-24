@@ -78,8 +78,10 @@ def load_image_with_size(name, size, permanent=False):
     except KeyError:
         index = load_image(name, permanent)
     if CONST.render == 'sfml':
-        return sfml.Sprite(img_name[name])
-
+        try:
+            return sfml.Sprite(img_name[name])
+        except KeyError:
+            return None
 
 def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_func=None, factor=1, center_image=False):
     if not image:

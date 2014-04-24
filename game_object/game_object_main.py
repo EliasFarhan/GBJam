@@ -131,7 +131,7 @@ class GameObject:
             pos = self.pos
         
         if self.screen_relative_pos is not None:
-            pos = pos+self.screen_relative_pos*get_screen_size()
+            pos = pos + self.screen_relative_pos*get_screen_size()
         
         if self.screen_relative:
             pos = self.pos

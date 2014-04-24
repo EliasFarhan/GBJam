@@ -30,7 +30,8 @@ class Image(GameObject):
         self.screen_relative = relative
         
         self.center_image = False
-        self.init_image()
+        if self.path != '':
+            self.init_image()
         self.update_rect()
 
     def init_image(self):
