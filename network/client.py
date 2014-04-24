@@ -1,15 +1,21 @@
-# coding=utf-8
-import sfml as sf
-# --- the client ---
-# create a socket and connect it to 192.168.1.50 on port 55001
-socket = sf.TcpSocket()
-socket.connect(sf.IpAddress.from_string("92.222.15.13"), 55001)
+import socket
+import sys
 
+HOST, PORT = "eliasfarhan.ch", 1234
+data = "Hello world!"
 
-# send a message to the connected host
-message = u"Hello World".encode('utf-8')
-socket.send(message)
+# Create a socket (SOCK_STREAM means a TCP socket)
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# receive an answer from the server
-answer = socket.receive(1024)
-print("The server said: {0}".format(answer))
+try:
+    # Connect to server and send data
+    sock.connect((HOST, PORT))
+    sock.sendall(data + "\n")
+
+    # Receive data from the server and shut down
+    received = sock.recv(1024)
+finally:
+    sock.close()
+
+print "Sent:     {}".format(data)
+print "Received: {}".format(received)
