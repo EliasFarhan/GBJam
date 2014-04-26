@@ -5,9 +5,7 @@ Created on Feb 26, 2014
 '''
 from engine.const import log,CONST
 from event.keyboard_event import button_map
-if CONST.render == 'pygame':
-    import pygame
-elif CONST.render == 'sfml':
+if CONST.render == 'sfml':
     import sfml
 
 from symbol import parameters
@@ -35,11 +33,11 @@ def update_joy_event():
                 for i in range(sfml.Joystick.AXIS_COUNT):
                     if sfml.Joystick.has_axis(joy,i):
                         if i < 6:
-                            axis['JOY'+str(joy)+'AXIS'+str(i)] = sfml.Joystick.get_axis_position(joy,i)
+                            axis['JOY'+str(joy)+'AXIS'+str(i)] = sfml.Joystick.get_axis_position(joy, i)
                         else:
-                            axis['JOY'+str(joy)+'HAT'+str(i-6)] = sfml.Joystick.get_axis_position(joy,i)
+                            axis['JOY'+str(joy)+'HAT'+str(i-6)] = sfml.Joystick.get_axis_position(joy, i)
                 for i in range(sfml.Joystick.get_button_count(joy)):
-                    button_value['JOY'+str(joy)+'BUTTON'+str(i)] = sfml.Joystick.is_button_pressed(joy,i)
+                    button_value['JOY'+str(joy)+'BUTTON'+str(i)] = sfml.Joystick.is_button_pressed(joy, i)
 
 
 def get_joy_button(action):
@@ -72,5 +70,3 @@ def get_joy_button(action):
 def add_joy_button(action, button_list):
     global joystick
     button_map[action] = button_list
-
-        

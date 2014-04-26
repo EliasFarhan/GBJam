@@ -17,9 +17,7 @@ from event.joystick_event import get_joy_button, add_joy_button,\
 from engine.level_manager import get_level
 from engine.vector import Vector2
 
-if CONST.render == 'pygame':
-    import pygame
-elif CONST.render == 'sfml':
+if CONST.render == 'sfml':
     import sfml
 
 
@@ -32,10 +30,15 @@ def get_button(action):
     return get_key_button(action) or get_joy_button(action)
 
 
+def get_current_button():
+    #TODO: return all current keys events
+    pass
+
+
 def update_event():
-    '''
+    """
     Update the states of Input Event
-    '''
+    """
 
     if CONST.render == 'sfml':
         from engine.loop import get_screen

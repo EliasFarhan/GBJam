@@ -38,11 +38,11 @@ def set_finish():
 def loop():
     global finish, screen, console
 
-    add_button('quit', ['ESC','LCTRL+q'])
+    add_button('quit', ['LCTRL+q'])
     add_button('reset', ['r'])
 
     if CONST.debug:
-        level_manager.switch_level(GameState(CONST.startup))
+        level_manager.switch_level(LoadingScreen())
     else:
         level_manager.switch_level(Kwakwa())
 

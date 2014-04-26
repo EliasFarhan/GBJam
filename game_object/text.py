@@ -5,7 +5,6 @@ Created on Feb 19, 2014
 '''
 from game_object.game_object_main import GameObject
 from engine.font_manager import load_font, load_text
-from engine.rect import Rect
 from engine.const import log, CONST
 from engine.image_manager import show_image
 from engine.vector import Vector2
@@ -39,9 +38,7 @@ class Text(GameObject):
             self.text_surface = None
             return
         if self.text_surface:
-            if CONST.render == 'pygame':
-                self.size = self.text_surface.get_size()
-            elif CONST.render == 'sfml':
+            if CONST.render == 'sfml':
                 sfml_size = (self.text_surface.global_bounds.width,self.text_surface.global_bounds.height)
                 self.size = Vector2(sfml_size)
             if self.size:

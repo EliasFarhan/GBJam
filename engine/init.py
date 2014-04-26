@@ -26,7 +26,7 @@ def init_actions():
     elif isinstance(CONST.actions, dict):
         actions = CONST.actions
     else:
-        log("Error: could not load actions, Undefined type: "+str(type(CONST.actions)),1)
+        log("Error: could not load actions, Undefined type: "+str(type(CONST.actions)), 1)
         return
     for key in actions.items():
         log(key)

@@ -62,6 +62,7 @@ def add_one_key(key_value):
         if key_value == 'ENTER':
             button_key[KEY.K_ENTER] = key_value
 
+
 def add_key_button(action,key_list):
     global button_map,button_value,button_key
     button_map[action] = key_list
@@ -69,6 +70,14 @@ def add_key_button(action,key_list):
         keys = key_value.split("+")
         for k in keys:
             add_one_key(k)
+
+
+def get_current_key():
+    current_keys = []
+    for key in button_value.keys():
+        if button_value[key]:
+            current_keys.append(key)
+    return current_keys
 
             
 def get_key_button(action):

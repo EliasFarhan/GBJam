@@ -8,6 +8,11 @@ import sys
 from json_export.json_main import load_json
 
 
+def enum(*sequential, **named):
+    enums = dict(zip(sequential, range(len(sequential))), **named)
+    return type('Enum', (), enums)
+
+
 def log(text, error=0):
     """
     Log a message into the stdout or the stdin
@@ -31,26 +36,43 @@ def log(text, error=0):
 
 #constant for physics and gameplay
 class CONST:
-    network = False
-    path_prefix = ""
+    """Engine CONSTANT"""
+    """Core const"""
     render = ''
     debug = True
+    path_prefix = ""
+    layers = 5
+    animation_step = 7
+
+    """Network"""
+    network = False
+    HOST = "eliasfarhan.ch"
+    AUTH_PORT = 9999
+
+    """Physics"""
     gravity = 20
     move_speed = 2
-    layers = 5
     jump = 10  #8.5
     jump_step = 5
+    scale_speed = 0.01
+
+    """Graphics"""
     framerate = 60
     fullscreen = False
-    animation_step = 7
+    vsync = False
+
+
     startup = ""
-    scale_speed = 0.01
+
     screen_size = [1920, 1080]
+
+    """string_type for python2 and python3 compatibility"""
     string_type = None
     try:
         string_type = basestring
     except NameError:
         string_type = str
+
     @staticmethod
     def parse_const(init_filename):
         init_json = load_json(CONST.path_prefix + 'data/json/init.json')
@@ -98,7 +120,3 @@ except ImportError as e:
         exit()
 
 CONST.parse_const(CONST.path_prefix+'data/json/init.json')
-
-
-
-

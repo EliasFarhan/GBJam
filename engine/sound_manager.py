@@ -31,8 +31,8 @@ def set_playlist(music_list):
 
 def add_music_to_playlist(self, name):
     """
-	Add a music at the end of the playlist
-	"""
+    Add a music at the end of the playlist
+    """
     global playlist
     playlist.append(name)
 
