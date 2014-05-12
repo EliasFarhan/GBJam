@@ -113,7 +113,9 @@ def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_fun
             sprite.position = (pos * screen_diff_ratio).get_int_tuple()
             screen.draw(sprite)
         elif CONST.render == 'pookoo':
-            pass
+            pookoo.draw.move(pos.x,pos.y)
+
+            image.draw()
     except KeyError:
         pass
 

@@ -54,6 +54,8 @@ def loop():
         pookoo.audio.init()
 
     while not finish:
+        if CONST.render == 'pookoo':
+            pookoo.draw.clear()
         update_event()
         if not finish:
             finish = get_button('quit')

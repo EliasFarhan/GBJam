@@ -62,7 +62,6 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         if CONST.render == 'sfml':
             fill_surface(screen, self.bg_color[0], self.bg_color[1], self.bg_color[2], 255)
         elif CONST.render == 'pookoo':
-            log(self.bg_color)
             draw_rect(None,self.screen_pos,Rect(self.screen_pos,get_screen_size(True)),self.bg_color)
 
 

@@ -10,6 +10,8 @@ from event.physics_event import clear_physics_event, PhysicsEvent,\
 if CONST.render != 'pookoo':
     import Box2D as b2_module
     from Box2D import *
+elif CONST.render == 'pookoo':
+    import pookoo
 from engine.rect import Rect
 from engine.image_manager import draw_rect
 from numbers import Number
@@ -64,8 +66,12 @@ def set_body_position(body,pos):
 
 def deinit_physics():
     global world
-    del world
+    if CONST.render != "pookoo":
+        del world
+    elif CONST.render == 'pookoo':
+        pookoo.physics.close(world)
     world = None
+
 
 
 def init_physics(gravity_arg=None):
@@ -73,14 +79,17 @@ def init_physics(gravity_arg=None):
     if world != None:
         deinit_physics()
     
-    gravity_value = 0
+    gravity_value = Vector2(0,0)
     if(gravity_arg == None):
-        gravity_value = CONST.gravity 
+        gravity_value = Vector2(0,CONST.gravity)
     else:
         gravity_value = gravity_arg
     if CONST.render != 'pookoo':
-        world = b2World(gravity=(0,gravity_value))
+        world = b2World(gravity=gravity_value.get_tuple())
         world.contactListener = KuduContactListener()
+    elif CONST.render == 'pookoo':
+        world = pookoo.physics.open(gravity_value.get_tuple()[0],
+                                    gravity_value.get_tuple()[1])
 
 
 def add_dynamic_object(obj,pos):
