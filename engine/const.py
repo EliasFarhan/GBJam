@@ -98,7 +98,7 @@ class CONST:
 
 try:
     import pookoo
-    print(dir(pookoo))
+    log(str(pookoo)+" "+str(dir(pookoo)))
     log("Using POOKOO")
     CONST.path_prefix = "../"
     CONST.render = "pookoo"

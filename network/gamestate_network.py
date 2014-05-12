@@ -1,14 +1,13 @@
 from engine.const import CONST
 from engine.init import get_screen_size
 from game_object.image import Image
-from levels.scene import Scene
 from network import client
 from network.client import get_self_id
 
 __author__ = 'efarhan'
 
 
-class NetworkGamestate(Scene):
+class NetworkGamestate():
     def init(self, loading=False):
         if CONST.network:
             client.init()

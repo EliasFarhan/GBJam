@@ -31,22 +31,28 @@ class LoadingScreen(Scene):
 
     def get_loading_state(self):
         status = False
-        self.loading_lock.lock()
-        status = copy.deepcopy(self.status)
-        self.loading_lock.unlock()
+        if CONST.render == 'sfml':
+            self.loading_lock.lock()
+            status = copy.deepcopy(self.status)
+            self.loading_lock.unlock()
+
         return status
 
     def finish_loading(self):
-        self.loading_lock.lock()
-        self.status = True
-        self.loading_lock.unlock()
+        if CONST.render == 'sfml':
+            self.loading_lock.lock()
+            self.status = True
+            self.loading_lock.unlock()
 
     def init(self):
-        try:
-            self.loading_thread.launch()
-        except RuntimeError:
-            pass
-
+        if CONST.render == 'sfml':
+            try:
+                self.loading_thread.launch()
+            except RuntimeError:
+                pass
+        elif CONST.render == 'pookoo':
+            self.loading()
+            
     def loading(self):
         """Run init method in a different thread"""
         for scene in self.init_method:

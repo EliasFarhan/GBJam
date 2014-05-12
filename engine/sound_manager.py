@@ -7,7 +7,7 @@ from engine.const import log, CONST
 if CONST.render == 'sfml':
     import sfml
 elif CONST.render == 'pookoo':
-    import pookoo.audio
+    import pookoo
 sounds = {}
 permanent_sound = []
 playlist = []
@@ -26,7 +26,7 @@ def set_playlist(music_list):
         music = sfml.Music.from_file(playlist[0])
         music.play()
     elif CONST.render == 'pookoo':
-        pass
+        music = pookoo.audio.AudioStreamObject(playlist[0])
 
 
 def add_music_to_playlist(self, name):
@@ -39,7 +39,7 @@ def add_music_to_playlist(self, name):
 
 def fadeout_music(t=0):
     """TODO: Fadeout and then stop it after time t (seconds)"""
-
+    pass
 
 def play_music(name):
     """
@@ -87,6 +87,8 @@ def load_sound(name, permanent=False):
     except KeyError:
         if CONST.render == 'sfml':
             sounds[name] = sfml.SoundBuffer.from_file(name)
+        elif CONST.render == 'pookoo':
+            sounds[name] = pookoo.audio.AudioSoundObject(name)
     if permanent:
         permanent_sound.append(name)
     return sounds[name]
@@ -102,4 +104,15 @@ def play_sound(sound):
         sound_playing.play()
         sounds_playing.append(sound_playing)
 
+
+def sanitize_sounds(delete_sounds=[]):
+    del_snd_tmp = []
+    if delete_sounds == []:
+        for snd_filename in sounds.keys():
+            if snd_filename not in permanent_sound:
+                del_snd_tmp.append(snd_filename)
+    else:
+        del_snd_tmp = delete_sounds
+    for snd_filename in del_snd_tmp:
+        del sounds[snd_filename]
 
