@@ -36,7 +36,7 @@ def load_physic_objects(physics_data,image):
     if angle:
         image.body.angle = angle*math.pi/180
     else:
-        if image.angle != 0:
+        if image.body and image.angle != 0:
             image.body.angle = image.angle*math.pi/180
             '''TODO: Set new pos for body'''
             v = image.size/2

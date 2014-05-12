@@ -43,7 +43,10 @@ def loop():
     add_button('reset', ['r'])
 
     if CONST.debug:
-        level_manager.switch_level(LoadingScreen())
+        if CONST.render == 'sfml':
+            level_manager.switch_level(LoadingScreen())
+        elif CONST.render == 'pookoo':
+            level_manager.switch_level(GameState(CONST.startup))
     else:
         level_manager.switch_level(Kwakwa())
 
@@ -77,6 +80,7 @@ def loop():
     elif CONST.render == 'pookoo':
         pookoo.audio.finish()
         pookoo.window.finish()
+
 
 def start():
     global screen

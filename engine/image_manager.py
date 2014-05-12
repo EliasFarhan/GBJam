@@ -9,12 +9,10 @@ from engine.vector import Vector2
 if CONST.render == 'sfml':
     import sfml
 elif CONST.render == 'pookoo':
-    pass
+    import pookoo
 
 from math import radians, cos, sin
 
-
-images = {}
 img_name = {}
 permanent_images = []
 
@@ -29,8 +27,19 @@ def draw_rect(screen, screen_pos, rect, color, angle=0):
 
         drawing_rect.rotation = angle
         drawing_rect.size = (rect.size * screen_diff_ratio).get_tuple()
-        drawing_rect.fill_color = sfml.Color(color[0], color[1], color[2], color[3])
+        try:
+            drawing_rect.fill_color = sfml.Color(color[0], color[1], color[2], color[3])
+        except IndexError:
+            drawing_rect.fill_color = sfml.Color(color[0], color[1], color[2])
         screen.draw(drawing_rect)
+    elif CONST.render == 'pookoo':
+        try:
+            pookoo.draw.color(color[0],color[1],color[2],color[3])
+        except IndexError:
+            pookoo.draw.color(color[0],color[1],color[2],255)
+        pos = (rect.pos-screen_pos).get_tuple()
+        pookoo.draw.move(pos[0],pos[1])
+        pookoo.draw.rectangle(rect.size.get_int_tuple())
 
 
 def fill_surface(surface, r, g, b, a=255):
@@ -38,22 +47,25 @@ def fill_surface(surface, r, g, b, a=255):
         surface.clear(sfml.Color(r, g, b))
 
 
-def sanitize_img_manager():
-    for index in images.keys():
-        if index not in permanent_images:
-            try:
-                images.pop(index)
-            except KeyError:
-                pass
+def sanitize_img_manager(delete_images=[]):
+    del_img_tmp = []
+    if delete_images == []:
+        for img_filename in img_name.keys():
+            if img_filename not in permanent_images:
+                del_img_tmp.append(img_name[img_filename])
+    else:
+        del_img_tmp = delete_images
+    for img_filename in del_img_tmp:
+        del img_name[img_filename]
 
 
-def get_image(index):
-    return images[index]
-
-
-def get_size(index):
+def get_size(image):
+    if image is None:
+        return None
     if CONST.render == 'sfml':
-        return index.texture.size
+        return Vector2(image.texture.size)
+    elif CONST.render == 'pookoo':
+        return Vector2(image.size)
 
 
 def load_image(name, permanent=False):
@@ -66,25 +78,22 @@ def load_image(name, permanent=False):
             except IOError as e:
                 log(str(e), 1)
                 return None
+        elif CONST.render == 'pookoo':
+            try:
+                img_name[name] = pookoo.texture.Texture(name)
+            except Exception as e:
+                log(str(e), 1)
+                return None
         if permanent:
             permanent_images.append(name)
     if CONST.render == 'sfml':
         return sfml.Sprite(img_name[name])
+    elif CONST.render == 'pookoo':
+        return img_name[name]
 
-
-def load_image_with_size(name, size, permanent=False):
-    try:
-        img_name[name]
-    except KeyError:
-        index = load_image(name, permanent)
-    if CONST.render == 'sfml':
-        try:
-            return sfml.Sprite(img_name[name])
-        except KeyError:
-            return None
 
 def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_func=None, factor=1, center_image=False):
-    if not image:
+    if image is None:
         return
     try:
         if CONST.render == 'sfml':
@@ -103,6 +112,8 @@ def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_fun
 
             sprite.position = (pos * screen_diff_ratio).get_int_tuple()
             screen.draw(sprite)
+        elif CONST.render == 'pookoo':
+            pass
     except KeyError:
         pass
 
@@ -135,5 +146,4 @@ def show_mask_img(screen, bg, mask, bg_pos, mask_pos=(0, 0), bg_size=None, mask_
         mask_render_sprite = sfml.Sprite(mask_render.texture)
         mask_render_sprite.position = mask_pos
         screen.draw(mask_render_sprite)
-
 

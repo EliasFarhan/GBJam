@@ -53,8 +53,12 @@ def init_joystick():
     pass
 
 
-def get_screen_size():
-    return Vector2(CONST.screen_size[0], CONST.screen_size[1])
+def get_screen_size(relative=False):
+    if not relative:
+        return Vector2(CONST.screen_size[0], CONST.screen_size[1])
+    else:
+        if CONST.render == 'pookoo':
+            return Vector2(pookoo.window.size())
 
 
 def toogle_fullscreen():

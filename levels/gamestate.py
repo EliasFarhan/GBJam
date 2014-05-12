@@ -3,6 +3,8 @@ Created on 9 dec. 2013
 
 @author: efarhan
 """
+from engine.init import get_screen_size
+from engine.rect import Rect
 from engine.vector import Vector2
 from levels.scene import Scene
 from engine.const import log, CONST
@@ -10,7 +12,7 @@ from network.gamestate_network import client, NetworkGamestate
 from json_export.level_json import load_level
 from engine.physics import init_physics, update_physics, deinit_physics
 from levels.editor import Editor
-from engine.image_manager import fill_surface
+from engine.image_manager import fill_surface, draw_rect
 from levels.gui import GUI
 from event.mouse_event import show_mouse, get_mouse
 
@@ -57,7 +59,12 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         self.init()
 
     def loop(self, screen):
-        fill_surface(screen, self.bg_color[0], self.bg_color[1], self.bg_color[2], 255)
+        if CONST.render == 'sfml':
+            fill_surface(screen, self.bg_color[0], self.bg_color[1], self.bg_color[2], 255)
+        elif CONST.render == 'pookoo':
+            log(self.bg_color)
+            draw_rect(None,self.screen_pos,Rect(self.screen_pos,get_screen_size(True)),self.bg_color)
+
 
         '''Event
         If mouse_click on element, execute its event, of not null'''

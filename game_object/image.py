@@ -4,8 +4,7 @@ Created on 11 sept. 2013
 @author: efarhan
 '''
 
-from engine.image_manager import  show_image, load_image, get_size,\
-    load_image_with_size
+from engine.image_manager import  show_image, load_image, get_size
 from animation.animation_main import Animation
 from engine.init import get_screen_size
 from engine.rect import Rect
@@ -38,8 +37,6 @@ class Image(GameObject):
         if self.size is None:
             self.img = load_image(self.path)
             self.size = get_size(self.img)
-        else:
-            self.img = load_image_with_size(self.path, self.size)
         self.size = Vector2(self.size)
         self.rect = Rect(self.pos, self.size)
 

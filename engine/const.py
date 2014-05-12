@@ -111,12 +111,12 @@ except ImportError as e:
         CONST.render = 'sfml'
     except ImportError as e:
         log("Error: could not load SFML: " + str(e), 1)
-        exit()
+        sys.exit()
 
     try:
         import Box2D
     except ImportError:
         log('Box2D should be installed', 1)
-        exit()
+        sys.exit()
 
 CONST.parse_const(CONST.path_prefix+'data/json/init.json')

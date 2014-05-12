@@ -6,7 +6,7 @@ Created on 11 dec. 2013
 import os
 from os import listdir
 from os.path import isfile, join
-from engine.image_manager import load_image, load_image_with_size, get_size
+from engine.image_manager import load_image, get_size
 from engine.const import CONST, log
 from json_export.json_main import get_element
 from engine.vector import Vector2
@@ -15,7 +15,7 @@ from engine.vector import Vector2
 class Animation():
     def __init__(self,obj):
         self.obj = obj
-        self.img = 0
+        self.img = None
         self.path = ""
         self.state_range = {}
         self.path_list = []
@@ -40,10 +40,11 @@ class Animation():
             for f in files:
                 if size == None:
                     self.img_indexes.append(load_image(f,permanent))
-                else:
-                    self.img_indexes.append(load_image_with_size(f, size, permanent))
-            self.img = self.img_indexes[0]
-        self.size = Vector2(get_size(self.img))
+            try:
+                self.img = self.img_indexes[0]
+            except IndexError:
+                pass
+        self.size = get_size(self.img)
         if self.obj:
             self.obj.update_rect()
 

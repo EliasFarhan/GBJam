@@ -116,9 +116,9 @@ def remove_body(index):
 
 def update_physics():
     clear_physics_event()
-
-    world.Step(timeStep,vel_iters,pos_iters)
-    world.ClearForces()
+    if CONST.render != 'pookoo':
+        world.Step(timeStep,vel_iters,pos_iters)
+        world.ClearForces()
 
 
 def move(body,vx=None,vy=None,linear=False):

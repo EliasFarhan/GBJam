@@ -70,7 +70,7 @@ class PlayerAnimation(Animation):
         if physics_pos:
             pos = physics_pos-self.player.size/2
         else:
-            pos = (self.player.pos[0],self.player.pos[1])
+            pos = self.player.pos
         if self.player.screen_relative_pos:
             pos = pos-self.player.screen_relative_pos*get_screen_size()
         self.player.pos = pos

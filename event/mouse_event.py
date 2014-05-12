@@ -9,6 +9,8 @@ from engine.vector import Vector2
 
 if CONST.render == 'sfml':
     import sfml
+elif CONST.render == 'pookoo':
+    import pookoo
 
 
 def get_mouse():
@@ -21,7 +23,10 @@ def get_mouse():
                                            sfml.Mouse.is_button_pressed(sfml.Mouse.RIGHT),
                                            sfml.Mouse.is_button_pressed(sfml.Mouse.MIDDLE)]
     elif CONST.render == 'pookoo':
-        return None, None
+        return Vector2(pookoo.input.mouse_position()), [
+            False,False,False
+            ]
+
 
 def show_mouse(show=True):
     """Show/hide mouse"""
