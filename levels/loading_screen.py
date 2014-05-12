@@ -52,7 +52,7 @@ class LoadingScreen(Scene):
                 pass
         elif CONST.render == 'pookoo':
             self.loading()
-            
+
     def loading(self):
         """Run init method in a different thread"""
         for scene in self.init_method:

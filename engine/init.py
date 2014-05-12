@@ -7,6 +7,8 @@ from event.event_main import add_button
 
 if CONST.render == 'sfml':
     import sfml
+elif CONST.render == 'pookoo':
+    import pookoo
 
 
 def init_all():
@@ -44,7 +46,7 @@ def init_screen():
         window = sfml.RenderWindow(desktop, 'Kudu Window', style)
         return window
     elif CONST.render == 'pookoo':
-        pass
+        return pookoo.window.begin()
 
 
 def init_joystick():

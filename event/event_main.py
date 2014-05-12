@@ -58,5 +58,7 @@ def update_event():
                     log((Vector2(event.position)*screen_ratio+get_level().screen_pos).get_tuple())
             elif type(event) is sfml.ResizeEvent:
                 new_size = event.size
+    elif CONST.render == 'pookoo':
+        update_keyboard_event()
 
 

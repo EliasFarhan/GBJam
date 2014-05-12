@@ -8,7 +8,8 @@ from engine.const import CONST, log
 
 if CONST.render == 'sfml':
     import sfml
-
+elif CONST.render == 'pookoo':
+    import pookoo
 
 class KEY():
     if CONST.render == 'sfml':
@@ -23,7 +24,16 @@ class KEY():
         K_A = sfml.Keyboard.A
         K_Z = sfml.Keyboard.Z
     elif CONST.render == 'pookoo':
-        pass
+        K_UP = 82
+        K_DOWN = 81
+        K_LEFT = 80
+        K_RIGHT = 79
+        K_ESCAPE = 41
+        K_LCTRL = 224
+        K_RCTRL = 228
+        K_ENTER = 40
+        K_A = 4
+        K_Z = 29
 
 '''button_map = {'action' : 'key_list'}'''
 button_map = {}
@@ -36,9 +46,7 @@ button_key = {}
 
 
 def add_one_key(key_value):
-    if CONST.render == 'pookoo':
-        log("Error: KEYS not yet implemented",1)
-        return
+
     button_value[key_value] = 0
     try:
         if ord('a') <= ord(key_value) <= ord('z'):
@@ -97,7 +105,7 @@ def get_key_button(action):
         return False
 
 
-def update_keyboard_event(event):
+def update_keyboard_event(event=None):
     global button_value,button_key
     '''
     Update the states of Input Event
@@ -109,3 +117,6 @@ def update_keyboard_event(event):
             except KeyError:
                 '''Key not in map'''
                 pass
+    elif CONST.render == 'pookoo':
+        for render_key in button_key.keys():
+            button_value[button_key[render_key]] = pookoo.input.keyboard_pressed(render_key)

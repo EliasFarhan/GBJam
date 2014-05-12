@@ -69,12 +69,14 @@ def loop():
             screen.display()
         elif CONST.render == 'pookoo':
             pookoo.audio.step()
+            pookoo.window.step()
 
     deinit_physics()
     if CONST.render == 'sfml':
         screen.close()
     elif CONST.render == 'pookoo':
         pookoo.audio.finish()
+        pookoo.window.finish()
 
 def start():
     global screen
