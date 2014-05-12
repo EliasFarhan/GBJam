@@ -56,14 +56,14 @@ def get_players_request():
         sock.connect((HOST, PORT))
         sock.sendall("GET_REQUEST;")
         get_request_data = sock.recv(1024)
-        print get_request_data
+        log(get_request_data)
         try:
             nmb = int(get_request_data.split(';')[1])
             length = 5
             for i in range(nmb):
                 """Position"""
                 parsed_data = get_request_data.split(';')[length*i+2:length*i+7]
-                print parsed_data
+                log(parsed_data)
                 parsed_data[1] = parsed_data[1].split(',')
                 parsed_data[1] = Vector2(int(float(parsed_data[1][0])), int(float(parsed_data[1][1])))
                 """Frame"""
