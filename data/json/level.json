@@ -89,7 +89,7 @@
                 "fixtures": [
                     {
                         "type": "box", 
-                        "user_data": 0
+                        "user_data": 11
                     }
                 ], 
                 "type": "static"
@@ -112,7 +112,7 @@
                 "fixtures": [
                     {
                         "type": "box", 
-                        "user_data": 0
+                        "user_data": 11
                     }
                 ], 
                 "type": "static"
