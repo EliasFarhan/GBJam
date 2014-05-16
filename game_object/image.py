@@ -17,7 +17,7 @@ from engine.vector import Vector2
 class Image(GameObject):
     def __init__(self, path, pos, screen_relative_pos=None, size=None, angle=0,relative=False):
         GameObject.__init__(self)
-        self.img = 0
+        self.img = None
         self.angle = angle
         self.pos = Vector2(pos)
         self.path = path

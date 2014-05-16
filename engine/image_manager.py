@@ -74,6 +74,7 @@ def load_image(name, permanent=False):
     except KeyError:
         if CONST.render == 'sfml':
             try:
+                log("Load image: "+name)
                 img_name[name] = sfml.Texture.from_file(name)
             except IOError as e:
                 log(str(e), 1)
