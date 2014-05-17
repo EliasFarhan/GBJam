@@ -69,12 +69,13 @@ def get_size(image):
 
 
 def load_image(name, permanent=False):
+    log("Loading image: "+name)
     try:
         img_name[name]
     except KeyError:
         if CONST.render == 'sfml':
             try:
-                log("Load image: "+name)
+                log("Load sfml texture: "+name)
                 img_name[name] = sfml.Texture.from_file(name)
             except IOError as e:
                 log(str(e), 1)

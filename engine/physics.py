@@ -45,7 +45,7 @@ def meter2pixel(meter):
 
 def set_ratio_pixel(new_ratio):
     ratio = new_ratio
-    
+
 
 timeStep = 1.0 / CONST.framerate
 vel_iters, pos_iters = 10,10
@@ -80,7 +80,7 @@ def init_physics(gravity_arg=None):
     global world
     if world != None:
         deinit_physics()
-    
+
     gravity_value = Vector2(0,0)
     if(gravity_arg == None):
         gravity_value = Vector2(0,CONST.gravity)
@@ -102,7 +102,8 @@ def add_dynamic_object(obj,pos):
         dynamic_object = world.CreateDynamicBody(position=position.get_tuple())
         dynamic_object.angle = 0
         dynamic_object.fixed_rotation = True
-    
+    elif CONST.render == 'pookoo':
+        dynamic_object = pookoo.physics.body_add_dynamic(world,pos.x,pos.y)
     return dynamic_object
 
 
@@ -114,7 +115,8 @@ def add_static_object(obj, pos):
         static_object = world.CreateStaticBody(position=position.get_tuple())
         static_object.angle = 0
         static_object.fixed_rotation = True
-    
+    elif CONST.render == 'pookoo':
+        static_object = pookoo.physics.body_add_static(world,pos.x,pos.y)
     return static_object
 
 
@@ -136,7 +138,7 @@ def move(body,vx=None,vy=None,linear=False):
     if body:
         if not linear:
             dyn_obj = body
-        
+
             velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
             fx,fy=0,0
             if(vx != None):
@@ -167,17 +169,20 @@ def add_static_box(body, pos, size, angle=0,data=0,sensor=False):
         log("Invalid arg body pos size in box creation",1)
         return None
     center_pos = pixel2meter(pos)
-    
-    polygon_shape = b2PolygonShape()
-    polygon_shape.SetAsBox(pixel2meter(size.x), pixel2meter(size.y),
-                           b2Vec2(center_pos.get_tuple()), angle*math.pi/180.0)
-    fixture_def = b2FixtureDef()
-    fixture_def.density = 1
-    fixture_def.shape = polygon_shape
+    if CONST.render != 'pookoo':
+        polygon_shape = b2PolygonShape()
+        polygon_shape.SetAsBox(pixel2meter(size.x), pixel2meter(size.y),
+                               b2Vec2(center_pos.get_tuple()), angle*math.pi/180.0)
+        fixture_def = b2FixtureDef()
+        fixture_def.density = 1
+        fixture_def.shape = polygon_shape
 
-    fixture_def.userData = data
-    fixture_def.isSensor = sensor
-    return body.CreateFixture(fixture_def)
+        fixture_def.userData = data
+        fixture_def.isSensor = sensor
+        return body.CreateFixture(fixture_def)
+    elif CONST.render == 'pookoo':
+        return None
+
 
 
 def add_static_circle(body,pos,radius,sensor=False,user_data=0):
@@ -232,7 +237,7 @@ if CONST.render != 'pookoo':
         # to find the closest point. By returning 1, you continue with the original ray
         # clipping. By returning -1, you will filter out the current fixture (the ray
         # will not hit it).
-        
+
         def ReportFixture(self, fixture, point, normal, fraction):
             self.hit=True
             self.fixture=fixture
@@ -246,7 +251,7 @@ def show_fixtures(screen,screen_pos,body):
 
     body_pos = body.position
     body_pos = (meter2pixel(body_pos[0]), meter2pixel(body_pos[1]))
-    
+
     for fixture in body.fixtures:
         fixture_pos = fixture.shape.vertices[0]
         fixture_pos = (meter2pixel(fixture_pos[0]),meter2pixel(fixture_pos[1]))
