@@ -7,10 +7,12 @@ from engine.const import CONST, log
 from event.physics_event import clear_physics_event, PhysicsEvent,\
     add_physics_event
 
-if CONST.render != 'pookoo':
+if CONST.physics == 'b2':
     import Box2D as b2_module
     from Box2D import *
-elif CONST.render == 'pookoo':
+elif CONST.physics == 'cymunk':
+    import cymunk
+elif CONST.physics == 'pookoo':
     import pookoo
 from engine.rect import Rect
 from engine.image_manager import draw_rect

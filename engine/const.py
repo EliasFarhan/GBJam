@@ -39,6 +39,7 @@ class CONST:
     """Engine CONSTANT"""
     """Core const"""
     render = ''
+    physics = ''
     debug = True
     path_prefix = ""
     layers = 5
@@ -96,27 +97,55 @@ class CONST:
                         continue
 
 
-try:
-    import pookoo
-    log(str(pookoo)+" "+str(dir(pookoo)))
-    log("Using POOKOO")
-    CONST.path_prefix = "../"
-    CONST.render = "pookoo"
 
-except ImportError as e:
-    log("Using pySFML, because Pookoo was not found")
+
+CONST.parse_const(CONST.path_prefix+'data/json/init.json')
+
+if CONST.render == 'sfml':
     try:
         import sfml
-
+        log("Using pySFML")
         CONST.render = 'sfml'
     except ImportError as e:
         log("Error: could not load SFML: " + str(e), 1)
         sys.exit()
+elif CONST.render == 'kivy':
+    try:
+        import kivy
+        log("Using KIVY")
+    except ImportError as e:
+        log("Error: could not load KIVY: "+str(e),1)
+        sys.exit()
+elif CONST.render == 'pookoo':
 
     try:
-        import Box2D
-    except ImportError:
-        log('Box2D should be installed', 1)
+        import pookoo
+        log(str(pookoo)+" "+str(dir(pookoo)))
+        CONST.path_prefix = "../"
+
+    except ImportError as e:
+        log("Error: could not load Pookoo: "+str(e),1)
         sys.exit()
 
-CONST.parse_const(CONST.path_prefix+'data/json/init.json')
+
+if CONST.physics == 'b2':
+    try:
+        import Box2D
+    except ImportError as e:
+        log('Error: could not load Box2D '+str(e), 1)
+        sys.exit()
+elif CONST.physics == 'cymunk':
+    try:
+        import cymunk
+    except ImportError as e:
+        log('Error: could not load Cymunk '+str(e), 1)
+        sys.exit()
+elif CONST.physics == 'pookoo':
+    try:
+        import pookoo
+        log(str(pookoo)+" "+str(dir(pookoo)))
+        CONST.path_prefix = "../"
+
+    except ImportError as e:
+        log("Error: could not load Pookoo: "+str(e),1)
+        sys.exit()
