@@ -21,9 +21,10 @@ def pixel2point(pixel):
 def load_font(name,size):
     '''Use pixel size'''
     global fonts
-    if CONST.render == 'pookoo':
+    if CONST.render == 'pookoo' or CONST.render == 'kivy':
         log("Font not yet implemented",1)
         return
+
     try:
         fonts[name]
     except KeyError:
@@ -34,6 +35,8 @@ def load_font(name,size):
             if CONST.render == 'sfml':
                 return None
     return fonts[name]
+
+
 def load_text(font,text,color=(0,0,0),size=0):
     if CONST.render == 'sfml':
         if font and size:

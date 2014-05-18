@@ -4,12 +4,12 @@ Created on Feb 1, 2014
 @author: efarhan
 '''
 
-from engine.const import log, CONST
+from engine.const import log
 from engine.init import get_screen_size
 from engine.physics import add_static_object, add_static_box
 from engine.vector import Vector2
 from event.event_main import add_button, get_button
-from event.mouse_event import get_mouse, show_mouse
+from input.mouse_input import get_mouse, show_mouse
 from game_object.game_object_main import GameObject
 from game_object.text import Text
 from json_export.level_json import save_level

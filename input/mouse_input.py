@@ -26,6 +26,8 @@ def get_mouse():
         return Vector2(pookoo.input.mouse_position()), [
             False,False,False
             ]
+    elif CONST.render == 'kivy':
+        return Vector2(), [False,False,False]
 
 
 def show_mouse(show=True):

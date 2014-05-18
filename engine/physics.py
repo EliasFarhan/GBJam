@@ -19,14 +19,12 @@ from engine.image_manager import draw_rect
 from numbers import Number
 from engine.vector import Vector2
 
-ratio = 100/1.5
-
 
 def pixel2meter(pixels):
     if isinstance(pixels,Vector2) or isinstance(pixels, Number):
-        return pixels/ratio
+        return pixels/CONST.ratio
     elif isinstance(pixels, tuple) or isinstance(pixels,list):
-        return pixels[0]/ratio, pixels[1]/ratio
+        return pixels[0]/CONST.ratio, pixels[1]/CONST.ratio
     else:
         raise TypeError("pixel2meter takes Vector2, numbers or tuple2")
 
@@ -35,9 +33,9 @@ def pixel2meter(pixels):
 
 def meter2pixel(meter):
     if isinstance(meter, Vector2) or isinstance(meter, Number):
-        return meter*ratio
+        return meter*CONST.ratio
     elif isinstance(meter, tuple) or isinstance(meter, list):
-        return meter[0]*ratio,meter[1]*ratio
+        return meter[0]*CONST.ratio,meter[1]*CONST.ratio
     else:
         raise TypeError("pixel2meter takes Vector2, numbers or tuple2")
     return None
@@ -75,7 +73,6 @@ def deinit_physics():
     world = None
 
 
-
 def init_physics(gravity_arg=None):
     global world
     if world != None:
@@ -86,24 +83,28 @@ def init_physics(gravity_arg=None):
         gravity_value = Vector2(0,CONST.gravity)
     else:
         gravity_value = gravity_arg
-    if CONST.render != 'pookoo':
+    if CONST.physics == 'b2':
         world = b2World(gravity=gravity_value.get_tuple())
         world.contactListener = KuduContactListener()
-    elif CONST.render == 'pookoo':
+    elif CONST.physics == 'pookoo':
         world = pookoo.physics.open(gravity_value.get_tuple()[0],
                                     gravity_value.get_tuple()[1])
+    elif CONST.physics == 'cymunk':
+        world = cymunk.Space()
 
 
 def add_dynamic_object(obj,pos):
     global world
     position = pixel2meter(pos)
     dynamic_object = None
-    if CONST.render != 'pookoo':
+    if CONST.physics == 'b2':
         dynamic_object = world.CreateDynamicBody(position=position.get_tuple())
         dynamic_object.angle = 0
         dynamic_object.fixed_rotation = True
-    elif CONST.render == 'pookoo':
+    elif CONST.physics == 'pookoo':
         dynamic_object = pookoo.physics.body_add_dynamic(world,pos.x,pos.y)
+    elif CONST.physics == 'cymunk':
+        pass
     return dynamic_object
 
 
@@ -111,12 +112,14 @@ def add_static_object(obj, pos):
     global world
     position = pixel2meter(pos)
     static_object = None
-    if CONST.render != 'pookoo':
+    if CONST.physics == 'b2':
         static_object = world.CreateStaticBody(position=position.get_tuple())
         static_object.angle = 0
         static_object.fixed_rotation = True
-    elif CONST.render == 'pookoo':
+    elif CONST.physics == 'pookoo':
         static_object = pookoo.physics.body_add_static(world,pos.x,pos.y)
+    elif CONST.physics == 'cymunk':
+        pass
     return static_object
 
 
@@ -129,7 +132,7 @@ def remove_body(index):
 
 def update_physics():
     clear_physics_event()
-    if CONST.render != 'pookoo':
+    if CONST.render == 'b2':
         world.Step(timeStep,vel_iters,pos_iters)
         world.ClearForces()
 
@@ -203,7 +206,7 @@ def add_static_circle(body,pos,radius,sensor=False,user_data=0):
 
     return body.CreateFixture(fixture_def)
 
-if CONST.render != 'pookoo':
+if CONST.physics == 'b2':
     class KuduContactListener(b2ContactListener):
         def BeginContact(self, contact):
             a = contact.fixtureA
@@ -221,7 +224,7 @@ def cast_ray(callback,point1,point2):
         p2 = b2Vec2(pixel2meter(point2).get_tuple())
         world.RayCast(callback,p1,p2)
 
-if CONST.render != 'pookoo':
+if CONST.render == 'b2':
     class RayCastClosestCallback(b2RayCastCallback):
         """This callback finds the closest hit"""
         def __repr__(self): return 'Closest hit'

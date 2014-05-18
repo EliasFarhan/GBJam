@@ -45,7 +45,7 @@ def loop():
     if CONST.debug:
         if CONST.render == 'sfml':
             level_manager.switch_level(LoadingScreen())
-        elif CONST.render == 'pookoo':
+        elif CONST.render == 'pookoo' or CONST.render == 'kivy':
             level_manager.switch_level(GameState(CONST.startup))
     else:
         level_manager.switch_level(Kwakwa())

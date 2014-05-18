@@ -9,10 +9,10 @@ Created on 8 sept. 2013
 '''
 
 
-from event.keyboard_event import update_keyboard_event, get_key_button,\
+from input.keyboard_input import update_keyboard_event, get_key_button,\
     add_key_button
 from engine.const import CONST, log
-from event.joystick_event import get_joy_button, add_joy_button,\
+from input.joystick_input import get_joy_button, add_joy_button,\
     update_joy_event
 from engine.level_manager import get_level
 from engine.vector import Vector2

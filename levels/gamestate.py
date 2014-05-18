@@ -8,13 +8,13 @@ from engine.rect import Rect
 from engine.vector import Vector2
 from levels.scene import Scene
 from engine.const import log, CONST
-from network.gamestate_network import client, NetworkGamestate
+from network.gamestate_network import NetworkGamestate
 from json_export.level_json import load_level
 from engine.physics import init_physics, update_physics, deinit_physics
 from levels.editor import Editor
 from engine.image_manager import fill_surface, draw_rect
 from levels.gui import GUI
-from event.mouse_event import show_mouse, get_mouse
+from input.mouse_input import show_mouse, get_mouse
 
 
 class GameState(Scene, Editor, GUI, NetworkGamestate):

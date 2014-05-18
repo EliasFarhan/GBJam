@@ -2,8 +2,8 @@
 	"screen_size": [1920,1080],
 	"fullscreen": false,
 	"startup": "data/json/level.json",
-	"render": "sfml",
-	"physics": "b2",
+	"render": "kivy",
+	"physics": "cymunk",
 	"actions": {
 		"player_right": ["d","RIGHT"],
 		"player_left": ["a","LEFT"],

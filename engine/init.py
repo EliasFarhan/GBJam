@@ -2,6 +2,7 @@ import sys
 from engine.const import log, CONST
 
 from engine.vector import Vector2
+from input.keyboard_input import _on_keyboard_down
 from json_export.json_main import load_json
 from event.event_main import add_button
 
@@ -9,6 +10,27 @@ if CONST.render == 'sfml':
     import sfml
 elif CONST.render == 'pookoo':
     import pookoo
+elif CONST.render == 'kivy':
+    import kivy
+    from kivy.app import App
+    from kivy.uix.widget import Widget
+    from kivy.clock import Clock
+    from kivy.core.window import Window
+
+if CONST.render == 'kivy':
+    class KuduGame(Widget):
+        def update(self, delta_time):
+            pass
+
+        def __init__(self):
+            self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
+            self._keyboard.bind(on_key_down=_on_keyboard_down)
+
+    class KuduApp(App):
+        def build(self):
+            game = KuduGame()
+            Clock.schedule_interval(game.update, 1.0 / 60.0)
+            return game
 
 
 def init_all():
@@ -47,6 +69,8 @@ def init_screen():
         return window
     elif CONST.render == 'pookoo':
         return pookoo.window.begin()
+    elif CONST.render == 'kivy':
+        return KuduApp()
 
 
 def init_joystick():

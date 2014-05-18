@@ -56,6 +56,7 @@ class CONST:
     jump = 10  #8.5
     jump_step = 5
     scale_speed = 0.01
+    ratio = 100/1.5
 
     """Graphics"""
     framerate = 60

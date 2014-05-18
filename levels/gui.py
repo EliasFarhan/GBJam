@@ -3,13 +3,12 @@ Created on Feb 26, 2014
 
 @author: efarhan
 '''
-from engine.const import log
 
 from engine.init import get_screen_size
 from engine.vector import Vector2
 from game_object.text import Text
 from game_object.image import Image
-from event.mouse_event import show_mouse, get_mouse
+from input.mouse_input import show_mouse, get_mouse
 
 
 class GUI():
