@@ -132,7 +132,7 @@ def remove_body(index):
 
 def update_physics():
     clear_physics_event()
-    if CONST.render == 'b2':
+    if CONST.physics == 'b2':
         world.Step(timeStep,vel_iters,pos_iters)
         world.ClearForces()
 

@@ -3,7 +3,6 @@ from engine.const import log, CONST
 from engine.level_manager import get_level
 
 from engine.vector import Vector2
-from input.keyboard_input import _on_keyboard_down
 from json_export.json_main import load_json
 from event.event_main import add_button
 
@@ -20,6 +19,7 @@ elif CONST.render == 'kivy':
     from kivy.core.window import Window
 
 if CONST.render == 'kivy':
+    from input.keyboard_input import _on_keyboard_down
     class KuduGame(Widget):
         def update(self, delta_time):
             log("UPDATE")
