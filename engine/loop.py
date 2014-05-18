@@ -53,28 +53,31 @@ def loop():
     if CONST.render == 'pookoo':
         pookoo.audio.init()
 
-    while not finish:
-        if CONST.render == 'pookoo':
-            pookoo.draw.clear()
-        update_event()
-        if not finish:
-            finish = get_button('quit')
-        f = level_manager.update_level()
-        if f == 0:
-            log("No scene loaded",1)
-            break
-        else:
-            f(screen)
+    if CONST.render != 'kivy':
+        while not finish:
+            if CONST.render == 'pookoo':
+                pookoo.draw.clear()
+            update_event()
+            if not finish:
+                finish = get_button('quit')
+            f = level_manager.update_level()
+            if f == 0:
+                log("No scene loaded",1)
+                break
+            else:
+                f(screen)
 
-        if get_button('reset'):
-            level_manager.switch_level(GameState(CONST.startup))
+            if get_button('reset'):
+                level_manager.switch_level(GameState(CONST.startup))
 
-        if CONST.render == 'sfml':
-            screen.framerate_limit = CONST.framerate
-            screen.display()
-        elif CONST.render == 'pookoo':
-            pookoo.audio.step()
-            pookoo.window.step()
+            if CONST.render == 'sfml':
+                screen.framerate_limit = CONST.framerate
+                screen.display()
+            elif CONST.render == 'pookoo':
+                pookoo.audio.step()
+                pookoo.window.step()
+    else:
+        screen.run()
 
     deinit_physics()
     if CONST.render == 'sfml':

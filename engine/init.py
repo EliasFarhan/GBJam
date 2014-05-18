@@ -1,5 +1,6 @@
-import sys
+
 from engine.const import log, CONST
+from engine.level_manager import get_level
 
 from engine.vector import Vector2
 from input.keyboard_input import _on_keyboard_down
@@ -12,6 +13,7 @@ elif CONST.render == 'pookoo':
     import pookoo
 elif CONST.render == 'kivy':
     import kivy
+    from kivy.lang import Builder
     from kivy.app import App
     from kivy.uix.widget import Widget
     from kivy.clock import Clock
@@ -20,15 +22,21 @@ elif CONST.render == 'kivy':
 if CONST.render == 'kivy':
     class KuduGame(Widget):
         def update(self, delta_time):
-            pass
+            log("UPDATE")
+            get_level().loop()
 
         def __init__(self):
             self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
             self._keyboard.bind(on_key_down=_on_keyboard_down)
 
+        def _keyboard_closed(self):
+            self._keyboard.unbind(on_key_down=_on_keyboard_down)
+            self._keyboard = None
+
     class KuduApp(App):
         def build(self):
             game = KuduGame()
+            self.load_kv("data/kv/kudu.kv")
             Clock.schedule_interval(game.update, 1.0 / 60.0)
             return game
 

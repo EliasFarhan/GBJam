@@ -26,6 +26,7 @@ def load_level(level):
     """
     level_data = load_json(CONST.path_prefix+level.filename)
     if level_data is not None:
+        log("LOAD PLAYER")
         player_data = get_element(level_data, 'player')
         if player_data is not None:
             '''load the json containing the player
@@ -42,6 +43,7 @@ def load_level(level):
                 log("Warning: Invalid format for player JSON",1)
             if player:
                 level.player = player
+        log("LOAD GUI")
         gui_data = get_element(level_data, 'gui')
         if gui_data is not None:
             '''load the json containing the gui
@@ -52,6 +54,7 @@ def load_level(level):
                 GUI.load_gui_json(gui_data,level)
             else:
                 log("Warning: invalid format for GUI JSON",1)
+        log("LOAD_BG COLOR")
         bg_color = get_element(level_data,'bg_color')
         if bg_color is not None:
             level.bg_color = bg_color
@@ -65,12 +68,13 @@ def load_level(level):
         network = get_element(level_data, 'network')
         if network is not None:
             level.use_network = network
-        
+        log("LOAD EVENTS")
         event_data = get_element(level_data, "events")
         if event_data:
             for e in event_data.keys():
                 level.event[e] = load_event(event_data[e])
 
+        log("LOAD ImAGE OBJECTS")
         objects_dict = get_element(level_data, 'objects')
         reset_object_id()
         if objects_dict is not None:
@@ -81,6 +85,7 @@ def load_level(level):
                 elif isinstance(object_data,dict):
                     image_type = get_element(object_data,"type")
                     load_image_from_json(object_data,level,image_type)
+        log("END OF LOADING")
         return True
     return False
 

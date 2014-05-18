@@ -90,8 +90,8 @@ def init_physics(gravity_arg=None):
         world = pookoo.physics.open(gravity_value.get_tuple()[0],
                                     gravity_value.get_tuple()[1])
     elif CONST.physics == 'cymunk':
-        world = cymunk.Space()
-
+        #world = cymunk.Space()
+        pass
 
 def add_dynamic_object(obj,pos):
     global world

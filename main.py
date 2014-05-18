@@ -1,4 +1,4 @@
-#kudu start program
+#/usr/bin/env python
 import sys
 import os
 

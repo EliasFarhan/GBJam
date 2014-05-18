@@ -41,10 +41,13 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         self.lock = False
         self.click = False
 
-
+        log("INIT NETWORK")
         NetworkGamestate.init(self)
+
         if not loading:
+            log("EXECUTE INIT EVENT")
             self.execute_event('on_init')
+        log("GAMESTATE INIT OVER")
 
     def execute_event(self, name):
         log(str(self.event[name]))
