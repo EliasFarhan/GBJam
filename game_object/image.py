@@ -34,10 +34,8 @@ class Image(GameObject):
         self.update_rect()
 
     def init_image(self):
-        if self.size is None:
-            self.img = load_image(self.path)
-            self.size = get_size(self.img)
-        self.size = Vector2(self.size)
+        self.img = load_image(self.path)
+        self.size = Vector2(get_size(self.img))
         self.rect = Rect(self.pos, self.size)
 
     def loop(self, screen, screen_pos):
