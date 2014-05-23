@@ -98,7 +98,11 @@ class CONST:
                         continue
 
 
-
+try:
+    import pookoo
+    CONST.path_prefix = "../"
+except ImportError:
+    pass
 
 CONST.parse_const(CONST.path_prefix+'data/json/init.json')
 
