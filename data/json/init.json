@@ -2,7 +2,7 @@
 	"screen_size": [1920,1080],
 	"fullscreen": true,
 	"startup": "data/json/level.json",
-	"render": "kivy",
+	"render": "sfml",
 	"physics": "b2",
 	"actions": {
 		"player_right": ["d","RIGHT"],
