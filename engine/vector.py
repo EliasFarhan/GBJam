@@ -23,6 +23,7 @@ class Vector2():
     def __init__(self,*args):
         if args is None:
             log("Error: giving None as Vector2 arg",1)
+            return
         try:
             self.x = 0.0
             self.y = 0.0
@@ -31,6 +32,9 @@ class Vector2():
                 self.x = args[0]
                 self.y = args[1]
             elif len(args) == 1:
+                if args[0] is None:
+                    log("Error: giving None as Vector2 arg",1)
+                    return
                 if not isinstance(args[0], Vector2):
                     self.x = args[0][0]
                     self.y = args[0][1]

@@ -17,15 +17,15 @@ elif CONST.render == 'kivy':
     from kivy.uix.widget import Widget
     from kivy.clock import Clock
     from kivy.core.window import Window
-
-if CONST.render == 'kivy':
+    from kivy.uix.floatlayout import FloatLayout
     from input.keyboard_input import _on_keyboard_down
-    class KuduGame(Widget):
-        def update(self, delta_time):
-            log("UPDATE")
-            get_level().loop()
 
-        def __init__(self):
+    class KuduGame(FloatLayout):
+        def update(self, delta_time):
+            get_level().loop(self)
+
+        def __init__(self,**kwargs):
+            super(KuduGame, self).__init__(**kwargs)
             self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
             self._keyboard.bind(on_key_down=_on_keyboard_down)
 
@@ -36,7 +36,6 @@ if CONST.render == 'kivy':
     class KuduApp(App):
         def build(self):
             game = KuduGame()
-            self.load_kv("data/kv/kudu.kv")
             Clock.schedule_interval(game.update, 1.0 / 60.0)
             return game
 
