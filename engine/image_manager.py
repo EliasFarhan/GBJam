@@ -127,6 +127,14 @@ def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_fun
             pookoo.draw.move(pos.x,pos.y)
 
             image.draw()
+        elif CONST.render == 'kivy':
+            image.x = pos.x
+            image.y = pos.y
+            if angle != 0:
+                pass
+            if new_size is not None:
+                image.size[0] = new_size.x
+                image.size[1] = new_size.y
     except KeyError:
         pass
 
