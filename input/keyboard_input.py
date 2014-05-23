@@ -125,7 +125,6 @@ def update_keyboard_event(event=None):
             button_value[button_key[render_key]] = pookoo.input.keyboard_pressed(render_key)
 if CONST.render == 'kivy':
     def _on_keyboard_down(self, keycode, text, modifier):
-        print keycode, text, modifier
         if keycode[1] == 'escape':
             import sys
             sys.exit()
