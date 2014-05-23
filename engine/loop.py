@@ -2,6 +2,7 @@
 Main loop of the engine
 """
 
+
 from engine.const import CONST,log
 import sys
 from engine.physics import deinit_physics
@@ -12,6 +13,8 @@ if CONST.render == 'sfml':
     import sfml
 elif CONST.render == 'pookoo':
     import pookoo
+elif CONST.render == 'kivy':
+    from kivy.app import App
 from engine.init import init_all
 import engine.level_manager as level_manager
 from event.event_main import update_event, add_button, get_button
@@ -36,12 +39,7 @@ def set_finish():
     finish = True
 
 
-def loop():
-    global finish, screen, console
-
-    add_button('quit', ['LCTRL+q'])
-    add_button('reset', ['r'])
-
+def init_level():
     if CONST.debug:
         if CONST.render == 'sfml':
             level_manager.switch_level(LoadingScreen())
@@ -49,6 +47,15 @@ def loop():
             level_manager.switch_level(GameState(CONST.startup))
     else:
         level_manager.switch_level(Kwakwa())
+
+def loop():
+    global finish, screen, console
+
+    add_button('quit', ['LCTRL+q'])
+    add_button('reset', ['r'])
+
+    if CONST.render != 'kivy':
+        init_level()
 
     if CONST.render == 'pookoo':
         pookoo.audio.init()
@@ -77,7 +84,7 @@ def loop():
                 pookoo.audio.step()
                 pookoo.window.step()
     else:
-        screen.run()
+        App.get_running_app().run()
 
     deinit_physics()
     if CONST.render == 'sfml':

@@ -124,13 +124,10 @@ def update_keyboard_event(event=None):
         for render_key in button_key.keys():
             button_value[button_key[render_key]] = pookoo.input.keyboard_pressed(render_key)
 if CONST.render == 'kivy':
-    def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        if keycode[1] == 'w':
-            self.player1.center_y += 10
-        elif keycode[1] == 's':
-            self.player1.center_y -= 10
-        elif keycode[1] == 'up':
-            self.player2.center_y += 10
-        elif keycode[1] == 'down':
-            self.player2.center_y -= 10
+    def _on_keyboard_down(self, keycode, text, modifier):
+        print keycode, text, modifier
+        if keycode[1] == 'escape':
+            import sys
+            sys.exit()
+        #TODO: set new value in button_value
         return True

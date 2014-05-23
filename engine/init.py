@@ -2,27 +2,28 @@
 from engine.const import log, CONST
 from engine.level_manager import get_level
 
+
 from engine.vector import Vector2
 from json_export.json_main import load_json
 from event.event_main import add_button
 
+real_screen_size = Vector2()
+kivy_screen = None
 if CONST.render == 'sfml':
     import sfml
 elif CONST.render == 'pookoo':
     import pookoo
 elif CONST.render == 'kivy':
     import kivy
-    from kivy.lang import Builder
     from kivy.app import App
-    from kivy.uix.widget import Widget
     from kivy.clock import Clock
     from kivy.core.window import Window
     from kivy.uix.floatlayout import FloatLayout
+    from kivy.config import Config
+
     from input.keyboard_input import _on_keyboard_down
 
     class KuduGame(FloatLayout):
-        def update(self, delta_time):
-            get_level().loop(self)
 
         def __init__(self,**kwargs):
             super(KuduGame, self).__init__(**kwargs)
@@ -33,14 +34,22 @@ elif CONST.render == 'kivy':
             self._keyboard.unbind(on_key_down=_on_keyboard_down)
             self._keyboard = None
 
+        def update(self, delta_time):
+            get_level().loop(self)
+
     class KuduApp(App):
         def build(self):
+            global real_screen_size, kivy_screen
             game = KuduGame()
+            kivy_screen = game
+            from engine.loop import init_level
+            init_level()
             Clock.schedule_interval(game.update, 1.0 / 60.0)
             return game
 
 
 def init_all():
+    global kivy_screen
     screen = init_screen()
     if CONST.render == 'sfml':
         log(str(screen.settings))
@@ -77,6 +86,11 @@ def init_screen():
     elif CONST.render == 'pookoo':
         return pookoo.window.begin()
     elif CONST.render == 'kivy':
+        if CONST.fullscreen:
+            Config.set('graphics', 'fullscreen', 'auto')
+        #Config.set('graphics', 'width', str(real_screen_size.x))
+        #Config.set('graphics', 'height', str(real_screen_size.y))
+        Config.write()
         return KuduApp()
 
 
@@ -99,3 +113,6 @@ def toogle_fullscreen():
 def resize_screen(new_size):
     """TODO: resize window"""
 
+def get_kivy_screen():
+    global kivy_screen
+    return kivy_screen

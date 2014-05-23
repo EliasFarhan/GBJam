@@ -1,8 +1,10 @@
 """
 Manage images loading, transforming and rendering
 """
+
 from engine.const import CONST, log
-from engine.init import get_screen_size
+from engine.init import get_screen_size, get_kivy_screen
+
 from engine.vector import Vector2
 
 
@@ -10,8 +12,8 @@ if CONST.render == 'sfml':
     import sfml
 elif CONST.render == 'pookoo':
     import pookoo
-
-from math import radians, cos, sin
+elif CONST.render == 'kivy':
+    from kivy.uix.image import AsyncImage
 
 img_name = {}
 permanent_images = []
@@ -86,11 +88,18 @@ def load_image(name, permanent=False):
             except Exception as e:
                 log(str(e), 1)
                 return None
+        elif CONST.render == 'kivy':
+            img_name[name] = AsyncImage(source=name)
+            get_kivy_screen().add_widget(img_name[name])
         if permanent:
             permanent_images.append(name)
+
     if CONST.render == 'sfml':
         return sfml.Sprite(img_name[name])
-    elif CONST.render == 'pookoo':
+    elif CONST.render == 'pookoo' :
+        return img_name[name]
+    elif CONST.render == 'kivy':
+
         return img_name[name]
 
 
@@ -151,3 +160,5 @@ def show_mask_img(screen, bg, mask, bg_pos, mask_pos=(0, 0), bg_size=None, mask_
         mask_render_sprite.position = mask_pos
         screen.draw(mask_render_sprite)
 
+def show_video():
+    pass

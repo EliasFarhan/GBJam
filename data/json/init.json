@@ -1,6 +1,6 @@
 {
 	"screen_size": [1920,1080],
-	"fullscreen": false,
+	"fullscreen": true,
 	"startup": "data/json/level.json",
 	"render": "kivy",
 	"physics": "b2",
