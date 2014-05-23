@@ -69,7 +69,7 @@ def deinit_physics():
     if CONST.render != "pookoo":
         del world
     elif CONST.render == 'pookoo':
-        pookoo.physics.close(world)
+        pookoo.physics.finish(world)
     world = None
 
 
@@ -87,8 +87,7 @@ def init_physics(gravity_arg=None):
         world = b2World(gravity=gravity_value.get_tuple())
         world.contactListener = KuduContactListener()
     elif CONST.physics == 'pookoo':
-        world = pookoo.physics.open(gravity_value.get_tuple()[0],
-                                    gravity_value.get_tuple()[1])
+        world = pookoo.physics.begin(gravity_value.get_tuple())
     elif CONST.physics == 'cymunk':
         #world = cymunk.Space()
         pass
@@ -102,7 +101,7 @@ def add_dynamic_object(obj,pos):
         dynamic_object.angle = 0
         dynamic_object.fixed_rotation = True
     elif CONST.physics == 'pookoo':
-        dynamic_object = pookoo.physics.body_add_dynamic(world,pos.x,pos.y)
+        dynamic_object = pookoo.physics.Body(pos.get_tuple())
     elif CONST.physics == 'cymunk':
         pass
     return dynamic_object
