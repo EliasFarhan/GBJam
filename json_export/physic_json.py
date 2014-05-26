@@ -4,7 +4,7 @@ Created on 20 mars 2014
 @author: efarhan
 '''
 import math
-from engine.const import log
+from engine.const import log, CONST
 from json_export.json_main import get_element
 from engine.physics import add_dynamic_object, add_static_object, add_static_box,\
     get_body_position, pixel2meter, add_static_circle
@@ -37,13 +37,21 @@ def load_physic_objects(physics_data,image):
         image.body.angle = angle*math.pi/180
     else:
         if image.body and image.angle != 0:
-            image.body.angle = image.angle*math.pi/180
-            '''TODO: Set new pos for body'''
+            if CONST.physics == 'b2':
+                image.body.angle = image.angle*math.pi/180
+            elif CONST.physics == 'pookoo':
+                #TODO: set angle for body
+                pass
+            '''Set new pos for body'''
             v = image.size/2
             v.rotate(image.angle)
             pos = image.pos+v
             pos = pixel2meter(pos)
-            image.body.position = pos.get_tuple()
+            if CONST.physics == 'b2':
+                image.body.position = pos.get_tuple()
+            elif CONST.physics == 'pookoo':
+                #TODO: set pos for body
+                pass
             
     fixtures_data = get_element(physics_data,"fixtures")
     if fixtures_data:

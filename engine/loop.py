@@ -58,7 +58,7 @@ def loop():
         init_level()
 
     if CONST.render == 'pookoo':
-        pookoo.audio.init()
+        pookoo.audio.begin()
 
     if CONST.render != 'kivy':
         while not finish:

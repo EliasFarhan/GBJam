@@ -39,8 +39,8 @@ def draw_rect(screen, screen_pos, rect, color, angle=0):
             pookoo.draw.color(color[0],color[1],color[2],color[3])
         except IndexError:
             pookoo.draw.color(color[0],color[1],color[2],255)
-        pos = (rect.pos-screen_pos).get_tuple()
-        pookoo.draw.move(pos[0],pos[1])
+        pos = (rect.pos-screen_pos)
+        pookoo.draw.move(pos.get_tuple())
         pookoo.draw.rectangle(rect.size.get_int_tuple())
 
 
@@ -67,10 +67,10 @@ def get_size(image):
     if CONST.render == 'sfml':
         return Vector2(image.texture.size)
     elif CONST.render == 'pookoo':
-        return Vector2(image.size)
+        return Vector2(image.size())
 
 
-def load_image(name, permanent=False):
+def load_image(name, permanent=False,prefix=True):
     log("Loading image: "+name)
     try:
         img_name[name]
@@ -84,7 +84,10 @@ def load_image(name, permanent=False):
                 return None
         elif CONST.render == 'pookoo':
             try:
-                img_name[name] = pookoo.texture.Texture(name)
+                if prefix:
+                    img_name[name] = pookoo.texture(CONST.path_prefix+name)
+                else:
+                    img_name[name] = pookoo.texture(name)
             except Exception as e:
                 log(str(e), 1)
                 return None
@@ -124,7 +127,7 @@ def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_fun
             sprite.position = (pos * screen_diff_ratio).get_int_tuple()
             screen.draw(sprite)
         elif CONST.render == 'pookoo':
-            pookoo.draw.move(pos.x,pos.y)
+            pookoo.draw.move(pos.get_tuple())
 
             image.draw()
         elif CONST.render == 'kivy':

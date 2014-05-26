@@ -53,7 +53,10 @@ world = None
 
 def get_body_position(body):
     if body:
-        pos = Vector2(body.position)
+        if CONST.physics == 'b2':
+            pos = Vector2(body.position)
+        elif CONST.physics == 'pookoo':
+            pos = Vector2(body.position())
         return meter2pixel(pos)
     else:
         return None
@@ -101,7 +104,7 @@ def add_dynamic_object(obj,pos):
         dynamic_object.angle = 0
         dynamic_object.fixed_rotation = True
     elif CONST.physics == 'pookoo':
-        dynamic_object = pookoo.physics.Body(pos.get_tuple())
+        dynamic_object = pookoo.physics.body(pos.get_tuple(),'dynamic')
     elif CONST.physics == 'cymunk':
         pass
     return dynamic_object
@@ -116,7 +119,7 @@ def add_static_object(obj, pos):
         static_object.angle = 0
         static_object.fixed_rotation = True
     elif CONST.physics == 'pookoo':
-        static_object = pookoo.physics.body_add_static(world,pos.x,pos.y)
+        static_object = pookoo.physics.body(pos.get_tuple(),'static')
     elif CONST.physics == 'cymunk':
         pass
     return static_object
@@ -137,27 +140,28 @@ def update_physics():
 
 
 def move(body,vx=None,vy=None,linear=False):
-    if body:
-        if not linear:
-            dyn_obj = body
+    if CONST.physics == 'b2':
+        if body:
+            if not linear:
+                dyn_obj = body
 
-            velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
-            fx,fy=0,0
-            if(vx != None):
-                velx = vx * CONST.move_speed - velx
-                fx = dyn_obj.mass * velx / timeStep
-            if(vy != None):
-                vely = vy * CONST.move_speed - vely
-                fy = dyn_obj.mass * vely / timeStep
-            if b2_module.__version__[0:3] == '2.3':
-                dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
-            elif b2_module.__version__[0:3] == '2.1':
-                dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter)
+                velx,vely = dyn_obj.linearVelocity.x,dyn_obj.linearVelocity.y
+                fx,fy=0,0
+                if(vx != None):
+                    velx = vx * CONST.move_speed - velx
+                    fx = dyn_obj.mass * velx / timeStep
+                if(vy != None):
+                    vely = vy * CONST.move_speed - vely
+                    fy = dyn_obj.mass * vely / timeStep
+                if b2_module.__version__[0:3] == '2.3':
+                    dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter,1)
+                elif b2_module.__version__[0:3] == '2.1':
+                    dyn_obj.ApplyForce(b2Vec2(fx,fy),dyn_obj.worldCenter)
 
-        else:
-            dyn_obj = body
-            pos = dyn_obj.position
-            dyn_obj.position = b2Vec2(pos[0]+vx*timeStep,pos[1]+vy*timeStep)
+            else:
+                dyn_obj = body
+                pos = dyn_obj.position
+                dyn_obj.position = b2Vec2(pos[0]+vx*timeStep,pos[1]+vy*timeStep)
 
 
 def jump(dyn_obj):
@@ -250,24 +254,24 @@ if CONST.render == 'b2':
 
 
 def show_fixtures(screen,screen_pos,body):
+    if CONST.render == 'b2':
+        body_pos = body.position
+        body_pos = (meter2pixel(body_pos[0]), meter2pixel(body_pos[1]))
 
-    body_pos = body.position
-    body_pos = (meter2pixel(body_pos[0]), meter2pixel(body_pos[1]))
+        for fixture in body.fixtures:
+            fixture_pos = fixture.shape.vertices[0]
+            fixture_pos = (meter2pixel(fixture_pos[0]),meter2pixel(fixture_pos[1]))
+            fixture_pos = (body_pos[0]+fixture_pos[0],body_pos[1]+fixture_pos[1])
+            fixture_size = [0.0,0.0]
+            fixture_size = [fixture.shape.vertices[1][0]-fixture.shape.vertices[0][0],fixture.shape.vertices[2][1]-fixture.shape.vertices[0][1]]
+            fixture_size = (fixture_size[0]/2, fixture_size[1]/2)
+            fixture_size = (meter2pixel(fixture_size[0]),meter2pixel(fixture_size[1]))
+            fixture_pos = (fixture_pos[0]+fixture_size[0],fixture_pos[1]+fixture_size[1])
+            fixture_size = (2*fixture_size[0],2*fixture_size[1])
+            rect = Rect(Vector2(fixture_pos),Vector2(fixture_size))
+            rect.set_center(Vector2(fixture_pos))
 
-    for fixture in body.fixtures:
-        fixture_pos = fixture.shape.vertices[0]
-        fixture_pos = (meter2pixel(fixture_pos[0]),meter2pixel(fixture_pos[1]))
-        fixture_pos = (body_pos[0]+fixture_pos[0],body_pos[1]+fixture_pos[1])
-        fixture_size = [0.0,0.0]
-        fixture_size = [fixture.shape.vertices[1][0]-fixture.shape.vertices[0][0],fixture.shape.vertices[2][1]-fixture.shape.vertices[0][1]]
-        fixture_size = (fixture_size[0]/2, fixture_size[1]/2)
-        fixture_size = (meter2pixel(fixture_size[0]),meter2pixel(fixture_size[1]))
-        fixture_pos = (fixture_pos[0]+fixture_size[0],fixture_pos[1]+fixture_size[1])
-        fixture_size = (2*fixture_size[0],2*fixture_size[1])
-        rect = Rect(Vector2(fixture_pos),Vector2(fixture_size))
-        rect.set_center(Vector2(fixture_pos))
-
-        color = (255,0,0,200)
-        if fixture.sensor == 1:
-            color = (0,0,255,200)
-        draw_rect(screen, screen_pos, rect, color)
+            color = (255,0,0,200)
+            if fixture.sensor == 1:
+                color = (0,0,255,200)
+            draw_rect(screen, screen_pos, rect, color)

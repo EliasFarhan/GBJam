@@ -23,7 +23,7 @@ def get_mouse():
                                            sfml.Mouse.is_button_pressed(sfml.Mouse.RIGHT),
                                            sfml.Mouse.is_button_pressed(sfml.Mouse.MIDDLE)]
     elif CONST.render == 'pookoo':
-        return Vector2(pookoo.input.mouse_position()), [
+        return Vector2(pookoo.input.mouse.position()), [
             False,False,False
             ]
     elif CONST.render == 'kivy':

@@ -122,7 +122,7 @@ def update_keyboard_event(event=None):
                 pass
     elif CONST.render == 'pookoo':
         for render_key in button_key.keys():
-            button_value[button_key[render_key]] = pookoo.input.keyboard_pressed(render_key)
+            button_value[button_key[render_key]] = pookoo.input.keyboard.pressed(render_key)
 if CONST.render == 'kivy':
     def _on_keyboard_down(self, keycode, text, modifier):
         if keycode[1] == 'escape':
