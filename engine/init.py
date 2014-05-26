@@ -18,12 +18,11 @@ elif CONST.render == 'kivy':
     from kivy.app import App
     from kivy.clock import Clock
     from kivy.core.window import Window
-    from kivy.uix.floatlayout import FloatLayout
     from kivy.config import Config
-
+    from kivy.uix.widget import Widget
     from input.keyboard_input import _on_keyboard_down
 
-    class KuduGame(FloatLayout):
+    class KuduGame(Widget):
 
         def __init__(self,**kwargs):
             super(KuduGame, self).__init__(**kwargs)
@@ -39,13 +38,23 @@ elif CONST.render == 'kivy':
 
     class KuduApp(App):
         def build(self):
+            # print the application informations
+            log('\nKudu v%s  Copyright (C) 2014  Elias Farhan')
+
+            from kivy.base import EventLoop
+            EventLoop.ensure_window()
+            self.window = EventLoop.window
+
+
             global real_screen_size, kivy_screen
-            game = KuduGame()
-            kivy_screen = game
+            self.kudu_widget = KuduGame(app=self)
+            self.root = self.kudu_widget
+
+            kivy_screen = self.kudu_widget
+
             from engine.loop import init_level
             init_level()
-            Clock.schedule_interval(game.update, 1.0 / 60.0)
-            return game
+            Clock.schedule_interval(self.kudu_widget.update, 1.0 / 60.0)
 
 
 def init_all():
@@ -87,9 +96,9 @@ def init_screen():
         return pookoo.window.begin()
     elif CONST.render == 'kivy':
         if CONST.fullscreen:
-            Config.set('graphics', 'fullscreen', 'auto')
-        #Config.set('graphics', 'width', str(real_screen_size.x))
-        #Config.set('graphics', 'height', str(real_screen_size.y))
+            Config.set('graphics', 'fullscreen', '0')
+        Config.set('graphics', 'width', '1920')
+        Config.set('graphics', 'height', '1080')
         Config.write()
         return KuduApp()
 

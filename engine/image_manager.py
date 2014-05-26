@@ -2,6 +2,7 @@
 Manage images loading, transforming and rendering
 """
 
+
 from engine.const import CONST, log
 from engine.init import get_screen_size, get_kivy_screen
 
@@ -13,7 +14,9 @@ if CONST.render == 'sfml':
 elif CONST.render == 'pookoo':
     import pookoo
 elif CONST.render == 'kivy':
-    from kivy.uix.image import AsyncImage
+    import kivy
+    from kivy.uix.widget import Widget
+    from kivy.uix.image import Image
 
 img_name = {}
 permanent_images = []
@@ -92,8 +95,8 @@ def load_image(name, permanent=False,prefix=True):
                 log(str(e), 1)
                 return None
         elif CONST.render == 'kivy':
-            img_name[name] = AsyncImage(source=name)
-            get_kivy_screen().add_widget(img_name[name])
+            img_name[name] = kivy.core.image.Image.load(filename=name,keep_data=True)
+
         if permanent:
             permanent_images.append(name)
 
@@ -102,8 +105,11 @@ def load_image(name, permanent=False,prefix=True):
     elif CONST.render == 'pookoo' :
         return img_name[name]
     elif CONST.render == 'kivy':
-
-        return img_name[name]
+        img = Image()
+        img.allow_stretch = True
+        img.texture = img_name[name].texture
+        get_kivy_screen().add_widget(img)
+        return img
 
 
 def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_func=None, factor=1, center_image=False):
@@ -131,13 +137,14 @@ def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_fun
 
             image.draw()
         elif CONST.render == 'kivy':
+            log("SHOW IMAGE "+str(image)+str(new_size.get_tuple()))
             image.x = pos.x
             image.y = pos.y
             if angle != 0:
                 pass
             if new_size is not None:
-                image.size[0] = new_size.x
-                image.size[1] = new_size.y
+                image.texture_size[0] = new_size.x
+                image.texture_size[1] = new_size.y
     except KeyError:
         pass
 

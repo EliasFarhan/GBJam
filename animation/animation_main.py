@@ -43,7 +43,10 @@ class Animation():
                 self.img = self.img_indexes[0]
             except IndexError:
                 pass
-        self.size = get_size(self.img)
+        if size is None:
+            self.size = get_size(self.img)
+        else:
+            self.size = Vector2(size)
         if self.obj:
             self.obj.update_rect()
 

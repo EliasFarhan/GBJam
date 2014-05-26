@@ -21,7 +21,7 @@ class Image(GameObject):
         self.angle = angle
         self.pos = Vector2(pos)
         self.path = path
-        self.size = size
+        self.size = Vector2(size)
         if screen_relative_pos:
             self.screen_relative_pos = Vector2(screen_relative_pos)
         else:
@@ -35,7 +35,8 @@ class Image(GameObject):
 
     def init_image(self):
         self.img = load_image(self.path)
-        self.size = Vector2(get_size(self.img))
+        if self.size is None:
+            self.size = Vector2(get_size(self.img))
         self.rect = Rect(self.pos, self.size)
 
     def loop(self, screen, screen_pos):
@@ -122,7 +123,7 @@ class AnimImage(Image):
         else:
             image.pos = Vector2(pos)
         image.size = Vector2(size)
-        
+        log("PLAYER SIZE:"+str( image.size.get_tuple()))
         anim_data = get_element(image_data, "anim")
         if anim_data:
             image.anim = Animation.parse_animation(anim_data, image)

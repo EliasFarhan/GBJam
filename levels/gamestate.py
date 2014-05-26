@@ -6,6 +6,7 @@ Created on 9 dec. 2013
 from engine.init import get_screen_size
 from engine.rect import Rect
 from engine.vector import Vector2
+from game_object.image import Image, AnimImage
 from levels.scene import Scene
 from engine.const import log, CONST
 from network.gamestate_network import NetworkGamestate
@@ -66,7 +67,14 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
             fill_surface(screen, self.bg_color[0], self.bg_color[1], self.bg_color[2], 255)
         elif CONST.render == 'pookoo':
             draw_rect(None,self.screen_pos,Rect(self.screen_pos,get_screen_size(True)),self.bg_color)
-
+        elif CONST.render == 'kivy':
+            for layer in self.objects:
+                for img in layer:
+                    #set img pos outside the screen
+                    if isinstance(img, AnimImage):
+                        for kivy_img in img.anim.img_indexes:
+                            kivy_img.x = -get_screen_size().x
+                            kivy_img.y = -get_screen_size().y
 
         '''Event
         If mouse_click on element, execute its event, of not null'''
