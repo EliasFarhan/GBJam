@@ -56,7 +56,7 @@ def get_body_position(body):
         if CONST.physics == 'b2':
             pos = Vector2(body.position)
         elif CONST.physics == 'pookoo':
-            pos = Vector2(body.position())
+            pos = Vector2(body.get_position())
         return meter2pixel(pos)
     else:
         return None
@@ -69,20 +69,21 @@ def set_body_position(body,pos):
 
 def deinit_physics():
     global world
-    if CONST.render != "pookoo":
+    if CONST.physics != "pookoo":
         del world
-    elif CONST.render == 'pookoo':
-        pookoo.physics.finish(world)
+    elif CONST.physics == 'pookoo':
+        del world
     world = None
 
 
 def init_physics(gravity_arg=None):
     global world
+    log("Init world physics")
     if world != None:
         deinit_physics()
 
     gravity_value = Vector2(0,0)
-    if(gravity_arg == None):
+    if(gravity_arg is None):
         gravity_value = Vector2(0,CONST.gravity)
     else:
         gravity_value = gravity_arg
@@ -90,10 +91,12 @@ def init_physics(gravity_arg=None):
         world = b2World(gravity=gravity_value.get_tuple())
         world.contactListener = KuduContactListener()
     elif CONST.physics == 'pookoo':
-        world = pookoo.physics.begin(gravity_value.get_tuple())
+        log(gravity_value.get_tuple())
+        world = pookoo.physics.World(gravity_value.get_float_tuple(), vel_iters, pos_iters)
     elif CONST.physics == 'cymunk':
         #world = cymunk.Space()
         pass
+
 
 def add_dynamic_object(obj,pos):
     global world
@@ -104,7 +107,7 @@ def add_dynamic_object(obj,pos):
         dynamic_object.angle = 0
         dynamic_object.fixed_rotation = True
     elif CONST.physics == 'pookoo':
-        dynamic_object = pookoo.physics.Body(pos.get_tuple(),'dynamic')
+        dynamic_object = pookoo.physics.Body(world,position.get_float_tuple(),'dynamic')
     elif CONST.physics == 'cymunk':
         pass
     return dynamic_object
@@ -115,11 +118,11 @@ def add_static_object(obj, pos):
     position = pixel2meter(pos)
     static_object = None
     if CONST.physics == 'b2':
-        static_object = world.CreateStaticBody(position=position.get_tuple())
+        static_object = world.CreateStaticBody(position=position.get_float_tuple())
         static_object.angle = 0
         static_object.fixed_rotation = True
     elif CONST.physics == 'pookoo':
-        static_object = pookoo.physics.Body(pos.get_tuple(),'static')
+        static_object = pookoo.physics.Body(world,position.get_float_tuple(),'static')
     elif CONST.physics == 'cymunk':
         pass
     return static_object
@@ -137,6 +140,8 @@ def update_physics():
     if CONST.physics == 'b2':
         world.Step(timeStep,vel_iters,pos_iters)
         world.ClearForces()
+    elif CONST.physics == 'pookoo':
+        world.step(timeStep)
 
 
 def move(body,vx=None,vy=None,linear=False):
@@ -187,8 +192,7 @@ def add_static_box(body, pos, size, angle=0,data=0,sensor=False):
         fixture_def.isSensor = sensor
         return body.CreateFixture(fixture_def)
     elif CONST.render == 'pookoo':
-        return None
-
+        body.add_box(center_pos.get_tuple(),pixel2meter(size).get_tuple(),angle,sensor,data)
 
 
 def add_static_circle(body,pos,radius,sensor=False,user_data=0):

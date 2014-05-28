@@ -135,7 +135,7 @@ def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_fun
         elif CONST.render == 'pookoo':
             pookoo.draw.move(pos.get_tuple())
             pookoo.draw.scale(new_size.x/get_size(image).x, new_size.y/get_size(image).y)
-            image.draw()
+            image.render()
         elif CONST.render == 'kivy':
             log("SHOW IMAGE "+str(image)+str(new_size.get_tuple()))
             image.x = pos.x

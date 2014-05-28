@@ -63,6 +63,7 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         self.init()
 
     def loop(self, screen):
+        log(self.player.pos.get_tuple())
         if CONST.render == 'sfml':
             fill_surface(screen, self.bg_color[0], self.bg_color[1], self.bg_color[2], 255)
         elif CONST.render == 'pookoo':
