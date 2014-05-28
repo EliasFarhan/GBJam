@@ -88,9 +88,9 @@ def load_image(name, permanent=False,prefix=True):
         elif CONST.render == 'pookoo':
             try:
                 if prefix:
-                    img_name[name] = pookoo.texture(CONST.path_prefix+name)
+                    img_name[name] = pookoo.texture.Texture(CONST.path_prefix+name)
                 else:
-                    img_name[name] = pookoo.texture(name)
+                    img_name[name] = pookoo.texture.Texture(name)
             except Exception as e:
                 log(str(e), 1)
                 return None
@@ -134,7 +134,7 @@ def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_fun
             screen.draw(sprite)
         elif CONST.render == 'pookoo':
             pookoo.draw.move(pos.get_tuple())
-
+            pookoo.draw.scale(new_size.x/get_size(image).x, new_size.y/get_size(image).y)
             image.draw()
         elif CONST.render == 'kivy':
             log("SHOW IMAGE "+str(image)+str(new_size.get_tuple()))

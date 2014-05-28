@@ -104,7 +104,7 @@ def add_dynamic_object(obj,pos):
         dynamic_object.angle = 0
         dynamic_object.fixed_rotation = True
     elif CONST.physics == 'pookoo':
-        dynamic_object = pookoo.physics.body(pos.get_tuple(),'dynamic')
+        dynamic_object = pookoo.physics.Body(pos.get_tuple(),'dynamic')
     elif CONST.physics == 'cymunk':
         pass
     return dynamic_object
@@ -119,7 +119,7 @@ def add_static_object(obj, pos):
         static_object.angle = 0
         static_object.fixed_rotation = True
     elif CONST.physics == 'pookoo':
-        static_object = pookoo.physics.body(pos.get_tuple(),'static')
+        static_object = pookoo.physics.Body(pos.get_tuple(),'static')
     elif CONST.physics == 'cymunk':
         pass
     return static_object

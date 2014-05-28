@@ -58,6 +58,7 @@ def loop():
         init_level()
 
     if CONST.render == 'pookoo':
+        log(dir(pookoo))
         pookoo.audio.begin()
 
     if CONST.render != 'kivy':

@@ -127,5 +127,8 @@ class Vector2():
     def get_int_tuple(self):
         return int(self.x),int(self.y)
 
+    def get_float_tuple(self):
+        return float(self.x),float(self.y)
+
     def get_string(self):
         return str(self.x)+","+str(self.y)
