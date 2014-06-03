@@ -1,6 +1,6 @@
 import sfml
 from engine.const import log, CONST
-from engine.image_manager import ImgManager
+from engine.img_manager import ImgManager
 from engine.init import get_screen_size
 from engine.vector import Vector2
 
@@ -51,3 +51,17 @@ class SFMLImgManager(ImgManager):
 
         except KeyError:
             pass
+
+    def draw_rect(self, screen, screen_pos, rect, color, angle=0):
+        drawing_rect = sfml.RectangleShape()
+        screen_diff_ratio = float(screen.size.y) / get_screen_size().y
+        drawing_rect.position = ((rect.pos - screen_pos) * screen_diff_ratio).get_tuple()
+
+        drawing_rect.rotation = angle
+        drawing_rect.size = (rect.size * screen_diff_ratio).get_tuple()
+        try:
+            drawing_rect.fill_color = sfml.Color(color[0], color[1], color[2], color[3])
+        except IndexError:
+            drawing_rect.fill_color = sfml.Color(color[0], color[1], color[2])
+        screen.draw(drawing_rect)
+

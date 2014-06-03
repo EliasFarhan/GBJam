@@ -1,5 +1,5 @@
 from engine.const import log
-from engine.sound_manager import load_sound, play_sound, set_playlist
+from engine.snd_manager import load_sound, play_sound, set_playlist
 from event.event_engine import Event
 from json_export.json_main import get_element
 

@@ -3,9 +3,9 @@ from levels.loading_screen import LoadingScreen
 from levels.scene import Scene
 from engine.init import get_screen_size
 from engine.const import CONST
-from engine.image_manager import fill_surface
+from engine.img_manager import fill_surface
 from game_object.image import Image
-from engine.sound_manager import play_music, check_music_status
+from engine.snd_manager import play_music, check_music_status
 from levels.gamestate import GameState
 #font_obj, msg, sound_obj
 

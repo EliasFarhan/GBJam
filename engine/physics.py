@@ -15,7 +15,7 @@ elif CONST.physics == 'cymunk':
 elif CONST.physics == 'pookoo':
     import pookoo
 from engine.rect import Rect
-from engine.image_manager import draw_rect
+from engine.img_manager import draw_rect
 from numbers import Number
 from engine.vector import Vector2
 

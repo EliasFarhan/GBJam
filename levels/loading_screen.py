@@ -4,7 +4,7 @@ from levels.gamestate import GameState
 __author__ = 'efarhan'
 
 from engine.const import CONST, log
-from engine.image_manager import fill_surface
+from engine.img_manager import fill_surface
 from engine.init import get_screen_size
 from engine.vector import Vector2
 from game_object.text import Text

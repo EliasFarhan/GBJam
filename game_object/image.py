@@ -4,7 +4,7 @@ Created on 11 sept. 2013
 @author: efarhan
 '''
 
-from engine.image_manager import  show_image, load_image, get_size
+from engine.img_manager import  show_image, load_image, get_size
 from animation.animation_main import Animation
 from engine.init import get_screen_size
 from engine.rect import Rect

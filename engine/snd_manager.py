@@ -8,6 +8,14 @@ if CONST.render == 'sfml':
     import sfml
 elif CONST.render == 'pookoo':
     import pookoo
+
+
+class SndManager():
+    def __init__(self):
+        pass
+
+    def set_playlist(self,music_list):
+        pass
 sounds = {}
 permanent_sound = []
 playlist = []

@@ -13,7 +13,7 @@ from network.gamestate_network import NetworkGamestate
 from json_export.level_json import load_level
 from engine.physics import init_physics, update_physics, deinit_physics
 from levels.editor import Editor
-from engine.image_manager import fill_surface, draw_rect
+from engine.img_manager import fill_surface, draw_rect
 from levels.gui import GUI
 from input.mouse_input import show_mouse, get_mouse
 

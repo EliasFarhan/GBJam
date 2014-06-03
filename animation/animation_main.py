@@ -6,7 +6,7 @@ Created on 11 dec. 2013
 import os
 from os import listdir
 from os.path import isfile, join
-from engine.image_manager import load_image, get_size
+from engine.img_manager import load_image, get_size
 from engine.const import CONST, log
 from json_export.json_main import get_element
 from engine.vector import Vector2

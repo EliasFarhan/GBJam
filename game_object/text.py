@@ -6,7 +6,7 @@ Created on Feb 19, 2014
 from game_object.game_object_main import GameObject
 from engine.font_manager import load_font, load_text
 from engine.const import log, CONST
-from engine.image_manager import show_image
+from engine.img_manager import show_image
 from engine.vector import Vector2
 
 class Text(GameObject):

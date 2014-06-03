@@ -6,7 +6,7 @@ Created on Feb 3, 2014
 import math
 from engine.rect import Rect
 from engine.const import log, CONST
-from engine.image_manager import draw_rect
+from engine.img_manager import draw_rect
 from engine.physics import show_fixtures, get_body_position, set_body_position, remove_body, add_static_box, \
     add_static_object
 from engine.init import get_screen_size
