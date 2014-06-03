@@ -46,7 +46,8 @@ class Image(GameObject):
         
         if self.screen_relative_pos is not None:
             pos = pos+self.screen_relative_pos*get_screen_size()
-        
+
+        #TODO: with screen_relative_pos
         if self.screen_relative:
             pos = self.pos
         else:

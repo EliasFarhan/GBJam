@@ -1,0 +1,53 @@
+import sfml
+from engine.const import log, CONST
+from engine.image_manager import ImgManager
+from engine.init import get_screen_size
+from engine.vector import Vector2
+
+__author__ = 'Elias'
+
+
+class SFMLImgManager(ImgManager):
+    def __init__(self):
+        ImgManager.__init__(self)
+
+    def load_image(self, name, permanent=False):
+        log("Loading image: "+name)
+        try:
+            self.img_name[name]
+        except KeyError:
+            try:
+                log("Load sfml texture: "+name)
+                self.img_name[name] = sfml.Texture.from_file(name)
+            except IOError as e:
+                log(str(e), 1)
+                return None
+            if permanent:
+                self.permanent_images.append(name)
+
+        return sfml.Sprite(self.img_name[name])
+
+    def show_image(self, image, screen, pos, angle=0, center=False,
+                   new_size=None, center_image=False):
+        if image is None:
+            return
+        try:
+            sprite = image
+            #TODO: Adapt to 4:3 screen or not 16:9
+            screen_diff_ratio = float(screen.size.y) / get_screen_size().y
+            if new_size:
+                text_size = None
+
+                if isinstance(sprite, sfml.Sprite):
+                    text_size = Vector2(sprite.texture.size)
+                else:
+                    text_size = new_size
+                sprite.ratio = (new_size * screen_diff_ratio / text_size).get_tuple()
+            if angle != 0:
+                sprite.rotation = angle
+
+            sprite.position = (pos * screen_diff_ratio).get_int_tuple()
+            screen.draw(sprite)
+
+        except KeyError:
+            pass

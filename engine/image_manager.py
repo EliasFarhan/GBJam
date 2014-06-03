@@ -9,14 +9,45 @@ from engine.init import get_screen_size, get_kivy_screen
 from engine.vector import Vector2
 
 
+img_manager = None
+
 if CONST.render == 'sfml':
-    import sfml
+    from sfml_engine.sfml_img_manager import SFMLImgManager
+    img_manager = SFMLImgManager()
 elif CONST.render == 'pookoo':
-    import pookoo
+    from pookoo_engine.pookoo_img_manager import PookooImgManager
+    img_manager = PookooImgManager
 elif CONST.render == 'kivy':
     import kivy
     from kivy.uix.widget import Widget
     from kivy.uix.image import Image
+
+
+class ImgManager():
+    def __init__(self):
+        self.img_name = {}
+        self.permanent_images = []
+
+    def draw_rect(self, screen, screen_pos, rect, color, angle=0):
+        pass
+
+    def load_image(self, name, permanent=False):
+        pass
+
+    def show_image(self, image, screen, pos, angle=0, center=False, new_size=None, center_image=False):
+        pass
+
+    def sanitize_img_manager(self, delete_images=[]):
+        del_img_tmp = []
+        if not delete_images:
+            for img_filename in self.img_name.keys():
+                if img_filename not in self.permanent_images:
+                    del_img_tmp.append(self.img_name[img_filename])
+        else:
+            del_img_tmp = delete_images
+
+        for img_filename in del_img_tmp:
+            del self.img_name[img_filename]
 
 img_name = {}
 permanent_images = []
@@ -52,16 +83,7 @@ def fill_surface(surface, r, g, b, a=255):
         surface.clear(sfml.Color(r, g, b))
 
 
-def sanitize_img_manager(delete_images=[]):
-    del_img_tmp = []
-    if delete_images == []:
-        for img_filename in img_name.keys():
-            if img_filename not in permanent_images:
-                del_img_tmp.append(img_name[img_filename])
-    else:
-        del_img_tmp = delete_images
-    for img_filename in del_img_tmp:
-        del img_name[img_filename]
+
 
 
 def get_size(image):

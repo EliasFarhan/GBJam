@@ -1,13 +1,13 @@
 {
     "network": false, 
+    "show_mouse": true, 
+    "gui": "data/json/gui.json", 
+    "player": "data/json/player.json", 
     "bg_color": [
         255, 
         255, 
         255
     ], 
-    "gui": "data/json/gui.json", 
-    "player": "data/json/player.json", 
-    "show_mouse": true, 
     "objects": [
         {
             "layer": 3, 
@@ -57,10 +57,10 @@
         }, 
         {
             "layer": 4, 
-            "angle": -4, 
+            "angle": -11, 
             "pos": [
-                1551.4055890351615, 
-                1111.4448657061132
+                1534.6968135592433, 
+                1112.962460858093
             ], 
             "physic_objects": {
                 "fixtures": [
@@ -74,7 +74,7 @@
             "type": "GameObject", 
             "id": 2, 
             "size": [
-                1262.1714212279528, 
+                1205.6658228759982, 
                 190.0
             ]
         }, 
@@ -122,6 +122,29 @@
             "size": [
                 714.6234577202889, 
                 210.3380342964049
+            ]
+        }, 
+        {
+            "layer": 5, 
+            "angle": -88, 
+            "pos": [
+                1512.257828400349, 
+                1180.6246312078918
+            ], 
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box", 
+                        "user_data": 0
+                    }
+                ], 
+                "type": "static"
+            }, 
+            "type": "GameObject", 
+            "id": 5, 
+            "size": [
+                656.6812158656571, 
+                153.51349047710343
             ]
         }
     ], 
