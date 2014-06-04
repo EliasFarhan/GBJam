@@ -1,9 +1,10 @@
+from engine.img_manager import draw_rect
+from engine.rect import Rect
 from engine.vector import Vector2
 from levels.loading_screen import LoadingScreen
 from levels.scene import Scene
 from engine.init import get_screen_size
 from engine.const import CONST
-from engine.img_manager import fill_surface
 from game_object.image import Image
 from engine.snd_manager import play_music, check_music_status
 from levels.gamestate import GameState
@@ -22,7 +23,7 @@ class Kwakwa(Scene):
         play_music("data/sound/pissed_off_duck.wav")
 
     def loop(self, screen):
-        fill_surface(screen, 255, 255, 255)
+        draw_rect(screen,Vector2(),Rect(Vector2(0,0),get_screen_size()),(255,255,255))
         self.text.loop(screen, Vector2())
         if check_music_status():
             from engine.level_manager import switch_level

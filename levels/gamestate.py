@@ -3,6 +3,7 @@ Created on 9 dec. 2013
 
 @author: efarhan
 """
+from engine.img_manager import draw_rect, img_manager
 from engine.init import get_screen_size
 from engine.rect import Rect
 from engine.vector import Vector2
@@ -13,7 +14,6 @@ from network.gamestate_network import NetworkGamestate
 from json_export.level_json import load_level
 from engine.physics import init_physics, update_physics, deinit_physics
 from levels.editor import Editor
-from engine.img_manager import fill_surface, draw_rect
 from levels.gui import GUI
 from input.mouse_input import show_mouse, get_mouse
 
@@ -63,12 +63,9 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         self.init()
 
     def loop(self, screen):
-        log(self.player.pos.get_tuple())
-        if CONST.render == 'sfml':
-            fill_surface(screen, self.bg_color[0], self.bg_color[1], self.bg_color[2], 255)
-        elif CONST.render == 'pookoo':
-            draw_rect(None,self.screen_pos,Rect(self.screen_pos,get_screen_size(True)),self.bg_color)
-        elif CONST.render == 'kivy':
+        draw_rect(screen, Vector2(), Rect(Vector2(),get_screen_size()),self.bg_color)
+
+        if CONST.render == 'kivy':
             for layer in self.objects:
                 for img in layer:
                     #set img pos outside the screen

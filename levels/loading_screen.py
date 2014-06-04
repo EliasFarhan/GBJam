@@ -1,10 +1,10 @@
+from engine.img_manager import img_manager
 from engine.level_manager import switch_level
 from levels.gamestate import GameState
 
 __author__ = 'efarhan'
 
 from engine.const import CONST, log
-from engine.img_manager import fill_surface
 from engine.init import get_screen_size
 from engine.vector import Vector2
 from game_object.text import Text
@@ -65,7 +65,7 @@ class LoadingScreen(Scene):
             return
 
 
-        fill_surface(screen, 0, 0, 0)
+        img_manager.draw_rect(screen,Vector2(),)
         self.counter = (self.counter + 1) % self.anim_length
         if self.counter == 0:
             self.text_points += "."

@@ -8,27 +8,13 @@ from engine.init import get_screen_size, get_kivy_screen
 
 from engine.vector import Vector2
 
-
-img_manager = None
-
-
-if CONST.render == 'sfml':
-    from sfml_engine.sfml_img_manager import SFMLImgManager
-    img_manager = SFMLImgManager()
-elif CONST.render == 'pookoo':
-    from pookoo_engine.pookoo_img_manager import PookooImgManager
-    img_manager = PookooImgManager
-elif CONST.render == 'kivy':
-    import kivy
-    from kivy.uix.widget import Widget
-    from kivy.uix.image import Image
-
-
-
 class ImgManager():
     def __init__(self):
         self.img_name = {}
         self.permanent_images = []
+
+    def clear_screen(self,screen):
+        pass
 
     def draw_rect(self, screen, screen_pos, rect, color, angle=0):
         pass
@@ -51,13 +37,27 @@ class ImgManager():
         for img_filename in del_img_tmp:
             del self.img_name[img_filename]
 
-img_name = {}
-permanent_images = []
+img_manager = None
+
+if CONST.render == 'sfml':
+    from sfml_engine.sfml_img_manager import SFMLImgManager
+    img_manager = SFMLImgManager()
+elif CONST.render == 'pookoo':
+    from pookoo_engine.pookoo_img_manager import PookooImgManager
+    img_manager = PookooImgManager
+elif CONST.render == 'kivy':
+    import kivy
+    from kivy.uix.widget import Widget
+    from kivy.uix.image import Image
+else:
+    ImgManager()
 
 
 def draw_rect(screen, screen_pos, rect, color, angle=0):
-    if not (rect and rect.pos and rect.size):
+    if not (rect and rect.pos and rect.size and img_manager):
         return
+    img_manager.draw_rect(screen, screen_pos, rect, color, angle)
+    """
     if CONST.render == 'sfml':
         pass
     elif CONST.render == 'pookoo':
@@ -68,14 +68,7 @@ def draw_rect(screen, screen_pos, rect, color, angle=0):
         pos = (rect.pos-screen_pos)
         pookoo.draw.move(pos.get_tuple())
         pookoo.draw.rectangle(rect.size.get_int_tuple())
-
-
-def fill_surface(surface, r, g, b, a=255):
-    if CONST.render == 'sfml':
-        surface.clear(sfml.Color(r, g, b))
-
-
-
+    """
 
 
 def get_size(image):
@@ -87,8 +80,13 @@ def get_size(image):
         return Vector2(image.size())
 
 
-def load_image(name, permanent=False,prefix=True):
+def load_image(name, permanent=False):
+    if img_manager is None:
+        return None
+    return img_manager.load_image(name, permanent=False)
+    """
     log("Loading image: "+name)
+
     try:
         img_name[name]
     except KeyError:
@@ -124,12 +122,14 @@ def load_image(name, permanent=False,prefix=True):
         img.texture = img_name[name].texture
         get_kivy_screen().add_widget(img)
         return img
+    """
 
 
-def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_func=None, factor=1, center_image=False):
-    if image is None:
+def show_image(image, screen, pos, angle=0, center=False, new_size=None, center_image=False):
+    if img_manager is None:
         return
-    try:
+    img_manager.show_image(image, screen, pos, angle, center, new_size, center_image)
+    """try:
         if CONST.render == 'sfml':
             pass
         elif CONST.render == 'pookoo':
@@ -148,7 +148,7 @@ def show_image(image, screen, pos, angle=0, center=False, new_size=None, rot_fun
     except KeyError:
         pass
 
-
+    """
 def generate_mask(masks):
     '''TODO: pass several masks as sprite and return a single sprite'''
     pass

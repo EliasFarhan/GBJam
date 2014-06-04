@@ -4,7 +4,7 @@ Created on 11 sept. 2013
 @author: efarhan
 '''
 
-from engine.img_manager import  show_image, load_image, get_size
+from engine.img_manager import  show_image, load_image, get_size, img_manager
 from animation.animation_main import Animation
 from engine.init import get_screen_size
 from engine.rect import Rect
@@ -17,6 +17,7 @@ from engine.vector import Vector2
 class Image(GameObject):
     def __init__(self, path, pos, screen_relative_pos=None, size=None, angle=0,relative=False):
         GameObject.__init__(self)
+        self.anim = None
         self.img = None
         self.angle = angle
         self.pos = Vector2(pos)

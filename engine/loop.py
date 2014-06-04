@@ -5,6 +5,7 @@ Main loop of the engine
 
 from engine.const import CONST,log
 import sys
+from engine.img_manager import img_manager
 from engine.physics import deinit_physics
 from levels.loading_screen import LoadingScreen
 from levels.logo_kwakwa import Kwakwa
@@ -65,6 +66,8 @@ def loop():
         while not finish:
             if CONST.render == 'pookoo':
                 pookoo.draw.clear()
+            elif CONST.render == 'sfml':
+                img_manager.clear_screen(screen)
             update_event()
             if not finish:
                 finish = get_button('quit')

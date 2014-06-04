@@ -11,6 +11,9 @@ class SFMLImgManager(ImgManager):
     def __init__(self):
         ImgManager.__init__(self)
 
+    def clear_screen(self,screen):
+        screen.clear()
+
     def load_image(self, name, permanent=False):
         log("Loading image: "+name)
         try:
@@ -30,6 +33,7 @@ class SFMLImgManager(ImgManager):
     def show_image(self, image, screen, pos, angle=0, center=False,
                    new_size=None, center_image=False):
         if image is None:
+            log("WOOT IMG NONE")
             return
         try:
             sprite = image
@@ -50,18 +54,20 @@ class SFMLImgManager(ImgManager):
             screen.draw(sprite)
 
         except KeyError:
+            log("Woot")
             pass
 
     def draw_rect(self, screen, screen_pos, rect, color, angle=0):
+        log(color)
         drawing_rect = sfml.RectangleShape()
         screen_diff_ratio = float(screen.size.y) / get_screen_size().y
         drawing_rect.position = ((rect.pos - screen_pos) * screen_diff_ratio).get_tuple()
 
         drawing_rect.rotation = angle
         drawing_rect.size = (rect.size * screen_diff_ratio).get_tuple()
-        try:
+        if len(color) == 4:
             drawing_rect.fill_color = sfml.Color(color[0], color[1], color[2], color[3])
-        except IndexError:
+        elif len(color) == 3:
             drawing_rect.fill_color = sfml.Color(color[0], color[1], color[2])
         screen.draw(drawing_rect)
 

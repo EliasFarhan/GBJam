@@ -1,4 +1,4 @@
-from engine.img_manager import sanitize_img_manager
+from engine.img_manager import img_manager
 class Scene():
 	def __init__(self):
 		pass
@@ -10,4 +10,4 @@ class Scene():
 		pass
 
 	def exit(self,screen):
-		sanitize_img_manager()
+		img_manager.sanitize_img_manager()
