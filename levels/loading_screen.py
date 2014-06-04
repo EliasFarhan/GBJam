@@ -1,5 +1,6 @@
 from engine.img_manager import img_manager
 from engine.level_manager import switch_level
+from engine.rect import Rect
 from levels.gamestate import GameState
 
 __author__ = 'efarhan'
@@ -65,7 +66,7 @@ class LoadingScreen(Scene):
             return
 
 
-        img_manager.draw_rect(screen,Vector2(),)
+        img_manager.draw_rect(screen,Vector2(),Rect(Vector2(),get_screen_size()),(255,255,255))
         self.counter = (self.counter + 1) % self.anim_length
         if self.counter == 0:
             self.text_points += "."
