@@ -15,7 +15,7 @@ elif CONST.physics == 'cymunk':
 elif CONST.physics == 'pookoo':
     import pookoo
 from engine.rect import Rect
-from engine.img_manager import draw_rect
+from engine.img_manager import img_manager
 from numbers import Number
 from engine.vector import Vector2
 
@@ -258,7 +258,7 @@ if CONST.render == 'b2':
 
 
 def show_fixtures(screen,screen_pos,body):
-    if CONST.render == 'b2':
+    if CONST.physics == 'b2':
         body_pos = body.position
         body_pos = (meter2pixel(body_pos[0]), meter2pixel(body_pos[1]))
 
@@ -278,4 +278,4 @@ def show_fixtures(screen,screen_pos,body):
             color = (255,0,0,200)
             if fixture.sensor == 1:
                 color = (0,0,255,200)
-            draw_rect(screen, screen_pos, rect, color)
+            img_manager.draw_rect(screen, screen_pos, rect, color)

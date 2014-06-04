@@ -38,7 +38,6 @@ class ImgManager():
             del self.img_name[img_filename]
 
 img_manager = None
-
 if CONST.render == 'sfml':
     from sfml_engine.sfml_img_manager import SFMLImgManager
     img_manager = SFMLImgManager()
@@ -52,14 +51,12 @@ elif CONST.render == 'kivy':
 else:
     ImgManager()
 
-
+'''
 def draw_rect(screen, screen_pos, rect, color, angle=0):
     if not (rect and rect.pos and rect.size and img_manager):
         return
     img_manager.draw_rect(screen, screen_pos, rect, color, angle)
     """
-    if CONST.render == 'sfml':
-        pass
     elif CONST.render == 'pookoo':
         try:
             pookoo.draw.color(color[0],color[1],color[2],color[3])
@@ -72,11 +69,10 @@ def draw_rect(screen, screen_pos, rect, color, angle=0):
 
 
 def get_size(image):
-    if image is None:
+    if img_manager is None:
         return None
-    if CONST.render == 'sfml':
-        return Vector2(image.texture.size)
-    elif CONST.render == 'pookoo':
+    return img_manager.get_size(image)
+    if CONST.render == 'pookoo':
         return Vector2(image.size())
 
 
@@ -85,18 +81,6 @@ def load_image(name, permanent=False):
         return None
     return img_manager.load_image(name, permanent=False)
     """
-    log("Loading image: "+name)
-
-    try:
-        img_name[name]
-    except KeyError:
-        if CONST.render == 'sfml':
-            try:
-                log("Load sfml texture: "+name)
-                img_name[name] = sfml.Texture.from_file(name)
-            except IOError as e:
-                log(str(e), 1)
-                return None
         elif CONST.render == 'pookoo':
             try:
                 if prefix:
@@ -112,8 +96,6 @@ def load_image(name, permanent=False):
         if permanent:
             permanent_images.append(name)
 
-    if CONST.render == 'sfml':
-        pass
     elif CONST.render == 'pookoo' :
         return img_name[name]
     elif CONST.render == 'kivy':
@@ -149,8 +131,9 @@ def show_image(image, screen, pos, angle=0, center=False, new_size=None, center_
         pass
 
     """
+
 def generate_mask(masks):
-    '''TODO: pass several masks as sprite and return a single sprite'''
+    """TODO: pass several masks as sprite and return a single sprite"""
     pass
 
 
@@ -179,4 +162,4 @@ def show_mask_img(screen, bg, mask, bg_pos, mask_pos=(0, 0), bg_size=None, mask_
         screen.draw(mask_render_sprite)
 
 def show_video():
-    pass
+    pass'''

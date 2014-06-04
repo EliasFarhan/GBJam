@@ -6,7 +6,7 @@ Created on Feb 19, 2014
 from game_object.game_object_main import GameObject
 from engine.font_manager import load_font, load_text
 from engine.const import log, CONST
-from engine.img_manager import show_image
+from engine.img_manager import img_manager
 from engine.vector import Vector2
 
 class Text(GameObject):
@@ -56,8 +56,7 @@ class Text(GameObject):
                 pos = pos-screen_pos
             if self.center and self.size:
                 pos = pos - Vector2(self.size.x/2.0, 0.0)
-            show_image(self.text_surface, screen, pos, self.angle, self.center, new_size=self.size)
-        #screen.blit(self.text_surface,self.pos)
+            img_manager.show_image(self.text_surface, screen, pos, self.angle, self.center, new_size=self.size)
 
     @staticmethod
     def parse_image(image_data, pos, size, angle):

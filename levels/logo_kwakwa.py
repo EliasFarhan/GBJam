@@ -1,4 +1,4 @@
-from engine.img_manager import draw_rect
+from engine.img_manager import img_manager
 from engine.rect import Rect
 from engine.vector import Vector2
 from levels.loading_screen import LoadingScreen
@@ -6,7 +6,7 @@ from levels.scene import Scene
 from engine.init import get_screen_size
 from engine.const import CONST
 from game_object.image import Image
-from engine.snd_manager import play_music, check_music_status
+from engine.snd_manager import snd_manager
 from levels.gamestate import GameState
 #font_obj, msg, sound_obj
 

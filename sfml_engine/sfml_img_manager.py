@@ -14,6 +14,9 @@ class SFMLImgManager(ImgManager):
     def clear_screen(self,screen):
         screen.clear()
 
+    def get_size(self,image):
+        return Vector2(image.texture.size)
+
     def load_image(self, name, permanent=False):
         log("Loading image: "+name)
         try:
@@ -58,7 +61,6 @@ class SFMLImgManager(ImgManager):
             pass
 
     def draw_rect(self, screen, screen_pos, rect, color, angle=0):
-        log(color)
         drawing_rect = sfml.RectangleShape()
         screen_diff_ratio = float(screen.size.y) / get_screen_size().y
         drawing_rect.position = ((rect.pos - screen_pos) * screen_diff_ratio).get_tuple()

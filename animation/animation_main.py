@@ -6,7 +6,7 @@ Created on 11 dec. 2013
 import os
 from os import listdir
 from os.path import isfile, join
-from engine.img_manager import load_image, get_size
+from engine.img_manager import img_manager
 from engine.const import CONST, log
 from json_export.json_main import get_element
 from engine.vector import Vector2
@@ -38,13 +38,13 @@ class Animation():
                 files = [ os.path.join(path, f) for f in listdir(path) if (isfile(join(path, f)) and f.find(".png") != -1) ]
             files.sort()
             for f in files:
-                self.img_indexes.append(load_image(f,permanent))
+                self.img_indexes.append(img_manager.load_image(f,permanent))
             try:
                 self.img = self.img_indexes[0]
             except IndexError:
                 pass
         if size is None:
-            self.size = get_size(self.img)
+            self.size = img_manager.get_size(self.img)
         else:
             self.size = Vector2(size)
         if self.obj:

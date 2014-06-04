@@ -3,9 +3,10 @@ Created on 9 dec. 2013
 
 @author: efarhan
 """
-from engine.img_manager import draw_rect, img_manager
+from engine.img_manager import img_manager
 from engine.init import get_screen_size
 from engine.rect import Rect
+from engine.snd_manager import snd_manager
 from engine.vector import Vector2
 from game_object.image import Image, AnimImage
 from levels.scene import Scene
@@ -63,8 +64,8 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         self.init()
 
     def loop(self, screen):
-        draw_rect(screen, Vector2(), Rect(Vector2(),get_screen_size()),self.bg_color)
-
+        img_manager.draw_rect(screen, Vector2(), Rect(Vector2(),get_screen_size()),self.bg_color)
+        snd_manager.update_music_status()
         if CONST.render == 'kivy':
             for layer in self.objects:
                 for img in layer:

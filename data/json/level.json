@@ -1,13 +1,13 @@
 {
     "network": false, 
-    "show_mouse": true, 
-    "gui": "data/json/gui.json", 
-    "player": "data/json/player.json", 
     "bg_color": [
         255, 
         255, 
         255
     ], 
+    "gui": "data/json/gui.json", 
+    "player": "data/json/player.json", 
+    "show_mouse": true, 
     "objects": [
         {
             "layer": 3, 
@@ -59,8 +59,8 @@
             "layer": 4, 
             "angle": -11, 
             "pos": [
-                1534.6968135592433, 
-                1112.962460858093
+                1533.6968542493478, 
+                1114.9625066344602
             ], 
             "physic_objects": {
                 "fixtures": [
@@ -82,8 +82,8 @@
             "layer": 4, 
             "angle": -16, 
             "pos": [
-                3421.3929587689977, 
-                1318.2896654899869
+                3259.392938423946, 
+                1195.289711266354
             ], 
             "physic_objects": {
                 "fixtures": [
@@ -105,8 +105,8 @@
             "layer": 4, 
             "angle": 23, 
             "pos": [
-                2810.3380430988623, 
-                1024.6876284626567
+                2716.338053271388, 
+                883.6876437214459
             ], 
             "physic_objects": {
                 "fixtures": [
@@ -125,11 +125,11 @@
             ]
         }, 
         {
-            "layer": 5, 
+            "layer": 4, 
             "angle": -88, 
             "pos": [
-                1512.257828400349, 
-                1180.6246312078918
+                2460.2579097805565, 
+                1812.6246006903134
             ], 
             "physic_objects": {
                 "fixtures": [

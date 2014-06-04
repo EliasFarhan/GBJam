@@ -4,37 +4,57 @@ Manage sound and music
 
 from engine.const import log, CONST
 
-if CONST.render == 'sfml':
-    import sfml
-elif CONST.render == 'pookoo':
-    import pookoo
+snd_manager = None
 
 
 class SndManager():
     def __init__(self):
-        pass
+        self.sounds = {}
+        self.permanent_sound = []
+        self.playlist = []
+        self.music_index = 0
+        self.music = None
+        self.sounds_playing = []
 
     def set_playlist(self,music_list):
         pass
-sounds = {}
-permanent_sound = []
-playlist = []
-music_index = 0
-music = None
-sounds_playing = []
 
+    def add_music_to_playlist(self, name):
+        pass
 
+    def play_music(self,name):
+        pass
+
+    def update_music_status(self):
+        pass
+
+    def sanitize_sounds(self,delete_sounds=[]):
+        del_snd_tmp = []
+        if delete_sounds == []:
+            for snd_filename in self.sounds.keys():
+                if snd_filename not in self.permanent_sound:
+                    del_snd_tmp.append(snd_filename)
+        else:
+            del_snd_tmp = delete_sounds
+        for snd_filename in del_snd_tmp:
+            del self.sounds[snd_filename]
+
+snd_manager = SndManager()
+
+if CONST.render == 'sfml':
+    from sfml_engine.sfml_snd_manager import SFMLSndManager
+    snd_manager = SFMLSndManager()
+elif CONST.render == 'pookoo':
+    from pookoo_engine.pookoo_snd_manager import PookooSndManager
+
+'''
 def set_playlist(music_list):
     """
     Set a new playlist and play the first element
     """
     global playlist, music
-    playlist = music_list
-    if CONST.render == 'sfml':
-        music = sfml.Music.from_file(playlist[0])
-        music.play()
-    elif CONST.render == 'pookoo':
-        music = pookoo.audio.AudioStreamObject(playlist[0])
+
+    music = pookoo.audio.AudioStreamObject(playlist[0])
 
 
 def add_music_to_playlist(self, name):
@@ -64,18 +84,7 @@ def update_music_status():
 	"""
     global music, music_index, playlist, sounds_playing
     if CONST.render == 'sfml':
-        if music.status == sfml.Music.STOPPED:
-            music_index += 1
-            music_index = music_index % len(playlist)
-            music = sfml.Music.from_file(playlist[music_index])
-            music.play()
-        delete_sounds = []
-        for s in sounds_playing:
-            if s.status == sfml.Sound.STOPPED:
-                delete_sounds.append(s)
-        for s in delete_sounds:
-            sounds_playing.remove(s)
-        del delete_sounds[:]
+        pass
 
 
 def check_music_status():
@@ -111,16 +120,7 @@ def play_sound(sound):
         sound_playing = sfml.Sound(sound)
         sound_playing.play()
         sounds_playing.append(sound_playing)
+'''
 
 
-def sanitize_sounds(delete_sounds=[]):
-    del_snd_tmp = []
-    if delete_sounds == []:
-        for snd_filename in sounds.keys():
-            if snd_filename not in permanent_sound:
-                del_snd_tmp.append(snd_filename)
-    else:
-        del_snd_tmp = delete_sounds
-    for snd_filename in del_snd_tmp:
-        del sounds[snd_filename]
 

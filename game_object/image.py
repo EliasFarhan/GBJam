@@ -4,7 +4,7 @@ Created on 11 sept. 2013
 @author: efarhan
 '''
 
-from engine.img_manager import  show_image, load_image, get_size, img_manager
+from engine.img_manager import   img_manager
 from animation.animation_main import Animation
 from engine.init import get_screen_size
 from engine.rect import Rect
@@ -35,9 +35,9 @@ class Image(GameObject):
         self.update_rect()
 
     def init_image(self):
-        self.img = load_image(self.path)
+        self.img = img_manager.load_image(self.path)
         if self.size is None:
-            self.size = Vector2(get_size(self.img))
+            self.size = Vector2(img_manager.get_size(self.img))
         self.rect = Rect(self.pos, self.size)
 
     def loop(self, screen, screen_pos):
@@ -63,20 +63,13 @@ class Image(GameObject):
         if self.img_loop:
             i = int((screen_pos.x-self.pos.x)/(self.size.x/self.screen_factor))
             
-        show_image(self.img,
+        img_manager.show_image(self.img,
                    screen,
                    pos+self.size/self.screen_factor*i,
                    new_size=self.size,
                    center_image=center_image,
                    angle=self.angle)
-        '''Looping image, for background for example'''
-        if self.img_loop and pos.x+(i+1)*self.size.x/self.screen_factor < screen_pos.x+get_screen_size().x:
-            show_image(self.img,
-                       screen,
-                       pos+self.size/self.screen_factor*(i+1),
-                       new_size=self.size,
-                       center_image=center_image,
-                       angle=self.angle)
+
         GameObject.loop(self, screen, screen_pos)
     @staticmethod
     def parse_image(image_data,pos,size,angle):

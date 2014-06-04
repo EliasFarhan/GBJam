@@ -1,13 +1,4 @@
 {
-	"type": "event.gui_event.DialogEvent",
-	"text": "Hello World!",
-	 "answers": {
-	 	"Oui!": {
-	 	    "type": "event.audio_event.SoundEvent",
-            "path": "data/sound/pissed_off_duck.wav"
-	 	},
-	 	"Non!": {
-
-	 	}
-	 }
+	"type": "event.audio_event.MusicEvent",
+	"playlist": [ "data/sound/pissed_off_duck.wav" ]
 }

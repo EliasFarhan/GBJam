@@ -6,7 +6,7 @@ Created on Feb 3, 2014
 import math
 from engine.rect import Rect
 from engine.const import log, CONST
-from engine.img_manager import draw_rect
+from engine.img_manager import img_manager
 from engine.physics import show_fixtures, get_body_position, set_body_position, remove_body, add_static_box, \
     add_static_object
 from engine.init import get_screen_size
@@ -140,9 +140,9 @@ class GameObject:
         if CONST.debug:
             self.update_rect()
             if not self.screen_relative:
-                draw_rect(screen, screen_pos, self.rect, (0,0,255,200), self.angle)
+                img_manager.draw_rect(screen, screen_pos, self.rect, (0,0,255,200), self.angle)
                 if self.click_rect:
-                    draw_rect(screen,screen_pos,self.click_rect,(0,255,0,100))
+                    img_manager.draw_rect(screen,screen_pos,self.click_rect,(0,255,0,100))
                 if self.body:
                     show_fixtures(screen, screen_pos, self.body)
 
