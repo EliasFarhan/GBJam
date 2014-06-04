@@ -6,15 +6,14 @@ Created on 20 mars 2014
 import math
 from engine.const import log, CONST
 from json_export.json_main import get_element
-from engine.physics import add_dynamic_object, add_static_object, add_static_box,\
-    get_body_position, pixel2meter, add_static_circle
+from engine.physics_manager import physics_manager, BodyType, pixel2meter
 from engine.init import get_screen_size
 from engine.vector import Vector2
 
 def load_physic_objects(physics_data,image):
     body_type = get_element(physics_data, "type")
     if body_type:
-        pos = (0,0)
+        pos = Vector2()
         if image.pos:
             pos = image.pos
         if image.screen_relative_pos:
@@ -22,16 +21,16 @@ def load_physic_objects(physics_data,image):
         if image.size:
             pos = pos+image.size/2
         if body_type == "dynamic":
-            image.body = add_dynamic_object(image, pos)
+            image.body = physics_manager.add_body(pos, BodyType.dynamic)
         elif body_type == "static":
-            image.body = add_static_object(image,pos)
+            image.body = physics_manager.add_body(pos, BodyType.static)
+        elif body_type == 'kinematic':
+            image.body = physics_manager.add_body(pos, BodyType.kinematic)
     pos = (0,0)
     if image.pos:
         pos = image.pos
     if image.screen_relative_pos:
         pos = pos+image.screen_relative_pos*get_screen_size()+image.size/2
-    if not image.body:
-        image.body = add_static_object(image,pos)
     angle = get_element(physics_data, "angle")
     if angle:
         image.body.angle = angle*math.pi/180
@@ -76,7 +75,7 @@ def load_physic_objects(physics_data,image):
                 if angle is None:
                     
                     angle = 0
-                image.fixtures.append(add_static_box(image.body, Vector2(pos), Vector2(size), angle, user_data, sensor))
+                image.fixtures.append(physics_manager.add_box(image.body, Vector2(pos), Vector2(size), angle, user_data, sensor))
             elif obj_type == "circle":
                 pos = get_element(physic_object,"pos")
                 if not pos:
@@ -85,4 +84,4 @@ def load_physic_objects(physics_data,image):
                 if not radius:
                     radius = 1
 
-                image.fixtures.append(add_static_circle(image.body,pos,radius,sensor,user_data))
+                image.fixtures.append(physics_manager.add_circle(image.body,pos,radius,sensor,user_data))

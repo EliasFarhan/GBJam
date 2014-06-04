@@ -6,7 +6,7 @@ Created on Feb 1, 2014
 
 from engine.const import log
 from engine.init import get_screen_size
-from engine.physics import add_static_object, add_static_box
+from engine.physics_manager import physics_manager
 from engine.vector import Vector2
 from event.event_main import add_button, get_button
 from input.mouse_input import get_mouse, show_mouse

@@ -5,7 +5,7 @@ Created on 1 mars 2014
 '''
 from event.event_main import get_button
 from event.physics_event import get_physics_event
-from engine.physics import move, meter2pixel, get_body_position
+from engine.physics_manager import physics_manager
 from engine.init import get_screen_size
 from animation.animation_main import Animation
 from engine.const import log
@@ -37,7 +37,8 @@ class PlayerAnimation(Animation):
         physics_events = get_physics_event()
         
         for event in physics_events:
-            if (event.a.userData == 2 and event.b.userData == 11 ) or ( event.b.userData == 2 and event.a.userData == 11):
+            if (event.a.userData == 2 and event.b.userData == 11 ) or \
+                    ( event.b.userData == 2 and event.a.userData == 11):
                 if event.begin:
                     self.foot += 1
                 else:
@@ -47,25 +48,25 @@ class PlayerAnimation(Animation):
             self.direction = False
             if self.foot:
                 self.state = 'move_left'
-            move(self.player.body, -self.speed)
+            physics_manager.move(self.player.body, -self.speed)
         elif horizontal == 1:
             self.direction = True
             if self.foot:
                 self.state = 'move_right'
-            move(self.player.body, self.speed)
+            physics_manager.move(self.player.body, self.speed)
         else:
             if self.foot:
                 if self.direction:
                     self.state = 'still_right'
                 else:
                     self.state = 'still_left'
-            move(self.player.body, 0)
+            physics_manager.move(self.player.body, 0)
         if not self.foot:
             if self.direction:
                 self.state = 'jump_right'
             else:
                 self.state = 'jump_left'
-        physics_pos = get_body_position(self.player.body)
+        physics_pos = physics_manager.get_body_position(self.player.body)
         
         if physics_pos:
             pos = physics_pos-self.player.size/2
@@ -74,8 +75,10 @@ class PlayerAnimation(Animation):
         if self.player.screen_relative_pos:
             pos = pos-self.player.screen_relative_pos*get_screen_size()
         self.player.pos = pos
+
     def get_screen_pos(self):
         return self.player.pos
+
     @staticmethod
     def parse_animation(anim_data):
         Animation.parse_animation(anim_data)

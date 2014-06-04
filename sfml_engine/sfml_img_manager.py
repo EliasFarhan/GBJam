@@ -36,7 +36,6 @@ class SFMLImgManager(ImgManager):
     def show_image(self, image, screen, pos, angle=0, center=False,
                    new_size=None, center_image=False):
         if image is None:
-            log("WOOT IMG NONE")
             return
         try:
             sprite = image

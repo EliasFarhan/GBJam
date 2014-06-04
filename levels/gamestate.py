@@ -13,7 +13,7 @@ from levels.scene import Scene
 from engine.const import log, CONST
 from network.gamestate_network import NetworkGamestate
 from json_export.level_json import load_level
-from engine.physics import init_physics, update_physics, deinit_physics
+from engine.physics_manager import physics_manager
 from levels.editor import Editor
 from levels.gui import GUI
 from input.mouse_input import show_mouse, get_mouse
@@ -31,7 +31,7 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
 
     def init(self, loading=False):
 
-        init_physics()
+        physics_manager.init_world()
         self.objects = [ [] for i in range(CONST.layers) ]
         self.screen_pos = Vector2()
         self.show_mouse = False
@@ -95,7 +95,7 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
 
 
         if not self.lock:
-            update_physics()
+            physics_manager.loop()
 
 
         '''Show images'''
@@ -120,6 +120,6 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
             Editor.loop(self, screen, self.screen_pos)
 
     def exit(self, screen):
-        deinit_physics()
+        physics_manager.remove_world(physics_manager.current_world)
 
         Scene.exit(self, screen)

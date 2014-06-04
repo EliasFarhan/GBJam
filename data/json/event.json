@@ -1,4 +1,3 @@
 {
-	"type": "event.audio_event.MusicEvent",
-	"playlist": [ "data/sound/pissed_off_duck.wav" ]
+
 }

@@ -59,13 +59,10 @@ class Image(GameObject):
             center_image = self.center_image
         except AttributeError:
             pass
-        i = 0
-        if self.img_loop:
-            i = int((screen_pos.x-self.pos.x)/(self.size.x/self.screen_factor))
             
         img_manager.show_image(self.img,
                    screen,
-                   pos+self.size/self.screen_factor*i,
+                   pos,
                    new_size=self.size,
                    center_image=center_image,
                    angle=self.angle)
@@ -95,7 +92,7 @@ class AnimImage(Image):
     to load several file, like player do not call this constructor'''
     def __init__(self):
         GameObject.__init__(self)
-        self.img = 0
+        self.img = None
         self.anim = None
 
     def loop(self,screen,screen_pos):

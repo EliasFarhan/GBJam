@@ -6,7 +6,7 @@ Main loop of the engine
 from engine.const import CONST,log
 import sys
 from engine.img_manager import img_manager
-from engine.physics import deinit_physics
+from engine.physics_manager import physics_manager
 from levels.loading_screen import LoadingScreen
 from levels.logo_kwakwa import Kwakwa
 
@@ -90,7 +90,6 @@ def loop():
     else:
         App.get_running_app().run()
 
-    deinit_physics()
     if CONST.render == 'sfml':
         screen.close()
     elif CONST.render == 'pookoo':

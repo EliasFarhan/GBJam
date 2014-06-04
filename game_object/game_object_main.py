@@ -7,8 +7,7 @@ import math
 from engine.rect import Rect
 from engine.const import log, CONST
 from engine.img_manager import img_manager
-from engine.physics import show_fixtures, get_body_position, set_body_position, remove_body, add_static_box, \
-    add_static_object
+from engine.physics_manager import physics_manager
 from engine.init import get_screen_size
 from engine.vector import Vector2
 
@@ -37,9 +36,9 @@ class GameObject:
                                       y*CONST.scale_speed+1)
         """TODO: update body"""
         if self.body:
-            remove_body(self.body)
-            self.body = add_static_object(self,self.not_rot_pos)
-            add_static_box(self.body,Vector2(),self.size/2)
+            physics_manager.remove_body(self.body)
+            self.body = physics_manager.add_static_object(self,self.not_rot_pos)
+            physics_manager.add_box(self.body,Vector2(),self.size/2)
         self.update_rect()
     
     def update_rect(self):
@@ -52,7 +51,7 @@ class GameObject:
 
         center_pos = Vector2()
         if self.body:
-            center_pos = get_body_position(self.body)
+            center_pos = physics_manager.get_body_position(self.body)
             if self.screen_relative_pos:
                 center_pos = center_pos - self.screen_relative_pos*get_screen_size()
 
@@ -143,8 +142,6 @@ class GameObject:
                 img_manager.draw_rect(screen, screen_pos, self.rect, (0,0,255,200), self.angle)
                 if self.click_rect:
                     img_manager.draw_rect(screen,screen_pos,self.click_rect,(0,255,0,100))
-                if self.body:
-                    show_fixtures(screen, screen_pos, self.body)
 
     def set_position(self,pos):
         if self.screen_relative_pos:
