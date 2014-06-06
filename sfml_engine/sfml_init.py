@@ -17,9 +17,7 @@ class SFMLEngine(Engine):
         self.screen = sfml.RenderWindow(desktop, 'Kudu Window', style)
         self.real_screen_size = Vector2(self.screen.size)
         self.screen_diff_ratio = self.real_screen_size/self.screen_size
-        log(self.screen_size.get_tuple())
-        log(self.real_screen_size.get_tuple())
-        log(self.screen_diff_ratio.get_tuple())
+
 
     def init_level(self):
         from levels.loading_screen import LoadingScreen
@@ -35,3 +33,25 @@ class SFMLEngine(Engine):
     def post_update(self):
         self.screen.framerate_limit = CONST.framerate
         self.screen.display()
+
+    def get_origin_pos(self):
+        origin_pos = Vector2()
+        if self.real_screen_size.get_ratio() > self.screen_size.get_ratio():
+
+            origin_pos = Vector2((self.real_screen_size.x -
+                                 self.real_screen_size.y *
+                                 self.real_screen_size.get_ratio())/2,0)
+        else:
+            origin_pos = Vector2(0,(self.real_screen_size.y -
+                                   self.real_screen_size.x /
+                                   self.screen_size.get_ratio())/2)
+        return origin_pos
+
+    def get_ratio(self):
+        screen_diff_ratio = Vector2()
+        if self.real_screen_size.get_ratio() > self.screen_size.get_ratio():
+            screen_diff_ratio = self.screen_diff_ratio.y
+
+        else:
+            screen_diff_ratio = self.screen_diff_ratio.x
+        return screen_diff_ratio

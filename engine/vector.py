@@ -132,3 +132,6 @@ class Vector2():
 
     def get_string(self):
         return str(self.x)+","+str(self.y)
+
+    def get_ratio(self):
+        return float(self.x)/self.y
