@@ -3,7 +3,7 @@ Manage images loading, transforming and rendering
 """
 
 
-from engine.const import CONST
+from engine.const import CONST, log
 
 
 class ImgManager():
@@ -35,8 +35,9 @@ class ImgManager():
         for img_filename in del_img_tmp:
             del self.img_name[img_filename]
 
-img_manager = None
+img_manager = ImgManager()
 if CONST.render == 'sfml':
+    log("Creating SFMLImgManager")
     from sfml_engine.sfml_img_manager import SFMLImgManager
     img_manager = SFMLImgManager()
 elif CONST.render == 'pookoo':
@@ -46,8 +47,7 @@ elif CONST.render == 'kivy':
     import kivy
     from kivy.uix.widget import Widget
     from kivy.uix.image import Image
-else:
-    ImgManager()
+
 
 '''
 def draw_rect(screen, screen_pos, rect, color, angle=0):

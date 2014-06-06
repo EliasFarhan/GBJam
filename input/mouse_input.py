@@ -4,6 +4,7 @@ Created on Feb 26, 2014
 @author: efarhan
 """
 from engine.const import CONST
+from engine.init import engine
 from engine.vector import Vector2
 
 
@@ -34,5 +35,4 @@ def show_mouse(show=True):
     """Show/hide mouse"""
 
     if CONST.render == 'sfml':
-        from engine.loop import get_screen
-        get_screen().mouse_cursor_visible = show
+        engine.screen.mouse_cursor_visible = show

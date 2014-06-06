@@ -2,25 +2,7 @@
 Main loop of the engine
 """
 
-
-from engine.const import CONST,log
-import sys
-from engine.img_manager import img_manager
-from engine.physics_manager import physics_manager
-from levels.loading_screen import LoadingScreen
-from levels.logo_kwakwa import Kwakwa
-
-if CONST.render == 'sfml':
-    import sfml
-elif CONST.render == 'pookoo':
-    import pookoo
-elif CONST.render == 'kivy':
-    from kivy.app import App
-from engine.init import engine
-import engine.level_manager as level_manager
-from event.event_main import update_event, add_button, get_button
-from levels.gamestate import GameState
-
+'''
 finish = False
 screen = None
 
@@ -49,6 +31,7 @@ def init_level():
     else:
         level_manager.switch_level(Kwakwa())
 
+
 def loop():
     global finish, screen, console
 
@@ -69,8 +52,7 @@ def loop():
             elif CONST.render == 'sfml':
                 img_manager.clear_screen(screen)
             update_event()
-            if not finish:
-                finish = get_button('quit')
+            finish = get_button('quit')
             f = level_manager.update_level()
             if f == 0:
                 log("No scene loaded",1)
@@ -96,9 +78,8 @@ def loop():
         pookoo.audio.finish()
         pookoo.window.finish()
 
-
+'''
 def start():
     global screen
     log("START")
-    screen = engine.init_all()
-    loop()
+

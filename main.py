@@ -1,10 +1,12 @@
 #/usr/bin/env python
 import sys
 import os
+from engine.init import engine
 
 sys.path.append(os.path.abspath("."))
-import engine.loop as game
+
 
 
 if __name__ == "__main__" or __name__ == "main":
-    game.start()
+    engine.init_all()
+    engine.loop()

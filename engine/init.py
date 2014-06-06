@@ -1,16 +1,16 @@
-
+from engine import level_manager
 from engine.const import log, CONST
-from engine.level_manager import get_level
 
 
 from engine.vector import Vector2
 from json_export.json_main import load_json
-from event.event_main import add_button
+from event.event_main import add_button, get_button, update_event
 
 
 class Engine():
     def __init__(self):
         self.screen = None
+        self.finish = False
 
     def init_screen(self):
         self.screen_size = CONST.screen_size
@@ -32,11 +32,44 @@ class Engine():
             log(key)
             add_button(key[0], key[1])
 
+    def init_level(self):
+        if not CONST.debug:
+            from levels.logo_kwakwa import Kwakwa
+            level_manager.switch_level(Kwakwa())
+
     def init_all(self):
         self.init_screen()
         self.init_joystick()
         self.init_actions()
+        self.init_level()
         return self.screen
+
+    def loop(self):
+        add_button('quit', ['LCTRL+q'])
+        add_button('reset', ['r'])
+        while not self.finish:
+            self.pre_update()
+            update_event()
+
+            self.finish = get_button('quit')
+
+            f = level_manager.update_level()
+
+            if f == 0:
+                log("No scene loaded",1)
+                break
+            else:
+                f(self.screen)
+            if get_button('reset'):
+                from levels.gamestate import GameState
+                level_manager.switch_level(GameState(CONST.startup))
+            self.post_update()
+
+    def pre_update(self):
+        pass
+
+    def post_update(self):
+        pass
 
     @staticmethod
     def get_screen_size():

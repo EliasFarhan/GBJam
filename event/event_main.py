@@ -41,18 +41,17 @@ def update_event():
     """
 
     if CONST.render == 'sfml':
-        from engine.loop import get_screen
-        window = get_screen()
+        from engine.init import engine
+        window = engine.screen
         update_joy_event()
         for event in window.events:
             update_keyboard_event(event)
             
             if type(event) is sfml.CloseEvent:
-                from engine.loop import set_finish
-                set_finish()
+                from engine.init import engine
+                engine.finish = True
             elif type(event) is sfml.MouseButtonEvent:
-                from engine.init import get_screen_size
-                screen_ratio = float(get_screen_size().y)/Vector2(get_screen().size).y
+                screen_ratio = float(engine.get_screen_size().y)/Vector2(engine.screen.size).y
                 from levels.gamestate import GameState
                 if get_level().__class__ == GameState:
                     log((Vector2(event.position)*screen_ratio+get_level().screen_pos).get_tuple())
