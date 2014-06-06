@@ -31,6 +31,24 @@ class SFMLEngine(Engine):
         img_manager.clear_screen(self.screen)
 
     def post_update(self):
+        #hide the sides
+        first_rect = sfml.RectangleShape()
+        first_rect.position = (0,0)
+        second_rect = sfml.RectangleShape()
+        if self.get_origin_pos().y > self.get_origin_pos().x:
+            first_rect.size = (self.real_screen_size.x,self.get_origin_pos().y)
+            second_rect.position = (0,self.real_screen_size.y-self.get_origin_pos().y)
+            second_rect.size = first_rect.size
+        else:
+            first_rect.size = (self.get_origin_pos().x,self.real_screen_size.y)
+            second_rect.position = (self.real_screen_size.x-self.get_origin_pos().x,0)
+            second_rect.size = first_rect.size
+        first_rect.fill_color = sfml.Color.BLACK
+        second_rect.fill_color = sfml.Color.BLACK
+        self.screen.draw(first_rect)
+        self.screen.draw(second_rect)
+
+
         self.screen.framerate_limit = CONST.framerate
         self.screen.display()
 
