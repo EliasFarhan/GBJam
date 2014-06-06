@@ -92,9 +92,9 @@ class Vector2():
     def __div__(self, v):
         try:
             if v.__class__ == Vector2:
-                return Vector2(self.x/v.x, self.y/v.y)
+                return Vector2(float(self.x)/v.x, float(self.y)/v.y)
             elif isinstance(v, Number):
-                return Vector2(self.x/v, self.y/v)
+                return Vector2(self.x/float(v), self.y/float(v))
             else:
                 raise TypeError("Vector can only divide numbers or Vector, type given: %s"%(str(type(v))))
             return None

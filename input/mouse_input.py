@@ -3,7 +3,7 @@ Created on Feb 26, 2014
 
 @author: efarhan
 """
-from engine.const import CONST
+from engine.const import CONST, log
 from engine.init import engine
 from engine.vector import Vector2
 
@@ -20,9 +20,11 @@ def get_mouse():
     position, (left, right,middle)
     """
     if CONST.render == 'sfml':
-        return Vector2(sfml.Mouse.get_position()), [sfml.Mouse.is_button_pressed(sfml.Mouse.LEFT),
-                                           sfml.Mouse.is_button_pressed(sfml.Mouse.RIGHT),
-                                           sfml.Mouse.is_button_pressed(sfml.Mouse.MIDDLE)]
+        mouse_pos = Vector2(sfml.Mouse.get_position())/engine.screen_diff_ratio
+        return mouse_pos,\
+               [sfml.Mouse.is_button_pressed(sfml.Mouse.LEFT),
+                sfml.Mouse.is_button_pressed(sfml.Mouse.RIGHT),
+                sfml.Mouse.is_button_pressed(sfml.Mouse.MIDDLE)]
     elif CONST.render == 'pookoo':
         return Vector2(pookoo.input.mouse.position()), [
             False,False,False

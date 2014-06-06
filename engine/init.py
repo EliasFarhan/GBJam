@@ -11,9 +11,12 @@ class Engine():
     def __init__(self):
         self.screen = None
         self.finish = False
+        self.real_screen_size = Vector2()
+        self.screen_diff_ratio = Vector2()
+        self.screen_size = Vector2(CONST.screen_size)
 
     def init_screen(self):
-        self.screen_size = CONST.screen_size
+        pass
 
     def init_joystick(self):
         pass
@@ -71,17 +74,18 @@ class Engine():
     def post_update(self):
         pass
 
-    @staticmethod
-    def get_screen_size():
-        return Vector2(CONST.screen_size)
+    def get_screen_size(self):
+        return self.screen_size
 
 engine = Engine()
 
 real_screen_size = Vector2()
 kivy_screen = None
 if CONST.render == 'sfml':
+    log("Creating SFMLEngine")
     from sfml_engine.sfml_init import SFMLEngine
     engine = SFMLEngine()
+    log(engine)
 elif CONST.render == 'pookoo':
     import pookoo
 elif CONST.render == 'kivy':

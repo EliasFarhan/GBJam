@@ -34,7 +34,7 @@ class Rect():
         return Vector2(self.pos+self.size/2)
 
     def collide_point(self,point_pos):
-        log("Rect-Point collision: {0} {1} {2}".format(str(self.pos.get_tuple()), str(self.size.get_tuple()), str(point_pos.get_tuple())))
+        #log("Rect-Point collision: {0} {1} {2}".format(str(self.pos.get_tuple()), str(self.size.get_tuple()), str(point_pos.get_tuple())))
         status = (self.pos.x < point_pos.x < self.pos.x+self.size.x and
                   self.pos.y < point_pos.y < self.pos.y+self.size.y)
         return status

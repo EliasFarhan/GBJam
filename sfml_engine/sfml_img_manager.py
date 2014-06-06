@@ -14,7 +14,8 @@ class SFMLImgManager(ImgManager):
     def clear_screen(self,screen):
         screen.clear()
 
-    def get_size(self,image):
+    @staticmethod
+    def get_size(image):
         return Vector2(image.texture.size)
 
     def load_image(self, name, permanent=False):
@@ -40,7 +41,7 @@ class SFMLImgManager(ImgManager):
         try:
             sprite = image
             #TODO: Adapt to 4:3 screen or not 16:9
-            screen_diff_ratio = float(screen.size.y) / engine.get_screen_size().y
+            screen_diff_ratio = engine.screen_diff_ratio.y
             if new_size:
                 text_size = None
 
@@ -48,7 +49,7 @@ class SFMLImgManager(ImgManager):
                     text_size = Vector2(sprite.texture.size)
                 else:
                     text_size = new_size
-                sprite.ratio = (new_size * screen_diff_ratio / text_size).get_tuple()
+                sprite.ratio = (new_size * screen_diff_ratio / text_size).get_int_tuple()
             if angle != 0:
                 sprite.rotation = angle
 
@@ -61,7 +62,7 @@ class SFMLImgManager(ImgManager):
 
     def draw_rect(self, screen, screen_pos, rect, color, angle=0):
         drawing_rect = sfml.RectangleShape()
-        screen_diff_ratio = float(screen.size.y) / engine.get_screen_size().y
+        screen_diff_ratio = engine.screen_diff_ratio.y
         drawing_rect.position = ((rect.pos - screen_pos) * screen_diff_ratio).get_tuple()
 
         drawing_rect.rotation = angle
