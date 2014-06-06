@@ -7,7 +7,7 @@ import math
 from engine.rect import Rect
 from engine.const import log, CONST
 from engine.img_manager import img_manager
-from engine.physics_manager import physics_manager
+from engine.physics_manager import physics_manager, BodyType
 from engine.init import engine
 from engine.vector import Vector2
 
@@ -34,10 +34,10 @@ class GameObject:
 
         self.size = self.size*Vector2(x*CONST.scale_speed+1,
                                       y*CONST.scale_speed+1)
-        """TODO: update body"""
+        """update body"""
         if self.body:
             physics_manager.remove_body(self.body)
-            self.body = physics_manager.add_static_object(self,self.not_rot_pos)
+            self.body = physics_manager.add_body(self.not_rot_pos, BodyType.static)
             physics_manager.add_box(self.body,Vector2(),self.size/2)
         self.update_rect()
     
@@ -51,7 +51,7 @@ class GameObject:
 
         center_pos = Vector2()
         if self.body:
-            center_pos = physics_manager.get_body_position(self.body)
+            center_pos = physics_manager.get_body_posdition(self.body)
             if self.screen_relative_pos:
                 center_pos = center_pos - self.screen_relative_pos*engine.get_screen_size()
 

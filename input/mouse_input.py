@@ -20,7 +20,7 @@ def get_mouse():
     position, (left, right,middle)
     """
     if CONST.render == 'sfml':
-        mouse_pos = Vector2(sfml.Mouse.get_position())/engine.screen_diff_ratio
+        mouse_pos = Vector2(sfml.Mouse.get_position())/engine.screen_diff_ratio+engine.get_origin_pos()
         return mouse_pos,\
                [sfml.Mouse.is_button_pressed(sfml.Mouse.LEFT),
                 sfml.Mouse.is_button_pressed(sfml.Mouse.RIGHT),

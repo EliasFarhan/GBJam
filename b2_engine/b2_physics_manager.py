@@ -17,7 +17,7 @@ class Box2DPhysicsManager(PhysicsManager):
         self.vel_iters = 10
         self.pos_iters = 10
 
-    def init_world(self,gravity_arg=None):
+    def init_world(self, gravity_arg=None):
         gravity_value = Vector2(0,0)
         if(gravity_arg is None):
             gravity_value = Vector2(0,CONST.gravity)
@@ -102,8 +102,9 @@ class Box2DPhysicsManager(PhysicsManager):
 
     def loop(self):
         PhysicsManager.loop(self)
-        self.current_world.Step(self.time_step,self.vel_iters,self.pos_iters)
-        self.current_world.ClearForces()
+        for world in self.worlds:
+            world.Step(self.time_step,self.vel_iters,self.pos_iters)
+            world.ClearForces()
 
     def move(self, body, vx=None, vy=None, movement_type=MoveType.force):
         if body:

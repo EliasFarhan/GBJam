@@ -43,7 +43,7 @@ class PhysicsManager():
         pass
 
     @staticmethod
-    def add_body(self):
+    def add_body(self,pos):
         pass
 
     @staticmethod
