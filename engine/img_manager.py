@@ -3,10 +3,8 @@ Manage images loading, transforming and rendering
 """
 
 
-from engine.const import CONST, log
-from engine.init import get_screen_size, get_kivy_screen
+from engine.const import CONST
 
-from engine.vector import Vector2
 
 class ImgManager():
     def __init__(self):

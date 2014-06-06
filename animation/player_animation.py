@@ -6,7 +6,7 @@ Created on 1 mars 2014
 from event.event_main import get_button
 from event.physics_event import get_physics_event
 from engine.physics_manager import physics_manager
-from engine.init import get_screen_size
+from engine.init import engine
 from animation.animation_main import Animation
 from engine.const import log
 
@@ -73,7 +73,7 @@ class PlayerAnimation(Animation):
         else:
             pos = self.player.pos
         if self.player.screen_relative_pos:
-            pos = pos-self.player.screen_relative_pos*get_screen_size()
+            pos = pos-self.player.screen_relative_pos*engine.get_screen_size()
         self.player.pos = pos
 
     def get_screen_pos(self):

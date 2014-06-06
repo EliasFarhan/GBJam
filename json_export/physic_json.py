@@ -7,7 +7,7 @@ import math
 from engine.const import log, CONST
 from json_export.json_main import get_element
 from engine.physics_manager import physics_manager, BodyType, pixel2meter
-from engine.init import get_screen_size
+from engine.init import engine
 from engine.vector import Vector2
 
 def load_physic_objects(physics_data,image):
@@ -17,7 +17,7 @@ def load_physic_objects(physics_data,image):
         if image.pos:
             pos = image.pos
         if image.screen_relative_pos:
-            pos = pos+image.screen_relative_pos*get_screen_size()
+            pos = pos+image.screen_relative_pos*engine.get_screen_size()
         if image.size:
             pos = pos+image.size/2
         if body_type == "dynamic":
@@ -30,7 +30,7 @@ def load_physic_objects(physics_data,image):
     if image.pos:
         pos = image.pos
     if image.screen_relative_pos:
-        pos = pos+image.screen_relative_pos*get_screen_size()+image.size/2
+        pos = pos+image.screen_relative_pos*engine.get_screen_size()+image.size/2
     angle = get_element(physics_data, "angle")
     if angle:
         image.body.angle = angle*math.pi/180

@@ -1,5 +1,5 @@
 from engine.const import CONST
-from engine.init import get_screen_size
+from engine.init import engine
 from game_object.image import Image
 from network import client
 from network.client import get_self_id
@@ -15,7 +15,7 @@ class NetworkGamestate():
 
     def loop(self, screen):
         if CONST.network and self.player:
-            client.set_request(self.player.pos + get_screen_size() * self.player.screen_relative_pos,
+            client.set_request(self.player.pos + engine.get_screen_size() * self.player.screen_relative_pos,
                                self.player.anim.state,
                                self.player.anim.index)
             client.get_players_request()

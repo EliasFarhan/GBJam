@@ -6,7 +6,7 @@ from levels.gamestate import GameState
 __author__ = 'efarhan'
 
 from engine.const import CONST, log
-from engine.init import get_screen_size
+from engine.init import engine
 from engine.vector import Vector2
 from game_object.text import Text
 from levels.scene import Scene
@@ -19,7 +19,7 @@ if CONST.render == 'sfml':
 class LoadingScreen(Scene):
     def __init__(self):
         self.y_size = 100
-        self.loading_text = Text(Vector2(get_screen_size().x/2, self.y_size/2),self.y_size,"data/font/pixel_arial.ttf","Loading",center=True,relative=True,color=(255,255,255))
+        self.loading_text = Text(Vector2(engine.get_screen_size().x/2, self.y_size/2),self.y_size,"data/font/pixel_arial.ttf","Loading",center=True,relative=True,color=(255,255,255))
         self.counter = 0
         self.anim_length = CONST.animation_step
         self.text_points = ""

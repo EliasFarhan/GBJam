@@ -1,7 +1,7 @@
 import sfml
 from engine.const import log, CONST
 from engine.img_manager import ImgManager
-from engine.init import get_screen_size
+from engine.init import engine
 from engine.vector import Vector2
 
 __author__ = 'Elias'
@@ -40,7 +40,7 @@ class SFMLImgManager(ImgManager):
         try:
             sprite = image
             #TODO: Adapt to 4:3 screen or not 16:9
-            screen_diff_ratio = float(screen.size.y) / get_screen_size().y
+            screen_diff_ratio = float(screen.size.y) / engine.get_screen_size().y
             if new_size:
                 text_size = None
 
@@ -61,7 +61,7 @@ class SFMLImgManager(ImgManager):
 
     def draw_rect(self, screen, screen_pos, rect, color, angle=0):
         drawing_rect = sfml.RectangleShape()
-        screen_diff_ratio = float(screen.size.y) / get_screen_size().y
+        screen_diff_ratio = float(screen.size.y) / engine.get_screen_size().y
         drawing_rect.position = ((rect.pos - screen_pos) * screen_diff_ratio).get_tuple()
 
         drawing_rect.rotation = angle

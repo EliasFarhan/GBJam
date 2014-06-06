@@ -8,7 +8,7 @@ from engine.rect import Rect
 from engine.const import log, CONST
 from engine.img_manager import img_manager
 from engine.physics_manager import physics_manager
-from engine.init import get_screen_size
+from engine.init import engine
 from engine.vector import Vector2
 
 
@@ -46,14 +46,14 @@ class GameObject:
         if self.pos:
             pos = self.pos
         if self.screen_relative_pos:
-            pos = pos+self.screen_relative_pos*get_screen_size()
+            pos = pos+self.screen_relative_pos*engine.get_screen_size()
         self.rect = Rect(pos, self.size, self.angle)
 
         center_pos = Vector2()
         if self.body:
             center_pos = physics_manager.get_body_position(self.body)
             if self.screen_relative_pos:
-                center_pos = center_pos - self.screen_relative_pos*get_screen_size()
+                center_pos = center_pos - self.screen_relative_pos*engine.get_screen_size()
 
             self.not_rot_pos = center_pos
 
@@ -72,8 +72,8 @@ class GameObject:
     def move(self, delta):
         self.pos = self.pos+delta
         if self.body:
-            body_pos = get_body_position(self.body)
-            set_body_position(self.body,body_pos+delta)
+            body_pos = physics_manager.get_body_position(self.body)
+            physics_manager.set_body_position(self.body,body_pos+delta)
         self.update_rect()
 
     def set_pos(self,init_pos,delta_pos):
@@ -91,9 +91,9 @@ class GameObject:
             self.body.angle = self.angle*math.pi/180
         if center:
             if self.body:
-                pos = get_body_position(self.body)
+                pos = physics_manager.get_body_position(self.body)
                 if self.screen_relative_pos:
-                    pos = pos - self.screen_relative_pos*get_screen_size()
+                    pos = pos - self.screen_relative_pos*physics_manager.get_screen_size()
                 self.not_rot_pos = pos - self.size/2
                 v = self.size/2
                 v.rotate(self.angle)
@@ -130,7 +130,7 @@ class GameObject:
             pos = self.pos
         
         if self.screen_relative_pos is not None:
-            pos = pos + self.screen_relative_pos*get_screen_size()
+            pos = pos + self.screen_relative_pos*engine.get_screen_size()
         
         if self.screen_relative:
             pos = self.pos

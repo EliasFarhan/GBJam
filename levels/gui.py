@@ -4,7 +4,7 @@ Created on Feb 26, 2014
 @author: efarhan
 '''
 
-from engine.init import get_screen_size
+from engine.init import engine
 from engine.vector import Vector2
 from game_object.text import Text
 from game_object.image import Image
@@ -32,19 +32,19 @@ class GUI():
         self.init_dialog_text()
 
     def init_dialog_text(self):
-        self.dialog_text = Text(pos=get_screen_size()*Vector2(self.dialog_margin,1-self.dialog_y_size+self.dialog_margin),
-                                size=get_screen_size()*Vector2(1-2*self.dialog_margin,self.dialog_y_size/2-1.5*self.dialog_margin).y,
+        self.dialog_text = Text(pos=engine.get_screen_size()*Vector2(self.dialog_margin,1-self.dialog_y_size+self.dialog_margin),
+                                size=engine.get_screen_size()*Vector2(1-2*self.dialog_margin,self.dialog_y_size/2-1.5*self.dialog_margin).y,
                                 font=self.dialog_font,
                                 text="",
                                 relative=True)
-        self.dialog_text2 = Text(pos=get_screen_size()*Vector2(self.dialog_margin,1-self.dialog_y_size/2+self.dialog_margin),
-                                 size=get_screen_size()*Vector2(1-2*self.dialog_margin,self.dialog_y_size/2-1.5*self.dialog_margin).y,
+        self.dialog_text2 = Text(pos=engine.get_screen_size()*Vector2(self.dialog_margin,1-self.dialog_y_size/2+self.dialog_margin),
+                                 size=engine.get_screen_size()*Vector2(1-2*self.dialog_margin,self.dialog_y_size/2-1.5*self.dialog_margin).y,
                                  font=self.dialog_font,
                                  text="",
                                  relative=True)
         self.dialog_box = Image(path=self.dialog_box_image,
-                                pos=(get_screen_size()*Vector2(0,1-self.dialog_y_size)).get_tuple(),
-                                size=(get_screen_size()*Vector2(1.0, self.dialog_y_size)).get_tuple(),
+                                pos=(engine.get_screen_size()*Vector2(0,1-self.dialog_y_size)).get_tuple(),
+                                size=(engine.get_screen_size()*Vector2(1.0, self.dialog_y_size)).get_tuple(),
                                 relative=True)
 
     def set_dialog(self, text, text2=''):
@@ -57,8 +57,8 @@ class GUI():
         answer_nmb = len(answers)
         for answer in answers:
 
-            pos = (get_screen_size()*Vector2((1 - self.answer_size.x), ((1 - self.dialog_y_size) - (answer_nmb - i) * self.answer_size.y)))
-            size = (get_screen_size()*Vector2(self.answer_size.x, self.answer_size.y))
+            pos = (engine.get_screen_size()*Vector2((1 - self.answer_size.x), ((1 - self.dialog_y_size) - (answer_nmb - i) * self.answer_size.y)))
+            size = (engine.get_screen_size()*Vector2(self.answer_size.x, self.answer_size.y))
             self.answers_text.append(Text(pos=pos, size=size.y, font=self.dialog_font, text=answer, relative=True))
             if self.dialog_box_image:
                 self.answers_image.append(Image(self.dialog_box_image, pos, size=size, relative=True))

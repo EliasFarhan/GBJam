@@ -7,14 +7,52 @@ from engine.vector import Vector2
 from json_export.json_main import load_json
 from event.event_main import add_button
 
+
+class Engine():
+    def __init__(self):
+        self.screen = None
+
+    def init_screen(self):
+        self.screen_size = CONST.screen_size
+
+    def init_joystick(self):
+        pass
+
+    def init_actions(self):
+        actions = None
+
+        if isinstance(CONST.actions, CONST.string_type):
+            actions = load_json(CONST.actions)
+        elif isinstance(CONST.actions, dict):
+            actions = CONST.actions
+        else:
+            log("Error: could not load actions, Undefined type: "+str(type(CONST.actions)), 1)
+            return
+        for key in actions.items():
+            log(key)
+            add_button(key[0], key[1])
+
+    def init_all(self):
+        self.init_screen()
+        self.init_joystick()
+        self.init_actions()
+        return self.screen
+
+    @staticmethod
+    def get_screen_size():
+        return Vector2(CONST.screen_size)
+
+engine = Engine()
+
 real_screen_size = Vector2()
 kivy_screen = None
 if CONST.render == 'sfml':
-    import sfml
+    from sfml_engine.sfml_init import SFMLEngine
+    engine = SFMLEngine()
 elif CONST.render == 'pookoo':
     import pookoo
 elif CONST.render == 'kivy':
-    import kivy
+    """import kivy
     from kivy.app import App
     from kivy.clock import Clock
     from kivy.core.window import Window
@@ -55,42 +93,28 @@ elif CONST.render == 'kivy':
             from engine.loop import init_level
             init_level()
             Clock.schedule_interval(self.kudu_widget.update, 1.0 / 60.0)
+    """
 
 
+'''
 def init_all():
     global kivy_screen
-    screen = init_screen()
+    init_engine.init_screen()
     if CONST.render == 'sfml':
         log(str(screen.settings))
     init_joystick()
     init_actions()
-    return screen
+    return init_engine.screen
 
 
-def init_actions():
-    actions = None
 
-    if isinstance(CONST.actions, CONST.string_type):
-        actions = load_json(CONST.actions)
-    elif isinstance(CONST.actions, dict):
-        actions = CONST.actions
-    else:
-        log("Error: could not load actions, Undefined type: "+str(type(CONST.actions)), 1)
-        return
-    for key in actions.items():
-        log(key)
-        add_button(key[0], key[1])
 
 
 def init_screen():
     screen_size = CONST.screen_size
     log("Init screen with screen_size:" + str(screen_size))
     if CONST.render == 'sfml':
-        desktop = sfml.VideoMode.get_desktop_mode()
-        style = sfml.Style.DEFAULT
-        if CONST.fullscreen:
-            style = sfml.Style.FULLSCREEN
-        window = sfml.RenderWindow(desktop, 'Kudu Window', style)
+
         return window
     elif CONST.render == 'pookoo':
         return pookoo.window.begin()
@@ -125,3 +149,4 @@ def resize_screen(new_size):
 def get_kivy_screen():
     global kivy_screen
     return kivy_screen
+'''

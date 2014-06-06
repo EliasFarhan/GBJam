@@ -6,7 +6,7 @@ Created on 11 sept. 2013
 
 from engine.img_manager import   img_manager
 from animation.animation_main import Animation
-from engine.init import get_screen_size
+from engine.init import engine
 from engine.rect import Rect
 from game_object.game_object_main import GameObject
 from engine.const import log, CONST
@@ -46,7 +46,7 @@ class Image(GameObject):
             pos = self.pos
         
         if self.screen_relative_pos is not None:
-            pos = pos+self.screen_relative_pos*get_screen_size()
+            pos = pos+self.screen_relative_pos*engine.get_screen_size()
 
         #TODO: with screen_relative_pos
         if self.screen_relative:

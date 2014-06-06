@@ -4,7 +4,7 @@ Created on 9 dec. 2013
 @author: efarhan
 """
 from engine.img_manager import img_manager
-from engine.init import get_screen_size
+from engine.init import engine
 from engine.rect import Rect
 from engine.snd_manager import snd_manager
 from engine.vector import Vector2
@@ -64,7 +64,7 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         self.init()
 
     def loop(self, screen):
-        img_manager.draw_rect(screen, Vector2(), Rect(Vector2(),get_screen_size()),self.bg_color)
+        img_manager.draw_rect(screen, Vector2(), Rect(Vector2(),engine.get_screen_size()),self.bg_color)
         snd_manager.update_music_status()
         if CONST.render == 'kivy':
             for layer in self.objects:
@@ -72,8 +72,8 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
                     #set img pos outside the screen
                     if isinstance(img, AnimImage):
                         for kivy_img in img.anim.img_indexes:
-                            kivy_img.x = -get_screen_size().x
-                            kivy_img.y = -get_screen_size().y
+                            kivy_img.x = -engine.get_screen_size().x
+                            kivy_img.y = -engine.get_screen_size().y
 
         '''Event
         If mouse_click on element, execute its event, of not null'''

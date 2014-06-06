@@ -16,7 +16,7 @@ elif CONST.render == 'pookoo':
     import pookoo
 elif CONST.render == 'kivy':
     from kivy.app import App
-from engine.init import init_all
+from engine.init import engine
 import engine.level_manager as level_manager
 from event.event_main import update_event, add_button, get_button
 from levels.gamestate import GameState
@@ -100,5 +100,5 @@ def loop():
 def start():
     global screen
     log("START")
-    screen = init_all()
+    screen = engine.init_all()
     loop()

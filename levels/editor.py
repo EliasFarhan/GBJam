@@ -5,7 +5,7 @@ Created on Feb 1, 2014
 '''
 
 from engine.const import log
-from engine.init import get_screen_size
+from engine.init import engine
 from engine.physics_manager import physics_manager
 from engine.vector import Vector2
 from event.event_main import add_button, get_button
@@ -52,8 +52,8 @@ class Editor():
         self.mouse_init_pos = Vector2()
 
         '''GUI'''
-        self.gui_editor_mode = Text(Vector2(0,get_screen_size().y-2*self.text_size), self.text_size, "data/font/pixel_arial.ttf", "Editor mode", relative=True)
-        self.gui_current_selected = Text(Vector2(0,get_screen_size().y-self.text_size), self.text_size, "data/font/pixel_arial.ttf", "",relative=True)
+        self.gui_editor_mode = Text(Vector2(0, engine.get_screen_size().y-2*self.text_size), self.text_size, "data/font/pixel_arial.ttf", "Editor mode", relative=True)
+        self.gui_current_selected = Text(Vector2(0, engine.get_screen_size().y-self.text_size), self.text_size, "data/font/pixel_arial.ttf", "",relative=True)
         self.gui_saved = Text(Vector2(0,0), self.text_size, "data/font/pixel_arial.ttf", "Saved",relative=True)
 
     def loop(self, screen,screen_pos):
