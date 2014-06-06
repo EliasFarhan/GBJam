@@ -5,14 +5,11 @@
 	"anim": {
 		"anim_type": "animation.player_animation.PlayerAnimation",
 		"path": "data/sprites/hero/",
-		"path_list": ["move/right/","move/left/", "jump/", "still/"],
+		"path_list": ["move/", "jump/", "still/"],
 		"state_range": {
-			"move_right": [0,3],
-			"move_left": [3,6],
-			"jump_right": [6,7],
-			"jump_left": [7,8],
-			"still_right": [8,9],
-			"still_left": [9,10]
+			"move": [0,3],
+			"jump": [3,4],
+			"still": [4,5]
 		}
 	},
 	"physic_objects": {

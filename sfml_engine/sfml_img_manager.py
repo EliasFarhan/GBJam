@@ -35,12 +35,11 @@ class SFMLImgManager(ImgManager):
         return sfml.Sprite(self.img_name[name])
 
     def show_image(self, image, screen, pos, angle=0, center=False,
-                   new_size=None, center_image=False):
+                   new_size=None, center_image=False,flip=False):
         if image is None:
             return
         try:
             sprite = image
-            #TODO: Adapt to 4:3 screen or not 16:9
             origin_pos = engine.get_origin_pos()
             screen_diff_ratio = engine.get_ratio()
 
@@ -55,6 +54,10 @@ class SFMLImgManager(ImgManager):
             if angle != 0:
                 sprite.rotation = angle
 
+            if flip:
+                sprite.texture_rectangle = (sfml.Rectangle(sfml.Vector2(sprite.texture.width, 0), sfml.Vector2(-sprite.texture.width, sprite.texture.height)))
+            else:
+                sprite.texture_rectangle = (sfml.Rectangle(sfml.Vector2(0, 0), sfml.Vector2(sprite.texture.width, sprite.texture.height)))
             sprite.position = (origin_pos+pos * screen_diff_ratio).get_int_tuple()
             screen.draw(sprite)
 

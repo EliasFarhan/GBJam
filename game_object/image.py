@@ -18,6 +18,7 @@ class Image(GameObject):
     def __init__(self, path, pos, screen_relative_pos=None, size=None, angle=0,relative=False):
         GameObject.__init__(self)
         self.anim = None
+        self.flip = False
         self.img = None
         self.angle = angle
         self.pos = Vector2(pos)
@@ -65,7 +66,8 @@ class Image(GameObject):
                    pos,
                    new_size=self.size,
                    center_image=center_image,
-                   angle=self.angle)
+                   angle=self.angle,
+                   flip=self.flip)
 
         GameObject.loop(self, screen, screen_pos)
     @staticmethod

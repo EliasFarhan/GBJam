@@ -47,25 +47,31 @@ class PlayerAnimation(Animation):
         if horizontal == -1:
             self.direction = False
             if self.foot:
-                self.state = 'move_left'
+                self.state = 'move'
+            self.player.flip = True
             physics_manager.move(self.player.body, -self.speed)
         elif horizontal == 1:
             self.direction = True
             if self.foot:
-                self.state = 'move_right'
+                self.state = 'move'
+            self.player.flip = False
             physics_manager.move(self.player.body, self.speed)
         else:
             if self.foot:
                 if self.direction:
-                    self.state = 'still_right'
+                    self.state = 'still'
+                    self.player.flip = False
                 else:
-                    self.state = 'still_left'
+                    self.state = 'still'
+                    self.player.flip = True
             physics_manager.move(self.player.body, 0)
         if not self.foot:
             if self.direction:
-                self.state = 'jump_right'
+                self.state = 'jump'
+                self.player.flip = False
             else:
                 self.state = 'jump_left'
+                self.player.flip = True
         physics_pos = physics_manager.get_body_position(self.player.body)
         
         if physics_pos:

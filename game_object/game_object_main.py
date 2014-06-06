@@ -51,7 +51,7 @@ class GameObject:
 
         center_pos = Vector2()
         if self.body:
-            center_pos = physics_manager.get_body_posdition(self.body)
+            center_pos = physics_manager.get_body_position(self.body)
             if self.screen_relative_pos:
                 center_pos = center_pos - self.screen_relative_pos*engine.get_screen_size()
 
