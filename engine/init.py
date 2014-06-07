@@ -1,6 +1,6 @@
 from engine import level_manager
 from engine.const import log, CONST
-
+from engine.physics_manager import physics_manager
 
 from engine.vector import Vector2
 from json_export.json_main import load_json
@@ -73,6 +73,9 @@ class Engine():
 
     def post_update(self):
         pass
+
+    def exit(self):
+        physics_manager.exit()
 
     def get_screen_size(self):
         return self.screen_size

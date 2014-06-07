@@ -40,9 +40,9 @@ class Image(GameObject):
 
     def init_image(self,size=None):
         if self.anim:
-            self.anim.load_images(size)
+            self.anim.load_images(size,self.tmp)
         else:
-            self.img = img_manager.load_image(self.path)
+            self.img = img_manager.load_image(self.path, self.tmp)
             if self.size is None:
                 self.size = Vector2(img_manager.get_size(self.img))
             self.rect = Rect(self.pos, self.size)
@@ -88,8 +88,14 @@ class Image(GameObject):
         if path is not None:
             path = CONST.path_prefix+path
 
+
         image = Image(pos, size=size, angle=angle)
 
+        tmp = get_element(image_data, "tmp")
+        if tmp is not None:
+            image.tmp = tmp
+        else:
+            image.tmp = False
 
         anim_data = get_element(image_data, "anim")
         if anim_data:

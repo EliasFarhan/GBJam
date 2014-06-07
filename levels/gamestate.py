@@ -120,7 +120,7 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         if CONST.debug:
             Editor.loop(self, screen, self.screen_pos)
 
-    def exit(self, screen):
+    def exit(self):
         physics_manager.remove_world(physics_manager.current_world)
 
-        Scene.exit(self, screen)
+        Scene.exit(self)

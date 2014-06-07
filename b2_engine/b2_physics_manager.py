@@ -98,7 +98,7 @@ class Box2DPhysicsManager(PhysicsManager):
         return body.CreateFixture(fixture_def)
 
     def remove_body(self,body):
-        pass
+        self.current_world.DestroyBody(body)
 
     def loop(self):
         PhysicsManager.loop(self)
@@ -129,6 +129,11 @@ class Box2DPhysicsManager(PhysicsManager):
                 pos = dyn_obj.position
                 dyn_obj.position = b2Vec2(pos[0]+vx*self.time_step,pos[1]+vy*self.time_step)
 
+    def exit(self):
+        for world in self.worlds:
+            world.__swig_destroy__()
+            del world
+        del self.worlds
 
 class KuduContactListener(b2ContactListener):
     def BeginContact(self, contact):

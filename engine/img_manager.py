@@ -9,7 +9,7 @@ from engine.const import CONST, log
 class ImgManager():
     def __init__(self):
         self.img_name = {}
-        self.permanent_images = []
+        self.tmp_images = []
 
     def clear_screen(self,screen):
         pass
@@ -17,18 +17,22 @@ class ImgManager():
     def draw_rect(self, screen, screen_pos, rect, color, angle=0):
         pass
 
-    def load_image(self, name, permanent=False):
+    def load_image(self, name, tmp=False):
         pass
 
     def show_image(self, image, screen, pos, angle=0, center=False, new_size=None, center_image=False):
         pass
 
-    def sanitize_img_manager(self, delete_images=[]):
+    def sanitize_img_manager(self, delete_images=[],remove_all=False):
         del_img_tmp = []
-        if not delete_images:
+
+        if remove_all:
             for img_filename in self.img_name.keys():
-                if img_filename not in self.permanent_images:
-                    del_img_tmp.append(self.img_name[img_filename])
+                del_img_tmp.append(img_filename)
+        elif not delete_images:
+            for img_filename in self.img_name.keys():
+                if img_filename in self.tmp_images:
+                    del_img_tmp.append(img_filename)
         else:
             del_img_tmp = delete_images
 

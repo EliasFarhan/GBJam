@@ -18,7 +18,6 @@ class SFMLEngine(Engine):
         self.real_screen_size = Vector2(self.screen.size)
         self.screen_diff_ratio = self.real_screen_size/self.screen_size
 
-
     def init_level(self):
         from levels.loading_screen import LoadingScreen
         if CONST.debug:
@@ -73,3 +72,10 @@ class SFMLEngine(Engine):
         else:
             screen_diff_ratio = self.screen_diff_ratio.x
         return screen_diff_ratio
+
+    def exit(self):
+
+        from engine.img_manager import img_manager
+        img_manager.sanitize_img_manager(remove_all=True)
+        self.screen.close()
+        Engine.exit(self)

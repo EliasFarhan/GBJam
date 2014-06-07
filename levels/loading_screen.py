@@ -60,13 +60,13 @@ class LoadingScreen(Scene):
             scene.init(loading=True)
         self.finish_loading()
 
-    def loop(self, screen):
+    def loop(self,screen):
         if self.get_loading_state():
             switch_level(GameState(CONST.startup))
             return
 
 
-        img_manager.draw_rect(screen,Vector2(),Rect(Vector2(), engine.get_screen_size()),(255,255,255))
+        img_manager.draw_rect(engine,Vector2(),Rect(Vector2(), engine.get_screen_size()),(255,255,255))
         self.counter = (self.counter + 1) % self.anim_length
         if self.counter == 0:
             self.text_points += "."

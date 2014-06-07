@@ -18,7 +18,7 @@ class SFMLImgManager(ImgManager):
     def get_size(image):
         return Vector2(image.texture.size)
 
-    def load_image(self, name, permanent=False):
+    def load_image(self, name, tmp=False):
         log("Loading image: "+name)
         try:
             self.img_name[name]
@@ -29,8 +29,8 @@ class SFMLImgManager(ImgManager):
             except IOError as e:
                 log(str(e), 1)
                 return None
-            if permanent:
-                self.permanent_images.append(name)
+            if tmp:
+                self.tmp_images.append(name)
 
         return sfml.Sprite(self.img_name[name])
 

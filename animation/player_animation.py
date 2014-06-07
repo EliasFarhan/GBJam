@@ -18,8 +18,8 @@ class PlayerAnimation(Animation):
         self.speed = 3
         self.direction = True #True for right
 
-    def load_images(self, size=None, permanent=False):
-        Animation.load_images(self, size=size, permanent=permanent)
+    def load_images(self, size=None, tmp=False):
+        Animation.load_images(self, size=size, tmp=tmp)
     
     def update_animation(self, state="", invert=False):
         self.update_state()

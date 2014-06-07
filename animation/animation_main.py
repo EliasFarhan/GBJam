@@ -25,7 +25,7 @@ class Animation():
         self.img_indexes = []
         self.index = 0
 
-    def load_images(self,size=None,permanent = False):
+    def load_images(self,size=None,tmp = False):
         self.img_indexes = []
         
         for p in self.path_list:
@@ -38,7 +38,7 @@ class Animation():
                 files = [ os.path.join(path, f) for f in listdir(path) if (isfile(join(path, f)) and f.find(".png") != -1) ]
             files.sort()
             for f in files:
-                self.img_indexes.append(img_manager.load_image(f,permanent))
+                self.img_indexes.append(img_manager.load_image(f,tmp))
             try:
                 self.img = self.img_indexes[0]
             except IndexError:

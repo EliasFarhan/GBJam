@@ -61,6 +61,8 @@ class PhysicsManager():
     def loop(self):
         clear_physics_event()
 
+    def exit(self):
+        pass
 
 physics_manager = PhysicsManager()
 if CONST.physics == 'b2':
