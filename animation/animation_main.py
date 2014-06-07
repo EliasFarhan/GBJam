@@ -30,7 +30,7 @@ class Animation():
         
         for p in self.path_list:
             
-            path = CONST.path_prefix+self.path+p
+            path = CONST.path_prefix+self.root_path+p
             files = []
             if ".png" in path:
                 files = [path]
@@ -90,7 +90,7 @@ class Animation():
     @staticmethod
     def parse_animation(anim_data,obj=None):
         anim_type = get_element(anim_data,"anim_type")
-        path = get_element(anim_data, "path")
+        root_path = get_element(anim_data, "root_path")
         path_list = get_element(anim_data,"path_list")
         state_range = get_element(anim_data, "state_range")
         anim_freq = get_element(anim_data, "anim_freq")
@@ -132,8 +132,8 @@ class Animation():
             log("Use default animation")
             anim = Animation(obj)
 
-        if anim and path:
-            anim.path = path
+        if anim and root_path:
+            anim.root_path = root_path
         else:
             log("Error: UNDEFINED anim is None",1)
             return None

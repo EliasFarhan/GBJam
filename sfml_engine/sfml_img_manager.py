@@ -54,10 +54,11 @@ class SFMLImgManager(ImgManager):
             if angle != 0:
                 sprite.rotation = angle
 
-            if flip:
-                sprite.texture_rectangle = (sfml.Rectangle(sfml.Vector2(sprite.texture.width, 0), sfml.Vector2(-sprite.texture.width, sprite.texture.height)))
-            else:
-                sprite.texture_rectangle = (sfml.Rectangle(sfml.Vector2(0, 0), sfml.Vector2(sprite.texture.width, sprite.texture.height)))
+            if isinstance(sprite, sfml.Sprite):
+                if flip:
+                    sprite.texture_rectangle = (sfml.Rectangle(sfml.Vector2(sprite.texture.width, 0), sfml.Vector2(-sprite.texture.width, sprite.texture.height)))
+                else:
+                    sprite.texture_rectangle = (sfml.Rectangle(sfml.Vector2(0, 0), sfml.Vector2(sprite.texture.width, sprite.texture.height)))
             sprite.position = (origin_pos+pos * screen_diff_ratio).get_int_tuple()
             screen.draw(sprite)
 

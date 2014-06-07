@@ -15,45 +15,53 @@ from engine.vector import Vector2
 
 
 class Image(GameObject):
-    def __init__(self, path, pos, screen_relative_pos=None, size=None, angle=0,relative=False):
+    def __init__(self,
+                 pos,
+                 size=None,
+                 angle=0,
+                 relative=False,
+                 path=""):
         GameObject.__init__(self)
         self.anim = None
         self.flip = False
         self.img = None
         self.angle = angle
-        self.pos = Vector2(pos)
+        if isinstance(pos[0], list) or isinstance(pos[0], tuple):
+            self.pos = Vector2(pos[0])
+            self.screen_relative_pos = Vector2(pos[1])
+        else:
+            self.pos = Vector2(pos)
         self.path = path
         self.size = Vector2(size)
-        if screen_relative_pos:
-            self.screen_relative_pos = Vector2(screen_relative_pos)
-        else:
-            self.screen_relative_pos = Vector2()
         self.screen_relative = relative
         
         self.center_image = False
-        if self.path != '':
-            self.init_image()
         self.update_rect()
 
-    def init_image(self):
-        self.img = img_manager.load_image(self.path)
-        if self.size is None:
-            self.size = Vector2(img_manager.get_size(self.img))
-        self.rect = Rect(self.pos, self.size)
+    def init_image(self,size=None):
+        if self.anim:
+            self.anim.load_images(size)
+        else:
+            self.img = img_manager.load_image(self.path)
+            if self.size is None:
+                self.size = Vector2(img_manager.get_size(self.img))
+            self.rect = Rect(self.pos, self.size)
 
     def loop(self, screen, screen_pos):
+        if self.anim:
+            self.anim.update_animation()
+            self.img = self.anim.img
         pos = Vector2()
         if self.pos:
             pos = self.pos
         
         if self.screen_relative_pos is not None:
-            pos = pos+self.screen_relative_pos*engine.get_screen_size()
+            pos = pos + self.screen_relative_pos * engine.get_screen_size()
 
-        #TODO: with screen_relative_pos
         if self.screen_relative:
             pos = self.pos
         else:
-            pos = pos - screen_pos * self.screen_factor
+            pos = pos - screen_pos
         
         center_image = False
         try:
@@ -73,20 +81,22 @@ class Image(GameObject):
 
     @staticmethod
     def parse_image(image_data, pos, size, angle):
-        path = get_element(image_data, "path")
-        if path and pos:
-            path = CONST.path_prefix+path
-            image = Image(path, pos, None, size, angle)
-            screen_factor = get_element(image_data, "screen_factor")
-            if screen_factor:
-                image.screen_factor = screen_factor
-            img_loop = get_element(image_data, "loop")
-            if img_loop:
-                image.img_loop = True
-            return image
-        else:
-            log("Invalid arg path||pos not defined for Image",1)
+        if pos is None:
+            log("Invalid arg pos not defined for Image",1)
             return None
+        path = get_element(image_data, "path")
+        if path is not None:
+            path = CONST.path_prefix+path
+
+        image = Image(pos, size=size, angle=angle)
+
+
+        anim_data = get_element(image_data, "anim")
+        if anim_data:
+            image.anim = Animation.parse_animation(anim_data, image)
+        image.init_image(size)
+        return image
+
 
 """
 class AnimImage(Image):
@@ -122,8 +132,7 @@ class AnimImage(Image):
         anim_data = get_element(image_data, "anim")
         if anim_data:
             image.anim = Animation.parse_animation(anim_data, image)
-            if image.anim:
-                image.anim.load_images(size)
+
         return image
 """
 class MaskImage(Image):
