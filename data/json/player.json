@@ -1,10 +1,11 @@
 {
+	"type": "Image",
 	"pos": [[0,0],[0.1,0.3]],
 	"size": [100,100],
 	"layer": 3,
 	"anim": {
 		"anim_type": "animation.player_animation.PlayerAnimation",
-		"path": "data/sprites/hero/",
+		"root_path": "data/sprites/hero/",
 		"path_list": ["move/", "jump/", "still/"],
 		"state_range": {
 			"move": [0,3],

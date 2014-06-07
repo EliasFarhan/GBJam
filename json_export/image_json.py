@@ -5,7 +5,7 @@ Created on 20 mars 2014
 '''
 from json_export.json_main import get_element
 from game_object.game_object_main import GameObject
-from game_object.image import Image, AnimImage
+from game_object.image import Image
 from engine.const import CONST,log
 from game_object.text import Text
 from json_export.physic_json import load_physic_objects
@@ -58,9 +58,8 @@ def load_image_from_json(image_data, level, image_type=None):
         image.id = object_id
     elif image_type == "Image":
         image = Image.parse_image(image_data, pos, size, angle)
-        image.id = object_id
-    elif image_type == "AnimImage":
-        image = AnimImage.parse_image(image_data, pos, size, angle)
+        if image is not None:
+            image.id = object_id
     elif image_type == "Text":
         font = get_element(image_data, "font")
         text = get_element(image_data, "text")

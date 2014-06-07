@@ -10,7 +10,10 @@ from engine.physics_manager import physics_manager, BodyType, pixel2meter
 from engine.init import engine
 from engine.vector import Vector2
 
+
 def load_physic_objects(physics_data,image):
+    if image is None:
+        return
     body_type = get_element(physics_data, "type")
     if body_type:
         pos = Vector2()

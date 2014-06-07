@@ -70,8 +70,9 @@ class Image(GameObject):
                    flip=self.flip)
 
         GameObject.loop(self, screen, screen_pos)
+
     @staticmethod
-    def parse_image(image_data,pos,size,angle):
+    def parse_image(image_data, pos, size, angle):
         path = get_element(image_data, "path")
         if path and pos:
             path = CONST.path_prefix+path
@@ -84,10 +85,10 @@ class Image(GameObject):
                 image.img_loop = True
             return image
         else:
-            log("Invalid arg path not defined for Image",1)
+            log("Invalid arg path||pos not defined for Image",1)
             return None
 
-
+"""
 class AnimImage(Image):
     '''Can be animated if a directory is given,
     if a png file is given, it will load it
@@ -107,10 +108,10 @@ class AnimImage(Image):
     def parse_image(image_data, pos, size, angle):
         
         image = AnimImage()
-        '''TODO: parse correctly position, depending on
+        '''parse position, depending on
         type:
-        [x,y] pos
-        [[x,y],[x',y'] pos, screen_relative_pos'''
+        [x,y]: pos
+        [[x,y],[x',y']: pos, screen_relative_pos'''
         if isinstance(pos[0], list) or isinstance(pos[0], tuple):
             image.pos = Vector2(pos[0])
             image.screen_relative_pos = Vector2(pos[1])
@@ -124,8 +125,8 @@ class AnimImage(Image):
             if image.anim:
                 image.anim.load_images(size)
         return image
-
-def MaskImage():
+"""
+class MaskImage(Image):
     def __init__(self):
         self.masks = [] #we can have different masks combined
         

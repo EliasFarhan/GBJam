@@ -8,7 +8,7 @@ from numbers import Number
 
 from engine.const import log,CONST
 from game_object.game_object_main import GameObject
-from game_object.image import Image, AnimImage
+from game_object.image import Image
 from json_export.json_main import load_json, get_element, write_json
 from json_export.event_json import load_event
 from json_export.image_json import load_image_from_json, reset_object_id, get_last_object_id, set_last_object_id
@@ -35,10 +35,10 @@ def load_level(level):
             if isinstance(player_data, CONST.string_type):
                 log("Loading player "+player_data)
                 player_json = load_json(CONST.path_prefix + player_data)
-                player = load_image_from_json(player_json, level, "AnimImage")
+                player = load_image_from_json(player_json, level)
 
             elif isinstance(player_data,dict):
-                player = load_image_from_json(player_data, level, "AnimImage")
+                player = load_image_from_json(player_data, level)
             else:
                 log("Warning: Invalid format for player JSON",1)
             if player:
@@ -98,7 +98,7 @@ def save_level(level):
     objects_list = get_element(level_data, "objects")
     for layer_index, layer in enumerate(level.objects):
         for image in layer:
-            if image.__class__ is not AnimImage:
+            if isinstance(image,GameObject):
                 object_id = image.id
                 object_data = next((x for x in objects_list if x['id'] == object_id), None)
                 if not object_data:
