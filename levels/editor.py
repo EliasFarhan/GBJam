@@ -6,9 +6,9 @@ Created on Feb 1, 2014
 
 from engine.const import log
 from engine.init import engine
+from engine.input import input_manager
 from engine.physics_manager import physics_manager
 from engine.vector import Vector2
-from event.event_main import add_button, get_button
 from input.mouse_input import get_mouse, show_mouse
 from game_object.game_object_main import GameObject
 from game_object.text import Text
@@ -18,7 +18,7 @@ from json_export.level_json import save_level
 class Editor():
     def __init__(self):
 
-        add_button('editor', 'LCTRL+e')
+        input_manager.add_button('editor', 'LCTRL+e')
         self.editor_click = False
 
         self.editor = False
@@ -32,17 +32,17 @@ class Editor():
 
         self.save_clicked = False
 
-        add_button('scale_y_down', ['DOWN'])
-        add_button('scale_y_up', ['UP'])
-        add_button('scale_x_down', ['LEFT'])
-        add_button('scale_x_up', ['RIGHT'])
+        input_manager.add_button('scale_y_down', ['DOWN'])
+        input_manager.add_button('scale_y_up', ['UP'])
+        input_manager.add_button('scale_x_down', ['LEFT'])
+        input_manager.add_button('scale_x_up', ['RIGHT'])
 
-        add_button('angle_up',['a'])
-        add_button('angle_down',['d'])
+        input_manager.add_button('angle_up',['a'])
+        input_manager.add_button('angle_down',['d'])
 
-        add_button('save', ['LCTRL+s'])
+        input_manager.add_button('save', ['LCTRL+s'])
 
-        add_button('box',['LCTRL'])
+        input_manager.add_button('box',['LCTRL'])
 
         self.new_obj = None
         self.new_obj_pos = Vector2()
@@ -57,7 +57,7 @@ class Editor():
         self.gui_saved = Text(Vector2(0,0), self.text_size, "data/font/pixel_arial.ttf", "Saved",relative=True)
 
     def loop(self, screen,screen_pos):
-        if not (self.editor_click or not get_button('editor')):
+        if not (self.editor_click or not input_manager.get_button('editor')):
             self.editor = not self.editor
             self.lock = self.editor
             self.editor_click = True
@@ -65,7 +65,7 @@ class Editor():
                 log("Editor mode activate")
             else:
                 self.current_selected = None
-        if not get_button('editor'):
+        if not input_manager.get_button('editor'):
             self.editor_click = False
         if self.editor:
             show_mouse()
@@ -79,15 +79,15 @@ class Editor():
         '''Save Level'''
         if self.save_clicked:
             self.gui_saved.loop(screen,screen_pos)
-        if get_button('save') and not self.save_clicked:
+        if input_manager.get_button('save') and not self.save_clicked:
             save_level(self)
             self.save_clicked = True
-        elif not get_button('save'):
+        elif not input_manager.get_button('save'):
             self.save_clicked = False
 
         '''Left click,
         select a object and move it'''
-        if not get_button('box'):
+        if not input_manager.get_button('box'):
             self.new_obj = None
             if pressed[0] and not self.mouse_clicked[0]:
                 '''Set current_selected'''
@@ -129,12 +129,12 @@ class Editor():
             self.gui_current_selected.loop(screen, screen_pos)
 
         '''Size scale'''
-        scale_x = get_button("scale_x_up")-get_button("scale_x_down")
-        scale_y = get_button("scale_y_up")-get_button("scale_y_down")
+        scale_x = input_manager.get_button("scale_x_up")-input_manager.get_button("scale_x_down")
+        scale_y = input_manager.get_button("scale_y_up")-input_manager.get_button("scale_y_down")
 
         if self.current_selected:
             self.current_selected.scale(scale_x,scale_y)
         '''Angle'''
-        angle = get_button("angle_up")-get_button("angle_down")
+        angle = input_manager.get_button("angle_up")-input_manager.get_button("angle_down")
         if self.current_selected:
             self.current_selected.set_angle(self.current_selected.angle+angle)

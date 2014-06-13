@@ -1,10 +1,10 @@
 from engine import level_manager
 from engine.const import log, CONST
+from engine.input import input_manager
 from engine.physics_manager import physics_manager
 
 from engine.vector import Vector2
 from json_export.json_main import load_json
-from event.event_main import add_button, get_button, update_event
 
 
 class Engine():
@@ -33,7 +33,7 @@ class Engine():
             return
         for key in actions.items():
             log(key)
-            add_button(key[0], key[1])
+            input_manager.add_button(key[0], key[1])
 
     def init_level(self):
         if not CONST.debug:
@@ -48,13 +48,13 @@ class Engine():
         return self.screen
 
     def loop(self):
-        add_button('quit', ['LCTRL+q'])
-        add_button('reset', ['r'])
+        input_manager.add_button('quit', ['LCTRL+q'])
+        input_manager.add_button('reset', ['r'])
         while not self.finish:
             self.pre_update()
-            update_event()
+            engine.update_event()
 
-            self.finish = get_button('quit')
+            self.finish = input_manager.get_button('quit')
 
             f = level_manager.update_level()
 
@@ -63,7 +63,7 @@ class Engine():
                 break
             else:
                 f(self.screen)
-            if get_button('reset'):
+            if input_manager.get_button('reset'):
                 from levels.gamestate import GameState
                 level_manager.switch_level(GameState(CONST.startup))
             self.post_update()

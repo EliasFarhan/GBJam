@@ -3,7 +3,8 @@ Created on 1 mars 2014
 
 @author: efarhan
 '''
-from event.event_main import get_button
+from engine.input import input_manager
+
 from event.physics_event import get_physics_event
 from engine.physics_manager import physics_manager
 from engine.init import engine
@@ -26,10 +27,10 @@ class PlayerAnimation(Animation):
         return Animation.update_animation(self, state=state, invert=invert)
 
     def update_state(self):
-        RIGHT = get_button('player_right')
-        LEFT = get_button('player_left')
-        UP = get_button('player_up')
-        DOWN = get_button('player_down')
+        RIGHT = input_manager.get_button('player_right')
+        LEFT = input_manager.get_button('player_left')
+        UP = input_manager.get_button('player_up')
+        DOWN = input_manager.get_button('player_down')
         
         horizontal = RIGHT-LEFT
         vertical = UP-DOWN

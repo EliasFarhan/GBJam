@@ -7,8 +7,9 @@ Created on 8 sept. 2013
 
 @author: efarhan
 '''
+'''
 
-
+"""
 from input.keyboard_input import update_keyboard_event, get_key_button,\
     add_key_button
 from engine.const import CONST, log
@@ -61,3 +62,4 @@ def update_event():
         update_keyboard_event()
 
 
+'''
