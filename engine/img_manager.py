@@ -46,7 +46,7 @@ if CONST.render == 'sfml':
     img_manager = SFMLImgManager()
 elif CONST.render == 'pookoo':
     from pookoo_engine.pookoo_img_manager import PookooImgManager
-    img_manager = PookooImgManager
+    img_manager = PookooImgManager()
 elif CONST.render == 'kivy':
     import kivy
     from kivy.uix.widget import Widget
