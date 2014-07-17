@@ -99,7 +99,6 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
 
 
         '''Show images'''
-        log("1"+str(self.player.pos.get_tuple())+" "+str(self.screen_pos.get_tuple()))
         remove_image = []
         for i, layer in enumerate(self.objects):
             if i == 2:
@@ -110,7 +109,6 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
                     remove_image.append(img)
         for r in remove_image:
             self.objects[i].remove(r)
-        log("2"+str(self.player.pos.get_tuple())+" "+str(self.screen_pos.get_tuple()))
 
         '''GUI'''
         GUI.loop(self, screen)
