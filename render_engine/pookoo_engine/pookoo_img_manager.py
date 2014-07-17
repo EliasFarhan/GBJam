@@ -1,5 +1,5 @@
 from engine.const import log, CONST
-from engine.img_manager import ImgManager
+from render_engine.img_manager import ImgManager
 from engine.vector import Vector2
 
 __author__ = 'Elias'

@@ -1,4 +1,4 @@
-from engine.img_manager import img_manager
+from render_engine.img_manager import img_manager
 
 
 class Scene():

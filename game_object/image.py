@@ -4,14 +4,15 @@ Created on 11 sept. 2013
 @author: efarhan
 '''
 
-from engine.img_manager import   img_manager
 from animation.animation_main import Animation
+
 from engine.init import engine
 from engine.rect import Rect
 from game_object.game_object_main import GameObject
 from engine.const import log, CONST
 from json_export.json_main import get_element
 from engine.vector import Vector2
+from render_engine.img_manager import img_manager
 
 
 class Image(GameObject):
@@ -47,7 +48,7 @@ class Image(GameObject):
                 self.size = Vector2(img_manager.get_size(self.img))
             self.rect = Rect(self.pos, self.size)
 
-    def loop(self, screen, screen_pos):
+    def loop(self, screen):
         if self.anim:
             self.anim.update_animation()
             self.img = self.anim.img
@@ -61,7 +62,8 @@ class Image(GameObject):
         if self.screen_relative:
             pos = self.pos
         else:
-            pos = pos - screen_pos
+            from engine import level_manager
+            pos = pos - level_manager.level.screen_pos
         
         center_image = False
         try:
@@ -77,7 +79,7 @@ class Image(GameObject):
                    angle=self.angle,
                    flip=self.flip)
 
-        GameObject.loop(self, screen, screen_pos)
+        GameObject.loop(self, screen)
 
     @staticmethod
     def parse_image(image_data, pos, size, angle):

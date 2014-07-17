@@ -4,12 +4,15 @@ Created on Feb 3, 2014
 @author: efarhan
 """
 import math
+from engine import level_manager
+
 from engine.rect import Rect
 from engine.const import log, CONST
-from engine.img_manager import img_manager
-from engine.physics_manager import physics_manager, BodyType
+from physics_engine.physics_manager import BodyType
 from engine.init import engine
 from engine.vector import Vector2
+from physics_engine.physics_manager import physics_manager
+from render_engine.img_manager import img_manager
 
 
 class GameObject:
@@ -124,7 +127,9 @@ class GameObject:
         if self.event:
             self.event.execute()
 
-    def loop(self,screen,screen_pos):
+    def loop(self,screen):
+
+        screen_pos = level_manager.level.screen_pos
         pos = (0,0)
         if self.pos:
             pos = self.pos

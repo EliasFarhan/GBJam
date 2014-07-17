@@ -3,13 +3,15 @@ Created on 1 mars 2014
 
 @author: efarhan
 '''
-from engine.input import input_manager
+from engine import level_manager
+from engine.vector import Vector2
+from render_engine.input import input_manager
 
 from event.physics_event import get_physics_event
-from engine.physics_manager import physics_manager
 from engine.init import engine
 from animation.animation_main import Animation
-from engine.const import log
+from physics_engine.physics_manager import physics_manager
+
 
 class PlayerAnimation(Animation):
     def __init__(self,player):
@@ -73,6 +75,7 @@ class PlayerAnimation(Animation):
             else:
                 self.state = 'jump_left'
                 self.player.flip = True
+
         physics_pos = physics_manager.get_body_position(self.player.body)
         
         if physics_pos:
@@ -83,8 +86,10 @@ class PlayerAnimation(Animation):
             pos = pos-self.player.screen_relative_pos*engine.get_screen_size()
         self.player.pos = pos
 
-    def get_screen_pos(self):
-        return self.player.pos
+        self.set_screen_pos()
+
+    def set_screen_pos(self):
+        level_manager.level.screen_pos = self.player.pos
 
     @staticmethod
     def parse_animation(anim_data):

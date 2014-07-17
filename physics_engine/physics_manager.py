@@ -2,12 +2,12 @@
 Manages physics with Box2D
 convert automatically from pixel to meters
 '''
-import math
 from numbers import Number
-from engine.const import CONST, log, enum
+
+from engine.const import CONST, enum
 from engine.vector import Vector2
-from event.physics_event import clear_physics_event, PhysicsEvent,\
-    add_physics_event
+from event.physics_event import clear_physics_event
+
 
 def pixel2meter(pixels):
     if isinstance(pixels,Vector2) or isinstance(pixels, Number):
@@ -66,17 +66,17 @@ class PhysicsManager():
 
 physics_manager = PhysicsManager()
 if CONST.physics == 'b2':
-    from b2_engine.b2_physics_manager import Box2DPhysicsManager
+    from physics_engine.b2_engine.b2_physics_manager import Box2DPhysicsManager
     physics_manager = Box2DPhysicsManager()
-elif CONST.physics == 'cymunk':
-    import cymunk
+"""
+elif CONST.physics == 'cymunk': \
 elif CONST.physics == 'pookoo':
-    import pookoo
+
 
 def set_ratio_pixel(new_ratio):
     ratio = new_ratio
 
-"""
+
 def get_body_position(body):
     if body:
         if CONST.physics == 'b2':

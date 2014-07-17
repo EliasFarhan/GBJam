@@ -3,20 +3,19 @@ Created on 9 dec. 2013
 
 @author: efarhan
 """
-from engine.img_manager import img_manager
 from engine.init import engine
 from engine.rect import Rect
-from engine.snd_manager import snd_manager
 from engine.vector import Vector2
-from game_object.image import Image
 from levels.scene import Scene
 from engine.const import log, CONST
 from network.gamestate_network import NetworkGamestate
 from json_export.level_json import load_level
-from engine.physics_manager import physics_manager
 from levels.editor import Editor
 from levels.gui import GUI
 from input.mouse_input import show_mouse, get_mouse
+from physics_engine.physics_manager import physics_manager
+from render_engine.img_manager import img_manager
+from render_engine.snd_manager import snd_manager
 
 
 class GameState(Scene, Editor, GUI, NetworkGamestate):
@@ -100,18 +99,18 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
 
 
         '''Show images'''
-        if self.player and self.player.anim:
-            self.screen_pos = self.player.anim.get_screen_pos()
+        log("1"+str(self.player.pos.get_tuple())+" "+str(self.screen_pos.get_tuple()))
         remove_image = []
         for i, layer in enumerate(self.objects):
             if i == 2:
                 NetworkGamestate.loop(self, screen)
             for j, img in enumerate(layer):
-                img.loop(screen, self.screen_pos)
+                img.loop(screen)
                 if img.remove:
                     remove_image.append(img)
         for r in remove_image:
             self.objects[i].remove(r)
+        log("2"+str(self.player.pos.get_tuple())+" "+str(self.screen_pos.get_tuple()))
 
         '''GUI'''
         GUI.loop(self, screen)

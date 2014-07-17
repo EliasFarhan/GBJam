@@ -1,11 +1,11 @@
-from engine.img_manager import img_manager
 from engine.level_manager import switch_level
 from engine.rect import Rect
 from levels.gamestate import GameState
+from render_engine import img_manager
 
 __author__ = 'efarhan'
 
-from engine.const import CONST, log
+from engine.const import CONST
 from engine.init import engine
 from engine.vector import Vector2
 from game_object.text import Text

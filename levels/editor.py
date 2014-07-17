@@ -6,8 +6,7 @@ Created on Feb 1, 2014
 
 from engine.const import log
 from engine.init import engine
-from engine.input import input_manager
-from engine.physics_manager import physics_manager
+from render_engine.input import input_manager
 from engine.vector import Vector2
 from input.mouse_input import get_mouse, show_mouse
 from game_object.game_object_main import GameObject

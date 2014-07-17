@@ -42,18 +42,15 @@ class ImgManager():
 img_manager = ImgManager()
 if CONST.render == 'sfml':
     log("Creating SFMLImgManager")
-    from sfml_engine.sfml_img_manager import SFMLImgManager
+    from render_engine.sfml_engine.sfml_img_manager import SFMLImgManager
     img_manager = SFMLImgManager()
 elif CONST.render == 'pookoo':
-    from pookoo_engine.pookoo_img_manager import PookooImgManager
+    from render_engine.pookoo_engine.pookoo_img_manager import PookooImgManager
     img_manager = PookooImgManager()
-elif CONST.render == 'kivy':
-    import kivy
-    from kivy.uix.widget import Widget
-    from kivy.uix.image import Image
-
-
 '''
+elif CONST.render == 'kivy':
+
+
 def draw_rect(screen, screen_pos, rect, color, angle=0):
     if not (rect and rect.pos and rect.size and img_manager):
         return

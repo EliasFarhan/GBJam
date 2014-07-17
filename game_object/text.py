@@ -4,10 +4,11 @@ Created on Feb 19, 2014
 @author: efarhan
 '''
 from game_object.game_object_main import GameObject
-from engine.font_manager import load_font, load_text
-from engine.const import log, CONST
-from engine.img_manager import img_manager
+from render_engine.font_manager import load_font, load_text
+from engine.const import CONST
 from engine.vector import Vector2
+from render_engine import img_manager
+
 
 class Text(GameObject):
     def __init__(self,pos,size,font,text,angle=0,color=(0,0,0),gradient=0,center=False,relative=False):

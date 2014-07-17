@@ -42,5 +42,5 @@ class Input():
 input_manager = Input()
 
 if CONST.render == 'sfml':
-    from sfml_engine.sfml_input import SFMLInput
+    from render_engine.sfml_engine.sfml_input import SFMLInput
     input_manager = SFMLInput()

@@ -4,11 +4,13 @@ Created on 20 mars 2014
 @author: efarhan
 '''
 import math
-from engine.const import log, CONST
+
+from engine.const import CONST
 from json_export.json_main import get_element
-from engine.physics_manager import physics_manager, BodyType, pixel2meter
+from physics_engine.physics_manager import BodyType, pixel2meter
 from engine.init import engine
 from engine.vector import Vector2
+from physics_engine.physics_manager import physics_manager
 
 
 def load_physic_objects(physics_data,image):

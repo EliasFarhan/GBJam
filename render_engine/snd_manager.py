@@ -2,7 +2,7 @@
 Manage sound and music
 """
 
-from engine.const import log, CONST
+from engine.const import CONST
 
 snd_manager = None
 
@@ -42,12 +42,12 @@ class SndManager():
 snd_manager = SndManager()
 
 if CONST.render == 'sfml':
-    from sfml_engine.sfml_snd_manager import SFMLSndManager
+    from render_engine.sfml_engine.sfml_snd_manager import SFMLSndManager
     snd_manager = SFMLSndManager()
-elif CONST.render == 'pookoo':
-    from pookoo_engine.pookoo_snd_manager import PookooSndManager
-
 '''
+elif CONST.render == 'pookoo':
+
+
 def set_playlist(music_list):
     """
     Set a new playlist and play the first element

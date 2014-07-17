@@ -1,8 +1,10 @@
 import sfml
-from engine.const import log, CONST
-from engine.img_manager import ImgManager
+
+from engine.const import log
+from render_engine.img_manager import ImgManager
 from engine.init import engine
 from engine.vector import Vector2
+
 
 __author__ = 'Elias'
 

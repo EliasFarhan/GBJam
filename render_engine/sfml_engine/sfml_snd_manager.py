@@ -1,5 +1,7 @@
 import sfml
-from engine.snd_manager import SndManager
+
+from render_engine.snd_manager import SndManager
+
 
 __author__ = 'Elias'
 

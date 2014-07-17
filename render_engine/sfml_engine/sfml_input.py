@@ -1,41 +1,55 @@
-import pookoo
-from engine.input import Input
+import sfml
+
+from render_engine.input import Input
 from engine.vector import Vector2
 
-__author__ = 'Elias'
+__author__ = 'efarhan'
+
 
 KEY_BIND = {
-    "UP": 82,
-    "DOWN": 81,
-    "LEFT": 80,
-    "RIGHT": 79,
-    "ESCAPE": 41,
-    "LCTRL": 224,
-    "RCTRL": 228,
-    "ENTER": 40,
-    "A": 4,
-    "Z": 29,
+    "UP": sfml.Keyboard.UP,
+    "DOWN": sfml.Keyboard.DOWN,
+    "LEFT": sfml.Keyboard.LEFT,
+    "RIGHT": sfml.Keyboard.RIGHT,
+    "ESCAPE": sfml.Keyboard.ESCAPE,
+    "LCTRL": sfml.Keyboard.L_CONTROL,
+    "RCTRL": sfml.Keyboard.R_CONTROL,
+    "ENTER": sfml.Keyboard.RETURN,
+    "A": sfml.Keyboard.A,
+    "Z": sfml.Keyboard.Z,
 }
 
-class PookooInput(Input):
 
-    def add_button(self,action,key_list):
-        pass
+class SFMLInput(Input):
+    """SFML Input Class"""
 
-    def get_button(self,action):
-        pass
+
+
+    def add_button(self,action, key_list):
+        self.add_joy_button(action, key_list)
+        self.add_key_button(action, key_list)
+
+    def get_button(self, action):
+        return self.get_key_button(action) or self.get_joy_button(action)
 
     def get_current_button(self):
+        #TODO: return all current keys events
         pass
 
     """KEYBOARD"""
+
+
 
     def update_keyboard_event(self,event=None):
         '''
         Update the states of Input Event
         '''
-        for render_key in self.button_key.keys():
-            self.button_value[self.button_key[render_key]] = pookoo.input.keyboard.pressed(render_key)
+        if type(event) == sfml.KeyEvent:
+            try:
+                self.button_value[self.button_key[event.code]] = event.pressed
+            except KeyError:
+                '''Key not in map'''
+                pass
 
     def get_current_key(self):
         current_keys = []
@@ -91,9 +105,11 @@ class PookooInput(Input):
         """
         from engine.init import engine
 
-        mouse_pos = Vector2(pookoo.input.mouse.position())
+        mouse_pos = Vector2(sfml.Mouse.get_position())/engine.screen_diff_ratio+engine.get_origin_pos()
         return mouse_pos,\
-               [False,False,False]
+               [sfml.Mouse.is_button_pressed(sfml.Mouse.LEFT),
+                sfml.Mouse.is_button_pressed(sfml.Mouse.RIGHT),
+                sfml.Mouse.is_button_pressed(sfml.Mouse.MIDDLE)]
 
 
 

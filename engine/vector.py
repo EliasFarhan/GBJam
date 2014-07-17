@@ -78,8 +78,10 @@ class Vector2():
         return Vector2(self.x+v.x, self.y+v.y)
 
     def __sub__(self, v):
-        return Vector2(self.x-v.x, self.y-v.y)
-
+        try:
+            return Vector2(self.x-v.x, self.y-v.y)
+        except AttributeError:
+            raise AttributeError(str(v[0]))
     def __mul__(self, v):
         if v.__class__ == Vector2:
             return Vector2(self.x*v.x, self.y*v.y)

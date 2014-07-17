@@ -1,11 +1,14 @@
 import math
-from engine.const import CONST, log
-from engine.physics_manager import pixel2meter, BodyType, MoveType
-from engine.physics_manager import PhysicsManager, meter2pixel
-from engine.vector import Vector2
+
 import Box2D as b2_module
 from Box2D import *
+
+from engine.const import CONST, log
+from physics_engine.physics_manager import pixel2meter, BodyType, MoveType
+from physics_engine.physics_manager import PhysicsManager, meter2pixel
+from engine.vector import Vector2
 from event.physics_event import add_physics_event, PhysicsEvent
+
 
 __author__ = 'Elias'
 

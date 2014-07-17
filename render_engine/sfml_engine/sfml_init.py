@@ -1,11 +1,13 @@
 import sfml
+
 from engine import level_manager
 from engine.const import CONST, log
-
 from engine.init import Engine
-from engine.input import input_manager
+from render_engine.input import input_manager
 from engine.level_manager import get_level
 from engine.vector import Vector2
+
+
 
 __author__ = 'Elias'
 
@@ -31,8 +33,7 @@ class SFMLEngine(Engine):
             Engine.init_level(self)
 
     def pre_update(self):
-        from engine.img_manager import img_manager
-
+        from render_engine.img_manager import img_manager
         img_manager.clear_screen(self.screen)
 
     def post_update(self):
@@ -80,7 +81,7 @@ class SFMLEngine(Engine):
 
     def exit(self):
 
-        from engine.img_manager import img_manager
+        from render_engine.img_manager import img_manager
 
         img_manager.sanitize_img_manager(remove_all=True)
         self.screen.close()

@@ -1,4 +1,3 @@
-from engine.img_manager import img_manager
 from engine.rect import Rect
 from engine.vector import Vector2
 from levels.loading_screen import LoadingScreen
@@ -6,9 +5,9 @@ from levels.scene import Scene
 from engine.init import engine
 from engine.const import CONST
 from game_object.image import Image
-from engine.snd_manager import snd_manager
 from levels.gamestate import GameState
 #font_obj, msg, sound_obj
+from render_engine import img_manager, snd_manager
 
 
 class Kwakwa(Scene):
