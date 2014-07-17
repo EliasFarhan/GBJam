@@ -15,8 +15,10 @@ __author__ = 'Elias'
 class SFMLEngine(Engine):
     def init_screen(self):
         desktop = sfml.VideoMode.get_desktop_mode()
+        if CONST.debug:
+            desktop = sfml.VideoMode(800,600)
         style = sfml.Style.DEFAULT
-        if CONST.fullscreen:
+        if CONST.fullscreen and not CONST.debug:
             style = sfml.Style.FULLSCREEN
         self.screen = sfml.RenderWindow(desktop, 'Kudu Window', style)
         self.real_screen_size = Vector2(self.screen.size)
@@ -101,6 +103,7 @@ class SFMLEngine(Engine):
 
                 engine.finish = True
             elif type(event) is sfml.MouseButtonEvent:
+                from engine.init import engine
                 screen_ratio = float(engine.get_screen_size().y) / Vector2(engine.screen.size).y
                 from levels.gamestate import GameState
 

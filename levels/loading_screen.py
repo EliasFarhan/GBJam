@@ -1,7 +1,7 @@
 from engine.level_manager import switch_level
 from engine.rect import Rect
 from levels.gamestate import GameState
-from render_engine import img_manager
+from render_engine.img_manager import img_manager
 
 __author__ = 'efarhan'
 
@@ -11,7 +11,6 @@ from engine.vector import Vector2
 from game_object.text import Text
 from levels.scene import Scene
 import copy
-
 if CONST.render == 'sfml':
     import sfml
 
@@ -65,8 +64,7 @@ class LoadingScreen(Scene):
             switch_level(GameState(CONST.startup))
             return
 
-
-        img_manager.draw_rect(engine,Vector2(),Rect(Vector2(), engine.get_screen_size()),(255,255,255))
+        img_manager.draw_rect(engine.screen,Vector2(),Rect(Vector2(), engine.get_screen_size()),(255,255,255))
         self.counter = (self.counter + 1) % self.anim_length
         if self.counter == 0:
             self.text_points += "."

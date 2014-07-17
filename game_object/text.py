@@ -7,7 +7,7 @@ from game_object.game_object_main import GameObject
 from render_engine.font_manager import load_font, load_text
 from engine.const import CONST
 from engine.vector import Vector2
-from render_engine import img_manager
+from render_engine.img_manager import img_manager
 
 
 class Text(GameObject):

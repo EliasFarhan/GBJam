@@ -13,7 +13,7 @@ class SFMLImgManager(ImgManager):
     def __init__(self):
         ImgManager.__init__(self)
 
-    def clear_screen(self,screen):
+    def clear_screen(self, screen):
         screen.clear()
 
     @staticmethod
