@@ -65,7 +65,7 @@ class SFMLEngine(Engine):
 
             origin_pos = Vector2((self.real_screen_size.x -
                                   self.real_screen_size.y *
-                                  self.real_screen_size.get_ratio()) / 2, 0)
+                                  self.screen_size.get_ratio()) / 2, 0)
         else:
             origin_pos = Vector2(0, (self.real_screen_size.y -
                                      self.real_screen_size.x /

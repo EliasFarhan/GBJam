@@ -1,7 +1,7 @@
 {
 	"type": "Image",
 	"pos": [[0,0],[0.1,0.3]],
-	"size": [100,100],
+	"size": [32,32],
 	"layer": 3,
 	"anim": {
 		"anim_type": "animation.player_animation.PlayerAnimation",
@@ -19,13 +19,13 @@
 			{
 				"user_data": 1,
 				"type": "box",
-				"size": [35,32]
+				"size": [11,10]
 			},
 			{
 				"user_data": 2,
 				"type": "box",
-				"pos": [0,33],
-				"size": [37,5],
+				"pos": [0,11],
+				"size": [12,2],
 				"sensor": true
 			}
 
