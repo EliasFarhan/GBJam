@@ -4,6 +4,7 @@
 	"startup": "data/json/level.json",
 	"render": "sfml",
 	"physics": "b2",
+	"ratio": 16.0,
 	"actions": {
 		"player_right": ["d","RIGHT"],
 		"player_left": ["a","LEFT"],
