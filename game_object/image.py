@@ -27,7 +27,7 @@ class Image(GameObject):
         self.flip = False
         self.img = None
         self.angle = angle
-        if isinstance(pos[0], list) or isinstance(pos[0], tuple):
+        if not isinstance(pos, Vector2) and ( isinstance(pos[0], list) or isinstance(pos[0], tuple)):
             self.pos = Vector2(pos[0])
             self.screen_relative_pos = Vector2(pos[1])
         else:

@@ -11,5 +11,7 @@
 		"player_up": ["w","UP"],
 		"player_down": ["s","DOWN"]
 	},
-	"network": false
+	"network": true,
+	"host": "localhost",
+	"port": 12345
 }

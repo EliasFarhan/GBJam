@@ -27,7 +27,8 @@ class NetworkGamestate():
                         self.players_img[p]
 
                     except KeyError:
-                        self.players_img[p] = Image("", players_list[p][1], size=self.player.size)
+                        self.players_img[p] = Image(pos=players_list[p][1], path="", size=self.player.size)
+
                     self.players_img[p].pos = players_list[p][1]
                     try:
                         anim_index = self.player.anim.img_indexes[
@@ -39,4 +40,4 @@ class NetworkGamestate():
                             self.players_img[p].img = anim_index[0]
                     except KeyError:
                         pass
-                    self.players_img[p].loop(screen,self.screen_pos)
+                    self.players_img[p].loop(screen)

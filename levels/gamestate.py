@@ -101,8 +101,6 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         '''Show images'''
         remove_image = []
         for i, layer in enumerate(self.objects):
-            if i == 2:
-                NetworkGamestate.loop(self, screen)
             for j, img in enumerate(layer):
                 img.loop(screen)
                 if img.remove:
@@ -110,6 +108,8 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         for r in remove_image:
             self.objects[i].remove(r)
 
+        '''Network'''
+        NetworkGamestate.loop(self, screen)
         '''GUI'''
         GUI.loop(self, screen)
 
