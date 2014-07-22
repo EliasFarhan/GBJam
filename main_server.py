@@ -41,10 +41,12 @@ class KuduTCPHandler(SocketServer.BaseRequestHandler):
             else:
                 self.request.sendall("ERROR;BAD_REQUEST")
 
+
 class ThreadedUDPServer(SocketServer.ThreadingMixIn, SocketServer.UDPServer):
     pass
 
-class KuduUDPHandler(SocketServer.BaseRequestHandler):
+
+class KuduUDPGetHandler(SocketServer.BaseRequestHandler):
     """
     This class works similar to the TCP handler class, except that
     self.request consists of a pair of data and client socket, and since
@@ -58,10 +60,22 @@ class KuduUDPHandler(SocketServer.BaseRequestHandler):
         while(1):
             for p in players_list.keys():
                 if p != player_id:
-                    print "YOLO", player_id, self.client_address
                     socket.sendto(players_list[p]+";", self.client_address)
 
 
+class KuduUDPSetHandler(SocketServer.BaseRequestHandler):
+    """
+    This class works similar to the TCP handler class, except that
+    self.request consists of a pair of data and client socket, and since
+    there is no connection the client address must be given explicitly
+    when sending data back via sendto().
+    """
+
+    def handle(self):
+        data = self.request[0].strip()
+        socket = self.request[1]
+        split_request = data.split(';')
+        players_list[int(split_request[1])] = ";".join(split_request[1:])
 
 if __name__ == "__main__":
     PORT = 12345
@@ -72,9 +86,14 @@ if __name__ == "__main__":
     server_thread.daemon = True
     server_thread.start()
 
-    update_server = ThreadedUDPServer((HOST, PORT+1), KuduUDPHandler)
-    update_thread = threading.Thread(target=update_server.serve_forever)
-    update_thread.daemon = True
-    update_thread.start()
+    get_server = ThreadedUDPServer((HOST, PORT+1), KuduUDPGetHandler)
+    get_thread = threading.Thread(target=get_server.serve_forever)
+    get_thread.daemon = True
+    get_thread.start()
+
+    set_server = ThreadedUDPServer((HOST, PORT+2), KuduUDPSetHandler)
+    set_thread = threading.Thread(target=set_server.serve_forever)
+    set_thread.daemon = True
+    set_thread.start()
     while 1:
         pass

@@ -15,10 +15,11 @@ class NetworkGamestate():
 
     def loop(self, screen):
         if CONST.network and self.player:
-            client.set_request(self.player.pos + engine.get_screen_size() * self.player.screen_relative_pos,
-                               self.player.anim.state,
-                               self.player.anim.index)
+            #client.set_request(self.player.pos + engine.get_screen_size() * self.player.screen_relative_pos,
+            #                   self.player.anim.state,
+            #                   self.player.anim.index)
             #client.get_players_request()
+            client.set_player(self.player)
             players_list = client.get_players()
             """Check if player already present else set an image"""
             for p in players_list.keys():

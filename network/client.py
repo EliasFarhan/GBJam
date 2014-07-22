@@ -8,6 +8,12 @@ from engine.vector import Vector2
 players = {}
 players_lock = Lock()
 
+player_pos = Vector2()
+player_anim_state = ""
+player_anim_counter = 0
+
+client_player_lock = Lock()
+
 PORT = CONST.port
 HOST = CONST.host
 
@@ -23,6 +29,26 @@ def get_players():
     tmp_players = copy.deepcopy(players)
     players_lock.release()
     return tmp_players
+
+
+def get_player():
+    global player_pos, player_anim_counter, player_anim_state, client_player_lock
+    client_player_lock.acquire()
+    pos = copy.deepcopy(player_pos)
+    state = copy.deepcopy(player_anim_state)
+    frame = copy.deepcopy(player_anim_counter)
+    client_player_lock.release()
+    return pos, state, frame
+
+
+def set_player(new_player):
+    global player_pos, player_anim_counter, player_anim_state, client_player_lock
+    from engine.init import engine
+    client_player_lock.acquire()
+    player_pos = new_player.pos + new_player.screen_relative_pos * engine.get_screen_size()
+    player_anim_state = new_player.anim.state
+    player_anim_counter = new_player.anim.anim_counter
+    client_player_lock.release()
 
 
 def get_self_id():
@@ -48,18 +74,21 @@ def init():
 
     self_id = new_id_request.split(";")[1]
 
-    update_thread = Thread(target=update_network)
-    update_thread.daemon = True
-    update_thread.start()
+    get_thread = Thread(target=client_get)
+    get_thread.daemon = True
+    get_thread.start()
+
+    set_thread = Thread(target=client_set)
+    set_thread.daemon = True
+    set_thread.start()
 
 
-def update_network():
+def client_get():
     log("START UPDATE SERVER")
     from engine.init import engine
     udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     while not engine.finish:
-        log("GET_REQUEST ")
         udp_sock.sendto("GET_REQUEST;%s"%self_id, (HOST, PORT+1))
         get_player_data = udp_sock.recv(1024)
         """Position"""
@@ -73,7 +102,21 @@ def update_network():
         players_lock.acquire()
         players[parsed_data[0]] = parsed_data
         players_lock.release()
-        log("GET_REQUEST "+get_player_data)
+
+
+def client_set():
+    log("START UPDATE SERVER")
+    from engine.init import engine
+    udp_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    while not engine.finish:
+        (pos, state, frame) = get_player()
+        if state != "":
+            udp_sock.sendto("SET_REQUEST;"+str(self_id)+";"
+                        +pos.get_string() +";"
+                        +state+";"
+                        +str(frame)+";"
+                        , (HOST, PORT+2))
 
 def set_request(pos, state, frame):
     global sock
