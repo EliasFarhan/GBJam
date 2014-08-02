@@ -99,12 +99,10 @@ class SFMLEngine(Engine):
             input_manager.update_keyboard_event(event)
 
             if type(event) is sfml.CloseEvent:
-                from engine.init import engine
-
-                engine.finish = True
+                self.finish = True
             elif type(event) is sfml.MouseButtonEvent:
-                from engine.init import engine
-                screen_ratio = float(engine.get_screen_size().y) / Vector2(engine.screen.size).y
+
+                screen_ratio = float(self.screen_size.y) / Vector2(self.screen.size).y
                 from levels.gamestate import GameState
 
                 if get_level().__class__ == GameState:

@@ -53,10 +53,10 @@ class Engine():
         input_manager.add_button('reset', ['r'])
         while not self.finish:
             self.pre_update()
-            engine.update_event()
+
 
             self.finish = input_manager.get_button('quit')
-
+            engine.update_event()
             f = level_manager.update_level()
 
             if f == 0:
