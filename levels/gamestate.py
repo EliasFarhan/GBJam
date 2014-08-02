@@ -51,7 +51,6 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         log("GAMESTATE INIT OVER")
 
     def execute_event(self, name):
-        log(str(self.event[name]))
         try:
             if self.event[name]:
                 self.event[name].execute()

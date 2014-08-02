@@ -6,10 +6,14 @@
 	"physics": "b2",
 	"ratio": 16.0,
 	"actions": {
-		"player_right": ["d","RIGHT"],
-		"player_left": ["a","LEFT"],
-		"player_up": ["w","UP"],
-		"player_down": ["s","DOWN"]
+		"RIGHT": ["d","RIGHT", "JOY_0_AXIS_0_+"],
+		"LEFT": ["a","LEFT", "JOY_0_AXIS_0_-"],
+		"UP": ["w","UP", "JOY_0_AXIS_1_-"],
+		"DOWN": ["s","DOWN", "JOY_0_AXIS_1_+"],
+		"A": ["JOY_0_BUTTON_0", "SPACE"],
+		"B": [],
+		"START": [],
+		"SELECT": []
 	},
 	"network": false,
 	"host": "localhost",

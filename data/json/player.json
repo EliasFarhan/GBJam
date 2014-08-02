@@ -1,6 +1,6 @@
 {
 	"type": "Image",
-	"pos": [[0,0],[0.1,0.3]],
+	"pos": [[0,0],[0.1,0.675]],
 	"size": [32,32],
 	"layer": 3,
 	"anim": {
@@ -15,6 +15,7 @@
 	},
 	"physic_objects": {
 		"type": "dynamic",
+		"mass": 60,
 		"fixtures": [
 			{
 				"user_data": 1,
@@ -25,7 +26,7 @@
 				"user_data": 2,
 				"type": "box",
 				"pos": [0,11],
-				"size": [12,2],
+				"size": [10,1],
 				"sensor": true
 			}
 

@@ -23,6 +23,7 @@ class KEY():
         K_ENTER = sfml.Keyboard.RETURN
         K_A = sfml.Keyboard.A
         K_Z = sfml.Keyboard.Z
+        K_SPACE = sfml.Keyboard.SPACE
     elif CONST.render == 'pookoo':
         K_UP = 82
         K_DOWN = 81
@@ -51,11 +52,13 @@ def add_one_key(key_value):
 
     button_value[key_value] = 0
     if CONST.render == 'pookoo' or CONST.render == 'sfml':
+
         try:
             if ord('a') <= ord(key_value) <= ord('z'):
                 button_key[ord(key_value)-ord('a')+KEY.K_A] = key_value
         except TypeError:
             '''the key value is not a letter or a number'''
+
             if key_value == 'UP':
                 button_key[KEY.K_UP] = key_value
             if key_value == 'DOWN':
@@ -72,6 +75,8 @@ def add_one_key(key_value):
                 button_key[KEY.K_LCTRL] = key_value
             if key_value == 'ENTER':
                 button_key[KEY.K_ENTER] = key_value
+            if key_value == 'SPACE':
+                button_key[KEY.K_SPACE] = key_value
 
 
 def add_key_button(action,key_list):

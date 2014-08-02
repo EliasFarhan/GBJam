@@ -91,7 +91,7 @@ class Image(GameObject):
             path = CONST.path_prefix+path
 
 
-        image = Image(pos, size=size, angle=angle)
+        image = Image(pos, size=size, angle=angle,path=path)
 
         tmp = get_element(image_data, "tmp")
         if tmp is not None:

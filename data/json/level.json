@@ -11,10 +11,9 @@
     "objects": [
         {
             "layer": 3, 
-            "angle": -8, 
             "pos": [
-                -458.856167953336, 
-                1134.4689782661628
+                0,
+                124
             ], 
             "physic_objects": {
                 "fixtures": [
@@ -25,126 +24,104 @@
                 ], 
                 "type": "static"
             }, 
-            "type": "GameObject", 
+            "type": "Image",
+            "path": "data/sprites/obstacle.png",
             "id": 0, 
             "size": [
-                1052.850844627425, 
-                200.0
+                160,
+                20
             ]
-        }, 
+        },
         {
-            "layer": 3, 
-            "angle": -173, 
+            "layer": 3,
             "pos": [
-                1551.574621094404, 
-                1308.3840449640368
-            ], 
+                160,
+                124
+            ],
             "physic_objects": {
                 "fixtures": [
                     {
-                        "type": "box", 
+                        "type": "box",
                         "user_data": 11
                     }
-                ], 
+                ],
                 "type": "static"
-            }, 
-            "type": "GameObject", 
-            "id": 1, 
+            },
+            "type": "Image",
+            "path": "data/sprites/obstacle.png",
+            "id": 0,
             "size": [
-                1000.0, 
-                200.0
+                160,
+                20
             ]
-        }, 
+        },
         {
-            "layer": 4, 
-            "angle": -11, 
+            "layer": 3,
             "pos": [
-                1533.6968542493478, 
-                1114.9625066344602
-            ], 
+                320,
+                124
+            ],
             "physic_objects": {
                 "fixtures": [
                     {
-                        "type": "box", 
+                        "type": "box",
                         "user_data": 11
                     }
-                ], 
+                ],
                 "type": "static"
-            }, 
-            "type": "GameObject", 
-            "id": 2, 
+            },
+            "type": "Image",
+            "path": "data/sprites/obstacle.png",
+            "id": 0,
             "size": [
-                1205.6658228759982, 
-                190.0
+                160,
+                20
             ]
-        }, 
+        },
         {
-            "layer": 4, 
-            "angle": -16, 
+            "layer": 3,
             "pos": [
-                3259.392938423946, 
-                1195.289711266354
-            ], 
+                200,
+                -120
+            ],
             "physic_objects": {
                 "fixtures": [
                     {
-                        "type": "box", 
+                        "type": "box",
                         "user_data": 11
                     }
-                ], 
+                ],
                 "type": "static"
-            }, 
-            "type": "GameObject", 
-            "id": 3, 
+            },
+            "type": "Image",
+            "path": "data/sprites/obstacle_vert.png",
+            "id": 0,
             "size": [
-                714.6234577202889, 
-                174.19226535351942
+                20,
+                160
             ]
-        }, 
+        },
         {
-            "layer": 4, 
-            "angle": 23, 
+            "layer": 3,
             "pos": [
-                2716.338053271388, 
-                887.9063174275005
-            ], 
+                100,
+                -70
+            ],
             "physic_objects": {
                 "fixtures": [
                     {
-                        "type": "box", 
+                        "type": "box",
                         "user_data": 11
                     }
-                ], 
+                ],
                 "type": "static"
-            }, 
-            "type": "GameObject", 
-            "id": 4, 
+            },
+            "type": "Image",
+            "path": "data/sprites/obstacle_vert.png",
+            "id": 0,
             "size": [
-                714.6234577202889, 
-                210.3380342964049
-            ]
-        }, 
-        {
-            "layer": 4, 
-            "angle": -88, 
-            "pos": [
-                2460.2579097805565, 
-                1812.6246006903134
-            ], 
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box", 
-                        "user_data": 0
-                    }
-                ], 
-                "type": "static"
-            }, 
-            "type": "GameObject", 
-            "id": 5, 
-            "size": [
-                656.6812158656571, 
-                153.51349047710343
+                20,
+                160
             ]
         }
     ], 

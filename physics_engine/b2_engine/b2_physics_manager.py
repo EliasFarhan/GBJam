@@ -52,7 +52,7 @@ class Box2DPhysicsManager(PhysicsManager):
             p2 = b2Vec2(pixel2meter(point2).get_tuple())
             self.current_world.RayCast(callback,p1,p2)
 
-    def add_body(self,pos,body_type,angle=0,fixed_rotation=True):
+    def add_body(self,pos,body_type,angle=0,fixed_rotation=True, mass=1):
         physic_position = pixel2meter(pos).get_float_tuple()
         if body_type == BodyType.static:
             body = self.current_world.CreateStaticBody(position=physic_position)
@@ -61,7 +61,8 @@ class Box2DPhysicsManager(PhysicsManager):
         elif body_type == BodyType.kinematic:
             body = self.current_world.CreateKinematicBody(position=physic_position)
         body.angle = angle
-        body.fixed_rotation = True
+        body.fixedRotation = True
+        body.mass = mass
         return body
 
     @staticmethod
@@ -132,6 +133,20 @@ class Box2DPhysicsManager(PhysicsManager):
                 pos = dyn_obj.position
                 dyn_obj.position = b2Vec2(pos[0]+vx*self.time_step,pos[1]+vy*self.time_step)
 
+    def jump(self,dyn_obj, impulse=1):
+        if impulse == 0:
+            force = dyn_obj.mass * CONST.jump / self.time_step
+            force /= float(CONST.jump_step)
+            if b2_module.__version__[0:3] == '2.3':
+                dyn_obj.ApplyForce(b2Vec2(0,-force),dyn_obj.worldCenter,True)
+            elif b2_module.__version__[0:3] == '2.1':
+                dyn_obj.ApplyForce(b2Vec2(0,-force),dyn_obj.worldCenter)
+        elif impulse == 1:
+            impulse = dyn_obj.mass * CONST.jump
+            if b2_module.__version__[0:3] == '2.3':
+                dyn_obj.ApplyLinearImpulse( b2Vec2(0,-impulse), dyn_obj.worldCenter,True )
+            elif b2_module.__version__[0:3] == '2.1':
+                dyn_obj.ApplyLinearImpulse( b2Vec2(0,-impulse), dyn_obj.worldCenter)
     def exit(self):
         for world in self.worlds:
             world.__swig_destroy__()

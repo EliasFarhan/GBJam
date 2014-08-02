@@ -25,12 +25,15 @@ def load_physic_objects(physics_data,image):
             pos = pos+image.screen_relative_pos*engine.get_screen_size()
         if image.size:
             pos = pos+image.size/2
+        body_mass = get_element(physics_data, "mass")
+        if body_mass is None:
+            body_mass = 1
         if body_type == "dynamic":
-            image.body = physics_manager.add_body(pos, BodyType.dynamic)
+            image.body = physics_manager.add_body(pos, BodyType.dynamic, mass=body_mass)
         elif body_type == "static":
-            image.body = physics_manager.add_body(pos, BodyType.static)
+            image.body = physics_manager.add_body(pos, BodyType.static, mass=body_mass)
         elif body_type == 'kinematic':
-            image.body = physics_manager.add_body(pos, BodyType.kinematic)
+            image.body = physics_manager.add_body(pos, BodyType.kinematic, mass=body_mass)
     pos = (0,0)
     if image.pos:
         pos = image.pos
