@@ -24,7 +24,7 @@ class PlayerAnimation(Animation):
         self.direction = True #True for right
         self.jump_step = CONST.jump_step
         self.wall = 0 #None=0, Left=1, Right=2
-        self.wall_factor = 0.25
+        self.wall_speed = 2.5
         self.wall_jump_step = 0
 
 
@@ -126,10 +126,9 @@ class PlayerAnimation(Animation):
         velocity = physics_manager.get_body_velocity(self.player.body)
         delta = self.gravity
         if self.wall and self.wall_jump_step == 0:
-            if velocity.y < 0:
-                velocity.y = 0
-            delta *= self.wall_factor
-        velocity.y += delta
+            velocity.y = self.wall_speed
+        else:
+            velocity.y += delta
         physics_manager.set_body_velocity(self.player.body, velocity)
 
         physics_pos = physics_manager.get_body_position(self.player.body)
