@@ -123,6 +123,30 @@
                 20,
                 160
             ]
+        },
+
+        {
+            "layer": 3,
+            "pos": [
+                150,
+                20
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "dynamic"
+            },
+            "type": "Image",
+            "path": "data/sprites/obstacle_vert.png",
+            "id": 0,
+            "size": [
+                20,
+                20
+            ]
         }
     ], 
     "checkpoints": [
