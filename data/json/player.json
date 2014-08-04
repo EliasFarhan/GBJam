@@ -2,7 +2,7 @@
 	"type": "Image",
 	"pos": [[0,0],[0.1,0.675]],
 	"size": [32,32],
-	"layer": 3,
+	"layer": 4,
 	"anim": {
 		"anim_type": "animation.player_animation.PlayerAnimation",
 		"root_path": "data/sprites/hero/",
@@ -33,14 +33,14 @@
 				"user_data": 3,
 				"type": "box",
 				"pos": [-11,0],
-				"size": [1,8],
+				"size": [1.5,9],
 				"sensor": true
 			},
 			{
 				"user_data": 4,
 				"type": "box",
 				"pos": [11,0],
-				"size": [1,8],
+				"size": [1.5,9],
 				"sensor": true
 			}
 

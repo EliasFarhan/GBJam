@@ -28,6 +28,7 @@ class PlayerAnimation(Animation):
         self.wall_jump_step = 0
 
 
+
     def load_images(self, size=None, tmp=False):
         Animation.load_images(self, size=size, tmp=tmp)
     
@@ -41,6 +42,7 @@ class PlayerAnimation(Animation):
         UP = input_manager.get_button('UP')
         DOWN = input_manager.get_button('DOWN')
         A_BUTTON = input_manager.get_button('A')
+        B_BUTTON = input_manager.get_button('B')
         
         horizontal = RIGHT-LEFT
         vertical = UP-DOWN
@@ -70,19 +72,19 @@ class PlayerAnimation(Animation):
 
 
         if A_BUTTON and ((self.foot and self.jump_step) or (not self.foot and self.jump_step and self.wall)):
-
             if self.wall == 1:
                 #going RIGHT because LEFT wall
                 physics_manager.move(self.player.body, vx=self.speed)
                 self.wall_jump_step = CONST.wall_jump
+
             elif self.wall == 2:
                 physics_manager.move(self.player.body, vx=-self.speed)
                 self.wall_jump_step = CONST.wall_jump
             physics_manager.jump(self.player.body)
             self.jump_step -= 1
-        elif not self.foot and not self.wall:
+        elif not self.foot and not self.wall :
             self.jump_step = 0
-        elif (self.foot and not A_BUTTON) or (not self.foot and self.wall and not A_BUTTON):
+        elif (self.foot or (not self.foot and self.wall)) and not A_BUTTON:
             self.jump_step = CONST.jump_step
 
         if horizontal == -1:
@@ -111,7 +113,8 @@ class PlayerAnimation(Animation):
                 else:
                     self.state = 'still'
                     self.player.flip = True
-            physics_manager.move(self.player.body, 0)
+            if self.wall_jump_step == 0:
+                physics_manager.move(self.player.body, 0)
 
         if not self.foot:
             if self.direction:

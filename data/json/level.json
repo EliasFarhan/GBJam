@@ -123,6 +123,30 @@
                 20,
                 160
             ]
+        },
+        {
+            "layer": 3,
+            "pos": [
+                300,
+                39
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12,
+                        "sensor": true
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/ladder.png",
+            "id": 0,
+            "size": [
+                55,
+                85
+            ]
         }
     ], 
     "checkpoints": [
