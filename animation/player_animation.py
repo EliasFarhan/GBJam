@@ -27,6 +27,9 @@ class PlayerAnimation(Animation):
         self.wall_speed = 2.5
         self.wall_jump_step = 0
 
+        self.attacking = 0
+        self.attack_time = 30
+
 
 
     def load_images(self, size=None, tmp=False):
@@ -69,6 +72,9 @@ class PlayerAnimation(Animation):
                     self.wall = 2
                 else:
                     self.wall = 0
+            if (event.a.userData == 1 and event.b.userData >= 20 ) or \
+                    ( event.b.userData == 1 and event.a.userData >= 20):
+                log("Touched by cat")
 
 
         if A_BUTTON and ((self.foot and self.jump_step) or (not self.foot and self.jump_step and self.wall)):
@@ -86,6 +92,14 @@ class PlayerAnimation(Animation):
             self.jump_step = 0
         elif (self.foot or (not self.foot and self.wall)) and not A_BUTTON:
             self.jump_step = CONST.jump_step
+
+        if B_BUTTON and self.attacking == 0:
+            log("ATTACKING")
+            self.attacking = self.attack_time
+        elif self.attacking > 1:
+            self.attacking -= 1
+        elif not B_BUTTON:
+            self.attacking = 0
 
         if horizontal == -1:
             #LEFT

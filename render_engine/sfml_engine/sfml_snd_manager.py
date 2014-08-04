@@ -9,9 +9,13 @@ __author__ = 'Elias'
 class SFMLSndManager(SndManager):
     def __init__(self):
         SndManager.__init__(self)
+        self.music = None
 
     def add_music_to_playlist(self,new_playlist):
         pass
+
+    def play_music(self,name):
+        self.set_playlist([name])
 
     def set_playlist(self,music_list):
         self.playlist = music_list
@@ -49,3 +53,8 @@ class SFMLSndManager(SndManager):
         sound_playing = sfml.Sound(sound)
         sound_playing.play()
         self.sounds_playing.append(sound_playing)
+    def get_music_status(self):
+        if self.music is not None:
+            return self.music.status == sfml.Music.STOPPED
+        else:
+            return False

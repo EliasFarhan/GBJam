@@ -15,10 +15,10 @@ __author__ = 'Elias'
 class SFMLEngine(Engine):
     def init_screen(self):
         desktop = sfml.VideoMode.get_desktop_mode()
-        if CONST.debug:
+        if CONST.debug or True:
             desktop = sfml.VideoMode(800,600)
         style = sfml.Style.DEFAULT
-        if CONST.fullscreen and not CONST.debug:
+        if CONST.fullscreen and not CONST.debug and False:
             style = sfml.Style.FULLSCREEN
         self.screen = sfml.RenderWindow(desktop, 'Kudu Window', style)
         self.real_screen_size = Vector2(self.screen.size)

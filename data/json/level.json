@@ -147,6 +147,33 @@
                 55,
                 85
             ]
+        },
+        {
+            "_comment": "cat_evil",
+            "layer": 3,
+            "pos": [
+                150,
+                104
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 20,
+                        "sensor": true
+                    }
+                ],
+                "type": "dynamic"
+            },
+            "type": "Image",
+            "id": 0,
+            "size": [
+                20,
+                20
+            ],
+            "anim": {
+                "anim_type": "extensions.animation.cat_animation.CatAnimation"
+            }
         }
     ], 
     "checkpoints": [

@@ -11,7 +11,7 @@
 		"UP": ["w","UP", "JOY_0_AXIS_1_-"],
 		"DOWN": ["s","DOWN", "JOY_0_AXIS_1_+"],
 		"A": ["JOY_0_BUTTON_0", "SPACE"],
-		"B": [],
+		"B": ["JOY_0_BUTTON_2", "ENTER"],
 		"START": [],
 		"SELECT": []
 	},

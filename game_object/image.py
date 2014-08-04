@@ -33,10 +33,12 @@ class Image(GameObject):
         else:
             self.pos = Vector2(pos)
         self.path = path
-        self.size = Vector2(size)
+        if size is not None:
+            self.size = Vector2(size)
         self.screen_relative = relative
         
         self.center_image = False
+        self.tmp = False
         self.update_rect()
 
     def init_image(self,size=None):

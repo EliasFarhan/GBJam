@@ -136,8 +136,8 @@ class Animation():
         if anim and root_path:
             anim.root_path = root_path
         else:
-            log("Error: UNDEFINED anim is None",1)
-            return None
+            log("Error: UNDEFINED anim or root_path is None",1)
+            return anim
         if path_list and isinstance(path_list,list):
             anim.path_list = path_list
         if state_range and isinstance(state_range,dict):

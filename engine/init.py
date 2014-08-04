@@ -50,7 +50,7 @@ class Engine():
 
     def loop(self):
         input_manager.add_button('quit', ['LCTRL+q', "LCMD+q"])
-        input_manager.add_button('reset', ['r'])
+        input_manager.add_button('reset', ['r', "JOY_0_BUTTON_6"])
         while not self.finish:
             self.pre_update()
 

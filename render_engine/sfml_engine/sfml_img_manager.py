@@ -21,6 +21,8 @@ class SFMLImgManager(ImgManager):
         return Vector2(image.texture.size)
 
     def load_image(self, name, tmp=False):
+        if name is None:
+            return
         log("Loading image: "+name)
         try:
             self.img_name[name]
