@@ -33,14 +33,14 @@
 				"user_data": 3,
 				"type": "box",
 				"pos": [-11,0],
-				"size": [1,9],
+				"size": [1,8],
 				"sensor": true
 			},
 			{
 				"user_data": 4,
 				"type": "box",
 				"pos": [11,0],
-				"size": [1,9],
+				"size": [1,8],
 				"sensor": true
 			}
 
