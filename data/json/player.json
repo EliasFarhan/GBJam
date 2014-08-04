@@ -28,6 +28,20 @@
 				"pos": [0,11],
 				"size": [10,1],
 				"sensor": true
+			},
+			{
+				"user_data": 3,
+				"type": "box",
+				"pos": [-11,0],
+				"size": [1,9],
+				"sensor": true
+			},
+			{
+				"user_data": 4,
+				"type": "box",
+				"pos": [11,0],
+				"size": [1,9],
+				"sensor": true
 			}
 
 		]

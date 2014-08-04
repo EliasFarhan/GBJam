@@ -17,7 +17,8 @@ KEY_BIND = {
     "ENTER": sfml.Keyboard.RETURN,
     "A": sfml.Keyboard.A,
     "Z": sfml.Keyboard.Z,
-    "SPACE": sfml.Keyboard.SPACE
+    "SPACE": sfml.Keyboard.SPACE,
+    "LCMD": sfml.Keyboard.L_SYSTEM
 }
 
 

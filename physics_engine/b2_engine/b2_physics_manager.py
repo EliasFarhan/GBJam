@@ -153,6 +153,12 @@ class Box2DPhysicsManager(PhysicsManager):
             del world
         del self.worlds
 
+    def get_body_velocity(self, body):
+        return Vector2(body.linearVelocity)
+
+    def set_body_velocity(self,body,new_v):
+        body.linearVelocity = b2Vec2(new_v.x, new_v.y)
+
 class KuduContactListener(b2ContactListener):
     def BeginContact(self, contact):
         a = contact.fixtureA

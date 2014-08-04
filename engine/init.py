@@ -49,7 +49,7 @@ class Engine():
         return self.screen
 
     def loop(self):
-        input_manager.add_button('quit', ['LCTRL+q'])
+        input_manager.add_button('quit', ['LCTRL+q', "LCMD+q"])
         input_manager.add_button('reset', ['r'])
         while not self.finish:
             self.pre_update()

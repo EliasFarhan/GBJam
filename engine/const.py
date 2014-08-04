@@ -51,9 +51,9 @@ class CONST:
     AUTH_PORT = 9999
 
     """Physics"""
-    gravity = 20
+    gravity = 0
     move_speed = 2
-    jump = 3.5  #8.5
+    jump = 4  #8.5
     jump_step = 5
     scale_speed = 0.01
     ratio = 100/1.5
