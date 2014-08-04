@@ -124,28 +124,28 @@
                 160
             ]
         },
-
         {
             "layer": 3,
             "pos": [
-                150,
-                20
+                300,
+                39
             ],
             "physic_objects": {
                 "fixtures": [
                     {
                         "type": "box",
-                        "user_data": 11
+                        "user_data": 12,
+                        "sensor": true
                     }
                 ],
-                "type": "dynamic"
+                "type": "static"
             },
             "type": "Image",
-            "path": "data/sprites/obstacle_vert.png",
+            "path": "data/sprites/ladder.png",
             "id": 0,
             "size": [
-                20,
-                20
+                55,
+                85
             ]
         }
     ], 

@@ -133,7 +133,7 @@ class Box2DPhysicsManager(PhysicsManager):
                 pos = dyn_obj.position
                 dyn_obj.position = b2Vec2(pos[0]+vx*self.time_step,pos[1]+vy*self.time_step)
 
-    def jump(self,dyn_obj, impulse=1):
+    def jump(self,dyn_obj, impulse=0):
         if impulse == 0:
             force = dyn_obj.mass * CONST.jump / self.time_step
             force /= float(CONST.jump_step)
@@ -152,6 +152,12 @@ class Box2DPhysicsManager(PhysicsManager):
             world.__swig_destroy__()
             del world
         del self.worlds
+
+    def get_body_velocity(self, body):
+        return Vector2(body.linearVelocity)
+
+    def set_body_velocity(self,body,new_v):
+        body.linearVelocity = b2Vec2(new_v.x, new_v.y)
 
 class KuduContactListener(b2ContactListener):
     def BeginContact(self, contact):
