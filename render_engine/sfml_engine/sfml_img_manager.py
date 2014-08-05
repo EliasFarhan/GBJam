@@ -12,9 +12,10 @@ __author__ = 'Elias'
 class SFMLImgManager(ImgManager):
     def __init__(self):
         ImgManager.__init__(self)
+        self.buffer = sfml.RenderTexture(160, 144)
 
     def clear_screen(self, screen):
-        screen.clear()
+        self.buffer.clear(sfml.Color.WHITE)
 
     @staticmethod
     def get_size(image):
@@ -52,7 +53,7 @@ class SFMLImgManager(ImgManager):
                     text_size = Vector2(sprite.texture.size)
                 else:
                     text_size = new_size
-                sprite.ratio = (new_size * screen_diff_ratio / text_size).get_tuple()
+                # sprite.ratio = (new_size * screen_diff_ratio / text_size).get_tuple()
             if angle != 0:
                 sprite.rotation = angle
 
@@ -61,8 +62,9 @@ class SFMLImgManager(ImgManager):
                     sprite.texture_rectangle = (sfml.Rectangle(sfml.Vector2(sprite.texture.width, 0), sfml.Vector2(-sprite.texture.width, sprite.texture.height)))
                 else:
                     sprite.texture_rectangle = (sfml.Rectangle(sfml.Vector2(0, 0), sfml.Vector2(sprite.texture.width, sprite.texture.height)))
-            sprite.position = (origin_pos + pos * screen_diff_ratio).get_int_tuple()
-            screen.draw(sprite)
+            # sprite.position = (origin_pos + pos * screen_diff_ratio).get_int_tuple()
+            sprite.position = pos.get_int_tuple()
+            self.buffer.draw(sprite)
 
         except KeyError:
             pass
