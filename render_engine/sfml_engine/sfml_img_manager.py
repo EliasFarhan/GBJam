@@ -12,7 +12,7 @@ __author__ = 'Elias, Tenchi'
 class SFMLImgManager(ImgManager):
     def __init__(self):
         ImgManager.__init__(self)
-        self.buffer = sfml.RenderTexture(160, 144)
+        self.buffer = sfml.RenderTexture(160+8, 144+8)
 
     def clear_screen(self, screen):
         self.buffer.clear(sfml.Color.WHITE)
@@ -54,6 +54,7 @@ class SFMLImgManager(ImgManager):
                     sprite.texture_rectangle = (sfml.Rectangle(sfml.Vector2(0, 0), sfml.Vector2(sprite.texture.width, sprite.texture.height)))
 
             sprite.position = pos.get_int_tuple()
+            sprite.position += 4
             self.buffer.draw(sprite)
 
         except KeyError:

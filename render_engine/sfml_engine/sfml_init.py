@@ -14,11 +14,12 @@ __author__ = 'Elias, Tenchi'
 
 class SFMLEngine(Engine):
     def init_screen(self):
-        self.res  = (800, 720)
+        # self.res  = (640, 576)
+        self.res  = (672, 608)
 
         desktop = sfml.VideoMode.get_desktop_mode()
         if CONST.debug:
-            desktop = sfml.VideoMode(self.res[0], self.res[1])
+            desktop = sfml.VideoMode(1280, 720)
         style = sfml.Style.DEFAULT
         if CONST.fullscreen and not CONST.debug:
             style = sfml.Style.FULLSCREEN
@@ -39,6 +40,7 @@ class SFMLEngine(Engine):
             uniform vec3 col1;
             uniform vec3 col2;
             uniform vec2 res;
+            uniform vec2 screen;
 
             void main() {
 
@@ -54,17 +56,18 @@ class SFMLEngine(Engine):
             }
         """
 
-        shader_x5_src = """
+        shader_x4_src = """
             uniform sampler2D texture;
             uniform vec3 col1;
             uniform vec3 col2;
             uniform vec2 res;
+            uniform vec2 screen;
 
             void main() {
 
                 vec2 pos = gl_FragCoord.xy;
 
-                bool is_on_dot = all(bvec2(mod(pos.x - 0.5, 5.0) > 0.0, mod(pos.y - 0.5, 5.0) > 0.0));
+                bool is_on_dot = all(bvec2(mod(pos.x - 0.5, 4.0) > 0.0, mod(pos.y - 0.5, 4.0) > 0.0));
 
                 // If the pixel is on a dot, mix the color
                 if (is_on_dot) {
@@ -87,6 +90,7 @@ class SFMLEngine(Engine):
             uniform vec3 col1;
             uniform vec3 col2;
             uniform vec2 res;
+            uniform vec2 screen;
             uniform float blurSize;
             uniform vec2 offset;
 
@@ -113,6 +117,7 @@ class SFMLEngine(Engine):
             uniform vec3 col1;
             uniform vec3 col2;
             uniform vec2 res;
+            uniform vec2 screen;
             uniform float blurSize;
             uniform vec2 offset;
 
@@ -132,7 +137,7 @@ class SFMLEngine(Engine):
 
                 float val = (sum.r + sum.g + sum.b) / 3.0;
                 val = pow(val, 0.65);
-                gl_FragColor = vec4(col2*1.8, (1-val)*0.65);
+                gl_FragColor = vec4(col2*1.8, (1-val)*0.75);
             }
 
         """
@@ -146,7 +151,7 @@ class SFMLEngine(Engine):
         """
 
         self.shader_bg = sfml.Shader.from_memory(vertex=vertex_passthrough, fragment=shader_bg_src)
-        self.shader_x5 = sfml.Shader.from_memory(vertex=vertex_passthrough, fragment=shader_x5_src)
+        self.shader_x4 = sfml.Shader.from_memory(vertex=vertex_passthrough, fragment=shader_x4_src)
         self.shader_vb = sfml.Shader.from_memory(vertex=vertex_passthrough, fragment=shader_vblur_src)
         self.shader_hb = sfml.Shader.from_memory(vertex=vertex_passthrough, fragment=shader_hblur_src)
         self.states = sfml.RenderStates()
@@ -158,21 +163,27 @@ class SFMLEngine(Engine):
         from render_engine.img_manager import img_manager
 
         self.bg = sfml.Texture.from_file("data/sprites/grainy_background.png")
+        gbtex = sfml.Texture.from_file("data/sprites/border_square_4x.png")
+        self.gb = sfml.Sprite(gbtex)
+        self.gb.position = (self.screen.size - gbtex.size) / 2
         self.buf = img_manager.buffer
 
         self.shader_bg.set_texture_parameter("texture", self.bg)
-        self.shader_x5.set_texture_parameter("texture", self.buf.texture)
+        self.shader_x4.set_texture_parameter("texture", self.buf.texture)
         self.shader_vb.set_texture_parameter("texture", self.buf.texture)
         self.shader_hb.set_texture_parameter("texture", self.vblur.texture)
 
-        for shader in [self.shader_bg, self.shader_x5, self.shader_vb, self.shader_hb]:
+        for shader in [self.shader_bg, self.shader_x4, self.shader_vb, self.shader_hb]:
             shader.set_3float_parameter("col1", *self.col1)
             shader.set_3float_parameter("col2", *self.col2)
             shader.set_2float_parameter("res",  *self.res)
+            shader.set_2float_parameter("screen",  *self.screen.size)
         self.shader_vb.set_1float_parameter("blurSize", blur_size)
         self.shader_hb.set_1float_parameter("blurSize", blur_size)
         self.shader_vb.set_2float_parameter("offset", *shadow_offs)
         self.shader_hb.set_2float_parameter("offset", *shadow_offs)
+
+        self.dmg = sfml.RenderTexture(*self.res)
 
 
     def init_level(self):
@@ -187,17 +198,27 @@ class SFMLEngine(Engine):
         pass
 
     def post_update(self):
+        # trim 4 pixels all around
+        rect = sfml.RectangleShape((4, 152))
+        rect.fill_color = sfml.Color.WHITE
+        self.buf.draw(rect)
+        rect.move((164, 0))
+        self.buf.draw(rect)
+        rect = sfml.RectangleShape((168, 4))
+        self.buf.draw(rect)
+        rect.move((0, 148))
+        self.buf.draw(rect)
 
-        self.buf.display()
         clear = sfml.Color(0, 0, 0, 0)
+        self.buf.display()
 
         rect = sfml.RectangleShape(self.res)
         rect.fill_color = clear
-        self.screen.clear()
+        self.dmg.clear()
         self.states.shader = self.shader_bg
-        self.screen.draw(rect, self.states)
+        self.dmg.draw(rect, self.states)
 
-        self.states.shader = self.shader_x5
+        self.states.shader = self.shader_x4
         self.blocs.clear(clear)
         self.blocs.draw(rect, self.states)
         self.blocs.display()
@@ -213,9 +234,21 @@ class SFMLEngine(Engine):
         self.hblur.display()
 
         spr = sfml.Sprite(self.hblur.texture)
-        self.screen.draw(spr)
+        self.dmg.draw(spr)
         spr = sfml.Sprite(self.blocs.texture)
+        self.dmg.draw(spr)
+
+        self.dmg.display()
+
+        # Whole screen
+
+        rect = sfml.RectangleShape(self.screen.size)
+        rect.fill_color = sfml.Color.BLACK
+        self.screen.draw(rect)
+        spr = sfml.Sprite(self.dmg.texture)
+        spr.position = (self.screen.size - self.res) / 2
         self.screen.draw(spr)
+        self.screen.draw(self.gb)
 
         self.buf.clear(sfml.Color.WHITE)
 
