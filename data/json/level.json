@@ -62,7 +62,7 @@
         {
             "layer": 3,
             "pos": [
-                180,
+                200,
                 84
             ],
             "nmb_size": 3,
@@ -76,6 +76,26 @@
                 "type": "static"
             },
             "type": "extensions.game_object.trunk.Trunk",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                370,
+                90
+            ],
+            "nmb_size": 1,
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                419,
+                62
+            ],
+            "nmb_size": 3,
+            "type": "extensions.game_object.stump.Stump",
             "id": 0
         }
     ], 
