@@ -18,5 +18,5 @@
 	"network": false,
 	"host": "localhost",
 	"port": 12345,
-	"debug": false
+	"debug": true
 }

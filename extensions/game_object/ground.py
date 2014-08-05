@@ -16,12 +16,12 @@ class Ground(GameObject):
         self.size = nmb_size*Vector2(32,12)+Vector2(24,12)
         self.init_image()
     def init_image(self):
-        self.top_left = img_manager.load_image("data/sprites/background/GroundTopCornerLeft.png")
-        self.top_right = img_manager.load_image("data/sprites/background/GroundTopCornerRight.png")
-        self.top = img_manager.load_image("data/sprites/background/GroundTop.png")
-        self.left = img_manager.load_image("data/sprites/background/GroundSideLeft.png")
-        self.right = img_manager.load_image("data/sprites/background/GroundSideRight.png")
-        self.ground = img_manager.load_image("data/sprites/background/GroundFill.png")
+        self.top_left = img_manager.load_image("data/sprites/ground/GroundTopCornerLeft.png")
+        self.top_right = img_manager.load_image("data/sprites/ground/GroundTopCornerRight.png")
+        self.top = img_manager.load_image("data/sprites/ground/GroundTop.png")
+        self.left = img_manager.load_image("data/sprites/ground/GroundSideLeft.png")
+        self.right = img_manager.load_image("data/sprites/ground/GroundSideRight.png")
+        self.ground = img_manager.load_image("data/sprites/ground/GroundFill.png")
 
     def loop(self,screen,lock):
         pos = self.pos-level_manager.level.screen_pos

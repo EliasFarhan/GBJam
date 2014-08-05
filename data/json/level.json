@@ -58,6 +58,25 @@
             },
             "type": "extensions.game_object.ground.Ground",
             "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                180,
+                84
+            ],
+            "nmb_size": 3,
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.trunk.Trunk",
+            "id": 0
         }
     ], 
     "checkpoints": [
