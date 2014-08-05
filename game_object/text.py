@@ -47,7 +47,7 @@ class Text(GameObject):
         if self.text_surface:
             self.text_surface.position = self.pos.get_tuple()
 
-    def loop(self,screen,screen_pos):
+    def loop(self,screen,screen_pos= Vector2()):
         if self.text_surface:
             if self.time < self.gradient:
                 self.time += 1

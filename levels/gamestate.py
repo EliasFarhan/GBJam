@@ -6,6 +6,7 @@ Created on 9 dec. 2013
 from engine.init import engine
 from engine.rect import Rect
 from engine.vector import Vector2
+from game_object.text import Text
 from levels.scene import Scene
 from engine.const import log, CONST
 from network.gamestate_network import NetworkGamestate
@@ -22,12 +23,15 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
     def __init__(self, filename):
         self.bg_color = [0, 0, 0]
         self.player = None
+        self.lock = False
         self.event = {}
         self.filename = filename
         if CONST.debug:
             Editor.__init__(self)
         GUI.__init__(self)
 
+        self.game_over_text = Text(pos=engine.screen_size/2, size=20, font="data/font/pixel_arial.ttf",text="Game Over", center=True, relative=True)
+        self.game_over = False
     def init(self, loading=False):
 
         physics_manager.init_world()
@@ -41,6 +45,8 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
                 switch_level(Scene())
         self.lock = False
         self.click = False
+
+        self.game_over = False
 
         log("INIT NETWORK")
         NetworkGamestate.init(self)
@@ -64,6 +70,9 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
     def loop(self, screen):
         img_manager.draw_rect(screen, Vector2(), Rect(Vector2(),engine.get_screen_size()),self.bg_color)
         snd_manager.update_music_status()
+
+
+
         """
         if CONST.render == 'kivy':
             for layer in self.objects:
@@ -102,7 +111,7 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         for i, layer in enumerate(self.objects):
             remove_image = []
             for j, img in enumerate(layer):
-                img.loop(screen)
+                img.loop(screen, self.lock)
                 if img.remove:
                     remove_image.append(img)
             for r in remove_image:
@@ -117,6 +126,9 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         if CONST.debug:
             Editor.loop(self, screen, self.screen_pos)
 
+        if self.game_over:
+            self.lock = True
+            self.game_over_text.loop(screen)
     def exit(self):
         physics_manager.remove_world(physics_manager.current_world)
 

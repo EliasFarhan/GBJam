@@ -13,9 +13,9 @@ from render_engine.snd_manager import snd_manager
 
 class Kwakwa(Scene):
     def init(self):
-        self.loading_screen = LoadingScreen()
-        self.loading_screen.init_method = [GameState(CONST.startup)]
-        self.loading_screen.init()
+        #self.loading_screen = LoadingScreen()
+        #self.loading_screen.init_method = [GameState(CONST.startup)]
+        #self.loading_screen.init()
         self.text = Image(path='data/sprites/text/kwakwa_logo.png',
                           pos=Vector2(),
                           size=Vector2(160,144))
@@ -25,11 +25,12 @@ class Kwakwa(Scene):
         self.screen_pos = Vector2()
 
     def loop(self, screen):
+        log("WKAKWAKWA")
         img_manager.draw_rect(screen,Vector2(),Rect(Vector2(0,0),engine.get_screen_size()),(255,255,255))
         self.text.loop(screen)
         if snd_manager.get_music_status():
             from engine.level_manager import switch_level
-            switch_level(self.loading_screen)
+            switch_level(GameState(CONST.startup))
         snd_manager.update_music_status()
 
 

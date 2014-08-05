@@ -28,6 +28,8 @@ class PlayerAnimation(Animation):
         self.wall_jump_step = 0
         self.not_sliding_wall = 0
 
+        self.touched = False
+
         self.attacking = 0
         self.attack_time = 30
 
@@ -92,10 +94,17 @@ class PlayerAnimation(Animation):
             elif (event.a.userData == 1 and event.b.userData >= 20 ) or \
                     ( event.b.userData == 1 and event.a.userData >= 20):
                 log("Touched by cat")
+                if event.begin:
+                    self.touched = True
             if (event.a.userData == 1 and event.b.userData == 13 ) or \
                     ( event.b.userData == 1 and event.a.userData == 13):
                 log("Touched by spike")
+                if event.begin:
+                    self.touched = True
 
+        if self.touched:
+            level_manager.level.game_over = True
+            return
 
         if A_BUTTON and ((self.foot and self.jump_step) or (not self.foot and self.jump_step and self.wall)):
             if self.wall == 1:
@@ -184,7 +193,7 @@ class PlayerAnimation(Animation):
             self.wall_jump_step -= 1
 
     def set_screen_pos(self):
-        level_manager.level.screen_pos = self.player.pos
+        level_manager.level.screen_pos = Vector2(self.player.pos.x, 144*int(self.player.pos.y/144))
 
     @staticmethod
     def parse_animation(anim_data):

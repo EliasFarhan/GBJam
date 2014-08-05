@@ -5,7 +5,7 @@ from render_engine.img_manager import img_manager
 
 __author__ = 'efarhan'
 
-from engine.const import CONST
+from engine.const import CONST, log
 from engine.init import engine
 from engine.vector import Vector2
 from game_object.text import Text
@@ -60,6 +60,7 @@ class LoadingScreen(Scene):
         self.finish_loading()
 
     def loop(self,screen):
+        log("LOLOLO")
         if self.get_loading_state():
             switch_level(GameState(CONST.startup))
             return

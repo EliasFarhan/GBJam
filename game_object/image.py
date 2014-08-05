@@ -50,8 +50,8 @@ class Image(GameObject):
                 self.size = Vector2(img_manager.get_size(self.img))
             self.rect = Rect(self.pos, self.size)
 
-    def loop(self, screen):
-        if self.anim:
+    def loop(self, screen, lock=False):
+        if self.anim and not lock:
             self.anim.update_animation()
             self.img = self.anim.img
         pos = Vector2()
