@@ -10,20 +10,6 @@
     "show_mouse": true, 
     "objects": [
         {
-            "layer": 1,
-            "pos": [
-                0,
-                0
-            ],
-            "type": "Image",
-            "path": "data/sprites/background/PrairieBackground.png",
-            "id": 0,
-            "size": [
-                1600,
-                144
-            ]
-        },
-        {
             "layer": 3, 
             "pos": [
                 100,
@@ -40,11 +26,33 @@
         {
             "layer": 3,
             "pos": [
+                736,
+                121
+            ],
+            "nmb_size": [
+                2,
+                13
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
                 0,
                 120
             ],
             "nmb_size": [
-                50,
+                25,
                 2
             ],
             "physic_objects": {
@@ -95,6 +103,177 @@
                 62
             ],
             "nmb_size": 3,
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                500,
+                90
+            ],
+            "nmb_size": 1,
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                550,
+                100
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 13
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/spike.png",
+            "id": 0,
+            "size": [
+                20,
+                20
+            ]
+        },
+        {
+            "layer": 3,
+            "pos": [
+                570,
+                100
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 13
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/spike.png",
+            "id": 0,
+            "size": [
+                20,
+                20
+            ]
+        },
+        {
+            "layer": 3,
+            "pos": [
+                590,
+                90
+            ],
+            "nmb_size": 1,
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                850,
+                50
+            ],
+            "nmb_size": [
+                5,
+                10
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                800,
+                14
+            ],
+            "nmb_size": 5,
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.trunk.Trunk",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                850,
+                258
+            ],
+            "nmb_size": [
+                8,
+                2
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                817,
+                244
+            ],
+            "nmb_size": 5,
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                1161,
+                121
+            ],
+            "nmb_size": [
+                5,
+                13
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                1123,
+                244
+            ],
+            "nmb_size": 5,
             "type": "extensions.game_object.stump.Stump",
             "id": 0
         }

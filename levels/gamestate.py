@@ -30,7 +30,7 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
             Editor.__init__(self)
         GUI.__init__(self)
 
-        self.game_over_text = Text(pos=engine.screen_size/2, size=20, font="data/font/pixel_arial.ttf",text="Game Over", center=True, relative=True)
+        self.game_over_text = Text(pos=engine.screen_size*Vector2(1/2.0,1.0/4), size=20, font="data/font/pixel_arial.ttf",text="Game Over", center=True, relative=True)
         self.game_over = False
     def init(self, loading=False):
 

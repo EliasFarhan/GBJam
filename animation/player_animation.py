@@ -199,6 +199,10 @@ class PlayerAnimation(Animation):
         pos_ratio = player_pos/engine.screen_size
         pos_size_ratio = (player_pos+self.player.size)/engine.screen_size
         size_ratio = pos_size_ratio-pos_ratio
+        """
+        Transition
+
+
 
         x_delta = 0
 
@@ -209,8 +213,19 @@ class PlayerAnimation(Animation):
         if math.floor(pos_size_ratio.y)-math.floor(pos_ratio.y) == 1:
             y_delta = (int(pos_size_ratio.y)-pos_ratio.y)/size_ratio.y
 
-        level_manager.level.screen_pos = Vector2(160*(math.floor(pos_size_ratio.x)-x_delta), 144*(math.floor(pos_size_ratio.y)-y_delta))
+        level_manager.level.screen_pos = Vector2(160*(math.floor(pos_size_ratio.x)-x_delta), )
+        """
+        y_pos = 0
+        if 1000 > player_pos.x > 800:
+            y_delta = 0
 
+            if math.floor(pos_size_ratio.y)-math.floor(pos_ratio.y) == 1:
+                y_delta = (int(pos_size_ratio.y)-pos_ratio.y)/size_ratio.y
+            y_pos = 144*(math.floor(pos_size_ratio.y)-y_delta)
+        elif  player_pos.x >= 1000:
+            y_pos = self.player.pos.y
+
+        level_manager.level.screen_pos = Vector2(player_pos.x, y_pos)
     @staticmethod
     def parse_animation(anim_data):
         Animation.parse_animation(anim_data)
