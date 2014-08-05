@@ -1,0 +1,273 @@
+{
+    "network": false, 
+    "bg_color": [
+        255, 
+        255, 
+        255
+    ], 
+    "gui": "data/json/gui.json", 
+    "player": "data/json/player.json", 
+    "show_mouse": true, 
+    "objects": [
+        {
+            "layer": 1,
+            "pos": [
+                0,
+                0
+            ],
+            "type": "Image",
+            "path": "data/sprites/background/PrairieBackground.png",
+            "id": 0,
+            "size": [
+                1600,
+                144
+            ]
+        },
+        {
+            "layer": 3, 
+            "pos": [
+                0,
+                124
+            ], 
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box", 
+                        "user_data": 11
+                    }
+                ], 
+                "type": "static"
+            }, 
+            "type": "Image",
+            "path": "data/sprites/obstacle.png",
+            "id": 0, 
+            "size": [
+                160,
+                20
+            ]
+        },
+        {
+            "layer": 3,
+            "pos": [
+                160,
+                124
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/obstacle.png",
+            "id": 0,
+            "size": [
+                160,
+                20
+            ]
+        },
+        {
+            "layer": 3,
+            "pos": [
+                320,
+                124
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/obstacle.png",
+            "id": 0,
+            "size": [
+                160,
+                20
+            ]
+        },
+        {
+            "layer": 3,
+            "pos": [
+                200,
+                -120
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/obstacle_vert.png",
+            "id": 0,
+            "size": [
+                20,
+                160
+            ]
+        },
+        {
+            "layer": 3,
+            "pos": [
+                100,
+                -70
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/obstacle_vert.png",
+            "id": 0,
+            "size": [
+                20,
+                160
+            ]
+        },
+        {
+            "layer": 3,
+            "pos": [
+                300,
+                84
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/cube.png",
+            "id": 0,
+            "size": [
+                40,
+                40
+            ]
+        },
+
+        {
+            "layer": 3,
+            "pos": [
+                340,
+                104
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 13
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/spike.png",
+            "id": 0,
+            "size": [
+                20,
+                20
+            ]
+        },
+
+        {
+            "layer": 3,
+            "pos": [
+                360,
+                104
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 13
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/spike.png",
+            "id": 0,
+            "size": [
+                20,
+                20
+            ]
+        },
+        {
+            "layer": 3,
+            "pos": [
+                380,
+                84
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/cube.png",
+            "id": 0,
+            "size": [
+                40,
+                40
+            ]
+        },
+        {
+            "_comment": "cat_evil",
+            "layer": 3,
+            "pos": [
+                150,
+                104
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 20,
+                        "sensor": true
+                    }
+                ],
+                "type": "dynamic"
+            },
+            "type": "Image",
+            "id": 0,
+            "size": [
+                20,
+                20
+            ],
+            "anim": {
+                "anim_type": "extensions.animation.cat_animation.CatAnimation"
+            }
+        }
+    ], 
+    "checkpoints": [
+        [
+            0, 
+            0
+        ]
+    ], 
+    "physics": true, 
+    "events": {
+        "on_init": "data/json/event.json"
+    }
+}

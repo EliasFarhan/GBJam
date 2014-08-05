@@ -75,9 +75,10 @@ def load_image_from_json(image_data, level, image_type=None):
         image.id = object_id
     else:
         if not isinstance(image_type,CONST.string_type):
+            log("image_type not a string",1)
             return
         for c in image_type:
-            if c != '.' and c.isalpha():
+            if c != '.' and c != '_' and not c.isalpha():
                 return
         dir_list = image_type.split(".")
         try:

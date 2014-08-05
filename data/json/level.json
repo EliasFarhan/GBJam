@@ -26,123 +26,26 @@
         {
             "layer": 3, 
             "pos": [
-                0,
-                124
-            ], 
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box", 
-                        "user_data": 11
-                    }
-                ], 
-                "type": "static"
-            }, 
+                100,
+                69
+            ],
             "type": "Image",
-            "path": "data/sprites/obstacle.png",
+            "path": "data/sprites/background/CatWall.png",
             "id": 0, 
             "size": [
-                160,
-                20
+                43,
+                51
             ]
         },
         {
             "layer": 3,
             "pos": [
-                160,
-                124
+                0,
+                120
             ],
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box",
-                        "user_data": 11
-                    }
-                ],
-                "type": "static"
-            },
-            "type": "Image",
-            "path": "data/sprites/obstacle.png",
-            "id": 0,
-            "size": [
-                160,
-                20
-            ]
-        },
-        {
-            "layer": 3,
-            "pos": [
-                320,
-                124
-            ],
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box",
-                        "user_data": 11
-                    }
-                ],
-                "type": "static"
-            },
-            "type": "Image",
-            "path": "data/sprites/obstacle.png",
-            "id": 0,
-            "size": [
-                160,
-                20
-            ]
-        },
-        {
-            "layer": 3,
-            "pos": [
-                200,
-                -120
-            ],
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box",
-                        "user_data": 11
-                    }
-                ],
-                "type": "static"
-            },
-            "type": "Image",
-            "path": "data/sprites/obstacle_vert.png",
-            "id": 0,
-            "size": [
-                20,
-                160
-            ]
-        },
-        {
-            "layer": 3,
-            "pos": [
-                100,
-                -70
-            ],
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box",
-                        "user_data": 11
-                    }
-                ],
-                "type": "static"
-            },
-            "type": "Image",
-            "path": "data/sprites/obstacle_vert.png",
-            "id": 0,
-            "size": [
-                20,
-                160
-            ]
-        },
-        {
-            "layer": 3,
-            "pos": [
-                300,
-                84
+            "nmb_size": [
+                50,
+                2
             ],
             "physic_objects": {
                 "fixtures": [
@@ -153,111 +56,8 @@
                 ],
                 "type": "static"
             },
-            "type": "Image",
-            "path": "data/sprites/cube.png",
-            "id": 0,
-            "size": [
-                40,
-                40
-            ]
-        },
-
-        {
-            "layer": 3,
-            "pos": [
-                340,
-                104
-            ],
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box",
-                        "user_data": 13
-                    }
-                ],
-                "type": "static"
-            },
-            "type": "Image",
-            "path": "data/sprites/spike.png",
-            "id": 0,
-            "size": [
-                20,
-                20
-            ]
-        },
-
-        {
-            "layer": 3,
-            "pos": [
-                360,
-                104
-            ],
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box",
-                        "user_data": 13
-                    }
-                ],
-                "type": "static"
-            },
-            "type": "Image",
-            "path": "data/sprites/spike.png",
-            "id": 0,
-            "size": [
-                20,
-                20
-            ]
-        },
-        {
-            "layer": 3,
-            "pos": [
-                380,
-                84
-            ],
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box",
-                        "user_data": 12
-                    }
-                ],
-                "type": "static"
-            },
-            "type": "Image",
-            "path": "data/sprites/cube.png",
-            "id": 0,
-            "size": [
-                40,
-                40
-            ]
-        },
-        {
-            "_comment": "cat_evil",
-            "layer": 3,
-            "pos": [
-                150,
-                104
-            ],
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box",
-                        "user_data": 20,
-                        "sensor": true
-                    }
-                ],
-                "type": "dynamic"
-            },
-            "type": "Image",
-            "id": 0,
-            "size": [
-                20,
-                20
-            ],
-            "anim": {
-                "anim_type": "extensions.animation.cat_animation.CatAnimation"
-            }
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0
         }
     ], 
     "checkpoints": [

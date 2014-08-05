@@ -1,6 +1,6 @@
 {
 	"type": "Image",
-	"pos": [[0,0],[0.1,0.675]],
+	"pos": [[0,0],[0.1,0.611]],
 	"size": [32,32],
 	"layer": 4,
 	"anim": {
@@ -26,21 +26,21 @@
 				"user_data": 2,
 				"type": "box",
 				"pos": [0,11],
-				"size": [10,1],
+				"size": [10.5,1],
 				"sensor": true
 			},
 			{
 				"user_data": 3,
 				"type": "box",
 				"pos": [-11,0],
-				"size": [1.5,9],
+				"size": [1.5,9.75],
 				"sensor": true
 			},
 			{
 				"user_data": 4,
 				"type": "box",
 				"pos": [11,0],
-				"size": [1.5,9],
+				"size": [1.5,9.75],
 				"sensor": true
 			},
 			{

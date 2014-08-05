@@ -3,6 +3,7 @@ Created on 1 mars 2014
 
 @author: efarhan
 '''
+import math
 from engine import level_manager
 from engine.const import CONST, log
 from engine.vector import Vector2
@@ -33,6 +34,7 @@ class PlayerAnimation(Animation):
         self.attacking = 0
         self.attack_time = 30
 
+        self.transition = 1.0
 
 
     def load_images(self, size=None, tmp=False):
@@ -193,7 +195,21 @@ class PlayerAnimation(Animation):
             self.wall_jump_step -= 1
 
     def set_screen_pos(self):
-        level_manager.level.screen_pos = Vector2(self.player.pos.x, 144*int(self.player.pos.y/144))
+        player_pos = self.player.pos+self.player.screen_relative_pos*engine.screen_size
+        pos_ratio = player_pos/engine.screen_size
+        pos_size_ratio = (player_pos+self.player.size)/engine.screen_size
+        size_ratio = pos_size_ratio-pos_ratio
+
+        x_delta = 0
+
+        if math.floor(pos_size_ratio.x)-math.floor(pos_ratio.x) == 1:
+            x_delta = (int(pos_size_ratio.x)-pos_ratio.x)/size_ratio.x
+        y_delta = 0
+
+        if math.floor(pos_size_ratio.y)-math.floor(pos_ratio.y) == 1:
+            y_delta = (int(pos_size_ratio.y)-pos_ratio.y)/size_ratio.y
+
+        level_manager.level.screen_pos = Vector2(160*(math.floor(pos_size_ratio.x)-x_delta), 144*(math.floor(pos_size_ratio.y)-y_delta))
 
     @staticmethod
     def parse_animation(anim_data):
