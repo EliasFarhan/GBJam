@@ -40,7 +40,7 @@ class CONST:
     """Core const"""
     render = ''
     physics = ''
-    debug = False
+    debug = True
     path_prefix = ""
     layers = 5
     animation_step = 7

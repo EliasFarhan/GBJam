@@ -54,8 +54,8 @@ class PlayerAnimation(Animation):
         
         for event in physics_events:
             log("Physics: "+str(event.a.userData)+" "+str(event.b.userData))
-            if (event.a.userData == 2 and event.b.userData == 11 ) or \
-                    ( event.b.userData == 2 and event.a.userData == 11):
+            if (event.a.userData == 2 and 15 >= event.b.userData >= 11 ) or \
+                    ( event.b.userData == 2 and 15 >= event.a.userData >= 11):
                 if event.begin:
                     self.foot += 1
                 else:

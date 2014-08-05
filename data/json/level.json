@@ -128,24 +128,46 @@
             "layer": 3,
             "pos": [
                 300,
-                39
+                104
             ],
             "physic_objects": {
                 "fixtures": [
                     {
                         "type": "box",
-                        "user_data": 12,
-                        "sensor": true
+                        "user_data": 12
                     }
                 ],
                 "type": "static"
             },
             "type": "Image",
-            "path": "data/sprites/ladder.png",
+            "path": "data/sprites/cube.png",
             "id": 0,
             "size": [
-                55,
-                85
+                20,
+                20
+            ]
+        },
+        {
+            "layer": 3,
+            "pos": [
+                320,
+                104
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/cube.png",
+            "id": 0,
+            "size": [
+                20,
+                20
             ]
         },
         {

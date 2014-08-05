@@ -12,6 +12,8 @@ class CatAnimation(PlayerAnimation):
         self.obj = object
         self.img = None
         self.nmb = 0
+        self.in_area_left = False
+        self.in_area_right = False
         if isinstance(level_manager.level, GameState):
             self.player = level_manager.level.player
     
@@ -27,19 +29,19 @@ class CatAnimation(PlayerAnimation):
 
 
         for event in physics_events:
-            if ((event.a.userData == 5 and not self.player.anim.direction and self.player.anim.attacking>1) or \
-                (event.a.userData == 6 and self.player.anim.direction and self.player.anim.attacking>1)) \
-                and event.b.userData == self.nmb:
-                log("Death from a: "+str(event.a.userData)+" b: "+str(event.b.userData))
-                self.obj.remove = True
+            if ((event.a.userData == 5 and event.b.userData == self.nmb) or \
+                    (event.b.userData == 5 and event.a.userData == self.nmb)):
 
-                break
-            elif ((event.b.userData == 5 and not self.player.anim.direction and self.player.anim.attacking > 1) or \
-                (event.b.userData == 6 and self.player.anim.direction and self.player.anim.attacking > 1)) \
-                and event.a.userData == self.nmb:
-                log("Death from a: "+str(event.a.userData)+" b: "+str(event.b.userData))
+                self.in_area_left = event.begin
+            elif (event.b.userData == 6 and event.a.userData == self.nmb) or\
+                    (event.a.userData == 6 and event.b.userData == self.nmb):
+                self.in_area_right = event.begin
+        if self.in_area_left:
+            if not self.player.anim.direction and self.player.anim.attacking>1:
                 self.obj.remove = True
-                break
+        if self.in_area_right:
+            if self.player.anim.direction and self.player.anim.attacking > 1:
+                self.obj.remove = True
         if self.obj.remove:
             physics_manager.remove_body(self.obj.body)
     @staticmethod
