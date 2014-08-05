@@ -26,6 +26,7 @@ class PlayerAnimation(Animation):
         self.wall = 0 #None=0, Left=1, Right=2
         self.wall_speed = 2.5
         self.wall_jump_step = 0
+        self.not_sliding_wall = 0
 
         self.attacking = 0
         self.attack_time = 30
@@ -53,7 +54,7 @@ class PlayerAnimation(Animation):
         physics_events = get_physics_event()
         
         for event in physics_events:
-            log("Physics: "+str(event.a.userData)+" "+str(event.b.userData))
+
             if (event.a.userData == 2 and 15 >= event.b.userData >= 11 ) or \
                     ( event.b.userData == 2 and 15 >= event.a.userData >= 11):
                 if event.begin:
@@ -66,15 +67,34 @@ class PlayerAnimation(Animation):
                     self.wall = 1
                 else:
                     self.wall = 0
+
             elif (event.a.userData == 4 and event.b.userData == 11 ) or \
                     ( event.b.userData == 4  and event.a.userData == 11):
                 if event.begin:
                     self.wall = 2
                 else:
                     self.wall = 0
-            if (event.a.userData == 1 and event.b.userData >= 20 ) or \
+            elif (event.a.userData == 3 and 15 >= event.b.userData > 11 ) or \
+                    ( event.b.userData == 3  and 15 >= event.a.userData > 11):
+                log("Physics: "+str(event.a.userData)+" "+str(event.b.userData))
+                if event.begin:
+                    self.not_sliding_wall = 1
+                else:
+                    self.not_sliding_wall = 0
+
+            elif (event.a.userData == 4 and 15 >= event.b.userData > 11 ) or \
+                    ( event.b.userData == 4  and 15 >= event.a.userData > 11):
+                log("Physics: "+str(event.a.userData)+" "+str(event.b.userData))
+                if event.begin:
+                    self.not_sliding_wall = 2
+                else:
+                    self.not_sliding_wall = 0
+            elif (event.a.userData == 1 and event.b.userData >= 20 ) or \
                     ( event.b.userData == 1 and event.a.userData >= 20):
                 log("Touched by cat")
+            if (event.a.userData == 1 and event.b.userData == 13 ) or \
+                    ( event.b.userData == 1 and event.a.userData == 13):
+                log("Touched by spike")
 
 
         if A_BUTTON and ((self.foot and self.jump_step) or (not self.foot and self.jump_step and self.wall)):
@@ -108,7 +128,7 @@ class PlayerAnimation(Animation):
                 self.state = 'move'
             self.player.flip = True
 
-            if self.wall != 1 and self.wall_jump_step == 0:
+            if self.wall != 1 and self.wall_jump_step == 0 and self.not_sliding_wall != 1:
                 physics_manager.move(self.player.body, -self.speed)
         elif horizontal == 1:
             #RIGHT
@@ -117,7 +137,7 @@ class PlayerAnimation(Animation):
                 self.state = 'move'
             self.player.flip = False
 
-            if self.wall != 2 and self.wall_jump_step == 0:
+            if self.wall != 2 and self.wall_jump_step == 0 and self.not_sliding_wall != 2:
                 physics_manager.move(self.player.body, self.speed)
         else:
             if self.foot:

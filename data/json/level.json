@@ -128,7 +128,7 @@
             "layer": 3,
             "pos": [
                 300,
-                104
+                84
             ],
             "physic_objects": {
                 "fixtures": [
@@ -143,27 +143,28 @@
             "path": "data/sprites/cube.png",
             "id": 0,
             "size": [
-                20,
-                20
+                40,
+                40
             ]
         },
+
         {
             "layer": 3,
             "pos": [
-                320,
+                340,
                 104
             ],
             "physic_objects": {
                 "fixtures": [
                     {
                         "type": "box",
-                        "user_data": 12
+                        "user_data": 13
                     }
                 ],
                 "type": "static"
             },
             "type": "Image",
-            "path": "data/sprites/cube.png",
+            "path": "data/sprites/spike.png",
             "id": 0,
             "size": [
                 20,
