@@ -6,7 +6,7 @@ from engine.init import engine
 from engine.vector import Vector2
 
 
-__author__ = 'Elias'
+__author__ = 'Elias, Tenchi'
 
 
 class SFMLImgManager(ImgManager):
@@ -43,17 +43,7 @@ class SFMLImgManager(ImgManager):
             return
         try:
             sprite = image
-            origin_pos = engine.get_origin_pos()
-            screen_diff_ratio = engine.get_ratio()
 
-            if new_size:
-                text_size = None
-
-                if isinstance(sprite, sfml.Sprite):
-                    text_size = Vector2(sprite.texture.size)
-                else:
-                    text_size = new_size
-                # sprite.ratio = (new_size * screen_diff_ratio / text_size).get_tuple()
             if angle != 0:
                 sprite.rotation = angle
 
@@ -62,7 +52,7 @@ class SFMLImgManager(ImgManager):
                     sprite.texture_rectangle = (sfml.Rectangle(sfml.Vector2(sprite.texture.width, 0), sfml.Vector2(-sprite.texture.width, sprite.texture.height)))
                 else:
                     sprite.texture_rectangle = (sfml.Rectangle(sfml.Vector2(0, 0), sfml.Vector2(sprite.texture.width, sprite.texture.height)))
-            # sprite.position = (origin_pos + pos * screen_diff_ratio).get_int_tuple()
+
             sprite.position = pos.get_int_tuple()
             self.buffer.draw(sprite)
 
