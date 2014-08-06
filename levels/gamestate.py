@@ -36,11 +36,17 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         self.checkpoints = []
         self.last_checkpoint = Vector2()
 
+        self.checkpoint_sound = snd_manager.load_sound("data/sound/Checkpoint.wav")
+
     def update_checkpoints(self):
         player_pos = self.player.pos+self.player.screen_relative_pos*engine.screen_size
+        new_checkpoint = Vector2()
         for checkpoint in self.checkpoints:
-            if self.last_checkpoint.x < checkpoint.x < player_pos.x:
-                self.last_checkpoint = checkpoint
+            if new_checkpoint.x < checkpoint.x < player_pos.x:
+                new_checkpoint = checkpoint
+        if new_checkpoint.x > self.last_checkpoint.x:
+            snd_manager.play_sound(self.checkpoint_sound)
+            self.last_checkpoint = new_checkpoint
 
     def set_player_to_checkpoint(self):
         log("Last checkpoint: "+str(self.last_checkpoint.get_tuple()))

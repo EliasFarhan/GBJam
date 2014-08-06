@@ -21,7 +21,7 @@ class Kwakwa(Scene):
                           size=Vector2(160,144))
         self.text.init_image()
         self.count = 4 * CONST.framerate
-        snd_manager.play_music("data/sound/pissed_off_duck.wav")
+        snd_manager.play_music("data/sound/kwakwa.ogg")
         self.screen_pos = Vector2()
 
     def loop(self, screen):
