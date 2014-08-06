@@ -13,6 +13,7 @@ from event.physics_event import get_physics_event
 from engine.init import engine
 from animation.animation_main import Animation
 from physics_engine.physics_manager import physics_manager
+from render_engine.snd_manager import snd_manager
 
 
 class PlayerAnimation(Animation):
@@ -35,6 +36,8 @@ class PlayerAnimation(Animation):
         self.attack_time = 30
 
         self.transition = 1.0
+
+        self.jump_sound = snd_manager.load_sound("data/sound/Jump2.wav")
 
 
     def load_images(self, size=None, tmp=False):
@@ -118,6 +121,7 @@ class PlayerAnimation(Animation):
                 physics_manager.move(self.player.body, vx=-self.speed)
                 self.wall_jump_step = CONST.wall_jump
             physics_manager.jump(self.player.body)
+            snd_manager.play_sound(self.jump_sound)
             self.jump_step -= 1
         elif not self.foot and not self.wall :
             self.jump_step = 0
