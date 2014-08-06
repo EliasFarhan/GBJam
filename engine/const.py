@@ -17,21 +17,22 @@ def log(text, error=0):
     """
     Log a message into the stdout or the stdin
     """
-    if error == 0:
-        if CONST.render != "pookoo":
-            sys.stdout.write(str(text) + "\n")
-            sys.stdout.flush()
-        else:
-            from pookoo import log as pookoo_log
-            pookoo_log.info(str(text) + "\n")
+    if CONST.debug:
+        if error == 0:
+            if CONST.render != "pookoo":
+                sys.stdout.write(str(text) + "\n")
+                sys.stdout.flush()
+            else:
+                from pookoo import log as pookoo_log
+                pookoo_log.info(str(text) + "\n")
 
-    else:
-        if CONST.render != "pookoo":
-            sys.stderr.write(str(text) + "\n")
-            sys.stderr.flush()
         else:
-            from pookoo import log as pookoo_log
-            pookoo_log.error(str(text) + "\n")
+            if CONST.render != "pookoo":
+                sys.stderr.write(str(text) + "\n")
+                sys.stderr.flush()
+            else:
+                from pookoo import log as pookoo_log
+                pookoo_log.error(str(text) + "\n")
 
 
 #constant for physics and gameplay
@@ -79,7 +80,7 @@ class CONST:
     @staticmethod
     def parse_const(init_filename):
         init_json = load_json(CONST.path_prefix + 'data/json/init.json')
-        log(init_json)
+        #log(init_json)
         if init_json:
             for const in init_json.items():
                 '''Check key'''
@@ -89,7 +90,7 @@ class CONST:
                         char_check = False
                 if char_check:
                     try:
-                        log(str(const))
+                        #log(str(const))
                         data = const[1]
                         if isinstance(data, CONST.string_type):
                             data = "'" + data + "'"

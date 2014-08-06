@@ -66,7 +66,9 @@ class Engine():
                 f(self.screen)
             if input_manager.get_button('reset'):
                 from levels.gamestate import GameState
-                level_manager.switch_level(GameState(CONST.startup))
+                new_level = GameState(CONST.startup)
+                new_level.last_checkpoint = level_manager.level.last_checkpoint
+                level_manager.switch_level(new_level)
             self.post_update()
 
     def pre_update(self):

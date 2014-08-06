@@ -7,6 +7,7 @@ import json
 from numbers import Number
 
 from engine.const import log,CONST
+from engine.vector import Vector2
 from game_object.game_object_main import GameObject
 from game_object.image import Image
 from json_export.json_main import load_json, get_element, write_json
@@ -85,6 +86,15 @@ def load_level(level):
                 elif isinstance(object_data,dict):
                     image_type = get_element(object_data,"type")
                     load_image_from_json(object_data,level,image_type)
+
+        checkpoints = get_element(level_data, 'checkpoints')
+        if checkpoints:
+            log("CHECKPOINTS LIST: "+str(checkpoints))
+            v_checkpoints = []
+            for c in checkpoints:
+                v_checkpoints.append(Vector2(c))
+            level.checkpoints = v_checkpoints
+
         log("END OF LOADING")
         return True
     return False

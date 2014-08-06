@@ -137,7 +137,7 @@ class SFMLEngine(Engine):
 
                 float val = (sum.r + sum.g + sum.b) / 3.0;
                 val = pow(val, 0.65);
-                gl_FragColor = vec4(col2*1.8, (1-val)*0.75);
+                gl_FragColor = vec4(col2*1.8, (1.0-val)*0.75);
             }
 
         """

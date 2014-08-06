@@ -7,7 +7,12 @@
     ], 
     "gui": "data/json/gui.json", 
     "player": "data/json/player.json", 
-    "show_mouse": true, 
+    "show_mouse": true,
+    "checkpoints": [
+        [0,0],
+        [817,212],
+        [1150,80]
+    ],
     "objects": [
         {
             "layer": 3, 
@@ -200,7 +205,7 @@
                 800,
                 14
             ],
-            "nmb_size": 5,
+            "nmb_size": 15,
             "physic_objects": {
                 "fixtures": [
                     {
@@ -220,7 +225,7 @@
                 258
             ],
             "nmb_size": [
-                8,
+                6,
                 2
             ],
             "physic_objects": {
@@ -238,6 +243,20 @@
         {
             "layer": 3,
             "pos": [
+                900,
+                207
+            ],
+            "type": "Image",
+            "path": "data/sprites/background/CatWall.png",
+            "id": 0,
+            "size": [
+                43,
+                51
+            ]
+        },
+        {
+            "layer": 3,
+            "pos": [
                 817,
                 244
             ],
@@ -248,12 +267,12 @@
         {
             "layer": 3,
             "pos": [
-                1161,
+                1097,
                 114
             ],
             "nmb_size": [
-                5,
-                13
+                4,
+                14
             ],
             "physic_objects": {
                 "fixtures": [
@@ -270,20 +289,50 @@
         {
             "layer": 3,
             "pos": [
-                1123,
+                1059,
                 244
             ],
             "nmb_size": 5,
             "type": "extensions.game_object.stump.Stump",
             "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                1097,
+                114
+            ],
+            "nmb_size": [
+                10,
+                2
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                1200,
+                63
+            ],
+            "type": "Image",
+            "path": "data/sprites/background/CatWall.png",
+            "id": 0,
+            "size": [
+                43,
+                51
+            ]
         }
-    ], 
-    "checkpoints": [
-        [
-            0, 
-            0
-        ]
-    ], 
+    ],
     "physics": true, 
     "events": {
         "on_init": "data/json/event.json"

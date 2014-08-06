@@ -32,6 +32,24 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
 
         self.game_over_text = Text(pos=engine.screen_size*Vector2(1/2.0,1.0/4), size=20, font="data/font/pixel_arial.ttf",text="Game Over", center=True, relative=True)
         self.game_over = False
+
+        self.checkpoints = []
+        self.last_checkpoint = Vector2()
+
+    def update_checkpoints(self):
+        player_pos = self.player.pos+self.player.screen_relative_pos*engine.screen_size
+        for checkpoint in self.checkpoints:
+            if self.last_checkpoint.x < checkpoint.x < player_pos.x:
+                self.last_checkpoint = checkpoint
+
+    def set_player_to_checkpoint(self):
+        log("Last checkpoint: "+str(self.last_checkpoint.get_tuple()))
+        player_pos = self.player.pos + self.player.screen_relative_pos*engine.screen_size
+        new_pos = self.last_checkpoint
+        if self.player.body:
+            body_pos = physics_manager.get_body_position(self.player.body)
+            physics_manager.set_body_position(self.player.body,body_pos+new_pos-player_pos)
+
     def init(self, loading=False):
 
         physics_manager.init_world()
@@ -56,6 +74,7 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
             self.execute_event('on_init')
         log("GAMESTATE INIT OVER")
 
+        self.set_player_to_checkpoint()
     def execute_event(self, name):
         try:
             if self.event[name]:
@@ -125,6 +144,8 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         '''Editor'''
         if CONST.debug:
             Editor.loop(self, screen, self.screen_pos)
+
+        self.update_checkpoints()
 
         if self.game_over:
             self.lock = True
