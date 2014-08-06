@@ -57,7 +57,7 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
             physics_manager.set_body_position(self.player.body,body_pos+new_pos-player_pos)
 
     def init(self, loading=False):
-
+        snd_manager.set_playlist([])
         physics_manager.init_world()
         self.objects = [ [] for i in range(CONST.layers) ]
         self.screen_pos = Vector2()

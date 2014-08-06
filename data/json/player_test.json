@@ -1,0 +1,64 @@
+{
+	"type": "Image",
+	"pos": [[0,0],[0.1,0.611]],
+	"size": [32,32],
+	"layer": 4,
+	"anim": {
+		"anim_type": "animation.player_animation.PlayerAnimation",
+		"root_path": "data/sprites/hero/",
+		"path_list": ["move/", "jump/", "still/"],
+		"state_range": {
+			"move": [0,3],
+			"jump": [3,4],
+			"still": [4,5]
+		}
+	},
+	"physic_objects": {
+		"type": "dynamic",
+		"mass": 60,
+		"fixtures": [
+			{
+				"user_data": 1,
+				"type": "box",
+				"size": [11,10]
+			},
+			{
+				"user_data": 2,
+				"type": "box",
+				"pos": [0,11],
+				"size": [10.5,1],
+				"sensor": true
+			},
+			{
+				"user_data": 3,
+				"type": "box",
+				"pos": [-11,0],
+				"size": [1.5,9.75],
+				"sensor": true
+			},
+			{
+				"user_data": 4,
+				"type": "box",
+				"pos": [11,0],
+				"size": [1.5,9.75],
+				"sensor": true
+			},
+			{
+				"user_data": 5,
+				"type": "box",
+				"pos": [-11,0],
+				"size": [10,5],
+				"sensor": true
+			},
+			{
+				"user_data": 6,
+				"type": "box",
+				"pos": [11,0],
+				"size": [10,5],
+				"sensor": true
+			}
+
+		]
+	}
+
+}

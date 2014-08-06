@@ -180,11 +180,11 @@
         {
             "layer": 3,
             "pos": [
-                850,
+                875,
                 50
             ],
             "nmb_size": [
-                5,
+                3,
                 10
             ],
             "physic_objects": {
@@ -202,10 +202,10 @@
         {
             "layer": 3,
             "pos": [
-                800,
+                825,
                 14
             ],
-            "nmb_size": 15,
+            "nmb_size": 12,
             "physic_objects": {
                 "fixtures": [
                     {

@@ -1,16 +1,16 @@
 {
 	"type": "Image",
-	"pos": [[0,0],[0.1,0.611]],
-	"size": [32,32],
+	"pos": [[0,0],[0.1,0.465]],
+	"size": [48,48],
 	"layer": 4,
 	"anim": {
 		"anim_type": "animation.player_animation.PlayerAnimation",
-		"root_path": "data/sprites/hero/",
-		"path_list": ["move/", "jump/", "still/"],
+		"root_path": "data/sprites/",
+		"path_list": ["ferret/"],
 		"state_range": {
-			"move": [0,3],
-			"jump": [3,4],
-			"still": [4,5]
+			"move": [0,1],
+			"jump": [0,1],
+			"still": [0,1]
 		}
 	},
 	"physic_objects": {
@@ -20,27 +20,27 @@
 			{
 				"user_data": 1,
 				"type": "box",
-				"size": [11,10]
+				"size": [17,23]
 			},
 			{
 				"user_data": 2,
 				"type": "box",
-				"pos": [0,11],
-				"size": [10.5,1],
+				"pos": [0,24],
+				"size": [16.5,1],
 				"sensor": true
 			},
 			{
 				"user_data": 3,
 				"type": "box",
-				"pos": [-11,0],
-				"size": [1.5,9.75],
+				"pos": [-16,0],
+				"size": [1.5,22.75],
 				"sensor": true
 			},
 			{
 				"user_data": 4,
 				"type": "box",
-				"pos": [11,0],
-				"size": [1.5,9.75],
+				"pos": [16,0],
+				"size": [1.5,22.75],
 				"sensor": true
 			},
 			{

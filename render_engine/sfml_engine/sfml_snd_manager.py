@@ -19,11 +19,12 @@ class SFMLSndManager(SndManager):
 
     def set_playlist(self,music_list):
         self.playlist = music_list
-        self.music = sfml.Music.from_file(self.playlist[0])
-        self.music.play()
+        if self.playlist != []:
+            self.music = sfml.Music.from_file(self.playlist[0])
+            self.music.play()
 
     def update_music_status(self):
-        if self.music is not None:
+        if self.music is not None and self.playlist != []:
             if self.music.status == sfml.Music.STOPPED:
                 self.music_index = (self.music_index + 1) % len(self.playlist)
                 self.music = sfml.Music.from_file(self.playlist[self.music_index])
