@@ -5,6 +5,8 @@ from render_engine.img_manager import ImgManager
 from engine.init import engine
 from engine.vector import Vector2
 
+from render_engine.snd_manager import snd_manager
+
 __author__ = 'Elias, Tenchi'
 
 
@@ -28,12 +30,16 @@ class TextBox():
             self.text[i].position = (4 + (1 if i > 0 else 0) * 8, 4 + 10*i)
         self.text[0].string = speaker.upper()
 
-        self.rect = sfml.RectangleShape(self.size)
+        self.sound = snd_manager.load_sound("data/sound/Text.wav")
+
+        self.rect = sfml.RectangleShape((self.size[0] - 2, self.size[1] - 2))
+        self.rect.move((1,1))
         self.rect.fill_color = sfml.Color(170, 170, 170)
-        # self.rect.outline_color = sfml.Color(85, 85, 85)
-        # self.rect.outline_thickness = 4
+        self.rect.outline_color = sfml.Color(85, 85, 85)
+        self.rect.outline_thickness = 4
         self.current = 0
         self.line_counter = 0
+        # self.char_counter = 0
 
     def swap(self):
         self.current = 1 - self.current
@@ -52,7 +58,14 @@ class TextBox():
             lenA0 = len(self.text[self.current + 1].string)
             lenA1 = len(self.lines[self.line_counter])
             if (lenA0 < lenA1):
-                self.text[self.current + 1].string += self.lines[self.line_counter][lenA0]
+                char = self.lines[self.line_counter][lenA0]
+                self.text[self.current + 1].string += char
+                # if (char != " " and self.char_counter % 1 == 0):
+                if (char != " "):
+                    snd_manager.play_sound(self.sound)
+                # self.char_counter += 1
+                # if (char == " "):
+                #     self.char_counter = 0
             else:
                 self.swap()
                 self.line_counter += 1
