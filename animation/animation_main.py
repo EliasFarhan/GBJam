@@ -51,7 +51,7 @@ class Animation():
         if self.obj:
             self.obj.update_rect()
 
-    def update_animation(self,state="",invert=False):
+    def update_animation(self,state="",invert=False,lock=False):
         if state != "":
             self.state = state
         if self.anim_counter == self.anim_freq:

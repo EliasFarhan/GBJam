@@ -18,5 +18,6 @@
 	"network": false,
 	"host": "localhost",
 	"port": 12345,
-	"debug": true
+	"debug": true,
+	"invincibility": 60
 }

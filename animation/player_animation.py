@@ -22,6 +22,7 @@ class PlayerAnimation(Animation):
         self.foot = 0
         self.player = self.obj
         self.speed = 3
+        self.life = 3
         self.gravity = 30.0/60
         self.direction = True #True for right
         self.jump_step = CONST.jump_step
@@ -31,6 +32,9 @@ class PlayerAnimation(Animation):
         self.not_sliding_wall = 0
 
         self.touched = False
+
+        self.invincibility = 0
+        self.show_frequency = 10
 
         self.attacking = 0
         self.attack_time = 30
@@ -43,17 +47,24 @@ class PlayerAnimation(Animation):
     def load_images(self, size=None, tmp=False):
         Animation.load_images(self, size=size, tmp=tmp)
     
-    def update_animation(self, state="", invert=False):
+    def update_animation(self, state="", invert=False,lock=False):
         self.update_state()
-        return Animation.update_animation(self, state=state, invert=invert)
+        return Animation.update_animation(self, state=state, invert=invert,lock=lock)
 
-    def update_state(self):
+    def update_state(self,lock=False):
         RIGHT = input_manager.get_button('RIGHT')
         LEFT = input_manager.get_button('LEFT')
         UP = input_manager.get_button('UP')
         DOWN = input_manager.get_button('DOWN')
         A_BUTTON = input_manager.get_button('A')
         B_BUTTON = input_manager.get_button('B')
+        if lock or self.life == 0:
+            RIGHT = False
+            LEFT = False
+            UP = False
+            DOWN = False
+            A_BUTTON = False
+            B_BUTTON = False
         
         horizontal = RIGHT-LEFT
         vertical = UP-DOWN
@@ -101,15 +112,26 @@ class PlayerAnimation(Animation):
                 log("Touched by cat")
                 if event.begin:
                     self.touched = True
+                else:
+                    self.touched = False
             if (event.a.userData == 1 and event.b.userData == 13 ) or \
                     ( event.b.userData == 1 and event.a.userData == 13):
                 log("Touched by spike")
                 if event.begin:
                     self.touched = True
+                else:
+                    self.touched = False
 
-        if self.touched:
-            level_manager.level.game_over = True
-            return
+
+
+        if self.touched and not self.invincibility:
+            self.life -= 1
+            self.invincibility = CONST.invincibility
+            if self.life == 0:
+                level_manager.level.game_over = True
+
+        if self.invincibility:
+            self.invincibility -= 1
 
         if A_BUTTON and ((self.foot and self.jump_step) or (not self.foot and self.jump_step and self.wall)):
             if self.wall == 1:

@@ -127,8 +127,7 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
 
 
 
-        if not self.lock:
-            physics_manager.loop()
+        physics_manager.loop()
 
 
         '''Show images'''

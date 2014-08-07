@@ -39,6 +39,7 @@ class Image(GameObject):
         
         self.center_image = False
         self.tmp = False
+        self.show = True
         self.update_rect()
 
     def init_image(self,size=None):
@@ -51,9 +52,13 @@ class Image(GameObject):
             self.rect = Rect(self.pos, self.size)
 
     def loop(self, screen, lock=False):
-        if self.anim and not lock:
-            self.anim.update_animation()
+        if self.anim:
+            self.anim.update_animation(lock=lock)
             self.img = self.anim.img
+            try:
+                self.show = (self.anim.invincibility % (self.anim.show_frequency*2)) < self.anim.show_frequency
+            except AttributeError:
+                pass
         pos = Vector2()
         if self.pos:
             pos = self.pos
@@ -72,8 +77,9 @@ class Image(GameObject):
             center_image = self.center_image
         except AttributeError:
             pass
-            
-        img_manager.show_image(self.img,
+
+        if self.show:
+            img_manager.show_image(self.img,
                    screen,
                    pos,
                    new_size=self.size,

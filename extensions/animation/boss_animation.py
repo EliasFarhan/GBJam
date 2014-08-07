@@ -23,7 +23,7 @@ class BossAnimation(PlayerAnimation):
 
 
 
-    def update_animation(self, state="", invert=False):
+    def update_animation(self, state="", invert=False,lock=False):
         self.update_state()
         Animation.update_animation(self)
 
