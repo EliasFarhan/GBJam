@@ -220,6 +220,16 @@
             "id": 0
         },
         {
+            "layer": 4,
+            "pos": [
+                860,
+                232
+            ],
+            "nmb_size": 5,
+            "type": "extensions.game_object.front_grass.FrontGrass",
+            "id": 0
+        },
+        {
             "layer": 3,
             "pos": [
                 900,

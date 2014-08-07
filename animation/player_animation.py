@@ -72,7 +72,6 @@ class PlayerAnimation(Animation):
         physics_events = get_physics_event()
         
         for event in physics_events:
-
             if (event.a.userData == 2 and 15 >= event.b.userData >= 11 ) or \
                     ( event.b.userData == 2 and 15 >= event.a.userData >= 11):
                 if event.begin:
