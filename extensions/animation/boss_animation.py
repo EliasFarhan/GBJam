@@ -1,3 +1,5 @@
+__author__ = 'efarhan'
+
 from animation.animation_main import Animation
 from animation.player_animation import PlayerAnimation
 from engine import level_manager
@@ -8,7 +10,7 @@ from physics_engine.physics_manager import physics_manager
 
 __author__ = 'Elias'
 
-class CatAnimation(PlayerAnimation):
+class BossAnimation(PlayerAnimation):
     def __init__(self,object):
         Animation.__init__(self,object)
         self.obj = object
@@ -18,7 +20,7 @@ class CatAnimation(PlayerAnimation):
         self.in_area_right = False
         if isinstance(level_manager.level, GameState):
             self.player = level_manager.level.player
-    
+
 
 
     def update_animation(self, state="", invert=False):

@@ -303,7 +303,7 @@
                 114
             ],
             "nmb_size": [
-                10,
+                20,
                 2
             ],
             "physic_objects": {
@@ -331,6 +331,74 @@
                 43,
                 51
             ]
+        },
+        {
+            "_comment": "cat_evil",
+            "layer": 4,
+            "pos": [
+                1400,
+                66
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 20,
+                        "sensor": true
+                    }
+                ],
+                "type": "dynamic"
+            },
+            "type": "Image",
+            "id": 0,
+            "size": [
+                48,
+                48
+            ],
+            "anim": {
+                "anim_type": "extensions.animation.cat_animation.CatAnimation",
+                "root_path": "data/sprites/",
+                "path_list": ["cat/"],
+                "state_range": {
+                    "move": [0,1],
+                    "jump": [0,1],
+                    "still": [0,1]
+                }
+	        }
+        },
+        {
+            "_comment": "cat_evil",
+            "layer": 4,
+            "pos": [
+                1600,
+                66
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 21,
+                        "sensor": true
+                    }
+                ],
+                "type": "dynamic"
+            },
+            "type": "Image",
+            "id": 0,
+            "size": [
+                48,
+                48
+            ],
+            "anim": {
+                "anim_type": "extensions.animation.boss_animation.BossAnimation",
+                "root_path": "data/sprites/",
+                "path_list": ["boss/"],
+                "state_range": {
+                    "move": [0,1],
+                    "jump": [0,1],
+                    "still": [0,1]
+                }
+	        }
         }
     ],
     "physics": true, 

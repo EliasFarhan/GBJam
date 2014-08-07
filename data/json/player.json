@@ -46,15 +46,15 @@
 			{
 				"user_data": 5,
 				"type": "box",
-				"pos": [-11,0],
-				"size": [10,5],
+				"pos": [-16,0],
+				"size": [16,5],
 				"sensor": true
 			},
 			{
 				"user_data": 6,
 				"type": "box",
-				"pos": [11,0],
-				"size": [10,5],
+				"pos": [16,0],
+				"size": [16,5],
 				"sensor": true
 			}
 
