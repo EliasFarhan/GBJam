@@ -21,7 +21,7 @@
                 69
             ],
             "type": "Image",
-            "path": "data/sprites/background/CatWall.png",
+            "path": "data/sprites/foreground/CatWall.png",
             "id": 0, 
             "size": [
                 43,
@@ -115,9 +115,9 @@
             "layer": 3,
             "pos": [
                 500,
-                90
+                76
             ],
-            "nmb_size": 1,
+            "nmb_size": 2,
             "type": "extensions.game_object.stump.Stump",
             "id": 0
         },
@@ -125,55 +125,34 @@
             "layer": 3,
             "pos": [
                 550,
-                100
+                93
             ],
             "physic_objects": {
                 "fixtures": [
                     {
                         "type": "box",
-                        "user_data": 13
+                        "user_data": 13,
+                        "sensor": true
                     }
                 ],
                 "type": "static"
             },
             "type": "Image",
-            "path": "data/sprites/spike.png",
+            "path": "data/sprites/foreground/Spikes.png",
             "id": 0,
             "size": [
-                20,
-                20
+                37,
+                27
             ]
         },
+
         {
             "layer": 3,
             "pos": [
-                570,
-                100
+                587,
+                76
             ],
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box",
-                        "user_data": 13
-                    }
-                ],
-                "type": "static"
-            },
-            "type": "Image",
-            "path": "data/sprites/spike.png",
-            "id": 0,
-            "size": [
-                20,
-                20
-            ]
-        },
-        {
-            "layer": 3,
-            "pos": [
-                590,
-                90
-            ],
-            "nmb_size": 1,
+            "nmb_size": 2,
             "type": "extensions.game_object.stump.Stump",
             "id": 0
         },
@@ -247,7 +226,7 @@
                 207
             ],
             "type": "Image",
-            "path": "data/sprites/background/CatWall.png",
+            "path": "data/sprites/foreground/CatWall.png",
             "id": 0,
             "size": [
                 43,
@@ -264,6 +243,7 @@
             "type": "extensions.game_object.stump.Stump",
             "id": 0
         },
+
         {
             "layer": 3,
             "pos": [
@@ -289,22 +269,12 @@
         {
             "layer": 3,
             "pos": [
-                1059,
-                244
-            ],
-            "nmb_size": 5,
-            "type": "extensions.game_object.stump.Stump",
-            "id": 0
-        },
-        {
-            "layer": 3,
-            "pos": [
                 1097,
                 114
             ],
             "nmb_size": [
                 20,
-                2
+                3
             ],
             "physic_objects": {
                 "fixtures": [
@@ -316,8 +286,20 @@
                 "type": "static"
             },
             "type": "extensions.game_object.ground.Ground",
+            "id": 0,
+            "show_bottom": false
+        },
+        {
+            "layer": 3,
+            "pos": [
+                1059,
+                244
+            ],
+            "nmb_size": 5,
+            "type": "extensions.game_object.stump.Stump",
             "id": 0
         },
+
         {
             "layer": 3,
             "pos": [
@@ -325,7 +307,7 @@
                 63
             ],
             "type": "Image",
-            "path": "data/sprites/background/CatWall.png",
+            "path": "data/sprites/foreground/CatWall.png",
             "id": 0,
             "size": [
                 43,
