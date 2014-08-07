@@ -1,7 +1,7 @@
 from engine.const import log
 from event.event_engine import Event
 from json_export.json_main import get_element
-from render_engine import snd_manager
+from render_engine.snd_manager import snd_manager
 
 __author__ = 'efarhan'
 

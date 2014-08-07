@@ -226,7 +226,7 @@ class PlayerAnimation(Animation):
             if math.floor(pos_size_ratio.y)-math.floor(pos_ratio.y) == 1:
                 y_delta = (int(pos_size_ratio.y)-pos_ratio.y)/size_ratio.y
             y_pos = 144*(math.floor(pos_size_ratio.y)-y_delta)
-        elif 1200 > player_pos.x >= 1000:
+        elif 1100 > player_pos.x >= 1000:
             y_pos = self.player.pos.y
 
         level_manager.level.screen_pos = Vector2(player_pos.x, y_pos)

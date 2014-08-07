@@ -1,3 +1,10 @@
 {
 
+		"type": "event.audio_event.MusicEvent",
+		"playlist": [
+			"data/music/intro_th1_gbjam.ogg",
+			"data/music/loop_th1_gbjam.ogg"
+		]
+
+
 }

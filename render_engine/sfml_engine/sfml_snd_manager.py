@@ -26,7 +26,9 @@ class SFMLSndManager(SndManager):
     def update_music_status(self):
         if self.music is not None and self.playlist != []:
             if self.music.status == sfml.Music.STOPPED:
-                self.music_index = (self.music_index + 1) % len(self.playlist)
+                self.music_index = (self.music_index + 1)
+                if self.music_index == len(self.playlist):
+                    self.music_index = len(self.playlist)-1
                 self.music = sfml.Music.from_file(self.playlist[self.music_index])
                 self.music.play()
         delete_sounds = []
