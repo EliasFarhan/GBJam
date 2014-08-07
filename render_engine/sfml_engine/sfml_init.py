@@ -185,6 +185,10 @@ class SFMLEngine(Engine):
 
         self.dmg = sfml.RenderTexture(*self.res)
 
+        from sfml_img_manager import TextBox
+
+        self.textbox = TextBox("Kitler", "Surrender to our might, Fury! You have no chance to survive make your time. Your sneaky ferret ways will have no effect on our great feline superiority!")
+
 
     def init_level(self):
         from levels.loading_screen import LoadingScreen
@@ -208,6 +212,8 @@ class SFMLEngine(Engine):
         self.buf.draw(rect)
         rect.move((0, 148))
         self.buf.draw(rect)
+        # test textbox
+        self.buf.draw(self.textbox.sprite())
 
         clear = sfml.Color(0, 0, 0, 0)
         self.buf.display()
