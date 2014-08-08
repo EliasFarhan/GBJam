@@ -131,7 +131,10 @@ class Box2DPhysicsManager(PhysicsManager):
             else:
                 dyn_obj = body
                 pos = dyn_obj.position
-                dyn_obj.position = b2Vec2(pos[0]+vx*self.time_step,pos[1]+vy*self.time_step)
+                if vx is not None:
+                    dyn_obj.position = b2Vec2(pos[0]+vx*self.time_step,pos[1])
+                if vy is not None:
+                    dyn_obj.position = b2Vec2(pos[0],pos[1]+vy*self.time_step)
 
     def jump(self,dyn_obj, impulse=0):
         if impulse == 0:

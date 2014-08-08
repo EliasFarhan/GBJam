@@ -72,6 +72,7 @@ class PlayerAnimation(Animation):
         physics_events = get_physics_event()
         
         for event in physics_events:
+            #log("Physics collision: "+str(event.a.userData)+" "+str(event.b.userData)+" "+str(event.begin) +" "+str(physics_manager.get_body_position(self.obj.body).get_tuple()))
             if (event.a.userData == 2 and 15 >= event.b.userData >= 11 ) or \
                     ( event.b.userData == 2 and 15 >= event.a.userData >= 11):
                 if event.begin:
@@ -106,9 +107,16 @@ class PlayerAnimation(Animation):
                     self.not_sliding_wall = 2
                 else:
                     self.not_sliding_wall = 0
-            elif (event.a.userData == 1 and event.b.userData >= 20 ) or \
-                    ( event.b.userData == 1 and event.a.userData >= 20):
+            elif (event.a.userData == 1 and event.b.userData >= 20 and event.b.userData % 10 == 0) or \
+                    ( event.b.userData == 1 and event.a.userData >= 20 and event.a.userData % 10 == 0):
                 log("Touched by cat")
+                if event.begin:
+                    self.touched = True
+                else:
+                    self.touched = False
+            elif (event.a.userData == 1 and event.b.userData >= 20 and event.b.userData %10 != 0) or \
+                    ( event.b.userData == 1 and event.a.userData >= 20 and event.a.userData %10 != 0):
+                log("Touched by bullet")
                 if event.begin:
                     self.touched = True
                 else:
@@ -123,7 +131,7 @@ class PlayerAnimation(Animation):
 
 
 
-        if self.touched and not self.invincibility:
+        if self.touched and not self.invincibility and self.life > 0:
             self.life -= 1
             self.invincibility = CONST.invincibility
             if self.life == 0:
