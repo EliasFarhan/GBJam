@@ -329,47 +329,13 @@
             "layer": 4,
             "pos": [
                 1400,
-                66
+                30
             ],
             "physic_objects": {
                 "fixtures": [
                     {
                         "type": "box",
                         "user_data": 20,
-                        "sensor": true
-                    }
-                ],
-                "type": "dynamic"
-            },
-            "type": "Image",
-            "id": 0,
-            "size": [
-                48,
-                48
-            ],
-            "anim": {
-                "anim_type": "extensions.animation.cat_animation.CatAnimation",
-                "root_path": "data/sprites/",
-                "path_list": ["cat/"],
-                "state_range": {
-                    "move": [0,1],
-                    "jump": [0,1],
-                    "still": [0,1]
-                }
-	        }
-        },
-        {
-            "_comment": "cat_evil",
-            "layer": 4,
-            "pos": [
-                160,
-                50
-            ],
-            "physic_objects": {
-                "fixtures": [
-                    {
-                        "type": "box",
-                        "user_data": 30,
                         "sensor": true,
                         "size": [13,24]
                     }
@@ -394,18 +360,38 @@
 	        }
         },
         {
+            "layer": 3,
+            "pos": [
+                1400,
+                78
+            ],
+            "nmb_size": 6,
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.trunk.Trunk",
+            "id": 0
+        },
+        {
             "_comment": "cat_evil",
             "layer": 4,
             "pos": [
-                1600,
+                1570,
                 66
             ],
             "physic_objects": {
                 "fixtures": [
                     {
                         "type": "box",
-                        "user_data": 15,
-                        "sensor": true
+                        "user_data": 30,
+                        "sensor": true,
+                        "size": [13,24]
                     }
                 ],
                 "type": "dynamic"
@@ -417,9 +403,9 @@
                 48
             ],
             "anim": {
-                "anim_type": "extensions.animation.boss_animation.BossAnimation",
+                "anim_type": "extensions.animation.cat_animation.CatAnimation",
                 "root_path": "data/sprites/",
-                "path_list": ["boss/"],
+                "path_list": ["cat/"],
                 "state_range": {
                     "move": [0,1],
                     "jump": [0,1],

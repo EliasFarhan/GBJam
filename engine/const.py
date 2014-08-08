@@ -54,7 +54,7 @@ class CONST:
     """Physics"""
     gravity = 0
     move_speed = 2
-    jump = 13  #8.5
+    jump = 13.5  #8.5
     jump_step = 1
     scale_speed = 0.01
     ratio = 100/1.5

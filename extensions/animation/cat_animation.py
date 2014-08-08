@@ -35,11 +35,11 @@ class CatAnimation(PlayerAnimation):
         if self.nmb == 0:
             self.nmb = self.obj.body.fixtures[0].userData
             self.current_bullet = self.nmb + 1
-        for event in physics_events:
+        """for event in physics_events:
             log("Physics collision: "+str(event.a.userData)+" "+str(event.b.userData)+" "+str(event.begin) +
                 " "+str(physics_manager.get_body_position(self.obj.body).get_tuple())+
                 " "+str(physics_manager.get_body_position(level_manager.level.player.body).get_tuple()))
-
+        """
         player_pos = level_manager.level.player.pos + level_manager.level.player.screen_relative_pos*engine.screen_size
         if self.obj.pos.x+engine.screen_size.x > player_pos.x > self.obj.pos.x-engine.screen_size.x:
             self.active = True
@@ -65,7 +65,7 @@ class CatAnimation(PlayerAnimation):
                 self.bullets.remove(b)
             del remove_bullet[:]
 
-        self.obj.pos = physics_manager.get_body_position(self.obj.body)
+        self.obj.pos = physics_manager.get_body_position(self.obj.body)-self.obj.size/2
 
 
 
