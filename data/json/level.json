@@ -283,7 +283,7 @@
                 114
             ],
             "nmb_size": [
-                20,
+                30,
                 3
             ],
             "physic_objects": {
@@ -390,6 +390,86 @@
                     {
                         "type": "box",
                         "user_data": 30,
+                        "sensor": true,
+                        "size": [13,24]
+                    }
+                ],
+                "type": "dynamic"
+            },
+            "type": "Image",
+            "id": 0,
+            "size": [
+                48,
+                48
+            ],
+            "anim": {
+                "anim_type": "extensions.animation.cat_animation.CatAnimation",
+                "root_path": "data/sprites/",
+                "path_list": ["cat/"],
+                "state_range": {
+                    "move": [0,1],
+                    "jump": [0,1],
+                    "still": [0,1]
+                }
+	        }
+        },
+        {
+            "layer": 3,
+            "pos": [
+                1700,
+                70
+            ],
+            "nmb_size": 2,
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                1750,
+                87
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 13,
+                        "sensor": true
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "Image",
+            "path": "data/sprites/foreground/Spikes.png",
+            "id": 0,
+            "size": [
+                37,
+                27
+            ]
+        },
+
+        {
+            "layer": 3,
+            "pos": [
+                1787,
+                70
+            ],
+            "nmb_size": 2,
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
+        },
+        {
+            "_comment": "cat_evil",
+            "layer": 4,
+            "pos": [
+                1787,
+                25
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 40,
                         "sensor": true,
                         "size": [13,24]
                     }

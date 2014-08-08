@@ -1,6 +1,7 @@
 from engine.rect import Rect
 from engine.vector import Vector2
 from levels.loading_screen import LoadingScreen
+from levels.logo_dorian import Dorian
 from levels.scene import Scene
 from engine.init import engine
 from engine.const import CONST, log
@@ -30,7 +31,7 @@ class Kwakwa(Scene):
         self.text.loop(screen)
         if snd_manager.get_music_status():
             from engine.level_manager import switch_level
-            switch_level(GameState(CONST.startup))
+            switch_level(Dorian())
         snd_manager.update_music_status()
 
 

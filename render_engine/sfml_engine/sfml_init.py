@@ -213,7 +213,7 @@ class SFMLEngine(Engine):
         rect.move((0, 148))
         self.buf.draw(rect)
         # test textbox
-        self.buf.draw(self.textbox.sprite())
+        #self.buf.draw(self.textbox.sprite())
 
         clear = sfml.Color(0, 0, 0, 0)
         self.buf.display()
