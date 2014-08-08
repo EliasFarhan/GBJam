@@ -9,7 +9,6 @@ __author__ = 'Elias'
 
 class Bullet(Image):
     def __init__(self,pos,size,userData=0):
-        print "BULLET", userData
         GameObject.__init__(self)
         self.pos = pos
         self.size = size

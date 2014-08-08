@@ -32,6 +32,7 @@ class PlayerAnimation(Animation):
         self.not_sliding_wall = 0
 
         self.touched = False
+        self.cat_touched = False
 
         self.invincibility = 0
         self.show_frequency = 10
@@ -112,6 +113,7 @@ class PlayerAnimation(Animation):
                 log("Touched by cat")
                 if event.begin:
                     self.touched = True
+                    self.cat_touched = True
                 else:
                     self.touched = False
             elif (event.a.userData == 1 and event.b.userData >= 20 and event.b.userData %10 != 0) or \
@@ -136,6 +138,9 @@ class PlayerAnimation(Animation):
             self.invincibility = CONST.invincibility
             if self.life == 0:
                 level_manager.level.game_over = True
+            if self.cat_touched:
+                self.touched = False
+                self.cat_touched = False
 
         if self.invincibility:
             self.invincibility -= 1
