@@ -27,6 +27,8 @@ class CatAnimation(PlayerAnimation):
         self.bullet_time = 0
         self.current_bullet = 0
 
+        self.direction = -1#-1 left, 1 right
+
     def update_animation(self, state="", invert=False,lock=False):
         self.update_state()
         Animation.update_animation(self)
@@ -35,20 +37,20 @@ class CatAnimation(PlayerAnimation):
         if self.nmb == 0:
             self.nmb = self.obj.body.fixtures[0].userData
             self.current_bullet = self.nmb + 1
-        """for event in physics_events:
-            log("Physics collision: "+str(event.a.userData)+" "+str(event.b.userData)+" "+str(event.begin) +
-                " "+str(physics_manager.get_body_position(self.obj.body).get_tuple())+
-                " "+str(physics_manager.get_body_position(level_manager.level.player.body).get_tuple()))
-        """
+
         player_pos = level_manager.level.player.pos + level_manager.level.player.screen_relative_pos*engine.screen_size
         if self.obj.pos.x+engine.screen_size.x > player_pos.x > self.obj.pos.x-engine.screen_size.x:
             self.active = True
         else:
             self.active = False
-        if self.active:
+
+        if self.active and not self.obj.move:
             if self.bullet_time == 0:
-                log("PAN")
-                self.bullets.append(Bullet(self.obj.pos+Vector2(-10,17), Vector2(16,16),self.current_bullet))
+                self.bullets.append(Bullet(
+                                            pos=self.obj.pos+Vector2(-10,17),
+                                            size=Vector2(16,16),
+                                            userData=self.current_bullet,
+                                            speed=Vector2(self.direction*5,0)))
                 self.current_bullet += 1
                 if self.current_bullet == self.nmb + 10:
                     self.current_bullet = self.nmb + 1
@@ -65,6 +67,8 @@ class CatAnimation(PlayerAnimation):
                 self.bullets.remove(b)
             del remove_bullet[:]
 
+
+
         self.obj.pos = physics_manager.get_body_position(self.obj.body)-self.obj.size/2
 
 
@@ -80,6 +84,19 @@ class CatAnimation(PlayerAnimation):
             elif (event.b.userData == 6 and event.a.userData == self.nmb) or\
                     (event.a.userData == 6 and event.b.userData == self.nmb):
                 self.in_area_right = event.begin
+            elif self.obj.move and (( 15 > event.a.userData >= 11 and event.b.userData == self.nmb) or\
+                ( 15 > event.b.userData >= 11 and event.a.userData == self.nmb)):
+                if event.begin:
+                    self.direction = - self.direction
+
+        if self.obj.move:
+            physics_manager.move(self.obj.body, vx=self.direction*3)
+            self.state = 'move'
+            if self.direction == -1:
+                self.obj.flip = True
+            else:
+                self.obj.flip = False
+
         if self.in_area_left:
             if not self.player.anim.direction and self.player.anim.attacking>1:
                 self.obj.remove = True
@@ -88,6 +105,3 @@ class CatAnimation(PlayerAnimation):
                 self.obj.remove = True
         if self.obj.remove:
             physics_manager.remove_body(self.obj.body)
-    @staticmethod
-    def parse_animation(anim_data):
-        return CatAnimation(None)

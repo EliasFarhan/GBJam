@@ -11,11 +11,13 @@
     "checkpoints": [
         [0,0],
         [870,212],
-        [1150,80]
+        [1150,80],
+        [1900,80]
     ],
     "objects": [
         {
-            "layer": 3, 
+            "_comment": "First part",
+            "layer": 3,
             "pos": [
                 100,
                 69
@@ -27,6 +29,106 @@
                 43,
                 51
             ]
+        },
+        {
+            "layer": 4,
+            "pos": [
+                -40,
+                0
+            ],
+            "nmb_size": 12,
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                100,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud1.png",
+            "parallax_factor": 0.5,
+            "size": [
+                48,
+                27
+            ],
+            "id": 0
+        },
+
+        {
+            "layer": 1,
+            "pos": [
+                175,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud2.png",
+            "parallax_factor": 0.5,
+            "size": [
+                69,
+                33
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                250,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud1.png",
+            "parallax_factor": 0.5,
+            "size": [
+                48,
+                27
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                325,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud2.png",
+            "parallax_factor": 0.5,
+            "size": [
+                69,
+                33
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                0,
+                0
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/Background1.png",
+            "parallax_factor": 0.75,
+            "size": [
+                160,
+                144
+            ],
+            "id": 0
         },
         {
             "layer": 3,
@@ -157,6 +259,7 @@
             "id": 0
         },
         {
+            "_comment": "Going down 1 with first slide",
             "layer": 3,
             "pos": [
                 875,
@@ -253,7 +356,16 @@
             "type": "extensions.game_object.stump.Stump",
             "id": 0
         },
-
+        {
+            "layer": 3,
+            "pos": [
+                1059,
+                244
+            ],
+            "nmb_size": 5,
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
+        },
         {
             "layer": 3,
             "pos": [
@@ -269,6 +381,28 @@
                     {
                         "type": "box",
                         "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                1993,
+                121
+            ],
+            "nmb_size": [
+                2,
+                13
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
                     }
                 ],
                 "type": "static"
@@ -299,16 +433,7 @@
             "id": 0,
             "show_bottom": false
         },
-        {
-            "layer": 3,
-            "pos": [
-                1059,
-                244
-            ],
-            "nmb_size": 5,
-            "type": "extensions.game_object.stump.Stump",
-            "id": 0
-        },
+
 
         {
             "layer": 3,
@@ -342,7 +467,7 @@
                 ],
                 "type": "dynamic"
             },
-            "type": "Image",
+            "type": "extensions.game_object.cat.Cat",
             "id": 0,
             "size": [
                 48,
@@ -396,7 +521,7 @@
                 ],
                 "type": "dynamic"
             },
-            "type": "Image",
+            "type": "extensions.game_object.cat.Cat",
             "id": 0,
             "size": [
                 48,
@@ -476,7 +601,7 @@
                 ],
                 "type": "dynamic"
             },
-            "type": "Image",
+            "type": "extensions.game_object.cat.Cat",
             "id": 0,
             "size": [
                 48,
@@ -492,6 +617,214 @@
                     "still": [0,1]
                 }
 	        }
+        },
+         {
+            "layer": 3,
+            "pos": [
+                1950,
+                63
+            ],
+            "type": "Image",
+            "path": "data/sprites/foreground/CatWall.png",
+            "id": 0,
+            "size": [
+                43,
+                51
+            ]
+        },
+        {
+            "_comment": "Going down 2 with first slide",
+            "layer": 3,
+            "pos": [
+                2132,
+                50
+            ],
+            "nmb_size": [
+                3,
+                8
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                2082,
+                14
+            ],
+            "nmb_size": 12,
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.trunk.Trunk",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                2107,
+                258
+            ],
+            "nmb_size": [
+                6,
+                2
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0
+        },
+        {
+            "layer": 4,
+            "pos": [
+                2164,
+                232
+            ],
+            "nmb_size": 4,
+            "type": "extensions.game_object.front_grass.FrontGrass",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                2074,
+                244
+            ],
+            "nmb_size": 5,
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                2081,
+                222
+            ],
+            "nmb_size": 3,
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.trunk.Trunk",
+            "id": 0
+        },
+        {
+            "_comment": "cat_evil",
+            "layer": 3,
+            "pos": [
+                2268,
+                210
+            ],
+            "move": true,
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 60,
+                        "sensor": true,
+                        "size": [13,24]
+                    }
+                ],
+                "type": "dynamic"
+            },
+            "type": "extensions.game_object.cat.Cat",
+            "id": 0,
+            "size": [
+                48,
+                48
+            ],
+            "anim": {
+                "anim_type": "extensions.animation.cat_animation.CatAnimation",
+                "root_path": "data/sprites/",
+                "path_list": ["cat/","cat/walk/"],
+                "state_range": {
+                    "move": [1,5],
+                    "jump": [0,1],
+                    "still": [0,1]
+                }
+	        }
+        },
+        {
+            "layer": 3,
+            "pos": [
+                2316,
+                244
+            ],
+            "nmb_size": 5,
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                2354,
+                114
+            ],
+            "nmb_size": [
+                4,
+                14
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                2354,
+                114
+            ],
+            "nmb_size": [
+                30,
+                3
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0,
+            "show_bottom": false
         }
     ],
     "physics": true, 

@@ -98,7 +98,8 @@ class SFMLImgManager(ImgManager):
         return Vector2(image.texture.size)
 
     def load_image(self, name, tmp=False):
-        log("Loading image: "+name)
+        if name is None:
+            return None
         try:
             self.img_name[name]
         except KeyError:

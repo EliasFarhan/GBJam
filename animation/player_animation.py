@@ -32,6 +32,7 @@ class PlayerAnimation(Animation):
         self.not_sliding_wall = 0
 
         self.touched = False
+        self.cat_touched = False
 
         self.invincibility = 0
         self.show_frequency = 10
@@ -112,6 +113,7 @@ class PlayerAnimation(Animation):
                 log("Touched by cat")
                 if event.begin:
                     self.touched = True
+                    self.cat_touched = True
                 else:
                     self.touched = False
             elif (event.a.userData == 1 and event.b.userData >= 20 and event.b.userData %10 != 0) or \
@@ -136,6 +138,9 @@ class PlayerAnimation(Animation):
             self.invincibility = CONST.invincibility
             if self.life == 0:
                 level_manager.level.game_over = True
+            if self.cat_touched:
+                self.touched = False
+                self.cat_touched = False
 
         if self.invincibility:
             self.invincibility -= 1
@@ -249,13 +254,13 @@ class PlayerAnimation(Animation):
         level_manager.level.screen_pos = Vector2(160*(math.floor(pos_size_ratio.x)-x_delta), )
         """
         y_pos = 0
-        if 1000 > player_pos.x > 800:
+        if (1000 > player_pos.x > 800) or (2257 > player_pos.x > 2057):
             y_delta = 0
 
             if math.floor(pos_size_ratio.y)-math.floor(pos_ratio.y) == 1:
                 y_delta = (int(pos_size_ratio.y)-pos_ratio.y)/size_ratio.y
             y_pos = 144*(math.floor(pos_size_ratio.y)-y_delta)
-        elif 1100 > player_pos.x >= 1000:
+        elif (1100 > player_pos.x >= 1000) or (2357 > player_pos.x >= 2257):
             y_pos = self.player.pos.y
 
         level_manager.level.screen_pos = Vector2(player_pos.x, y_pos)

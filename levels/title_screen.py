@@ -19,7 +19,7 @@ class TitleScreen(Scene):
     def loop(self, screen):
         img_manager.draw_rect(screen, Vector2(), Rect(Vector2(0, 0), engine.get_screen_size()), (255, 255, 255))
 
-        if input_manager.get_button("A") or input_manager.get_button("START"):
+        if input_manager.get_button("A") or input_manager.get_button("B"):
             from engine.level_manager import switch_level
             switch_level(GameState(CONST.startup))
         snd_manager.update_music_status()
