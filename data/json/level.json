@@ -31,6 +31,71 @@
         {
             "layer": 3,
             "pos": [
+                100,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud1.png",
+            "parallax_factor": 0.5,
+            "size": [
+                48,
+                27
+            ],
+            "id": 0
+        },
+
+        {
+            "layer": 3,
+            "pos": [
+                175,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud2.png",
+            "parallax_factor": 0.5,
+            "size": [
+                69,
+                33
+            ],
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                250,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud1.png",
+            "parallax_factor": 0.5,
+            "size": [
+                48,
+                27
+            ],
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                325,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud2.png",
+            "parallax_factor": 0.5,
+            "size": [
+                69,
+                33
+            ],
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
                 736,
                 121
             ],

@@ -21,7 +21,8 @@ class Image(GameObject):
                  size=None,
                  angle=0,
                  relative=False,
-                 path=""):
+                 path="",
+                 parallax_factor=1.0):
         GameObject.__init__(self)
         self.anim = None
         self.flip = False
@@ -40,6 +41,7 @@ class Image(GameObject):
         self.center_image = False
         self.tmp = False
         self.show = True
+        self.parallax_factor = parallax_factor
         self.update_rect()
 
     def init_image(self,size=None):
@@ -70,7 +72,7 @@ class Image(GameObject):
             pos = self.pos
         else:
             from engine import level_manager
-            pos = pos - level_manager.level.screen_pos
+            pos -= level_manager.level.screen_pos * self.parallax_factor
         
         center_image = False
         try:
@@ -98,8 +100,12 @@ class Image(GameObject):
         if path is not None:
             path = CONST.path_prefix+path
 
+        parallax_factor = get_element(image_data, "parallax_factor")
+        if parallax_factor is None:
+            parallax_factor = 1.0
 
-        image = Image(pos, size=size, angle=angle,path=path)
+
+        image = Image(pos, size=size, angle=angle,path=path,parallax_factor=parallax_factor)
 
         tmp = get_element(image_data, "tmp")
         if tmp is not None:

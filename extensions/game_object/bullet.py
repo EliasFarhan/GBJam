@@ -11,6 +11,7 @@ class Bullet(Image):
     def __init__(self,pos,size,userData=0):
         GameObject.__init__(self)
         self.pos = pos
+        self.parallax_factor = 1.0
         self.size = size
         self.show = True
         self.flip = False
@@ -18,7 +19,3 @@ class Bullet(Image):
         physics_manager.add_box(self.body,Vector2(),Vector2(self.size.x/2,2),data=userData,sensor=True)
         physics_manager.move(self.body,vx=-5)
         self.anim = BulletAnimation(self)
-
-    @staticmethod
-    def parse_image(image_data, pos, size, angle):
-        pass
