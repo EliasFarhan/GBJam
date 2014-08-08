@@ -5,10 +5,10 @@
 	"layer": 4,
 	"anim": {
 		"anim_type": "animation.player_animation.PlayerAnimation",
-		"root_path": "data/sprites/",
-		"path_list": ["ferret/"],
+		"root_path": "data/sprites/ferret/",
+		"path_list": ["idle/", "run/" ],
 		"state_range": {
-			"move": [0,1],
+			"move": [1,5],
 			"jump": [0,1],
 			"still": [0,1]
 		}
