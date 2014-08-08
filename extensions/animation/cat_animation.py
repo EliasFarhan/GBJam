@@ -27,6 +27,8 @@ class CatAnimation(PlayerAnimation):
         self.bullet_time = 0
         self.current_bullet = 0
 
+        self.direction = -1#-1 left, 1 right
+
     def update_animation(self, state="", invert=False,lock=False):
         self.update_state()
         Animation.update_animation(self)
@@ -48,7 +50,11 @@ class CatAnimation(PlayerAnimation):
         if self.active:
             if self.bullet_time == 0:
                 log("PAN")
-                self.bullets.append(Bullet(self.obj.pos+Vector2(-10,17), Vector2(16,16),self.current_bullet))
+                self.bullets.append(Bullet(
+                                            pos=self.obj.pos+Vector2(-10,17),
+                                            size=Vector2(16,16),
+                                            userData=self.current_bullet,
+                                            speed=Vector2(self.direction*5,0)))
                 self.current_bullet += 1
                 if self.current_bullet == self.nmb + 10:
                     self.current_bullet = self.nmb + 1

@@ -8,7 +8,7 @@ from physics_engine.physics_manager import physics_manager, BodyType, MoveType
 __author__ = 'Elias'
 
 class Bullet(Image):
-    def __init__(self,pos,size,userData=0):
+    def __init__(self,pos,size,userData=0,speed=Vector2(-5,0)):
         GameObject.__init__(self)
         self.pos = pos
         self.parallax_factor = 1.0
