@@ -1,7 +1,7 @@
 from animation.animation_main import Animation
 from animation.player_animation import PlayerAnimation
 from engine import level_manager
-from engine.const import log
+from engine.const import log, CONST
 from engine.init import engine
 from engine.vector import Vector2
 from event.physics_event import physics_events
@@ -29,11 +29,14 @@ class CatAnimation(PlayerAnimation):
 
         self.direction = -1#-1 left, 1 right
 
+
     def update_animation(self, state="", invert=False,lock=False):
         self.update_state()
         Animation.update_animation(self)
 
     def update_state(self):
+        if not self.obj.move:
+            self.anim_freq = 2
         if self.nmb == 0:
             self.nmb = self.obj.body.fixtures[0].userData
             self.current_bullet = self.nmb + 1
@@ -46,6 +49,7 @@ class CatAnimation(PlayerAnimation):
 
         if self.active and not self.obj.move:
             if self.bullet_time == 0:
+                self.state = 'attack'
                 self.bullets.append(Bullet(
                                             pos=self.obj.pos+Vector2(-10,17),
                                             size=Vector2(16,16),
@@ -57,7 +61,8 @@ class CatAnimation(PlayerAnimation):
                 self.bullet_time = self.bullet_frequency
             else:
                 self.bullet_time -= 1
-
+                if self.state == 'attack' and self.bullet_time < self.bullet_frequency-3*self.anim_freq:
+                    self.state = 'still'
             remove_bullet = []
             for b in self.bullets:
                 b.loop(engine.screen,lock=False)
@@ -73,7 +78,7 @@ class CatAnimation(PlayerAnimation):
 
 
 
-        self.state = 'still'
+
 
 
         for event in physics_events:
@@ -92,10 +97,11 @@ class CatAnimation(PlayerAnimation):
         if self.obj.move:
             physics_manager.move(self.obj.body, vx=self.direction*3)
             self.state = 'move'
-            if self.direction == -1:
-                self.obj.flip = True
-            else:
-                self.obj.flip = False
+
+        if self.direction == -1:
+            self.obj.flip = True
+        else:
+            self.obj.flip = False
 
         if self.in_area_left:
             if not self.player.anim.direction and self.player.anim.attacking>1:

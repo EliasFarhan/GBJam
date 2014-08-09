@@ -73,6 +73,8 @@ class Image(GameObject):
         else:
             from engine import level_manager
             pos -= level_manager.level.screen_pos * self.parallax_factor
+            if pos.x > 160:
+                return
         
         center_image = False
         try:
