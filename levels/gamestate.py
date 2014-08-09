@@ -135,7 +135,7 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
         for i, layer in enumerate(self.objects):
             remove_image = []
             for j, img in enumerate(layer):
-                img.loop(screen, self.lock)
+                img.loop(screen)
                 if img.remove:
                     remove_image.append(img)
             for r in remove_image:

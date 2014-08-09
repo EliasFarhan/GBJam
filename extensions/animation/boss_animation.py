@@ -1,4 +1,5 @@
 from engine.init import engine
+from engine.stat import set_value, get_value
 from engine.vector import Vector2
 from render_engine.img_manager import img_manager
 
@@ -19,6 +20,7 @@ class BossAnimation(PlayerAnimation):
         Animation.__init__(self,object)
         self.obj = object
         self.img = None
+        self.dialog = False
         self.nmb = 0
         self.in_area_left = False
         self.in_area_right = False
@@ -40,8 +42,16 @@ class BossAnimation(PlayerAnimation):
 
         player_pos = self.player.pos + self.player.screen_relative_pos * engine.screen_size
 
-        if player_pos.x > 250:
+        if player_pos.x > 250 and not self.dialog:
+            self.dialog = True
+            engine.show_dialog = True
+            engine.textbox.set_text("Kitler", "We meet again, Fury")
+            level_manager.level.lock = True
+
+        if False:
             self.boss_fight = True
+            self.state = 'backward'
+            set_value("boss_limit", [50,595])
 
         if self.state == 'idle' or self.state == 'forward' or self.state == 'backward':
             if self.index == 0 or self.index == 4 or self.index == 5:
@@ -55,10 +65,10 @@ class BossAnimation(PlayerAnimation):
         img_manager.show_image(self.boss_img, engine.screen, self.obj.pos-level_manager.level.screen_pos+self.boss_delta+self.animation_delta)
 
         if self.boss_fight:
-            if self.obj.pos.x > player_pos.x > self.obj.pos.x-engine.screen_size.x and (self.obj.pos+self.obj.size).x<700:
+            if self.obj.pos.x > player_pos.x > self.obj.pos.x-engine.screen_size.x and (self.obj.pos+self.obj.size).x<get_value('boss_limit')[1]:
                 self.state = 'backward'
                 physics_manager.move(self.obj.body,vx=2.5)
-            elif self.obj.pos.x+engine.screen_size.x > player_pos.x > self.obj.pos.x and self.obj.pos.x > 0:
+            elif self.obj.pos.x+engine.screen_size.x > player_pos.x > self.obj.pos.x and self.obj.pos.x > get_value('boss_limit')[0]:
                 self.state = 'forward'
                 physics_manager.move(self.obj.body,vx=-2.5)
             else:

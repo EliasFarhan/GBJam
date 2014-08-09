@@ -187,8 +187,8 @@ class SFMLEngine(Engine):
 
         from sfml_img_manager import TextBox
 
-        self.textbox = TextBox("Kitler", "Surrender to our might, Fury! You have no chance to survive make your time. Your sneaky ferret ways will have no effect on our great feline superiority!")
-
+        self.textbox = TextBox()
+        self.show_dialog = False
 
     def init_level(self):
         from levels.loading_screen import LoadingScreen
@@ -213,7 +213,8 @@ class SFMLEngine(Engine):
         rect.move((0, 148))
         self.buf.draw(rect)
         # test textbox
-        #self.buf.draw(self.textbox.sprite())
+        if self.show_dialog:
+            self.buf.draw(self.textbox.loop())
 
         clear = sfml.Color(0, 0, 0, 0)
         self.buf.display()
