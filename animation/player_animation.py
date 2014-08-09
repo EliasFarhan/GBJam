@@ -41,7 +41,7 @@ class PlayerAnimation(Animation):
         self.show_frequency = 10
         self.dialog = 0
         self.attacking = 0
-        self.attack_time = 15
+        self.attack_time = 4*7
 
         self.transition = 1.0
 
@@ -51,6 +51,12 @@ class PlayerAnimation(Animation):
         self.deal_pos = Vector2(23,-7)
         self.deal_delta = Vector2(0,-160)
         self.move_deal = False
+
+        self.slash = Animation(None)
+        self.slash.root_path = "data/sprites/"
+        self.slash.path_list = ["slash/"]
+        self.slash.state_range = { "slash": [0,5]}
+        self.slash.load_images()
 
 
     def load_images(self, size=None, tmp=False):
@@ -144,14 +150,7 @@ class PlayerAnimation(Animation):
 
 
 
-        if self.touched and not self.invincibility and self.life > 0:
-            self.life -= 1
-            self.invincibility = CONST.invincibility
-            if self.life == 0:
-                level_manager.level.game_over = True
-            if self.cat_touched:
-                self.touched = False
-                self.cat_touched = False
+
 
         if self.invincibility:
             self.invincibility -= 1
@@ -173,13 +172,7 @@ class PlayerAnimation(Animation):
         elif (self.foot or (not self.foot and self.wall)) and not A_BUTTON:
             self.jump_step = CONST.jump_step
 
-        if B_BUTTON and self.attacking == 0:
-            log("ATTACKING")
-            self.attacking = self.attack_time
-        elif self.attacking > 1:
-            self.attacking -= 1
-        elif not B_BUTTON:
-            self.attacking = 0
+
 
         if horizontal == -1:
             #LEFT
@@ -227,6 +220,7 @@ class PlayerAnimation(Animation):
             else:
                 self.state = 'jump'
                 self.player.flip = True
+
 
 
         #"gravity" effect like nes game
@@ -304,6 +298,40 @@ class PlayerAnimation(Animation):
                 engine.show_dialog = False
                 from levels.logo_kwakwa import Kwakwa
                 level_manager.switch_level(Kwakwa())
+        if self.touched and not self.invincibility and self.life > 0:
+            self.life -= 1
+            self.invincibility = CONST.invincibility
+            self.anim_counter = self.anim_freq-1
+
+            if self.life == 0:
+                level_manager.level.game_over = True
+                self.invincibility = 1000
+            if self.cat_touched:
+                self.touched = False
+                self.cat_touched = False
+        if self.invincibility > CONST.invincibility - 20 or level_manager.level.game_over:
+            self.state = 'hit'
+
+        if self.invincibility %20 > 10:
+            self.player.show = False
+        else:
+            self.player.show = True
+
+        if B_BUTTON and self.attacking == 0:
+            self.state = 'attack'
+            self.attacking = self.attack_time
+        if self.attacking > 1:
+            self.state = 'attack'
+            self.attacking -= 1
+            self.slash.update_animation(state='slash')
+            slash_pos = Vector2()
+            if self.direction:
+                slash_pos = self.player.pos + engine.screen_size * self.player.screen_relative_pos + Vector2(self.player.size.x/1.5,0)
+            else:
+                slash_pos = self.player.pos + engine.screen_size * self.player.screen_relative_pos - Vector2(self.player.size.x/1.5,0)
+            img_manager.show_image(self.slash.img, engine.screen, pos=slash_pos-level_manager.level.screen_pos,new_size=Vector2(36,36),flip=not self.direction)
+        elif not B_BUTTON:
+            self.attacking = 0
     def set_screen_pos(self):
         player_pos = self.player.pos + self.player.screen_relative_pos*engine.screen_size
         pos_ratio = player_pos/engine.screen_size

@@ -6,12 +6,14 @@
 	"anim": {
 		"anim_type": "animation.player_animation.PlayerAnimation",
 		"root_path": "data/sprites/ferret/",
-		"path_list": ["idle/", "run/", "jump/"],
+		"path_list": ["idle/", "run/", "jump/", "hit/","attack/"],
 		"state_range": {
 			"move": [1,5],
 			"jump": [5,9],
 			"still": [0,1],
-			"slide": [7,8]
+			"slide": [7,8],
+			"hit": [9,10],
+			"attack": [10,15]
 		}
 	},
 	"physic_objects": {

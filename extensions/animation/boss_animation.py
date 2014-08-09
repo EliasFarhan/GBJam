@@ -92,7 +92,8 @@ class BossAnimation(PlayerAnimation):
 
         if self.life != 0:
             self.obj.pos = physics_manager.get_body_position(self.obj.body)-self.obj.size/2
-        img_manager.show_image(self.boss_img, engine.screen, self.obj.pos-level_manager.level.screen_pos+self.boss_delta+self.animation_delta)
+        if self.obj.show:
+            img_manager.show_image(self.boss_img, engine.screen, self.obj.pos-level_manager.level.screen_pos+self.boss_delta+self.animation_delta)
 
         if self.state == 'backward' or self.state == 'forward':
             physics_manager.move(self.obj.body,vx=self.direction*2.5)
@@ -131,7 +132,7 @@ class BossAnimation(PlayerAnimation):
                 self.invincibility = 20
 
         if self.life == 0 and self.dialog == 3:
-
+            self.invincibility = 1000
             physics_manager.remove_body(self.obj.body)
             self.dialog = 4
             engine.show_dialog = 1
@@ -146,7 +147,12 @@ class BossAnimation(PlayerAnimation):
                 self.dialog = 5
                 self.player.anim.move_deal = True
         if self.invincibility > 0:
+            if (self.invincibility %20) > 10:
+                self.obj.show = False
+            else:
+                self.obj.show = True
             self.invincibility -= 1
+
     def touched(self):
         self.boum = True
         self.explosion.index = 0
