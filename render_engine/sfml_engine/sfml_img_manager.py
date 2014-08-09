@@ -47,11 +47,12 @@ class TextBox():
         self.slide = False
 
         self.size = (152, 36)
-        self.texts = [sfml.Text("", self.font, 8) for i in xrange(3)]
+        self.texts = [None for i in xrange(3)]
         self.texts[0] = sfml.Text(speaker.upper(), self.font, 8)
         for i in xrange(3):
-            self.texts[i].color = sfml.Color.BLACK
-            self.texts[i].position = (4 + (1 if i > 0 else 0) * 8, 4 + 10*i)
+            if self.texts[i] is not None:
+                self.texts[i].color = sfml.Color.BLACK
+                self.texts[i].position = (4 + (1 if i > 0 else 0) * 8, 4 + 10*i)
         self.current = 0
         self.line_counter = 0
         self.current_index = 0
@@ -74,14 +75,18 @@ class TextBox():
             lenA0 = self.current_index
             lenA1 = len(self.lines[self.line_counter])
             if (lenA0 < lenA1):
-                new_string = self.lines[self.line_counter][0:lenA0]
-                new_text = sfml.Text(new_string, self.font, 8)
-                new_text.position = self.texts[self.current + 1].position
-                new_text.color = sfml.Color.BLACK
-
-                self.texts[self.current + 1] = new_text
-                # if (char != " " and self.char_counter % 1 == 0):
-                snd_manager.play_sound(self.sound)
+                if lenA0 != 0:
+                    new_string = self.lines[self.line_counter][0:lenA0+1]
+                    print new_string
+                    new_text = sfml.Text(new_string, self.font, 8)
+                    print "NEW STRING CREATED"
+                    new_text.position = (4 + (1 if self.current+1 > 0 else 0) * 8, 4 + 10*(self.current+1))
+                    print "GET POSITION"
+                    new_text.color = sfml.Color.BLACK
+                    self.texts[self.current + 1] = new_text
+                    print "NEW TEXT SET"
+                    # if (char != " " and self.char_counter % 1 == 0):
+                    snd_manager.play_sound(self.sound)
                 self.current_index += 1
                 # self.char_counter += 1
                 # if (char == " "):
@@ -93,14 +98,12 @@ class TextBox():
                 if (self.line_counter == len(self.lines)):
                     self.finished = True
                 if (self.line_counter >= 2):
-                    new_text = sfml.Text("", self.font, 8)
-                    new_text.position = (12, 24)
-                    new_text.color = sfml.Color.BLACK
-                    self.texts[self.current + 1] = new_text
+                    self.texts[self.current + 1] = None
                     self.slide = True
 
         for t in self.texts:
-            self.buffer.draw(t)
+            if t is not None:
+                self.buffer.draw(t)
 
         self.buffer.display()
         self.time += 1
