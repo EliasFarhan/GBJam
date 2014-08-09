@@ -67,7 +67,7 @@ class CatAnimation(PlayerAnimation):
                     self.state = 'still'
             remove_bullet = []
             for b in self.bullets:
-                b.loop(engine.screen,lock=False)
+                b.loop(engine.screen)
                 if not (b.pos.x+engine.screen_size.x > player_pos.x > b.pos.x-engine.screen_size.x):
                     remove_bullet.append(b)
             for b in remove_bullet:

@@ -1,16 +1,17 @@
 {
 	"type": "Image",
-	"pos": [[0,0],[0.1,0.465]],
+	"pos": [[0,0],[0,0.465]],
 	"size": [48,48],
 	"layer": 4,
 	"anim": {
 		"anim_type": "animation.player_animation.PlayerAnimation",
 		"root_path": "data/sprites/ferret/",
-		"path_list": ["idle/", "run/" ],
+		"path_list": ["idle/", "run/", "jump/"],
 		"state_range": {
 			"move": [1,5],
-			"jump": [0,1],
-			"still": [0,1]
+			"jump": [5,9],
+			"still": [0,1],
+			"slide": [7,8]
 		}
 	},
 	"physic_objects": {
@@ -20,13 +21,13 @@
 			{
 				"user_data": 1,
 				"type": "box",
-				"size": [13,23]
+				"size": [15,23]
 			},
 			{
 				"user_data": 2,
 				"type": "box",
 				"pos": [0,24],
-				"size": [12.5,1],
+				"size": [14.5,1],
 				"sensor": true
 			},
 			{

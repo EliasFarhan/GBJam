@@ -141,7 +141,7 @@ class GameObject:
             pos = self.pos
         else:
             pos = pos-screen_pos
-        if CONST.debug:
+        if CONST.debug and False:
             self.update_rect()
             if not self.screen_relative:
                 img_manager.draw_rect(screen, screen_pos, self.rect, (0,0,255,200), self.angle)

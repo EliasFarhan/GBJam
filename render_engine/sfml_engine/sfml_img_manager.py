@@ -77,14 +77,13 @@ class TextBox():
             if (lenA0 < lenA1):
                 if lenA0 != 0:
                     new_string = self.lines[self.line_counter][0:lenA0+1]
-                    print new_string
                     new_text = sfml.Text(new_string, self.font, 8)
-                    print "NEW STRING CREATED"
+
                     new_text.position = (4 + (1 if self.current+1 > 0 else 0) * 8, 4 + 10*(self.current+1))
-                    print "GET POSITION"
+
                     new_text.color = sfml.Color.BLACK
                     self.texts[self.current + 1] = new_text
-                    print "NEW TEXT SET"
+
                     # if (char != " " and self.char_counter % 1 == 0):
                     snd_manager.play_sound(self.sound)
                 self.current_index += 1
@@ -175,5 +174,5 @@ class SFMLImgManager(ImgManager):
             drawing_rect.fill_color = sfml.Color(color[0], color[1], color[2], color[3])
         elif len(color) == 3:
             drawing_rect.fill_color = sfml.Color(color[0], color[1], color[2])
-        screen.draw(drawing_rect)
+        self.buffer.draw(drawing_rect)
 

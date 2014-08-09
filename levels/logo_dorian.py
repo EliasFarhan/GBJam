@@ -19,7 +19,7 @@ class Dorian(Scene):
         self.screen_pos = Vector2()
     def loop(self, screen):
         img_manager.draw_rect(screen, Vector2(), Rect(Vector2(0, 0), engine.get_screen_size()), (255, 255, 255))
-        self.text.loop(screen, False)
+        self.text.loop(screen)
 
         if snd_manager.get_music_status():
             from engine.level_manager import switch_level

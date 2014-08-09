@@ -19,7 +19,7 @@ class FrontGrass(GameObject):
     def init_image(self):
         self.img = img_manager.load_image("data/sprites/foreground/LongGrass.png")
 
-    def loop(self,screen,lock):
+    def loop(self,screen):
         pos = self.pos-level_manager.level.screen_pos
         for i in range(self.nmb_size):
             img_manager.show_image(self.img,screen,pos+Vector2(i*(47-self.diff),0),new_size=Vector2(47,27))

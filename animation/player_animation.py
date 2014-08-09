@@ -8,6 +8,7 @@ from engine import level_manager
 from engine.const import CONST, log
 from engine.stat import get_value
 from engine.vector import Vector2
+from render_engine.img_manager import img_manager
 from render_engine.input import input_manager
 
 from event.physics_event import get_physics_event
@@ -39,11 +40,16 @@ class PlayerAnimation(Animation):
         self.show_frequency = 10
 
         self.attacking = 0
-        self.attack_time = 30
+        self.attack_time = 15
 
         self.transition = 1.0
 
         self.jump_sound = snd_manager.load_sound("data/sound/Jump2.wav")
+        self.deal_with_it = img_manager.load_image("data/sprites/dealwithit.png")
+        self.heart = img_manager.load_image("data/sprites/heart.png")
+        self.deal_pos = Vector2(23,-7)
+        self.deal_delta = Vector2(0,-160)
+        self.move_deal = False
 
 
     def load_images(self, size=None, tmp=False):
@@ -68,6 +74,8 @@ class PlayerAnimation(Animation):
             DOWN = False
             A_BUTTON = False
             B_BUTTON = False
+
+
         
         horizontal = RIGHT-LEFT
         vertical = UP-DOWN
@@ -225,6 +233,13 @@ class PlayerAnimation(Animation):
         delta = self.gravity
         if self.wall and self.wall_jump_step == 0:
             velocity.y = self.wall_speed
+            self.state = 'slide'
+            if self.direction:
+                self.player.flip = False
+            else:
+                self.player.flip = True
+        elif self.foot:
+            pass
         else:
             velocity.y += delta
         physics_manager.set_body_velocity(self.player.body, velocity)
@@ -244,8 +259,21 @@ class PlayerAnimation(Animation):
         if self.wall_jump_step != 0:
             self.wall_jump_step -= 1
 
+        for i in range(self.life):
+            img_manager.show_image(self.heart,img_manager.buffer,pos=Vector2(i*18,0),new_size=Vector2(16,16))
+
+        if self.move_deal:
+            print self.deal_delta.get_tuple()
+            if self.deal_delta.y < 0:
+                self.deal_delta = Vector2(0,self.deal_delta.y+1)
+            else:
+                self.deal_delta = Vector2()
+            if not self.direction:
+                self.deal_delta = Vector2(-20,self.deal_delta.y)
+            else:
+                self.deal_delta = Vector2(0, self.deal_delta.y)
     def set_screen_pos(self):
-        player_pos = self.player.pos+self.player.screen_relative_pos*engine.screen_size
+        player_pos = self.player.pos + self.player.screen_relative_pos*engine.screen_size
         pos_ratio = player_pos/engine.screen_size
         pos_size_ratio = (player_pos+self.player.size)/engine.screen_size
         size_ratio = pos_size_ratio-pos_ratio
@@ -275,7 +303,7 @@ class PlayerAnimation(Animation):
         elif (1100 > player_pos.x >= 1000) or (2357 > player_pos.x >= 2257):
             y_pos = self.player.pos.y
 
-        level_manager.level.screen_pos = Vector2(player_pos.x, y_pos)
+        level_manager.level.screen_pos = Vector2(self.player.pos.x, y_pos)
     @staticmethod
     def parse_animation(anim_data):
         Animation.parse_animation(anim_data)

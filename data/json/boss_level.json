@@ -16,6 +16,7 @@
     ],
     "objects": [
         {
+            "_comment": "BOSS BATTULE",
             "layer": 1,
             "pos": [
                 0,
@@ -29,6 +30,25 @@
                 144
             ],
             "parallax_factor": 0.5
+        },
+        {
+            "layer": 3,
+            "pos": [
+                50,
+                78
+            ],
+            "nmb_size": 3,
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.trunk.Trunk",
+            "id": 0
         },
         {
             "layer": 3,
@@ -63,8 +83,17 @@
                 "fixtures": [
                     {
                         "type": "box",
+                        "user_data": 20,
+                        "sensor": true,
+                        "pos": [12,35],
+                        "size": [24,6]
+                    },
+                    {
+                        "type": "box",
                         "user_data": 16,
-                        "sensor": true
+                        "sensor": true,
+                        "pos": [20,-12],
+                        "size": [57,70]
                     }
                 ],
                 "type": "dynamic"
@@ -85,6 +114,70 @@
                     "idle": [0,7]
                 }
 	        }
+        },
+        {
+            "_comment": "cat_evil",
+            "layer": 3,
+            "pos": [
+                450,
+                30
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 60,
+                        "sensor": true,
+                        "size": [13,24]
+                    }
+                ],
+                "type": "dynamic"
+            },
+            "type": "extensions.game_object.cat.Cat",
+            "id": 0,
+            "size": [
+                48,
+                48
+            ],
+            "anim": {
+                "anim_type": "extensions.animation.cat_animation.CatAnimation",
+                "root_path": "data/sprites/cat/",
+                "path_list": ["idle/","move/","attack/"],
+                "state_range": {
+                    "move": [1,5],
+                    "still": [0,1],
+                    "attack": [5,9]
+                }
+	        }
+        },
+        {
+            "layer": 3,
+            "pos": [
+                450,
+                78
+            ],
+            "nmb_size": 6,
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 12
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.trunk.Trunk",
+            "id": 0
+        },
+        {
+            "layer": 3,
+            "pos": [
+                650,
+                -42
+            ],
+            "nmb_size": 10,
+            "type": "extensions.game_object.stump.Stump",
+            "id": 0
         }
     ],
     "physics": true,

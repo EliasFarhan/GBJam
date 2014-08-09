@@ -5,6 +5,7 @@ Created on 11 sept. 2013
 '''
 
 from animation.animation_main import Animation
+from animation.player_animation import PlayerAnimation
 
 from engine.init import engine
 from engine.rect import Rect
@@ -91,6 +92,13 @@ class Image(GameObject):
                    angle=self.angle,
                    flip=self.flip)
 
+        try:
+            img_manager.show_image(self.anim.deal_with_it,
+                                   screen,
+                                   pos+self.anim.deal_pos+self.anim.deal_delta,
+                                   new_size=Vector2(32,32))
+        except AttributeError:
+            pass
         GameObject.loop(self, screen)
 
     @staticmethod
