@@ -8,6 +8,7 @@ from engine import level_manager
 from engine.const import CONST, log
 from engine.stat import get_value
 from engine.vector import Vector2
+
 from render_engine.img_manager import img_manager
 from render_engine.input import input_manager
 
@@ -38,7 +39,7 @@ class PlayerAnimation(Animation):
 
         self.invincibility = 0
         self.show_frequency = 10
-
+        self.dialog = 0
         self.attacking = 0
         self.attack_time = 15
 
@@ -263,15 +264,46 @@ class PlayerAnimation(Animation):
             img_manager.show_image(self.heart,img_manager.buffer,pos=Vector2(i*18,0),new_size=Vector2(16,16))
 
         if self.move_deal:
-            print self.deal_delta.get_tuple()
             if self.deal_delta.y < 0:
                 self.deal_delta = Vector2(0,self.deal_delta.y+1)
-            else:
+            elif self.dialog == 0:
                 self.deal_delta = Vector2()
+                if engine.textbox.finished:
+                    if input_manager.get_button('A') or input_manager.get_button('B'):
+                        snd_manager.set_playlist(["data/music/menu_gbjam.ogg"])
+                        self.dialog = -1
+                        engine.textbox.set_text("Furbrawl", "A game by Team KwaKwa")
+
             if not self.direction:
                 self.deal_delta = Vector2(-20,self.deal_delta.y)
             else:
                 self.deal_delta = Vector2(0, self.deal_delta.y)
+
+        if self.dialog == -1 and engine.textbox.finished:
+            if input_manager.get_button('A') or input_manager.get_button('B'):
+                self.dialog = 1
+                engine.textbox.set_text("Lead designer", "Elias Farhan")
+        if self.dialog == 1 and engine.textbox.finished:
+            if input_manager.get_button('A') or input_manager.get_button('B'):
+                self.dialog = 2
+                engine.textbox.set_text("Programmer", """Hamza "Tenchi" Haiken""")
+        if self.dialog == 2 and engine.textbox.finished:
+            if input_manager.get_button('A') or input_manager.get_button('B'):
+                self.dialog = 3
+                engine.textbox.set_text("Artist", """Josh Grilli""")
+        if self.dialog == 3 and engine.textbox.finished:
+            if input_manager.get_button('A') or input_manager.get_button('B'):
+                self.dialog = 4
+                engine.textbox.set_text("Artist", """Austin Lewis""")
+        if self.dialog == 4 and engine.textbox.finished:
+            if input_manager.get_button('A') or input_manager.get_button('B'):
+                self.dialog = 5
+                engine.textbox.set_text("Music", """Dorian SRed""")
+        if self.dialog == 5 and engine.textbox.finished:
+            if input_manager.get_button('A') or input_manager.get_button('B'):
+                engine.show_dialog = False
+                from levels.logo_kwakwa import Kwakwa
+                level_manager.switch_level(Kwakwa())
     def set_screen_pos(self):
         player_pos = self.player.pos + self.player.screen_relative_pos*engine.screen_size
         pos_ratio = player_pos/engine.screen_size
