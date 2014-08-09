@@ -24,7 +24,7 @@ class Stump(GameObject):
         self.top = img_manager.load_image("data/sprites/stump/StumpTop.png")
         self.fill = img_manager.load_image("data/sprites/stump/StumpFill.png")
 
-    def loop(self,screen,lock):
+    def loop(self,screen):
         pos = self.pos-level_manager.level.screen_pos
 
         img_manager.show_image(self.top,screen,pos+Vector2(7,0),new_size=Vector2(31,4))

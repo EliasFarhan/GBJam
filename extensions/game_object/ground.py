@@ -28,7 +28,7 @@ class Ground(GameObject):
         self.bottom_right = img_manager.load_image("data/sprites/ground/GroundBottomCornerRight.png")
         self.bottom = img_manager.load_image("data/sprites/ground/GroundBottom.png")
 
-    def loop(self,screen,lock):
+    def loop(self,screen):
         pos = self.pos-level_manager.level.screen_pos
 
         img_manager.show_image(self.top_left,screen,pos,new_size=Vector2(12,12))

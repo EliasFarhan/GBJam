@@ -15,7 +15,7 @@ class Dorian(Scene):
                           pos=Vector2(0,16),
                           size=Vector2(160, 128))
         self.text.init_image()
-        snd_manager.set_playlist(['data/sound/logo_dorian.ogg'])
+        snd_manager.set_playlist(['data/sound/logo_dorian_8bit.ogg'])
         self.screen_pos = Vector2()
     def loop(self, screen):
         img_manager.draw_rect(screen, Vector2(), Rect(Vector2(0, 0), engine.get_screen_size()), (255, 255, 255))

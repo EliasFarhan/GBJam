@@ -18,7 +18,7 @@ class BulletAnimation(PlayerAnimation):
     def __init__(self,object):
         Animation.__init__(self,object)
         self.obj = object
-        self.img = img_manager.load_image("data/sprites/bullet.png")
+        self.img = img_manager.load_image("data/sprites/bullet/CatBullet.png")
         self.nmb = 0
         if isinstance(level_manager.level, GameState):
             self.player = level_manager.level.player

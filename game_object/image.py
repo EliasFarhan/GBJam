@@ -53,9 +53,9 @@ class Image(GameObject):
                 self.size = Vector2(img_manager.get_size(self.img))
             self.rect = Rect(self.pos, self.size)
 
-    def loop(self, screen, lock=False):
+    def loop(self, screen):
         if self.anim:
-            self.anim.update_animation(lock=lock)
+            self.anim.update_animation()
             self.img = self.anim.img
             try:
                 self.show = (self.anim.invincibility % (self.anim.show_frequency*2)) < self.anim.show_frequency
@@ -73,6 +73,8 @@ class Image(GameObject):
         else:
             from engine import level_manager
             pos -= level_manager.level.screen_pos * self.parallax_factor
+            if pos.x > 160:
+                return
         
         center_image = False
         try:

@@ -6,6 +6,7 @@ Created on 1 mars 2014
 import math
 from engine import level_manager
 from engine.const import CONST, log
+from engine.stat import get_value
 from engine.vector import Vector2
 from render_engine.input import input_manager
 
@@ -48,11 +49,12 @@ class PlayerAnimation(Animation):
     def load_images(self, size=None, tmp=False):
         Animation.load_images(self, size=size, tmp=tmp)
     
-    def update_animation(self, state="", invert=False,lock=False):
+    def update_animation(self, state="", invert=False):
         self.update_state()
-        return Animation.update_animation(self, state=state, invert=invert,lock=lock)
+        return Animation.update_animation(self, state=state, invert=invert)
 
-    def update_state(self,lock=False):
+    def update_state(self):
+        lock = level_manager.level.lock
         RIGHT = input_manager.get_button('RIGHT')
         LEFT = input_manager.get_button('LEFT')
         UP = input_manager.get_button('UP')
@@ -177,7 +179,12 @@ class PlayerAnimation(Animation):
                 self.state = 'move'
             self.player.flip = True
 
-            if self.wall != 1 and self.wall_jump_step == 0 and self.not_sliding_wall != 1:
+            move_condition = self.wall != 1 and self.wall_jump_step == 0 and self.not_sliding_wall != 1
+            if get_value('boss_limit') is not None:
+                move_condition = move_condition and (self.player.pos + \
+                                                    self.player.screen_relative_pos * \
+                                                    engine.screen_size).x > get_value('boss_limit')[0]
+            if move_condition:
                 physics_manager.move(self.player.body, -self.speed)
         elif horizontal == 1:
             #RIGHT
@@ -186,7 +193,12 @@ class PlayerAnimation(Animation):
                 self.state = 'move'
             self.player.flip = False
 
-            if self.wall != 2 and self.wall_jump_step == 0 and self.not_sliding_wall != 2:
+            move_condition = self.wall != 2 and self.wall_jump_step == 0 and self.not_sliding_wall != 2
+            if get_value('boss_limit') is not None:
+                move_condition = move_condition and (self.player.pos + \
+                                                    self.player.screen_relative_pos * \
+                                                    engine.screen_size ).x < get_value('boss_limit')[1]
+            if move_condition:
                 physics_manager.move(self.player.body, self.speed)
         else:
             if self.foot:

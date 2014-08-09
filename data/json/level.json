@@ -475,12 +475,12 @@
             ],
             "anim": {
                 "anim_type": "extensions.animation.cat_animation.CatAnimation",
-                "root_path": "data/sprites/",
-                "path_list": ["cat/"],
+                "root_path": "data/sprites/cat/",
+                "path_list": ["idle/","move/","attack/"],
                 "state_range": {
-                    "move": [0,1],
-                    "jump": [0,1],
-                    "still": [0,1]
+                    "move": [1,5],
+                    "still": [0,1],
+                    "attack": [5,9]
                 }
 	        }
         },
@@ -529,12 +529,12 @@
             ],
             "anim": {
                 "anim_type": "extensions.animation.cat_animation.CatAnimation",
-                "root_path": "data/sprites/",
-                "path_list": ["cat/"],
+                "root_path": "data/sprites/cat/",
+                "path_list": ["idle/","move/","attack/"],
                 "state_range": {
-                    "move": [0,1],
-                    "jump": [0,1],
-                    "still": [0,1]
+                    "move": [1,5],
+                    "still": [0,1],
+                    "attack": [5,9]
                 }
 	        }
         },
@@ -609,12 +609,12 @@
             ],
             "anim": {
                 "anim_type": "extensions.animation.cat_animation.CatAnimation",
-                "root_path": "data/sprites/",
-                "path_list": ["cat/"],
+                "root_path": "data/sprites/cat/",
+                "path_list": ["idle/","move/","attack/"],
                 "state_range": {
-                    "move": [0,1],
-                    "jump": [0,1],
-                    "still": [0,1]
+                    "move": [1,5],
+                    "still": [0,1],
+                    "attack": [5,9]
                 }
 	        }
         },
@@ -762,12 +762,12 @@
             ],
             "anim": {
                 "anim_type": "extensions.animation.cat_animation.CatAnimation",
-                "root_path": "data/sprites/",
-                "path_list": ["cat/","cat/walk/"],
+                "root_path": "data/sprites/cat/",
+                "path_list": ["idle/","move/","attack/"],
                 "state_range": {
                     "move": [1,5],
-                    "jump": [0,1],
-                    "still": [0,1]
+                    "still": [0,1],
+                    "attack": [5,9]
                 }
 	        }
         },

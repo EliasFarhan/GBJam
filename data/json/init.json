@@ -1,7 +1,7 @@
 {
 	"screen_size": [160,144],
 	"fullscreen": true,
-	"startup": "data/json/level.json",
+	"startup": "data/json/boss_level.json",
 	"render": "sfml",
 	"physics": "b2",
 	"ratio": 16.0,

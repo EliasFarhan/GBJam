@@ -11,10 +11,9 @@ __author__ = 'Elias, Tenchi'
 
 
 class TextBox():
-    def __init__(self, speaker, text):
-        from textwrap import wrap
+    def __init__(self):
 
-        self.lines = wrap(text, 40)
+        self.lines = [""]
 
         self.time = 0
         self.finished = False
@@ -24,11 +23,7 @@ class TextBox():
         self.buffer = sfml.RenderTexture(*self.size)
 
         self.font = sfml.Font.from_file("data/font/SILKWONDER.ttf")
-        self.text = [sfml.Text("", self.font, 8) for i in xrange(3)]
-        for i in xrange(3):
-            self.text[i].color = sfml.Color.BLACK
-            self.text[i].position = (4 + (1 if i > 0 else 0) * 8, 4 + 10*i)
-        self.text[0].string = speaker.upper()
+        self.texts = []
 
         self.sound = snd_manager.load_sound("data/sound/Text.wav")
 
@@ -40,43 +35,71 @@ class TextBox():
         self.current = 0
         self.line_counter = 0
         # self.char_counter = 0
+        self.current_index = 0
+
+    def set_text(self,speaker, text):
+        from textwrap import wrap
+
+        self.lines = wrap(text, 40)
+
+        self.time = 0
+        self.finished = False
+        self.slide = False
+
+        self.size = (152, 36)
+        self.texts = [sfml.Text("", self.font, 8) for i in xrange(3)]
+        self.texts[0] = sfml.Text(speaker.upper(), self.font, 8)
+        for i in xrange(3):
+            self.texts[i].color = sfml.Color.BLACK
+            self.texts[i].position = (4 + (1 if i > 0 else 0) * 8, 4 + 10*i)
+        self.current = 0
+        self.line_counter = 0
+        self.current_index = 0
 
     def swap(self):
         self.current = 1 - self.current
 
-    def sprite(self):
+    def loop(self):
         self.buffer.draw(self.rect)
         if (self.slide):
-            self.text[(1 - self.current) + 1].move((0, -1))
+            self.texts[(1 - self.current) + 1].move((0, -1))
             if (self.time == 10):
                 self.slide = False
                 self.time = 0
 
         elif (self.time == 6 and not(self.finished)):
+
             self.time = 0
             # Add a letter
-            lenA0 = len(self.text[self.current + 1].string)
+            lenA0 = self.current_index
             lenA1 = len(self.lines[self.line_counter])
             if (lenA0 < lenA1):
-                char = self.lines[self.line_counter][lenA0]
-                self.text[self.current + 1].string += char
+                new_string = self.lines[self.line_counter][0:lenA0]
+                new_text = sfml.Text(new_string, self.font, 8)
+                new_text.position = self.texts[self.current + 1].position
+                new_text.color = sfml.Color.BLACK
+
+                self.texts[self.current + 1] = new_text
                 # if (char != " " and self.char_counter % 1 == 0):
-                if (char != " "):
-                    snd_manager.play_sound(self.sound)
+                snd_manager.play_sound(self.sound)
+                self.current_index += 1
                 # self.char_counter += 1
                 # if (char == " "):
                 #     self.char_counter = 0
             else:
+                self.current_index = 0
                 self.swap()
                 self.line_counter += 1
                 if (self.line_counter == len(self.lines)):
                     self.finished = True
                 if (self.line_counter >= 2):
-                    self.text[self.current + 1].string = ""
-                    self.text[self.current + 1].position = (12, 24)
+                    new_text = sfml.Text("", self.font, 8)
+                    new_text.position = (12, 24)
+                    new_text.color = sfml.Color.BLACK
+                    self.texts[self.current + 1] = new_text
                     self.slide = True
 
-        for t in self.text:
+        for t in self.texts:
             self.buffer.draw(t)
 
         self.buffer.display()

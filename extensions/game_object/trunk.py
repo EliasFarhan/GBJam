@@ -20,7 +20,7 @@ class Trunk(GameObject):
         self.left = img_manager.load_image("data/sprites/trunk/TrunkSideLeft.png")
         self.fill = img_manager.load_image("data/sprites/trunk/TrunkFill.png")
 
-    def loop(self,screen,lock):
+    def loop(self,screen):
         pos = self.pos-level_manager.level.screen_pos
 
         img_manager.show_image(self.left,screen,pos,new_size=Vector2(12,36))
