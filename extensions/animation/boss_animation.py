@@ -1,3 +1,7 @@
+from engine.init import engine
+from engine.vector import Vector2
+from render_engine.img_manager import img_manager
+
 __author__ = 'efarhan'
 
 from animation.animation_main import Animation
@@ -18,8 +22,13 @@ class BossAnimation(PlayerAnimation):
         self.nmb = 0
         self.in_area_left = False
         self.in_area_right = False
+        self.boss_img = img_manager.load_image("data/sprites/boss/Bosscat.png")
+        self.boss_delta = Vector2(60,10)
+        self.animation_delta = Vector2()
         if isinstance(level_manager.level, GameState):
             self.player = level_manager.level.player
+
+        self.boss_fight = False
 
 
 
@@ -28,27 +37,30 @@ class BossAnimation(PlayerAnimation):
         Animation.update_animation(self)
 
     def update_state(self):
-        self.state = 'still'
-        if self.nmb == 0:
-            self.nmb = self.obj.body.fixtures[0].userData
 
+        player_pos = self.player.pos + self.player.screen_relative_pos * engine.screen_size
 
-        for event in physics_events:
-            if ((event.a.userData == 5 and event.b.userData == self.nmb) or\
-                    (event.b.userData == 5 and event.a.userData == self.nmb)):
+        if player_pos.x > 250:
+            self.boss_fight = True
 
-                self.in_area_left = event.begin
-            elif (event.b.userData == 6 and event.a.userData == self.nmb) or\
-                    (event.a.userData == 6 and event.b.userData == self.nmb):
-                self.in_area_right = event.begin
-        if self.in_area_left:
-            if not self.player.anim.direction and self.player.anim.attacking>1:
-                self.obj.remove = True
-        if self.in_area_right:
-            if self.player.anim.direction and self.player.anim.attacking > 1:
-                self.obj.remove = True
-        if self.obj.remove:
-            physics_manager.remove_body(self.obj.body)
-    @staticmethod
-    def parse_animation(anim_data):
-        return CatAnimation(None)
+        if self.state == 'idle' or self.state == 'forward' or self.state == 'backward':
+            if self.index == 0 or self.index == 4 or self.index == 5:
+                self.animation_delta = Vector2(0,0)
+            elif self.index == 2 or self.index == 3:
+                self.animation_delta = Vector2(0,2)
+            elif self.index == 1:
+                self.animation_delta = Vector2(0,1)
+
+        self.obj.pos = physics_manager.get_body_position(self.obj.body)-self.obj.size/2
+        img_manager.show_image(self.boss_img, engine.screen, self.obj.pos-level_manager.level.screen_pos+self.boss_delta+self.animation_delta)
+
+        if self.boss_fight:
+            if self.obj.pos.x > player_pos.x > self.obj.pos.x-engine.screen_size.x and (self.obj.pos+self.obj.size).x<700:
+                self.state = 'backward'
+                physics_manager.move(self.obj.body,vx=2.5)
+            elif self.obj.pos.x+engine.screen_size.x > player_pos.x > self.obj.pos.x and self.obj.pos.x > 0:
+                self.state = 'forward'
+                physics_manager.move(self.obj.body,vx=-2.5)
+            else:
+                self.state = 'idle'
+                physics_manager.move(self.obj.body,vx=0)

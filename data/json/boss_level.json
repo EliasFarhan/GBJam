@@ -1,0 +1,94 @@
+{
+    "network": false,
+    "bg_color": [
+        255,
+        255,
+        255
+    ],
+    "gui": "data/json/gui.json",
+    "player": "data/json/player.json",
+    "show_mouse": true,
+    "checkpoints": [
+        [0,0],
+        [870,212],
+        [1150,80],
+        [1900,80]
+    ],
+    "objects": [
+        {
+            "layer": 1,
+            "pos": [
+                0,
+                -20
+            ],
+            "type": "Image",
+            "path": "data/sprites/background/PrairieBossBackground.png",
+            "id": 0,
+            "size": [
+                480,
+                144
+            ],
+            "parallax_factor": 0.5
+        },
+        {
+            "layer": 3,
+            "pos": [
+                0,
+                114
+            ],
+            "nmb_size": [
+                25,
+                2
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 11
+                    }
+                ],
+                "type": "static"
+            },
+            "type": "extensions.game_object.ground.Ground",
+            "id": 0
+        },
+        {
+            "_comment": "boss",
+            "layer": 4,
+            "pos": [
+                300,
+                20
+            ],
+            "physic_objects": {
+                "fixtures": [
+                    {
+                        "type": "box",
+                        "user_data": 16,
+                        "sensor": true
+                    }
+                ],
+                "type": "dynamic"
+            },
+            "type": "Image",
+            "id": 0,
+            "size": [
+                120,94
+            ],
+            "anim": {
+                "anim_type": "extensions.animation.boss_animation.BossAnimation",
+                "root_path": "data/sprites/tank/",
+                "path_list": ["idle/","forward/","backward/","fire/"],
+                "state_range": {
+                    "forward": [7,14],
+                    "backward": [14,21],
+                    "fire": [21,34],
+                    "idle": [0,7]
+                }
+	        }
+        }
+    ],
+    "physics": true,
+    "events": {
+        "on_init": "data/json/boss_event.json"
+    }
+}

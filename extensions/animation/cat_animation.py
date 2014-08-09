@@ -8,6 +8,7 @@ from event.physics_event import physics_events
 from extensions.game_object.bullet import Bullet
 from levels.gamestate import GameState
 from physics_engine.physics_manager import physics_manager
+from render_engine.snd_manager import snd_manager
 
 __author__ = 'Elias'
 
@@ -26,7 +27,7 @@ class CatAnimation(PlayerAnimation):
         self.bullet_frequency = 90
         self.bullet_time = 0
         self.current_bullet = 0
-
+        self.shoot_sound = snd_manager.load_sound("data/sound/Shot1.wav")
         self.direction = -1#-1 left, 1 right
 
 
@@ -49,6 +50,7 @@ class CatAnimation(PlayerAnimation):
 
         if self.active and not self.obj.move:
             if self.bullet_time == 0:
+                snd_manager.play_sound(self.shoot_sound)
                 self.state = 'attack'
                 self.bullets.append(Bullet(
                                             pos=self.obj.pos+Vector2(-10,17),
