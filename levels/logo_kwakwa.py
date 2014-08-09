@@ -24,6 +24,7 @@ class Kwakwa(Scene):
         self.count = 4 * CONST.framerate
         snd_manager.play_music("data/sound/logo_kwa_8bit.ogg")
         self.screen_pos = Vector2()
+        self.game_over = False
 
     def loop(self, screen):
         img_manager.draw_rect(screen,Vector2(),Rect(Vector2(0,0),engine.get_screen_size()),(255,255,255))
