@@ -40,7 +40,7 @@ class TextBox():
     def set_text(self,speaker, text):
         from textwrap import wrap
 
-        self.lines = wrap(text, 40)
+        self.lines = wrap(text, 35)
 
         self.time = 0
         self.finished = False
