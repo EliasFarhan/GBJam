@@ -39,6 +39,14 @@ class BossAnimation(PlayerAnimation):
         self.state = 'idle'
         self.direction = 0
 
+        self.explosion = Animation(None)
+        self.explosion.root_path = "data/sprites/"
+        self.explosion.path_list = ["explosion/"]
+        self.explosion.state_range = { "boum": [0,8]}
+        self.explosion.load_images(Vector2(36,36))
+        self.explosion_sound = snd_manager.load_sound("data/sound/Explosion.wav")
+        self.boum = False
+
 
     def update_animation(self, state="", invert=False,lock=False):
         self.update_state()
@@ -113,10 +121,12 @@ class BossAnimation(PlayerAnimation):
 
         if self.in_area_left:
             if not self.player.anim.direction and self.player.anim.attacking > 1 and not self.invincibility:
+                self.touched()
                 self.life -= 1
                 self.invincibility = 20
         if self.in_area_right:
             if self.player.anim.direction and self.player.anim.attacking > 1 and not self.invincibility:
+                self.touched()
                 self.life -= 1
                 self.invincibility = 20
 
@@ -137,3 +147,7 @@ class BossAnimation(PlayerAnimation):
                 self.player.anim.move_deal = True
         if self.invincibility > 0:
             self.invincibility -= 1
+    def touched(self):
+        self.boum = True
+        self.explosion.index = 0
+        snd_manager.play_sound(self.explosion_sound)

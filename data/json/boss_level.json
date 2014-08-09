@@ -98,7 +98,7 @@
                 ],
                 "type": "dynamic"
             },
-            "type": "Image",
+            "type": "extensions.game_object.boss.Boss",
             "id": 0,
             "size": [
                 120,94

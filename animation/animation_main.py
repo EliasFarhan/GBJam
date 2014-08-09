@@ -18,6 +18,7 @@ class Animation():
         self.obj = obj
         self.img = None
         self.path = ""
+        self.root_path = self.path
         self.state_range = {}
         self.path_list = []
         self.state = ""
