@@ -32,6 +32,8 @@ class BossAnimation(PlayerAnimation):
 
         self.boss_fight = False
 
+        self.state = 'idle'
+        self.direction = 0
 
 
     def update_animation(self, state="", invert=False,lock=False):
@@ -56,13 +58,15 @@ class BossAnimation(PlayerAnimation):
             if input_manager.get_button('A') or input_manager.get_button('B'):
                 engine.textbox.set_text("Kitler", "I won't, I have a panzer now")
                 self.dialog = 3
-        if self.dialog == 3 and engine.textbox.finished:
+        if not self.boss_fight and self.dialog == 3 and engine.textbox.finished:
             if input_manager.get_button('A') or input_manager.get_button('B'):
                 self.boss_fight = True
+                self.direction = 1
                 engine.show_dialog = False
                 level_manager.level.lock = False
         if self.boss_fight:
             self.state = 'backward'
+
             set_value("boss_limit", [50,595])
 
         if self.state == 'idle' or self.state == 'forward' or self.state == 'backward':
@@ -76,13 +80,13 @@ class BossAnimation(PlayerAnimation):
         self.obj.pos = physics_manager.get_body_position(self.obj.body)-self.obj.size/2
         img_manager.show_image(self.boss_img, engine.screen, self.obj.pos-level_manager.level.screen_pos+self.boss_delta+self.animation_delta)
 
+        if self.state == 'backward' or self.state == 'forward':
+            physics_manager.move(self.obj.body,vx=self.direction*2.5)
+
         if self.boss_fight:
-            if self.obj.pos.x > player_pos.x > self.obj.pos.x-engine.screen_size.x and (self.obj.pos+self.obj.size).x<get_value('boss_limit')[1]:
+            if self.direction == -1 and (self.obj.pos+self.obj.size).x<get_value('boss_limit')[0]:
                 self.state = 'backward'
-                physics_manager.move(self.obj.body,vx=2.5)
-            elif self.obj.pos.x+engine.screen_size.x > player_pos.x > self.obj.pos.x and self.obj.pos.x > get_value('boss_limit')[0]:
+                self.direction = 1
+            elif self.direction == 1 and self.obj.pos.x > get_value('boss_limit')[1]:
                 self.state = 'forward'
-                physics_manager.move(self.obj.body,vx=-2.5)
-            else:
-                self.state = 'idle'
-                physics_manager.move(self.obj.body,vx=0)
+                self.direction = -1
