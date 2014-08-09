@@ -14,7 +14,6 @@ class Boss(Image):
         Image.loop(self,screen)
 
         if self.anim.boum:
-            print self.anim.explosion.index
             self.anim.explosion.update_animation(state='boum')
             explosion_pos = Vector2()
             if self.anim.player.anim.direction:

@@ -49,12 +49,13 @@ class GameState(Scene, Editor, GUI, NetworkGamestate):
             self.last_checkpoint = new_checkpoint
 
     def set_player_to_checkpoint(self):
-        log("Last checkpoint: "+str(self.last_checkpoint.get_tuple()))
-        player_pos = self.player.pos + self.player.screen_relative_pos*engine.screen_size
-        new_pos = self.last_checkpoint
-        if self.player.body:
-            body_pos = physics_manager.get_body_position(self.player.body)
-            physics_manager.set_body_position(self.player.body,body_pos+new_pos-player_pos)
+        if self.filename == 'data/json/level.json':
+            log("Last checkpoint: "+str(self.last_checkpoint.get_tuple()))
+            player_pos = self.player.pos + self.player.screen_relative_pos*engine.screen_size
+            new_pos = self.last_checkpoint
+            if self.player.body:
+                body_pos = physics_manager.get_body_position(self.player.body)
+                physics_manager.set_body_position(self.player.body,body_pos+new_pos-player_pos)
 
     def init(self, loading=False):
         snd_manager.set_playlist([])

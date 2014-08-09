@@ -29,6 +29,7 @@ class CatAnimation(PlayerAnimation):
         self.current_bullet = 0
         self.shoot_sound = snd_manager.load_sound("data/sound/Shot1.wav")
         self.direction = -1#-1 left, 1 right
+        self.death = -1
 
 
     def update_animation(self, state="", invert=False,lock=False):
@@ -48,7 +49,7 @@ class CatAnimation(PlayerAnimation):
         else:
             self.active = False
 
-        if self.active and not self.obj.move:
+        if self.active and not self.obj.move and self.death == -1:
             if self.bullet_time == 0:
                 snd_manager.play_sound(self.shoot_sound)
                 self.state = 'attack'
@@ -75,8 +76,8 @@ class CatAnimation(PlayerAnimation):
             del remove_bullet[:]
 
 
-
-        self.obj.pos = physics_manager.get_body_position(self.obj.body)-self.obj.size/2
+        if self.death == -1:
+            self.obj.pos = physics_manager.get_body_position(self.obj.body)-self.obj.size/2
 
 
 
@@ -96,7 +97,7 @@ class CatAnimation(PlayerAnimation):
                 if event.begin:
                     self.direction = - self.direction
 
-        if self.obj.move:
+        if self.obj.move and self.death == -1:
             physics_manager.move(self.obj.body, vx=self.direction*3)
             self.state = 'move'
 
@@ -105,11 +106,24 @@ class CatAnimation(PlayerAnimation):
         else:
             self.obj.flip = False
 
-        if self.in_area_left:
-            if not self.player.anim.direction and self.player.anim.attacking>1:
-                self.obj.remove = True
-        if self.in_area_right:
-            if self.player.anim.direction and self.player.anim.attacking > 1:
-                self.obj.remove = True
-        if self.obj.remove:
-            physics_manager.remove_body(self.obj.body)
+        if self.death == -1:
+            if self.in_area_left:
+                if not self.player.anim.direction and self.player.anim.attacking>1:
+                    self.death = 60
+                    physics_manager.remove_body(self.obj.body)
+            if self.in_area_right:
+                if self.player.anim.direction and self.player.anim.attacking > 1:
+                    self.death = 60
+                    physics_manager.remove_body(self.obj.body)
+
+        if self.death > 0:
+            self.state = 'hit'
+            self.death -= 1
+            if self.death % 20 > 10:
+                self.obj.show = False
+            else:
+                self.obj.show = True
+
+
+        if self.death == 0:
+            self.obj.remove = True

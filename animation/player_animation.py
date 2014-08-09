@@ -9,6 +9,7 @@ from engine.const import CONST, log
 from engine.stat import get_value
 from engine.vector import Vector2
 
+
 from render_engine.img_manager import img_manager
 from render_engine.input import input_manager
 
@@ -295,6 +296,10 @@ class PlayerAnimation(Animation):
                 engine.textbox.set_text("Music", """Dorian SRed""")
         if self.dialog == 5 and engine.textbox.finished:
             if input_manager.get_button('A') or input_manager.get_button('B'):
+                self.dialog = 6
+                engine.textbox.set_text("THANKS", """For playing the game""")
+        if self.dialog == 6 and engine.textbox.finished:
+            if input_manager.get_button('A') or input_manager.get_button('B'):
                 engine.show_dialog = False
                 from levels.logo_kwakwa import Kwakwa
                 level_manager.switch_level(Kwakwa())
@@ -332,6 +337,9 @@ class PlayerAnimation(Animation):
             img_manager.show_image(self.slash.img, engine.screen, pos=slash_pos-level_manager.level.screen_pos,new_size=Vector2(36,36),flip=not self.direction)
         elif not B_BUTTON:
             self.attacking = 0
+        if ( self.player.pos + engine.screen_size * self.player.screen_relative_pos ).x > 2500:
+            from levels.gamestate import GameState
+            level_manager.switch_level(GameState("data/json/boss_level.json"))
     def set_screen_pos(self):
         player_pos = self.player.pos + self.player.screen_relative_pos*engine.screen_size
         pos_ratio = player_pos/engine.screen_size

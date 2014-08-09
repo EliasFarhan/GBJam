@@ -12,7 +12,8 @@
         [0,0],
         [870,212],
         [1150,80],
-        [1900,80]
+        [1900,80],
+        [2400,80]
     ],
     "objects": [
         {
@@ -476,11 +477,12 @@
             "anim": {
                 "anim_type": "extensions.animation.cat_animation.CatAnimation",
                 "root_path": "data/sprites/cat/",
-                "path_list": ["idle/","move/","attack/"],
+                "path_list": ["idle/","move/","attack/","hit/"],
                 "state_range": {
                     "move": [1,5],
                     "still": [0,1],
-                    "attack": [5,9]
+                    "attack": [5,9],
+                    "hit": [10,11]
                 }
 	        }
         },
@@ -530,11 +532,12 @@
             "anim": {
                 "anim_type": "extensions.animation.cat_animation.CatAnimation",
                 "root_path": "data/sprites/cat/",
-                "path_list": ["idle/","move/","attack/"],
+                "path_list": ["idle/","move/","attack/","hit/"],
                 "state_range": {
                     "move": [1,5],
                     "still": [0,1],
-                    "attack": [5,9]
+                    "attack": [5,9],
+                    "hit": [10,11]
                 }
 	        }
         },
@@ -610,11 +613,12 @@
             "anim": {
                 "anim_type": "extensions.animation.cat_animation.CatAnimation",
                 "root_path": "data/sprites/cat/",
-                "path_list": ["idle/","move/","attack/"],
+                "path_list": ["idle/","move/","attack/","hit/"],
                 "state_range": {
                     "move": [1,5],
                     "still": [0,1],
-                    "attack": [5,9]
+                    "attack": [5,9],
+                    "hit": [10,11]
                 }
 	        }
         },
@@ -763,11 +767,12 @@
             "anim": {
                 "anim_type": "extensions.animation.cat_animation.CatAnimation",
                 "root_path": "data/sprites/cat/",
-                "path_list": ["idle/","move/","attack/"],
+                "path_list": ["idle/","move/","attack/","hit/"],
                 "state_range": {
                     "move": [1,5],
                     "still": [0,1],
-                    "attack": [5,9]
+                    "attack": [5,9],
+                    "hit": [10,11]
                 }
 	        }
         },
@@ -825,6 +830,20 @@
             "type": "extensions.game_object.ground.Ground",
             "id": 0,
             "show_bottom": false
+        },
+        {
+            "layer": 3,
+            "pos": [
+                2400,
+                63
+            ],
+            "type": "Image",
+            "path": "data/sprites/foreground/CatWall.png",
+            "id": 0,
+            "size": [
+                43,
+                51
+            ]
         }
     ],
     "physics": true, 

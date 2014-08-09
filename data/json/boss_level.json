@@ -9,10 +9,7 @@
     "player": "data/json/player.json",
     "show_mouse": true,
     "checkpoints": [
-        [0,0],
-        [870,212],
-        [1150,80],
-        [1900,80]
+        [0,0]
     ],
     "objects": [
         {
@@ -142,11 +139,12 @@
             "anim": {
                 "anim_type": "extensions.animation.cat_animation.CatAnimation",
                 "root_path": "data/sprites/cat/",
-                "path_list": ["idle/","move/","attack/"],
+                "path_list": ["idle/","move/","attack/","hit/"],
                 "state_range": {
                     "move": [1,5],
                     "still": [0,1],
-                    "attack": [5,9]
+                    "attack": [5,9],
+                    "hit": [10,11]
                 }
 	        }
         },
@@ -180,8 +178,5 @@
             "id": 0
         }
     ],
-    "physics": true,
-    "events": {
-        "on_init": "data/json/event.json"
-    }
+    "physics": true
 }
