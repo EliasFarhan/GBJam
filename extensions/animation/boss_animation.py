@@ -2,14 +2,14 @@ from engine.init import engine
 from engine.stat import set_value, get_value
 from engine.vector import Vector2
 from render_engine.img_manager import img_manager
+from render_engine.input import input_manager
+from render_engine.snd_manager import snd_manager
 
 __author__ = 'efarhan'
 
 from animation.animation_main import Animation
 from animation.player_animation import PlayerAnimation
 from engine import level_manager
-from engine.const import log
-from event.physics_event import physics_events
 from levels.gamestate import GameState
 from physics_engine.physics_manager import physics_manager
 
@@ -43,13 +43,25 @@ class BossAnimation(PlayerAnimation):
         player_pos = self.player.pos + self.player.screen_relative_pos * engine.screen_size
 
         if player_pos.x > 250 and not self.dialog:
+            snd_manager.set_playlist(["data/music/intro_BOSS1_gbjam.ogg","data/music/BOSS1_gbjam.ogg"])
             self.dialog = True
-            engine.show_dialog = True
+            engine.show_dialog = 1
             engine.textbox.set_text("Kitler", "We meet again, Fury")
             level_manager.level.lock = True
-
-        if False:
-            self.boss_fight = True
+        if self.dialog == 1 and engine.textbox.finished:
+            if input_manager.get_button('A') or input_manager.get_button('B'):
+                engine.textbox.set_text("Fury", "This time, you will lose more than one eye")
+                self.dialog = 2
+        if self.dialog == 2 and engine.textbox.finished:
+            if input_manager.get_button('A') or input_manager.get_button('B'):
+                engine.textbox.set_text("Kitler", "I won't, I have a panzer now")
+                self.dialog = 3
+        if self.dialog == 3 and engine.textbox.finished:
+            if input_manager.get_button('A') or input_manager.get_button('B'):
+                self.boss_fight = True
+                engine.show_dialog = False
+                level_manager.level.lock = False
+        if self.boss_fight:
             self.state = 'backward'
             set_value("boss_limit", [50,595])
 

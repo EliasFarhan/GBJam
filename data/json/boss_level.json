@@ -89,6 +89,6 @@
     ],
     "physics": true,
     "events": {
-        "on_init": "data/json/boss_event.json"
+        "on_init": "data/json/event.json"
     }
 }
