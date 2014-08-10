@@ -17,7 +17,7 @@ def log(text, error=0):
     """
     Log a message into the stdout or the stdin
     """
-    if CONST.debug:
+    if CONST.debug or True:
         if error == 0:
             if CONST.render != "pookoo":
                 sys.stdout.write(str(text) + "\n")

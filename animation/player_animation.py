@@ -339,7 +339,9 @@ class PlayerAnimation(Animation):
             self.attacking = 0
         if ( self.player.pos + engine.screen_size * self.player.screen_relative_pos ).x > 2500:
             from levels.gamestate import GameState
-            level_manager.switch_level(GameState("data/json/boss_level.json"))
+            boss_level = GameState("data/json/boss_level.json")
+            boss_level.last_checkpoint = level_manager.level.last_checkpoint
+            level_manager.switch_level(boss_level)
     def set_screen_pos(self):
         player_pos = self.player.pos + self.player.screen_relative_pos*engine.screen_size
         pos_ratio = player_pos/engine.screen_size

@@ -68,6 +68,7 @@ class Engine():
                 from levels.gamestate import GameState
                 new_level = GameState(CONST.startup)
                 new_level.last_checkpoint = level_manager.level.last_checkpoint
+                log(new_level.last_checkpoint.get_tuple())
                 level_manager.switch_level(new_level)
             self.post_update()
 
