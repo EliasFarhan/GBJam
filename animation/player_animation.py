@@ -111,16 +111,16 @@ class PlayerAnimation(Animation):
                     self.wall = 2
                 else:
                     self.wall = 0
-            elif (event.a.userData == 3 and 15 >= event.b.userData > 11 ) or \
-                    ( event.b.userData == 3  and 15 >= event.a.userData > 11):
+            elif (event.a.userData == 3 and event.b.userData == 12 ) or \
+                    ( event.b.userData == 3  and 15 >= event.a.userData == 12):
                 log("Physics: "+str(event.a.userData)+" "+str(event.b.userData))
                 if event.begin:
                     self.not_sliding_wall = 1
                 else:
                     self.not_sliding_wall = 0
 
-            elif (event.a.userData == 4 and 15 >= event.b.userData > 11 ) or \
-                    ( event.b.userData == 4  and 15 >= event.a.userData > 11):
+            elif (event.a.userData == 4 and event.b.userData == 12 ) or \
+                    ( event.b.userData == 4  and event.a.userData == 12):
                 log("Physics: "+str(event.a.userData)+" "+str(event.b.userData))
                 if event.begin:
                     self.not_sliding_wall = 2

@@ -118,6 +118,134 @@
         {
             "layer": 1,
             "pos": [
+                600,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud1.png",
+            "parallax_factor": 0.5,
+            "size": [
+                48,
+                27
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                700,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud2.png",
+            "parallax_factor": 0.5,
+            "size": [
+                69,
+                33
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                800,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud1.png",
+            "parallax_factor": 0.5,
+            "size": [
+                48,
+                27
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                900,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud2.png",
+            "parallax_factor": 0.5,
+            "size": [
+                69,
+                33
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                1000,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud1.png",
+            "parallax_factor": 0.5,
+            "size": [
+                48,
+                27
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                1100,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud2.png",
+            "parallax_factor": 0.5,
+            "size": [
+                69,
+                33
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                1200,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud1.png",
+            "parallax_factor": 0.5,
+            "size": [
+                48,
+                27
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                1300,
+                20
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/BackgroundCloud2.png",
+            "parallax_factor": 0.5,
+            "size": [
+                69,
+                33
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
                 0,
                 0
             ],
