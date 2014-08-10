@@ -30,7 +30,8 @@ class Ground(GameObject):
 
     def loop(self,screen):
         pos = self.pos-level_manager.level.screen_pos
-
+        if pos.x > 160 or pos.x + self.nmb_size.x*32+24 < 0:
+            return
         img_manager.show_image(self.top_left,screen,pos,new_size=Vector2(12,12))
         img_manager.show_image(self.top_right,screen,pos+Vector2(12+self.nmb_size.x*32,0),new_size=Vector2(12,12))
         if self.show_bottom:

@@ -178,5 +178,8 @@
             "id": 0
         }
     ],
-    "physics": true
+    "physics": true,
+    "events": {
+        "on_init": "data/json/event.json"
+    }
 }

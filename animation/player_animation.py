@@ -338,8 +338,8 @@ class PlayerAnimation(Animation):
         elif not B_BUTTON:
             self.attacking = 0
         if ( self.player.pos + engine.screen_size * self.player.screen_relative_pos ).x > 2500:
-            from levels.gamestate import GameState
-            boss_level = GameState("data/json/boss_level.json")
+            from levels.dialog import Dialog
+            boss_level = Dialog()
             boss_level.last_checkpoint = level_manager.level.last_checkpoint
             level_manager.switch_level(boss_level)
     def set_screen_pos(self):
