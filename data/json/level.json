@@ -130,6 +130,69 @@
                 144
             ],
             "id": 0
+        },{
+            "layer": 1,
+            "pos": [
+                160,
+                0
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/Background1.png",
+            "parallax_factor": 0.75,
+            "size": [
+                160,
+                144
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                320,
+                0
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/Background1.png",
+            "parallax_factor": 0.75,
+            "size": [
+                160,
+                144
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                480,
+                0
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/Background1.png",
+            "parallax_factor": 0.75,
+            "size": [
+                160,
+                144
+            ],
+            "id": 0
+        },
+        {
+            "layer": 1,
+            "pos": [
+                580,
+                0
+            ],
+            "nmb_size": 2,
+            "type": "Image",
+            "path": "data/sprites/background/Background1.png",
+            "parallax_factor": 0.75,
+            "size": [
+                160,
+                144
+            ],
+            "id": 0
         },
         {
             "layer": 3,

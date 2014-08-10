@@ -364,13 +364,13 @@ class PlayerAnimation(Animation):
         level_manager.level.screen_pos = Vector2(160*(math.floor(pos_size_ratio.x)-x_delta), )
         """
         y_pos = 0
-        if (1000 > player_pos.x > 800) or (2257 > player_pos.x > 2057):
+        if (950 > player_pos.x > 800) or (2257 > player_pos.x > 2057):
             y_delta = 0
 
             if math.floor(pos_size_ratio.y)-math.floor(pos_ratio.y) == 1:
                 y_delta = (int(pos_size_ratio.y)-pos_ratio.y)/size_ratio.y
             y_pos = 144*(math.floor(pos_size_ratio.y)-y_delta)
-        elif (1100 > player_pos.x >= 1000) or (2357 > player_pos.x >= 2257):
+        elif (1100 > player_pos.x >= 950) or (2357 > player_pos.x >= 2257):
             y_pos = self.player.pos.y
 
         level_manager.level.screen_pos = Vector2(self.player.pos.x, y_pos)
