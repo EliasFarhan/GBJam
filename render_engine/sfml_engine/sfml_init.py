@@ -189,6 +189,7 @@ class SFMLEngine(Engine):
 
         self.textbox = TextBox()
         self.show_dialog = False
+        self.screen.mouse_cursor_visible = False
 
 
     def init_level(self):

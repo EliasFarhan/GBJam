@@ -120,7 +120,7 @@ class SFMLInput(Input):
         Show/hide mouse
         """
         from engine.init import engine
-        engine.screen.mouse_cursor_visible = show
+
 
     """JOYSTICK"""
 

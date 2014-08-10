@@ -37,4 +37,4 @@ def show_mouse(show=True):
     """Show/hide mouse"""
 
     if CONST.render == 'sfml':
-        engine.screen.mouse_cursor_visible = show
+        engine.screen.mouse_cursor_visible = False
